@@ -1,0 +1,14 @@
+node_modules
+.next
+.git
+.github
+.env*
+!.env.example
+.DS_Store
+npm-debug.log*
+_bmad
+_bmad-output
+.agents
+.claude
+docs
+README.md
