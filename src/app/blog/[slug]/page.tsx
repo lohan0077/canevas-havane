@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { articles, getArticle } from "../articles";
+import { breadcrumbJsonLd, jsonLdScript, siteName, siteUrl } from "@/lib/seo";
 
 export function generateStaticParams() {
   return articles.map((article) => ({ slug: article.slug }));
@@ -18,11 +19,20 @@ export async function generateMetadata({
   return {
     title: article.title,
     description: article.excerpt,
+    alternates: { canonical: `/blog/${article.slug}` },
     openGraph: {
       title: article.title,
       description: article.excerpt,
       images: [{ url: article.image }],
       type: "article",
+      publishedTime: article.isoDate,
+      authors: [siteName],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description: article.excerpt,
+      images: [article.image],
     },
   };
 }
@@ -37,8 +47,33 @@ export default async function ArticlePage({
 
   const others = articles.filter((a) => a.slug !== article.slug).slice(0, 2);
 
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: article.title,
+    description: article.excerpt,
+    image: `${siteUrl}${article.image}`,
+    datePublished: article.isoDate,
+    dateModified: article.isoDate,
+    inLanguage: "fr-FR",
+    articleSection: article.category,
+    author: { "@type": "Organization", name: siteName, url: siteUrl },
+    publisher: { "@id": `${siteUrl}/#organization` },
+    mainEntityOfPage: { "@type": "WebPage", "@id": `${siteUrl}/blog/${article.slug}` },
+  };
+
   return (
     <div className="layout-safe-zone min-h-screen" style={{ paddingBottom: "100px" }}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(articleJsonLd)} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={jsonLdScript(
+          breadcrumbJsonLd([
+            { name: "Journal", path: "/blog" },
+            { name: article.title, path: `/blog/${article.slug}` },
+          ])
+        )}
+      />
       <div className="max-w-4xl mx-auto px-6">
         {/* Back link */}
         <Link
@@ -56,7 +91,7 @@ export default async function ArticlePage({
               {article.category}
             </span>
             <span className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.4em] text-[var(--color-foreground)]/20">
-              {article.date} — {article.readTime} de lecture
+              <time dateTime={article.isoDate}>{article.date}</time> — {article.readTime} de lecture
             </span>
           </div>
           <h1 className="text-4xl md:text-7xl font-medium uppercase tracking-tight leading-[0.9] font-serif">

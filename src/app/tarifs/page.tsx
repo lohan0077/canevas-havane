@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import SimulateurRachat from "@/components/SimulateurRachat";
+import { breadcrumbJsonLd, jsonLdScript, siteUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Tarifs — Partenariat à la Commission",
   description:
     "Votre site de prestige sans avance de frais : Canevas Havane se rémunère sur le bénéfice généré. SEO en abonnement à 150 €/mois, campagnes Ads sur devis.",
+  alternates: { canonical: "/tarifs" },
 };
 
 const offres = [
@@ -80,9 +82,57 @@ const etapes = [
   },
 ];
 
+const offreCatalogueJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "OfferCatalog",
+  name: "Prestations Canevas Havane",
+  url: `${siteUrl}/tarifs`,
+  provider: { "@id": `${siteUrl}/#organization` },
+  itemListElement: [
+    {
+      "@type": "Offer",
+      name: "Création de site internet",
+      description:
+        "Conception, développement, hébergement et maintenance sans avance de frais. Rémunération de 25 à 50 % du bénéfice généré.",
+      price: "0",
+      priceCurrency: "EUR",
+      category: "Création de site internet",
+      seller: { "@id": `${siteUrl}/#organization` },
+    },
+    {
+      "@type": "Offer",
+      name: "Référencement naturel (SEO)",
+      description: "Audit, optimisation sémantique continue et stratégie de contenu.",
+      price: "150",
+      priceCurrency: "EUR",
+      category: "Référencement naturel",
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: "150",
+        priceCurrency: "EUR",
+        billingIncrement: 1,
+        unitCode: "MON", // mois
+      },
+      seller: { "@id": `${siteUrl}/#organization` },
+    },
+    {
+      "@type": "Offer",
+      name: "Campagnes publicitaires (Ads)",
+      description: "Google Ads et Meta Ads, tarification établie après étude du marché.",
+      category: "Publicité en ligne",
+      seller: { "@id": `${siteUrl}/#organization` },
+    },
+  ],
+};
+
 export default function TarifsPage() {
   return (
     <div className="layout-safe-zone min-h-screen" style={{ paddingBottom: "100px" }}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(offreCatalogueJsonLd)} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={jsonLdScript(breadcrumbJsonLd([{ name: "Tarifs", path: "/tarifs" }]))}
+      />
       <div className="max-centered-container px-6">
         {/* Hero */}
         <div className="text-center space-y-8 mb-24 md:mb-40">

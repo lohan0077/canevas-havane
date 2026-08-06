@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import { breadcrumbJsonLd, jsonLdScript } from "@/lib/seo";
 import Link from "next/link";
 import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Expertise — Web, SEO & Acquisition",
   description: "Architecture web sur mesure, design d'exception, SEO sémantique et campagnes d'acquisition : les expertises de Canevas Havane au service de votre marque.",
+  alternates: { canonical: "/expertise" },
 };
 
 const services = [
@@ -40,6 +42,9 @@ const expertiseImages = [
 export default function ExpertisePage() {
   return (
     <div className="layout-safe-zone min-h-screen" style={{ paddingBottom: '100px' }}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(
+        breadcrumbJsonLd([{ name: "Expertise", path: "/expertise" }])
+      )} />
       <div className="max-centered-container px-6">
         {/* Hero Section */}
         <div className="text-center space-y-8 mb-24 md:mb-48">

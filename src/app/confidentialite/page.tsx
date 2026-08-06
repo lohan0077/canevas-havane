@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Politique de Confidentialité",
   description: "Politique de confidentialité de Canevas Havane : collecte des données, utilisation, droits RGPD et cookies.",
+  alternates: { canonical: "/confidentialite" },
   robots: { index: false },
 };
 

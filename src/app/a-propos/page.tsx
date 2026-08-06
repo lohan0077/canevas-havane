@@ -1,15 +1,20 @@
 import type { Metadata } from "next";
+import { breadcrumbJsonLd, jsonLdScript } from "@/lib/seo";
 import Link from "next/link";
 import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "L'Atelier — À Propos",
   description: "Découvrez l'atelier Canevas Havane : notre vision, notre exigence et notre approche artisanale de la création numérique de prestige.",
+  alternates: { canonical: "/a-propos" },
 };
 
 export default function AboutPage() {
   return (
     <div className="layout-safe-zone min-h-screen" style={{ paddingBottom: '100px' }}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(
+        breadcrumbJsonLd([{ name: "L'Atelier", path: "/a-propos" }])
+      )} />
       <div className="max-centered-container px-6">
         {/* Hero Section */}
         <div className="text-center space-y-8 mb-24 md:mb-48">

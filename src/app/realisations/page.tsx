@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import { breadcrumbJsonLd, jsonLdScript } from "@/lib/seo";
 import Link from "next/link";
 import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Réalisations — Nos Projets",
   description: "Sélection de projets signés Canevas Havane : plateformes immobilières, SaaS financiers et expériences digitales sur mesure.",
+  alternates: { canonical: "/realisations" },
 };
 
 const projects = [
@@ -31,6 +33,9 @@ const projects = [
 export default function PortfolioPage() {
   return (
     <div className="layout-safe-zone min-h-screen" style={{ paddingBottom: '100px' }}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(
+        breadcrumbJsonLd([{ name: "Réalisations", path: "/realisations" }])
+      )} />
       <div className="max-centered-container px-6">
         {/* Header Section */}
         <div className="text-center space-y-8 md:space-y-12 mb-24 md:mb-48">

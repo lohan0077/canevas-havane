@@ -1,15 +1,20 @@
 import type { Metadata } from "next";
+import { breadcrumbJsonLd, jsonLdScript } from "@/lib/seo";
 import Link from "next/link";
 import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Kéo — Étude de Cas",
   description: "Étude de cas Kéo : une plateforme de gestion immobilière de prestige alliant performance logicielle et raffinement visuel, signée Canevas Havane.",
+  alternates: { canonical: "/realisations/keo" },
 };
 
 export default function KeoCaseStudy() {
   return (
     <div className="layout-safe-zone min-h-screen bg-[var(--color-background)]">
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(
+        breadcrumbJsonLd([{ name: "Réalisations", path: "/realisations" }, { name: "Kéo", path: "/realisations/keo" }])
+      )} />
       <div className="max-centered-container px-6">
         {/* Header / Hero Section */}
         <section className="pt-20 md:pt-32 pb-24 md:pb-48 space-y-12 md:space-y-16">

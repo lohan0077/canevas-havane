@@ -3,6 +3,7 @@ export type Article = {
   title: string;
   excerpt: string;
   date: string;
+  isoDate: string;
   readTime: string;
   category: string;
   image: string;
@@ -16,6 +17,7 @@ export const articles: Article[] = [
     excerpt:
       "Pourquoi l'absence de contenu est parfois la plus grande déclaration de valeur pour une marque de prestige, redéfinissant les codes de l'exclusivité numérique.",
     date: "12 Mars 2026",
+    isoDate: "2026-03-12",
     readTime: "6 min",
     category: "Site Internet",
     image: "/minimalist_luxury_office_blog_1773665242632.webp",
@@ -48,6 +50,7 @@ export const articles: Article[] = [
     title: "SEO Sémantique : Au-delà des mots-clés",
     excerpt: "Comment dominer les résultats de recherche sans compromis esthétique.",
     date: "05 Mars 2026",
+    isoDate: "2026-03-05",
     readTime: "5 min",
     category: "SEO",
     image: "/seo-luxury-new.webp",
@@ -79,6 +82,7 @@ export const articles: Article[] = [
     title: "L'Art de l'Acquisition Haut de Gamme",
     excerpt: "Guider l'utilisateur vers l'action avec des stratégies Ads ciblées.",
     date: "24 Février 2026",
+    isoDate: "2026-02-24",
     readTime: "5 min",
     category: "Ads",
     image: "/ads-luxury-new.webp",
@@ -110,6 +114,7 @@ export const articles: Article[] = [
     title: "L'Avenir des Dashboards Sur-Mesure",
     excerpt: "Explorer les nouvelles dimensions du pilotage d'entreprise tout-en-un.",
     date: "15 Février 2026",
+    isoDate: "2026-02-15",
     readTime: "6 min",
     category: "Applications Sur Mesure",
     image: "/edificia-dashboard.webp",
