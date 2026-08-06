@@ -28,6 +28,7 @@ export default function Footer() {
               <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-white/40">Menu</h4>
               <ul className="space-y-3 font-light text-white/70">
                 <li><Link href="/expertise" className="hover:text-[var(--color-primary)] transition-colors">Expertise</Link></li>
+                <li><Link href="/tarifs" className="hover:text-[var(--color-primary)] transition-colors">Tarifs</Link></li>
                 <li><Link href="/realisations" className="hover:text-[var(--color-primary)] transition-colors">Projets</Link></li>
                 <li><Link href="/blog" className="hover:text-[var(--color-primary)] transition-colors">Journal</Link></li>
                 <li><Link href="/a-propos" className="hover:text-[var(--color-primary)] transition-colors">L'Atelier</Link></li>

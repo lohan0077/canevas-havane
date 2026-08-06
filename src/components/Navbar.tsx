@@ -20,6 +20,7 @@ export default function Navbar() {
 
   const navLinks = [
     { href: "/expertise", label: "Expertise" },
+    { href: "/tarifs", label: "Tarifs" },
     { href: "/realisations", label: "Projets" },
     { href: "/blog", label: "Journal" },
     { href: "/a-propos", label: "L'Atelier" },
