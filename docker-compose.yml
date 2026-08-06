@@ -1,0 +1,17 @@
+services:
+  canevas-havane:
+    build: .
+    container_name: app-canevas-havane-1
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - NODE_ENV=production
+    networks:
+      - keo_bridge
+
+networks:
+  # Réseau partagé avec Caddy, déclaré par ~/app/keo/docker-compose.yml.
+  # Il doit préexister : c'est Caddy qui l'expose et qui joint ce conteneur.
+  keo_bridge:
+    external: true
+    name: keo_internal_net

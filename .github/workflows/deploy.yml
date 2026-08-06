@@ -27,6 +27,9 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd ~/app
-            docker compose up -d --build canevas-havane
+            set -e
+            cd ~/app/canevas-havane
+            docker compose up -d --build
+            # Caddy est déclaré dans le compose de Kéo : on le recharge depuis là.
+            cd ~/app/keo
             docker compose restart caddy
