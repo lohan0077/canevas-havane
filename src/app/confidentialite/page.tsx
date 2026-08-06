@@ -18,29 +18,39 @@ export default function Confidentialite() {
 
         <div className="space-y-16 text-[var(--color-foreground)]/70 font-light leading-loose section-spacer">
           <section className="space-y-6">
-            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">1. Collecte des Données</h2>
+            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">1. Responsable du Traitement</h2>
             <p>
-              Nous collectons uniquement les informations que vous choisissez de nous fournir via notre formulaire de contact (nom, email, message). 
+              Le responsable du traitement des données est Lohan Gault, entrepreneur individuel,
+              274 rue du Couas, 07430 Vernosc-lès-Annonay (SIREN 927 448 647). <br />
+              Pour toute question relative à vos données :{" "}
+              <a href="mailto:gaultlohan@gmail.com" className="text-[var(--color-primary)] hover:underline decoration-1 underline-offset-4">gaultlohan@gmail.com</a>
+            </p>
+          </section>
+
+          <section className="space-y-6">
+            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">2. Collecte des Données</h2>
+            <p>
+              Nous collectons uniquement les informations que vous choisissez de nous fournir via notre formulaire de contact (nom, email, message).
               Ces données sont traitées avec la plus grande confidentialité et ne sont jamais cédées à des tiers.
             </p>
           </section>
 
           <section className="space-y-6">
-            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">2. Utilisation des Données</h2>
+            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">3. Utilisation des Données</h2>
             <p>
               Vos données sont exclusivement utilisées pour répondre à vos demandes de devis ou de renseignements, et pour la gestion de la relation client qui en découle.
             </p>
           </section>
 
           <section className="space-y-6">
-            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">3. Vos Droits</h2>
+            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">4. Vos Droits</h2>
             <p>
               Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données personnelles. 
             </p>
           </section>
 
           <section className="space-y-6">
-            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">4. Cookies</h2>
+            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">5. Cookies</h2>
             <p>
               Notre site utilise des cookies de mesure d'audience anonymes pour améliorer votre expérience de navigation. 
               Vous pouvez configurer vos préférences via le bandeau de consentement affiché lors de votre première visite.

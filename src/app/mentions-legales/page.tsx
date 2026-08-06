@@ -7,15 +7,12 @@ export const metadata: Metadata = {
   robots: { index: false },
 };
 
-/**
- * Informations légales obligatoires (art. 6-III de la LCEN) pour un entrepreneur individuel.
- * Les valeurs entre crochets doivent être remplacées par les données réelles AVANT
- * d'ouvrir le site au public : publier des mentions inexactes est une infraction.
- */
+/** Informations légales obligatoires (art. 6-III de la LCEN) pour un entrepreneur individuel. */
 const editeur = {
-  nomComplet: "[NOM ET PRÉNOM À COMPLÉTER]",
-  adresse: "[ADRESSE DE L'ACTIVITÉ À COMPLÉTER]",
-  siren: "[SIREN À COMPLÉTER]",
+  nomComplet: "Lohan Gault",
+  adresse: "274 rue du Couas, 07430 Vernosc-lès-Annonay, France",
+  siren: "927 448 647",
+  siret: "927 448 647 00010",
   email: "gaultlohan@gmail.com",
 };
 
@@ -33,8 +30,10 @@ export default function MentionsLegales() {
             <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">1. Éditeur du Site</h2>
             <p>
               Le site <strong>CANEVAS HAVANE</strong> est édité par {editeur.nomComplet}, entrepreneur individuel
-              (régime de la micro-entreprise), dont le siège de l'activité est situé {editeur.adresse}. <br />
-              Immatriculé au Répertoire des Entreprises sous le numéro SIREN {editeur.siren}. <br />
+              exerçant sous le régime de la micro-entreprise, dont le siège de l'activité est situé
+              au {editeur.adresse}. <br />
+              Immatriculé au Registre National des Entreprises sous le numéro SIREN {editeur.siren}
+              (SIRET {editeur.siret}), code APE 8299Z — Autres activités de soutien aux entreprises. <br />
               Contact : <a href={`mailto:${editeur.email}`} className="text-[var(--color-primary)] hover:underline decoration-1 underline-offset-4">{editeur.email}</a>
             </p>
           </section>
