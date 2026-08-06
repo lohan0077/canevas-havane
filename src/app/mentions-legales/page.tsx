@@ -7,6 +7,18 @@ export const metadata: Metadata = {
   robots: { index: false },
 };
 
+/**
+ * Informations légales obligatoires (art. 6-III de la LCEN) pour un entrepreneur individuel.
+ * Les valeurs entre crochets doivent être remplacées par les données réelles AVANT
+ * d'ouvrir le site au public : publier des mentions inexactes est une infraction.
+ */
+const editeur = {
+  nomComplet: "[NOM ET PRÉNOM À COMPLÉTER]",
+  adresse: "[ADRESSE DE L'ACTIVITÉ À COMPLÉTER]",
+  siren: "[SIREN À COMPLÉTER]",
+  email: "gaultlohan@gmail.com",
+};
+
 export default function MentionsLegales() {
   return (
     <div className="layout-safe-zone min-h-screen pb-48">
@@ -20,16 +32,17 @@ export default function MentionsLegales() {
           <section className="space-y-6">
             <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">1. Éditeur du Site</h2>
             <p>
-              Le site <strong>CANEVAS HAVANE</strong> est édité par la société SPLASH.INC, 
-              Société par Actions Simplifiée (SAS) au capital de 10 000 €, dont le siège social est situé à Lyon, France. <br />
-              Immatriculée au Registre du Commerce et des Sociétés sous le numéro 123 456 789 RCS Lyon.
+              Le site <strong>CANEVAS HAVANE</strong> est édité par {editeur.nomComplet}, entrepreneur individuel
+              (régime de la micro-entreprise), dont le siège de l'activité est situé {editeur.adresse}. <br />
+              Immatriculé au Répertoire des Entreprises sous le numéro SIREN {editeur.siren}. <br />
+              Contact : <a href={`mailto:${editeur.email}`} className="text-[var(--color-primary)] hover:underline decoration-1 underline-offset-4">{editeur.email}</a>
             </p>
           </section>
 
           <section className="space-y-6">
             <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">2. Direction de la Publication</h2>
             <p>
-              Le directeur de la publication est Lohan, agissant en qualité de Président.
+              Le directeur de la publication est {editeur.nomComplet}, en qualité d'entrepreneur individuel.
             </p>
           </section>
 

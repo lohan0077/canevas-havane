@@ -143,12 +143,13 @@ export default function ContactPage() {
                <p className="text-xl md:text-2xl font-black uppercase tracking-tight text-[var(--color-foreground)]">Sur Mesure</p>
             </div>
            <div className="space-y-3 md:space-y-6">
-              <h4 className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">Sociaux</h4>
-              <div className="flex flex-col items-center gap-2 md:gap-4">
-                 {['LinkedIn', 'Instagram', 'X / Twitter'].map((s) => (
-                   <span key={s} className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-[var(--color-foreground)]/30 hover:text-[var(--color-foreground)] cursor-pointer transition-colors leading-none">{s}</span>
-                 ))}
-              </div>
+              <h4 className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">Écrire</h4>
+              <a
+                href="mailto:gaultlohan@gmail.com"
+                className="text-base md:text-lg font-black uppercase tracking-tight text-[var(--color-foreground)] hover:text-[var(--color-primary)] transition-colors break-all"
+              >
+                gaultlohan@gmail.com
+              </a>
            </div>
         </div>
       </div>
