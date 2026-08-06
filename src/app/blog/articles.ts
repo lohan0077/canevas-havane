@@ -117,7 +117,7 @@ export const articles: Article[] = [
     isoDate: "2026-02-15",
     readTime: "6 min",
     category: "Applications Sur Mesure",
-    image: "/edificia-dashboard.webp",
+    image: "/edificia-site.webp",
     sections: [
       {
         heading: "La fin des tableurs héroïques",

@@ -6,7 +6,7 @@ import { useState, type FormEvent } from "react";
 import { articles } from "./articles";
 
 const categories = [
-  { id: "Applications Sur Mesure", label: "App Sur-Mesure", icon: "⚛", desc: "Outils Décisionnels & Dashboards", image: "/edificia-phone.webp" },
+  { id: "Applications Sur Mesure", label: "App Sur-Mesure", icon: "⚛", desc: "Outils Décisionnels & Dashboards", image: "/edificia-features.webp" },
   { id: "Site Internet", label: "Site Internet", icon: "✦", desc: "Digital Flagships & E-commerce de Luxe", image: "/macbook-hero-final.webp" },
   { id: "SEO", label: "SEO", icon: "◈", desc: "Omniprésence & Autorité", image: "/seo-luxury-new.webp" },
   { id: "Ads", label: "Ads", icon: "✺", desc: "Acquisition & Conversion", image: "/ads-luxury-new.webp" }

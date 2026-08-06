@@ -41,7 +41,7 @@ export default function EdificiaCaseStudy() {
 
           <div className="aspect-[21/9] w-full relative rounded-[4rem] overflow-hidden glass-card bg-[#0a0a0a]">
             <Image 
-              src="/edificia-dashboard-2.webp"
+              src="/edificia-site.webp"
               alt="Edificia Hero Preview"
               fill
               className="object-cover"
@@ -98,7 +98,7 @@ export default function EdificiaCaseStudy() {
           {/* Right: Phone Image replaces old Tech Pillars box */}
           <div className="aspect-[4/5] w-full relative rounded-[4rem] overflow-hidden glass-card bg-[#070707] shadow-2xl p-8">
             <Image 
-              src="/edificia-phone.webp"
+              src="/edificia-features.webp"
               alt="Edificia Mobile Version"
               fill
               className="object-contain"
@@ -120,7 +120,7 @@ export default function EdificiaCaseStudy() {
             
             <div className="w-full relative rounded-[4rem] overflow-hidden glass-card bg-[#0a0a0a] shadow-2xl min-h-[600px]">
                <Image 
-                 src="/edificia-dashboard-2.webp"
+                 src="/edificia-site.webp"
                  alt="Edificia Dashboard Preview"
                  fill
                  className="object-cover"

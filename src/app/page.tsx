@@ -43,17 +43,19 @@ const projects = [
     title: "Kéo.fr",
     category: "Expérience Digitale",
     description: "Une plateforme de gestion immobilière de prestige, alliant performance logicielle et raffinement visuel.",
-    image: "/macbook-hero-final.webp",
+    image: "/keo-site.webp",
     year: "2025",
-    slug: "keo"
+    slug: "keo",
+    liveUrl: "https://kéo.fr"
   },
   {
     title: "Edificia.fr",
     category: "SaaS & Finance",
     description: "Un écosystème de pilotage financier pour entreprises exigeantes.",
-    image: "/edificia-dashboard-2.webp",
+    image: "/edificia-site.webp",
     year: "2025",
-    slug: "edificia"
+    slug: "edificia",
+    liveUrl: "https://edificia.fr"
   }
 ];
 
@@ -189,12 +191,21 @@ export default function Home() {
 
                 <div className="space-y-4">
                   <h4 className="text-[11px] font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">{project.category}</h4>
-                  <Link 
-                    href={`/realisations/${project.slug}`} 
+                  <Link
+                    href={`/realisations/${project.slug}`}
                     className="text-4xl font-medium uppercase tracking-tight text-[var(--color-foreground)] group-hover:text-[var(--color-primary)] transition-colors duration-500 font-serif block"
                   >
                     {project.title}
                   </Link>
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-foreground)]/30 hover:text-[var(--color-primary)] transition-colors"
+                  >
+                    Voir le site en ligne
+                    <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14 21 3"/></svg>
+                  </a>
                 </div>
               </div>
             ))}

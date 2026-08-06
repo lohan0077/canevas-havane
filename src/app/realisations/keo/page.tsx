@@ -53,7 +53,7 @@ export default function KeoCaseStudy() {
               {/* Screen Content */}
               <div className="absolute inset-[10%] z-10 overflow-hidden rounded-md border border-white/5">
                 <Image 
-                  src="/keo-real-preview.webp"
+                  src="/keo-site.webp"
                   alt="Kéo Garden Real Estate"
                   fill
                   className="object-cover"
@@ -123,7 +123,7 @@ export default function KeoCaseStudy() {
                 <div className="absolute inset-0 flex items-center justify-center p-12">
                    <div className="relative w-full h-[60%] overflow-hidden rounded-sm">
                       <Image 
-                        src="/keo-dashboard.webp"
+                        src="/keo-detail.webp"
                         alt="Kéo Screen Detail"
                         fill
                         className="object-cover"

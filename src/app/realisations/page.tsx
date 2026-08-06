@@ -16,7 +16,7 @@ const projects = [
     category: "PropTech de Prestige",
     year: "2025",
     description: "Une plateforme de gestion immobilière d'exception, redéfinissant les standards du luxe numérique.",
-    image: "/macbook-hero-final.webp",
+    image: "/keo-site.webp",
     liveUrl: "https://kéo.fr"
   },
   {
@@ -25,7 +25,7 @@ const projects = [
     category: "Fintech & SaaS",
     year: "2025",
     description: "Système de pilotage financier avancé pour entreprises à forte croissance.",
-    image: "/edificia-dashboard-2.webp",
+    image: "/edificia-site.webp",
     liveUrl: "https://edificia.fr"
   }
 ];
