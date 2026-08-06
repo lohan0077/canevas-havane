@@ -35,7 +35,8 @@ export default function MentionsLegales() {
           <section className="space-y-6">
             <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">3. Hébergement</h2>
             <p>
-              Le site est hébergé par Vercel Inc., dont le siège social est situé au 340 S Lemon Ave #1192 Walnut, CA 91789, USA.
+              Le site est hébergé par Hetzner Online GmbH, Industriestr. 25, 91710 Gunzenhausen, Allemagne.
+              Téléphone : +49 (0)9831 505-0.
             </p>
           </section>
 
