@@ -21,6 +21,7 @@ export default function ContactPage() {
           name: data.get("name"),
           email: data.get("email"),
           message: data.get("message"),
+          website: data.get("website"), // champ piège : vide chez un vrai visiteur
         }),
       });
       if (!response.ok) {
@@ -73,6 +74,29 @@ export default function ContactPage() {
           </div>
 
           <form onSubmit={handleSubmit} className="relative z-10 space-y-12 md:space-y-16 max-w-2xl mx-auto w-full flex flex-col items-center">
+            {/*
+              Champ piège anti-robot. Un visiteur ne le voit jamais et un lecteur d'écran
+              l'ignore (`aria-hidden` + `tabIndex={-1}`) ; la plupart des robots, eux,
+              remplissent tout ce qui ressemble à un champ. S'il arrive rempli, le serveur
+              jette le message en répondant quand même « envoyé ».
+              `display: none` est évité volontairement : certains robots savent le repérer.
+            */}
+            <div
+              className="absolute h-px w-px overflow-hidden border-0 p-0 whitespace-nowrap"
+              style={{ clip: "rect(0 0 0 0)", clipPath: "inset(50%)", margin: "-1px" }}
+              aria-hidden="true"
+            >
+              <label htmlFor="website">Ne pas remplir ce champ</label>
+              <input
+                type="text"
+                id="website"
+                name="website"
+                tabIndex={-1}
+                autoComplete="off"
+                defaultValue=""
+              />
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 w-full">
               <div className="space-y-3 md:space-y-4 group text-center flex flex-col items-center">
                 <label className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-[var(--color-secondary)] group-focus-within:text-[var(--color-primary)] transition-colors">Nom complet</label>
@@ -136,7 +160,7 @@ export default function ContactPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-24 text-center w-full mt-12 mb-12 md:mt-24 md:mb-24">
            <div className="space-y-3 md:space-y-6">
               <h4 className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">Siège</h4>
-              <p className="text-xl md:text-2xl font-black uppercase tracking-tight text-[var(--color-foreground)]">Lyon, Fr.</p>
+              <p className="text-xl md:text-2xl font-black uppercase tracking-tight text-[var(--color-foreground)]">Ardèche, Fr.</p>
            </div>
             <div className="space-y-3 md:space-y-6">
                <h4 className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">Atelier</h4>
