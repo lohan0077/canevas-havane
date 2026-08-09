@@ -205,6 +205,38 @@ cp ~/app/docker-compose.yml.bak ~/app/docker-compose.yml && cp ~/app/Caddyfile.b
 
 ---
 
+## ⚠️ Le Caddyfile est partagé, et il est fragile
+
+**Un seul fichier, `~/app/keo/Caddyfile`, sert tous les sites du serveur** : kéo.fr,
+edificia.fr, canevas-havane.com et n8n. Caddy ne le relit qu'au démarrage ou sur un
+`caddy reload` — il continue donc à servir sa configuration en mémoire même si le fichier
+est corrompu entre-temps. C'est ce qui rend le problème sournois.
+
+**Panne du 09/08/2026.** Le déploiement de Kéo a écrasé ce fichier par sa propre version,
+qui ne déclare que `kéo.fr`. Rien ne s'est passé pendant 40 minutes. Puis le déploiement de
+Canevas Havane a redémarré Caddy — qui a relu le fichier tronqué et perdu les certificats
+des trois autres domaines. **Les trois sites sont tombés simultanément**, avec une erreur TLS
+et non une page d'erreur, donc invisible pour un contrôle qui ne teste que le port.
+
+Rétabli en reconstruisant le fichier à partir des domaines pour lesquels Caddy détenait
+encore un certificat (`/data/caddy/certificates/`), puis `caddy validate` et `caddy reload`.
+Sauvegarde de l'état cassé dans `~/app/keo/Caddyfile.avant-restauration-20260809`.
+
+**Le piège est toujours armé** : le prochain déploiement de Kéo réécrira le fichier, et le
+prochain redémarrage de Caddy — y compris un simple redémarrage du serveur — refera tomber
+les trois sites. Le correctif doit être fait **dans le dépôt de Kéo** : soit il cesse de
+livrer un Caddyfile, soit son Caddyfile contient tous les domaines.
+
+En attendant, avant tout redémarrage de Caddy :
+
+```bash
+ssh root@204.168.134.208 'grep -c "^[a-z0-9.-]*\..* {" ~/app/keo/Caddyfile'
+# doit renvoyer au moins 5 blocs de domaines ; si le fichier n'en a qu'un, il est tronqué
+docker exec app-caddy-1 caddy validate --config /etc/caddy/Caddyfile
+```
+
+---
+
 ## Surveillance — à brancher une fois (5 minutes)
 
 Le site expose `https://canevas-havane.com/api/health`. Cette adresse répond :
