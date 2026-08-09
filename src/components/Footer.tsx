@@ -48,6 +48,7 @@ export default function Footer() {
               <ul className="space-y-3 font-light text-white/70">
                 <li><Link href="/mentions-legales" className="hover:text-white transition-colors uppercase tracking-widest">Mentions</Link></li>
                 <li><Link href="/confidentialite" className="hover:text-white transition-colors uppercase tracking-widest">Vie Privée</Link></li>
+                <li><Link href="/cgv" className="hover:text-white transition-colors uppercase tracking-widest">CGV</Link></li>
               </ul>
             </div>
           </div>

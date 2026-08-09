@@ -205,10 +205,46 @@ cp ~/app/docker-compose.yml.bak ~/app/docker-compose.yml && cp ~/app/Caddyfile.b
 
 ---
 
+## Surveillance — à brancher une fois (5 minutes)
+
+Le site expose `https://canevas-havane.com/api/health`. Cette adresse répond :
+
+- **200** `{"status":"ok"}` — le site tourne et la configuration d'envoi d'e-mail est en place ;
+- **503** `{"status":"degraded"}` — le site tourne mais le formulaire de contact est hors service
+  (variable SMTP manquante, mot de passe d'application révoqué ou expiré).
+
+C'est ce second cas qui justifie la surveillance : sans elle, le formulaire peut cesser de
+fonctionner pendant des semaines sans que personne ne s'en aperçoive.
+
+**À faire :** créer un compte gratuit sur [UptimeRobot](https://uptimerobot.com), ajouter un
+moniteur de type *HTTP(s)* sur `https://canevas-havane.com/api/health`, intervalle 5 minutes,
+alerte par e-mail. UptimeRobot considère tout code différent de 200 comme une panne : le 503
+déclenchera donc l'alerte.
+
+Le déploiement automatique interroge lui aussi cette adresse après chaque mise en ligne et
+échoue si le site ne répond pas — un conteneur qui redémarre en boucle ne passe plus pour
+un succès.
+
+---
+
 ## À compléter avant d'ouvrir le site au public
 
-**Les mentions légales contiennent encore des données fictives** (« SPLASH.INC », RCS « 123 456 789 »).
-En tant qu'auto-entrepreneur, la page doit indiquer : nom et prénom, adresse de l'activité,
-numéro SIREN, et une adresse email de contact. Publier des mentions inexactes est une infraction.
+**Enregistrements DNS à publier chez internet.bs** — le domaine n'a aujourd'hui ni SPF ni
+DMARC, ce qui permet à n'importe qui d'envoyer des e-mails en se faisant passer pour
+`canevas-havane.com`. Aucun e-mail n'étant envoyé *depuis* ce domaine (le formulaire passe par
+Gmail), la politique la plus stricte est la bonne :
+
+| Type | Nom | Valeur |
+|---|---|---|
+| TXT | `@` | `v=spf1 -all` |
+| TXT | `_dmarc` | `v=DMARC1; p=reject; rua=mailto:gaultlohan@gmail.com` |
+
+`-all` signifie « aucun serveur n'est autorisé à envoyer au nom de ce domaine », et
+`p=reject` demande aux serveurs destinataires de rejeter ce qui prétendrait l'être.
+À revoir le jour où une adresse `@canevas-havane.com` est créée.
+
+**Protection de la branche `main`** — à activer sur GitHub (*Settings → Branches → Add rule*),
+en exigeant que le job « Vérifications » réussisse avant toute écriture. Sans cela, la CI
+informe mais ne contraint pas.
 
 Restent également en attente : les URLs des réseaux sociaux (liens inactifs sur `/contact`).

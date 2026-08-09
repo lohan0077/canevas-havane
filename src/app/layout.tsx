@@ -1,9 +1,28 @@
 import type { Metadata } from "next";
+import { Cormorant_Garamond, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import CookieConsent from "@/components/CookieConsent";
 import { jsonLdScript, organizationJsonLd, siteUrl } from "@/lib/seo";
+
+// Polices servies depuis notre propre domaine. Next les télécharge à la compilation
+// et les intègre au site : aucune requête vers fonts.googleapis.com au chargement.
+// Ce n'est pas qu'une question de vitesse — un appel à Google transmet l'adresse IP
+// du visiteur à un tiers, ce que la politique de confidentialité ne déclare pas.
+const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  display: "swap",
+  variable: "--police-plus",
+});
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  display: "swap",
+  variable: "--police-cormorant",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -47,7 +66,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className="scroll-smooth">
+    <html lang="fr" className={`scroll-smooth ${plusJakarta.variable} ${cormorant.variable}`}>
       <body className="overflow-x-hidden selection:bg-[var(--color-primary)] selection:text-white bg-[var(--color-background)]">
         <script
           type="application/ld+json"
@@ -63,7 +82,15 @@ export default function RootLayout({
         </main>
         
         <Footer />
-        <CookieConsent />
+
+        {/*
+          Pas de bandeau de consentement : le site ne dépose aucun cookie et n'utilise
+          aucun traceur. En l'absence de traceur, la CNIL n'en exige pas — et un bandeau
+          qui ne pilote rien est une information trompeuse. Si un outil de mesure
+          d'audience est ajouté un jour, il faudra réintroduire un bandeau *qui bloque
+          réellement* le dépôt tant que le consentement n'est pas donné, et mettre à jour
+          /confidentialite dans le même commit.
+        */}
       </body>
     </html>
   );

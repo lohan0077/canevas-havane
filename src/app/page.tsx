@@ -3,8 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 
 export const metadata: Metadata = {
-  title: "Canevas Havane | Agence Web & Design de Prestige à Lyon",
-  description: "Agence de création numérique haut de gamme : sites web sur mesure, identité de marque, SEO et acquisition. Concevons l'inoubliable pour votre marque.",
+  title: "Canevas Havane | Agence Web & Design de Prestige en Ardèche",
+  description: "Agence de création numérique haut de gamme : sites web sur mesure, identité de marque, SEO et acquisition. Basée en Ardèche, elle intervient à Lyon, Valence et dans toute la France.",
   alternates: { canonical: "/" },
 };
 

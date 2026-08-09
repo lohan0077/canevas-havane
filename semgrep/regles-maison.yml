@@ -1,0 +1,205 @@
+# semgrep/regles-maison.yml — Canevas Havane
+#
+# Règles Semgrep écrites pour les invariants de CE projet.
+# Les règles génériques (p/typescript, p/nodejs, p/security-audit) attrapent le connu ;
+# celles-ci attrapent ce qui a réellement été trouvé sur le projet, le 09/08/2026 :
+#   · une route publique sans plafond  → route-publique-sans-plafond
+#   · un JSON.stringify injecté en HTML → jsonld-stringify-non-echappe
+#
+# Adaptations par rapport au modèle de la METHODE :
+#   · route-publique-sans-plafond couvre toutes les routes (aucune n'est authentifiée)
+#   · jsonLdScript est reconnu comme fabrique de HTML sûre
+#
+# Lancer :  semgrep --config semgrep/regles-maison.yml --error src/
+
+rules:
+  # ─── A01 — contrôle d'accès ─────────────────────────────────────────────
+  - id: route-sans-garde-autorisation
+    languages: [typescript]
+    severity: ERROR
+    paths:
+      include:
+        - "**/api/**/route.ts"
+    patterns:
+      - pattern: |
+          export async function $M(...) { ... }
+      - metavariable-regex:
+          metavariable: $M
+          regex: "^(GET|POST|PUT|PATCH|DELETE)$"
+      # ⚠️ À ADAPTER À CHAQUE PROJET : lister ici les vrais noms des gardes.
+      # Sur Edificia, relevés dans le code : requireNodeAccess (117 usages),
+      # requireSuperAdmin, requireTeamPlan, requireRowAccess, requireTenant,
+      # requireValidOauthCallback, requireNodeForOauthStart.
+      - pattern-not-regex: "(requireNodeAccess|requireSuperAdmin|requireTeamPlan|requireRowAccess|requireTenant|requireValidOauthCallback|requireNodeForOauthStart|requireUser|requireRole|requireSubscription|auth\\.getUser|resolveAuthorizedClientIds|constructEvent|verifierSignature|CRON_SECRET|semgrep-ok)"
+    message: >-
+      Cette route n'appelle aucun garde d'autorisation connu. Soit elle en manque un,
+      soit elle est légitimement publique — dans ce cas ajouter un commentaire
+      `// semgrep-ok: publique parce que …` et l'exclure explicitement.
+      C'est exactement le défaut trouvé sur /api/operations/audit et /api/marketing/lighthouse.
+
+  # ─── A05 / A03 — validation d'entrée ────────────────────────────────────
+  - id: route-mutante-sans-validation
+    languages: [typescript]
+    severity: ERROR
+    paths:
+      include:
+        - "**/api/**/route.ts"
+    patterns:
+      - pattern: |
+          export async function $M(...) { ... }
+      - metavariable-regex:
+          metavariable: $M
+          regex: "^(POST|PUT|PATCH|DELETE)$"
+      - pattern-not-regex: "(safeParse|z\\.object|zod)"
+    message: >-
+      Route qui écrit sans validation de schéma. Tout ce qui vient du client doit
+      être décrit par un schéma Zod et refusé s'il n'y correspond pas.
+
+  # ─── A10 — échouer en se fermant ────────────────────────────────────────
+  - id: echec-ouvert
+    languages: [typescript]
+    severity: ERROR
+    patterns:
+      - pattern-either:
+          - pattern: try { ... } catch { return true }
+          - pattern: try { ... } catch ($E) { return true }
+          - pattern: try { ... } catch { $X = true }
+          - pattern: try { ... } catch ($E) { $X = true }
+    message: >-
+      Échec ouvert : la vérification plante, donc on laisse passer. C'est la
+      catégorie A10:2025. Un échec doit toujours refermer l'accès.
+
+  - id: erreur-interne-renvoyee-au-client
+    languages: [typescript]
+    severity: WARNING
+    paths:
+      include:
+        - "**/api/**/route.ts"
+    pattern-regex: "(error|details)\\s*:\\s*(err|error|e|erreur|exception|ex)\\.(message|stack)"
+    message: >-
+      Le message d'erreur interne part chez le client. Il cartographie ton système.
+      Message générique côté client, détail côté journal.
+
+  # ─── A04 — secrets ──────────────────────────────────────────────────────
+  - id: secret-dans-variable-publique
+    languages: [typescript, javascript]
+    severity: ERROR
+    patterns:
+      - pattern-regex: "NEXT_PUBLIC_[A-Z0-9_]*(SECRET|PRIVATE|SERVICE_ROLE|PASSWORD)"
+    message: >-
+      Tout NEXT_PUBLIC_* est inclus dans le bundle envoyé au navigateur, donc public
+      et définitivement publié. Un secret n'y a pas sa place.
+
+  - id: cle-service-role-cote-client
+    languages: [typescript]
+    severity: ERROR
+    paths:
+      include:
+        - "src/components/**"
+        - "src/app/**/page.tsx"
+        - "src/app/**/layout.tsx"
+    patterns:
+      - pattern-regex: "SERVICE_ROLE|service_role"
+    message: >-
+      La clé de service contourne tout le RLS. Elle ne doit jamais apparaître
+      dans un fichier susceptible d'être envoyé au navigateur.
+
+  - id: secret-journalise
+    languages: [typescript, javascript]
+    severity: ERROR
+    patterns:
+      - pattern-regex: "console\\.(log|info|warn|error|debug)\\([^)]*(secret|token|password|apiKey|api_key|service_role|Authorization)"
+    message: >-
+      Un secret dans les journaux transforme les journaux eux-mêmes en fuite.
+
+  - id: aleatoire-non-cryptographique
+    languages: [typescript]
+    severity: WARNING
+    patterns:
+      - pattern-regex: "(token|jeton|secret|nonce|otp|code)[A-Za-z]*\\s*=\\s*[^;\\n]*Math\\.random"
+    message: >-
+      Math.random() est prévisible. Pour un jeton, utiliser crypto.randomUUID()
+      ou crypto.randomBytes().
+
+  # ─── A08 — intégrité ────────────────────────────────────────────────────
+  - id: webhook-sans-verification-de-signature
+    languages: [typescript]
+    severity: ERROR
+    paths:
+      include:
+        - "**/webhook/**/route.ts"
+        - "**/webhooks/**/route.ts"
+    patterns:
+      - pattern: |
+          export async function POST(...) { ... }
+      - pattern-not-regex: "(constructEvent|createHmac|timingSafeEqual|Webhook\\(|verifySignature|svix)"
+    message: >-
+      Webhook sans vérification de signature : n'importe qui peut appeler cette route
+      en se faisant passer pour le fournisseur. Vérifier la signature AVANT tout traitement.
+
+  # ─── A05 — XSS ──────────────────────────────────────────────────────────
+  # Motif structurel et non expression régulière : avec `pattern-regex`, la partie
+  # `pattern-not-regex` est confrontée au seul texte capturé — ici le mot
+  # `dangerouslySetInnerHTML` — et ne voit donc jamais la fabrique employée.
+  # C'est ce qui rendait la règle du modèle bruyante : 10 faux positifs sur ce projet.
+  - id: html-injecte-sans-assainissement
+    languages: [typescript]
+    severity: ERROR
+    patterns:
+      # Le motif doit décrire l'élément JSX entier : semgrep ne reconnaît pas un
+      # attribut isolé. Les `...` couvrent les autres attributs, avant et après.
+      - pattern-either:
+          - pattern: "<$EL ... dangerouslySetInnerHTML={$X} ... />"
+          - pattern: "<$EL ... dangerouslySetInnerHTML={$X} ...>...</$EL>"
+      # `jsonLdScript` (src/lib/seo.ts) échappe les chevrons et les séparateurs de ligne
+      # Unicode : c'est la seule fabrique de HTML autorisée sur ce projet.
+      - pattern-not: "<$EL ... dangerouslySetInnerHTML={jsonLdScript(...)} ... />"
+      - pattern-not: "<$EL ... dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(...) }} ... />"
+    message: >-
+      HTML injecté sans assainissement. Pour du JSON-LD, passer par `jsonLdScript()`
+      de src/lib/seo.ts ; pour du contenu rédigé ailleurs (Markdown, CMS, formulaire),
+      passer par DOMPurify.
+
+  # ─── A03 — le défaut trouvé lors de l'audit du 09/08/2026 ───────────────
+  - id: jsonld-stringify-non-echappe
+    languages: [typescript]
+    severity: ERROR
+    pattern-either:
+      - pattern: "<$EL ... dangerouslySetInnerHTML={{ __html: JSON.stringify(...) }} ... />"
+      - pattern: "<$EL ... dangerouslySetInnerHTML={{ __html: JSON.stringify(...) }} ...>...</$EL>"
+    message: >-
+      `JSON.stringify` injecté directement dans du HTML. Il n'échappe pas le chevron
+      ouvrant : une chaîne contenant la fermeture d'une balise script sort du bloc et
+      s'exécute. Passer par `jsonLdScript()` de src/lib/seo.ts, qui échappe.
+      Inoffensif tant que les données sont écrites à la main — c'est le jour où un
+      titre vient d'un formulaire ou d'un CMS que ça devient une XSS.
+
+  # ─── A06 — conception : limitation de débit ─────────────────────────────
+  - id: route-publique-sans-plafond
+    languages: [typescript]
+    severity: ERROR
+    paths:
+      # Sur ce projet, TOUTES les routes sont publiques : il n'y a pas d'authentification.
+      # Le plafond est donc la seule protection, et il n'est optionnel nulle part.
+      include:
+        - "**/api/**/route.ts"
+    patterns:
+      - pattern: |
+          export async function $M(...) { ... }
+      - metavariable-regex:
+          metavariable: $M
+          regex: "^(GET|POST|PUT|PATCH|DELETE)$"
+      - pattern-not-regex: "(429|plafond|limiterDebit|rateLimit|semgrep-ok)"
+    message: >-
+      Route publique ou coûteuse sans limitation de débit. Un formulaire public sans
+      plafond, ce sont tes factures Resend et Anthropic. Une authentification sans
+      plafond, c'est le bourrage d'identifiants.
+
+  # ─── A02 — configuration ────────────────────────────────────────────────
+  - id: cors-permissif-avec-cookies
+    languages: [typescript]
+    severity: ERROR
+    patterns:
+      - pattern-regex: "Access-Control-Allow-Origin[\"'\\s:,]+\\*"
+    message: >-
+      CORS ouvert à toutes les origines. À restreindre à la liste des origines connues.
