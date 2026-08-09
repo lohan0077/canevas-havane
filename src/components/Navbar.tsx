@@ -33,11 +33,15 @@ export default function Navbar() {
           {/* Left: Logo/Brand */}
           <div className="flex items-center gap-1 shrink-0">
             <Link href="/" className="relative h-8 md:h-12 w-32 md:w-48">
-              <Image 
-                src="/logo.webp" 
-                alt="Canevas Havane" 
-                fill 
-                className="object-contain" 
+              <Image
+                src="/logo.webp"
+                alt="Canevas Havane"
+                fill
+                // Sans `sizes`, le navigateur suppose que l'image occupe toute la largeur
+                // de l'écran et télécharge la version 3840 px — pour un logo affiché en
+                // 128 ou 192 px. Ces valeurs correspondent au conteneur ci-dessus.
+                sizes="(max-width: 768px) 128px, 192px"
+                className="object-contain"
                 priority
               />
             </Link>
@@ -46,9 +50,9 @@ export default function Navbar() {
           {/* Center: Navigation (Hidden on mobile/tablet) */}
           <div className="hidden lg:flex items-center gap-10">
             {navLinks.map((link) => (
-              <Link 
+              <Link
                 key={link.href}
-                href={link.href} 
+                href={link.href}
                 className={`text-[9px] font-black uppercase tracking-[0.2em] transition-all duration-300 ${
                   pathname === link.href ? "text-[var(--color-primary)]" : "text-[#2C2420]/50 hover:text-[var(--color-primary)]"
                 }`}
@@ -57,7 +61,7 @@ export default function Navbar() {
               </Link>
             ))}
           </div>
-          
+
           {/* Right: CTA & Hamburger */}
           <div className="flex items-center gap-4">
             <Link href="/contact" onClick={() => setIsOpen(false)} className="btn-premium !px-4 md:!px-7 !py-2 md:!py-2.5 !text-[8px] md:!text-[9px] !tracking-[0.15em] md:!tracking-[0.2em] shadow-lg">
@@ -65,7 +69,7 @@ export default function Navbar() {
             </Link>
 
             {/* Hamburger Button */}
-            <button 
+            <button
               onClick={() => setIsOpen(!isOpen)}
               className="lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 focus:outline-none"
               aria-label="Menu"
@@ -83,11 +87,11 @@ export default function Navbar() {
         isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
       }`}>
         <div className="absolute inset-0 bg-[var(--color-background)]/90 backdrop-blur-xl" />
-        
+
         <div className="relative h-full flex flex-col items-center justify-center p-8">
           <div className="space-y-12 text-center">
             {navLinks.map((link, index) => (
-              <div 
+              <div
                 key={link.href}
                 className={`transition-all duration-500 delay-[${index * 100}ms] transform ${
                   isOpen ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
