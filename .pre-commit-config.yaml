@@ -1,0 +1,45 @@
+# Installation (une seule fois) :  pre-commit install
+#
+# C'est le seul des trois garde-fous qui agit AVANT que le problème n'entre dans
+# l'historique — les deux autres (CI, branche protégée) agissent après, quand un
+# secret est déjà publié. Il doit rester rapide, sinon il finira contourné.
+
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1
+    hooks:
+      - id: gitleaks
+
+  - repo: https://github.com/semgrep/semgrep
+    rev: v1.172.0
+    hooks:
+      - id: semgrep
+        # Uniquement les règles maison ici : rapides et sans faux positif connu
+        # (vérifié le 09/08/2026 — 0 signalement sur le code du projet).
+        # Le jeu complet (p/typescript, p/nodejs, p/security-audit) tourne en CI.
+        args:
+          - --config=semgrep/regles-maison.yml
+          - --error
+          - --skip-unknown-extensions
+          - --quiet
+          - --metrics=off
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-added-large-files
+        args: ['--maxkb=2048']
+      - id: detect-private-key
+      - id: check-merge-conflict
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+
+  - repo: local
+    hooks:
+      - id: typescript
+        name: tsc --noEmit
+        entry: npx tsc --noEmit
+        language: system
+        pass_filenames: false
+        files: \.tsx?$

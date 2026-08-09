@@ -3,9 +3,73 @@ name: Deploy Canevas Havane
 on:
   push:
     branches: [ main ]
+  # Sur une proposition de fusion, on lance les vérifications sans déployer.
+  pull_request:
+
+permissions:
+  contents: read
 
 jobs:
+  # ─────────────────────────────────────────────────────────────────────
+  # La porte de sortie. Tant que ce job échoue, rien ne part en production.
+  # ─────────────────────────────────────────────────────────────────────
+  verifications:
+    name: Vérifications
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Gitleaks doit voir tout l'historique, pas seulement le dernier commit
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Installation des dépendances
+        run: npm ci
+
+      - name: Typage strict
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Compilation
+        run: npm run build
+        env:
+          NEXT_PUBLIC_SITE_URL: https://canevas-havane.com
+
+      - name: Recherche de secrets (historique complet)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Analyse statique
+        uses: semgrep/semgrep-action@v1
+        with:
+          config: >-
+            p/typescript
+            p/nodejs
+            p/security-audit
+            semgrep/regles-maison.yml
+
+      - name: Dépendances vulnérables
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: fs
+          scanners: vuln,secret,misconfig
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
+          exit-code: '1'
+
+  # ─────────────────────────────────────────────────────────────────────
+  # Déploiement — uniquement sur main, uniquement si les vérifications passent.
+  # ─────────────────────────────────────────────────────────────────────
   deploy:
+    name: Déploiement
+    needs: verifications
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -33,3 +97,22 @@ jobs:
             # Caddy est déclaré dans le compose de Kéo : on le recharge depuis là.
             cd ~/app/keo
             docker compose restart caddy
+
+      # Le déploiement n'est « réussi » que si le site répond vraiment.
+      # Sans ce contrôle, un conteneur qui redémarre en boucle passe pour un succès.
+      - name: Vérification après déploiement
+        run: |
+          set -e
+          echo "Attente du redémarrage du conteneur…"
+          sleep 20
+          for tentative in 1 2 3 4 5; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 15 https://canevas-havane.com/api/health || true)
+            echo "Tentative $tentative : HTTP $code"
+            if [ "$code" = "200" ]; then
+              echo "Le site répond et la configuration e-mail est en place."
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "::error::Le site ne répond pas correctement après le déploiement (dernier code : $code)"
+          exit 1

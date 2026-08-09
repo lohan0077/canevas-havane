@@ -1,5 +1,16 @@
 # État du projet — Canevas Havane
 
+> **Note ajoutée après coup, le 9 août 2026.** Ce rapport décrit l'état du projet **avant**
+> corrections. Les points marqués « bloquant à la vente », ainsi que la majorité de la dette,
+> ont été traités le jour même sur la branche `audit-20260809` — voir la section « État connu
+> du projet » du `CLAUDE.md` pour ce qui a changé et ce qui reste. Le rapport est conservé
+> tel quel : c'est le point de comparaison.
+>
+> **Un défaut non listé ci-dessous a été découvert pendant les corrections** : le site chargeait
+> les polices depuis `fonts.googleapis.com` et une image depuis `grainy-gradients.vercel.app`
+> (qui renvoyait un 404). Deux tiers non déclarés recevaient l'adresse IP de chaque visiteur.
+> C'est la pose de la CSP qui l'a révélé — aucun des quatre passages d'audit ne l'avait vu.
+
 **Date :** 9 août 2026
 **Dépôt :** `github.com/lohan0077/canevas-havane` — branche d'audit `audit-20260809`
 **Site en ligne :** https://canevas-havane.com (HTTP 200, servi par Caddy sur `204.168.134.208`)

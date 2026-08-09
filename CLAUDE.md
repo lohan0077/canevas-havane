@@ -68,47 +68,58 @@ Créer une branche avant la première modification, enregistrer en petits commit
 
 ---
 
-## État connu du projet — audit du 09/08/2026
+## État connu du projet — audit du 09/08/2026, corrections du même jour
 
-Rapport complet : [`ETAT_DU_PROJET_20260809.md`](ETAT_DU_PROJET_20260809.md).
+Rapport d'audit complet : [`ETAT_DU_PROJET_20260809.md`](ETAT_DU_PROJET_20260809.md).
+Les corrections vivent sur la branche `audit-20260809`.
 
-**Phases franchies : 1 / 12** (phase 3 — Interface — seule ✅ ; phases 2 et 12 sans objet).
+**Corrigé et vérifié**
 
-Rien d'irréversible : `gitleaks detect` sur les 12 commits ne trouve **aucune fuite**, git est
-en place, aucune donnée n'est stockée.
+- **Limitation de débit sur `/api/contact`** — 3 envois / 15 min par IP, plus un plafond global
+  de 40 / h qui protège le quota Gmail même si l'attaque change d'adresse. Prouvé en local :
+  `200 200 200 429 429 429`. Plus un champ piège anti-robot, qui répond « envoyé » sans envoyer.
+- **Validation par schéma Zod** sur la route de contact, à la place des tests écrits à la main.
+- **La CI vérifie avant de déployer** — job `verifications` (tsc, lint, build, gitleaks,
+  Semgrep, Trivy) et `deploy` qui en dépend, plus un contrôle HTTP après mise en ligne.
+- **Textes légaux alignés sur la réalité** — bandeau de cookies supprimé (aucun traceur, donc
+  aucun consentement à recueillir), politique de confidentialité complétée (base légale, durées,
+  Google et Hetzner comme destinataires, droits complets, réclamation CNIL), CGV rédigées,
+  mention « TVA non applicable, art. 293 B du CGI » sur `/tarifs`.
+- **Ressources externes rapatriées** — Google Fonts est désormais servi depuis notre domaine via
+  `next/font`, et `noise.svg` est local. Les deux transmettaient l'IP des visiteurs à des tiers
+  non déclarés, et l'image renvoyait un 404 depuis un moment.
+- **En-têtes** — `Permissions-Policy` ajouté, `Content-Security-Policy-Report-Only` posée.
+  Zéro violation constatée sur une compilation de production.
+- **Dépendances** — `npm audit` et `trivy` : 0 vulnérabilité (4 HIGH auparavant).
+- **`jsonLdScript` échappe** les chevrons et les séparateurs de ligne Unicode.
+- **Garde-fous** — `.pre-commit-config.yaml` et `semgrep/regles-maison.yml` adaptées au projet.
 
-**Bloquant à la vente**
+**Reste à faire — par Lohan**
 
-- **Aucune limitation de débit ni anti-robot sur `/api/contact`** — prouvé en production :
-  10 POST consécutifs, aucun 429, et 4,5 s de traitement synchrone par requête. Inondation de
-  la boîte Gmail et épuisement du quota d'envoi Google possibles. **C'est le seul défaut
-  réellement exploitable du projet.**
-- **La CI ne vérifie rien avant de déployer** — `deploy.yml` ne contient que le SCP et le
-  `docker compose up`. Un commit qui casse le site part directement en production.
-- **La politique de confidentialité et le bandeau annoncent des cookies de mesure d'audience
-  qui n'existent pas** (aucun traceur dans `src/` ni `public/`). Le bandeau ne pilote rien.
-- **Aucun suivi d'erreurs, aucune alerte** : si le formulaire tombe, personne ne l'apprend.
-- **Prix affichés sans CGV ni mention « TVA non applicable, art. 293 B du CGI »**.
+- Publier SPF et DMARC chez internet.bs (valeurs exactes dans `DEPLOIEMENT.md`).
+- Protéger la branche `main` sur GitHub en exigeant le job « Vérifications ».
+- Brancher UptimeRobot sur `/api/health` (procédure dans `DEPLOIEMENT.md`).
+- Relire les CGV : elles décrivent la pratique telle que le site l'annonce, pas telle qu'elle
+  est réellement négociée.
+- Lancer `pre-commit install` une fois, pour activer le crochet.
 
-**Dette connue**
+**Dette restante**
 
-`jsonLdScript` (`src/lib/seo.ts:43`) n'échappe pas `<` · 4 vulnérabilités HIGH transitives
-(sharp, postcss, nanoid) · pas de `Content-Security-Policy` ni de `Permissions-Policy` ·
-aucun test automatisé, aucun crochet pre-commit · `main` non protégée et dépôt public ·
-adresse incohérente entre les mentions légales (Vernosc-lès-Annonay) et `/contact` + JSON-LD
-(Lyon) · ni SPF ni DMARC sur le domaine, aucun MX · aucun document de cadrage, README encore
-au gabarit `create-next-app`.
+Aucun test automatisé · dépôt public · actions GitHub épinglées par étiquette et non par
+empreinte · CSP encore en mode observation (à basculer en bloquant après quelques jours) ·
+aucun document de cadrage, README encore au gabarit `create-next-app` · `logo.webp` utilise
+`fill` sans `sizes`.
 
 **Non vérifié**
 
 Sauvegardes et retour arrière du VPS Hetzner (pas d'accès serveur) · accessibilité RGAA
 (aucun audit lancé) · réception effective du message de test du 09/08/2026 dans la boîte Gmail.
 
-**Ce qui a été prouvé fonctionnel**
+**Prouvé fonctionnel**
 
-Le déploiement automatique tourne (commit `4fe69cb`, site à jour). Le formulaire de contact
-tourne (`POST /api/contact` → `{"ok":true}` en 4,5 s, testé en production le 09/08/2026).
-Six en-têtes de sécurité sont bien servis en production. `tsc` et `eslint` : 0 erreur.
+Le déploiement automatique tourne (commit `4fe69cb`). Le formulaire de contact tourne
+(`POST /api/contact` → `{"ok":true}`, testé en production le 09/08/2026). `tsc`, `eslint`,
+`npm run build`, Semgrep (103 règles), gitleaks et Trivy : tous à zéro.
 
 ---
 
