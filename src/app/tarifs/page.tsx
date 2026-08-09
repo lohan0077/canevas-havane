@@ -201,6 +201,19 @@ export default function TarifsPage() {
           ))}
         </div>
 
+        {/*
+          Mention obligatoire : en franchise en base de TVA, les prix sont nets et
+          doivent le dire — sur le site comme sur les factures (art. 293 B du CGI).
+        */}
+        <p className="text-center text-[10px] md:text-[11px] text-[var(--color-foreground)]/40 uppercase tracking-[0.25em] leading-loose mb-32 md:mb-48 max-w-3xl mx-auto">
+          Prix nets en euros — TVA non applicable, article 293 B du CGI. <br />
+          Prestations soumises aux{" "}
+          <Link href="/cgv" className="text-[var(--color-primary)] hover:underline decoration-1 underline-offset-4">
+            conditions générales de vente
+          </Link>
+          .
+        </p>
+
         {/* Fonctionnement */}
         <div className="space-y-16 md:space-y-24 mb-32 md:mb-48">
           <div className="text-center space-y-6">
