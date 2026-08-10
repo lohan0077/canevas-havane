@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, type FormEvent } from "react";
 
 export default function ContactPage() {
@@ -47,12 +48,12 @@ export default function ContactPage() {
             <div className="w-1.5 h-1.5 rounded-full bg-[var(--color-primary)] animate-pulse shadow-[0_0_15px_var(--color-primary)]"></div>
             <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] md:tracking-[0.5em] text-[var(--color-foreground)]/60 italic">Commençons l'ascension</span>
           </div>
-          
+
           <h1 className="text-5xl md:text-9xl font-black uppercase leading-[0.8] tracking-tighter">
             <span className="block opacity-20">VOTRE</span>
             <span className="text-gradient block italic">HÉRITAGE.</span>
           </h1>
-          
+
           <p className="max-w-xl mx-auto text-lg md:text-xl text-[var(--color-foreground)]/50 font-light leading-relaxed px-4">
             Chaque projet d'exception commence par une conversation. <br className="hidden md:block" />
             Décrivez votre vision, nous construirons votre impact.
@@ -149,8 +150,22 @@ export default function ContactPage() {
               >
                 {status === "sending" ? "Envoi en cours…" : "Initier le Dialogue"}
               </button>
-              <p className="mt-8 md:mt-12 text-[9px] md:text-[10px] text-[var(--color-foreground)]/20 uppercase tracking-[0.4em] md:tracking-[0.5em] font-medium scale-90">
+              <p className="mt-8 md:mt-12 text-[9px] md:text-[10px] text-[var(--color-foreground)]/50 uppercase tracking-[0.4em] md:tracking-[0.5em] font-medium scale-90">
                 — Réponse sélective sous 24h ouvrées —
+              </p>
+              {/* Information au moment de la collecte (art. 13 du RGPD) : le lien du
+                  pied de page ne suffit pas, il doit être là où l'on saisit ses données. */}
+              <p className="mt-6 max-w-xl text-xs md:text-sm text-[var(--color-foreground)]/60 font-light leading-relaxed">
+                Votre nom, votre adresse email et votre message servent uniquement à
+                répondre à votre demande. Ils ne sont ni vendus ni cédés. Vous pouvez
+                demander à tout moment leur accès, leur rectification ou leur effacement —{" "}
+                <Link
+                  href="/confidentialite"
+                  className="text-[var(--color-primary)] underline decoration-1 underline-offset-4 hover:opacity-80 transition-opacity"
+                >
+                  politique de confidentialité
+                </Link>
+                .
               </p>
             </div>
           </form>
