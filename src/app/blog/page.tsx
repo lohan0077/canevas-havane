@@ -175,7 +175,7 @@ export default function BlogPage() {
             Il n'y a pas de lettre d'information — donc on n'en promet pas. */}
         <div className="bg-[#1a1513] rounded-[3rem] md:rounded-[5rem] p-8 md:p-24 text-center space-y-8 overflow-hidden relative shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)]" style={{ marginBottom: '0px', marginTop: '48px' }}>
            {/* Decorative elements */}
-           <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none select-none italic text-[20vw] lg:text-[10vw] font-medium text-white/5 whitespace-nowrap font-serif">
+           <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none select-none italic text-[20vw] lg:text-[10vw] font-medium text-white/[0.05] whitespace-nowrap font-serif">
              Canevas Havane
            </div>
 

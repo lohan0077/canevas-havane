@@ -95,9 +95,9 @@ rules:
     severity: ERROR
     paths:
       include:
-        - "src/components/**"
-        - "src/app/**/page.tsx"
-        - "src/app/**/layout.tsx"
+        - "**/src/components/**"
+        - "**/src/app/**/page.tsx"
+        - "**/src/app/**/layout.tsx"
     patterns:
       - pattern-regex: "SERVICE_ROLE|service_role"
     message: >-
@@ -244,3 +244,59 @@ rules:
       `<Image fill>` sans attribut `sizes`. Ajouter la largeur réelle occupée par
       l'image, par exemple sizes="(max-width: 768px) 100vw, 33vw" pour une grille
       à trois colonnes. 17 images étaient dans ce cas le 10/08/2026.
+
+  # ─── Conception : tout formulaire public porte un champ piège ───────────
+  # Ajoutée le 10/08/2026. Le bloc « newsletter » du journal postait vers
+  # /api/contact sans champ piège : un robot visant /blog atteignait la boîte
+  # Gmail sans être filtré, alors qu'il aurait été piégé sur /contact.
+  - id: formulaire-sans-champ-piege
+    languages: [typescript]
+    severity: ERROR
+    paths:
+      include:
+        - "**/*.tsx"
+    patterns:
+      # On examine l'appel `fetch` complet, options comprises : c'est là que le
+      # champ piège doit apparaître. Viser la fonction entière ne marche pas —
+      # Semgrep réduit la zone examinée à l'intersection des motifs.
+      - pattern: fetch("/api/contact", {...})
+      - pattern-not-regex: "website"
+    message: >-
+      Ce formulaire poste vers /api/contact sans transmettre le champ piège `website`.
+      Tout formulaire public doit porter le même piège anti-robot que celui de
+      /contact, sinon il devient la porte de service.
+
+  # ─── Accessibilité : contraste ──────────────────────────────────────────
+  # Ces deux règles ne remplacent pas la mesure réelle en navigateur : elles
+  # attrapent la façon dont le défaut se réintroduit en pratique, c'est-à-dire
+  # en écrivant la classe. Seuils calculés le 10/08/2026 sur les couleurs du site.
+  - id: accent-vif-en-couleur-de-texte
+    languages: [generic]
+    severity: ERROR
+    paths:
+      include:
+        - "**/*.tsx"
+    patterns:
+      - pattern-regex: "text-\\[var\\(--color-primary\\)\\]"
+    message: >-
+      `--color-primary` (#F27438) donne 2,54:1 sur le beige : illisible en texte.
+      Utiliser `--color-primary-texte`, qui vaut 4,85:1 sur fond clair et redevient
+      l'orange vif sur fond sombre (règle d'héritage dans globals.css).
+
+  - id: texte-sous-le-seuil-de-contraste
+    languages: [generic]
+    severity: ERROR
+    paths:
+      include:
+        - "**/*.tsx"
+    patterns:
+      - pattern-either:
+          # brun tabac sur beige : il faut au moins /70 pour atteindre 4,5:1
+          - pattern-regex: "text-\\[var\\(--color-foreground\\)\\]/([0-9]|[1-6][0-9])\\b"
+          # blanc sur brun : il faut au moins /60
+          - pattern-regex: "text-white/([0-9]|[1-5][0-9])\\b"
+    message: >-
+      Texte trop pâle pour être lisible. Minimum /70 sur fond clair, /60 sur fond
+      sombre — seuils calculés, pas choisis à vue. Pour un ornement réellement
+      décoratif, utiliser la notation entre crochets (par exemple `/[0.05]`) et
+      ajouter `select-none pointer-events-none`.

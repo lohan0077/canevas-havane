@@ -40,3 +40,11 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 !.env.example
+
+# Outillage BMAD — installé localement, pas du code du site.
+# 275 fichiers, 2,1 Mo, publiés sur un dépôt public, rallongeant chaque `checkout`
+# de la CI et recopiés sur le serveur à chaque déploiement (`scp source: "."`).
+# Ils restent sur le disque : seul le suivi par git est retiré.
+/_bmad/
+/_bmad-output/
+/.agents/
