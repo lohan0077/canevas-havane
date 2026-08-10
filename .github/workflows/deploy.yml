@@ -106,9 +106,15 @@ jobs:
             set -e
             cd ~/app/canevas-havane
             docker compose up -d --build
-            # Caddy est déclaré dans le compose de Kéo : on le recharge depuis là.
-            cd ~/app/keo
-            docker compose restart caddy
+            # Volontairement, on ne touche PAS à Caddy.
+            #
+            # Ce déploiement ne modifie jamais le Caddyfile : Caddy joint le conteneur
+            # par son alias sur le réseau `keo_internal_net`, qui ne change pas d'une
+            # mise en ligne à l'autre. Redémarrer Caddy était donc inutile — et
+            # dangereux : le 09/08/2026, ce redémarrage a fait relire à Caddy un
+            # Caddyfile tronqué (écrasé 40 min plus tôt par le déploiement de Kéo),
+            # ce qui a mis hors ligne canevas-havane.com, edificia.fr et kéo.fr d'un
+            # coup. Le redémarrage n'était pas la cause, mais il était le détonateur.
 
       # Le déploiement n'est « réussi » que si le site répond vraiment.
       # Sans ce contrôle, un conteneur qui redémarre en boucle passe pour un succès.
