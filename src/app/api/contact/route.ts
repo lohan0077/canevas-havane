@@ -3,6 +3,7 @@ import nodemailer from "nodemailer";
 import { z } from "zod";
 import { adresseClient, BAREMES, limiterDebit } from "@/lib/rate-limit";
 import { lireCorpsPlafonne, TAILLE_MAX_CORPS } from "@/lib/corps-requete";
+import { siteUrl } from "@/lib/seo";
 
 // nodemailer nécessite le runtime Node (pas Edge).
 export const runtime = "nodejs";
@@ -52,7 +53,65 @@ const schemaContact = z.object({
 // une instance partagée entre deux requêtes échouerait à la seconde.
 const reponseOk = () => NextResponse.json({ ok: true });
 
+/**
+ * La requête vient-elle bien de notre site ?
+ *
+ * Un `Origin` absent n'est pas suspect : les navigateurs ne le posent que sur les
+ * requêtes inter-sites (et sur les POST), or c'est justement le cas qu'on veut
+ * filtrer. Une requête sans `Origin` ne vient pas d'une page tierce — c'est curl,
+ * un test, ou une sonde. On ne bloque que ce qui affiche une origine étrangère.
+ *
+ * On compare à l'hôte de la requête plutôt qu'à la seule adresse de production,
+ * pour que le développement local et les prévisualisations fonctionnent sans
+ * liste à tenir à jour.
+ */
+const HOTE_DU_SITE = URL.canParse(siteUrl) ? new URL(siteUrl).host : null;
+
+function origineEtrangere(request: Request): boolean {
+  const origine = request.headers.get("origin");
+  if (!origine) return false;
+
+  // `URL.canParse` plutôt qu'un `try`/`catch` : dans une fonction dont la valeur
+  // de retour décide d'un refus, une exception attrapée est le chemin le plus
+  // court vers un échec qui s'ouvre. Ici il n'y a pas d'exception à attraper.
+  // `Origin: null` — iframe cloisonnée, redirection opaque — n'est pas analysable
+  // et n'est jamais notre formulaire : étranger.
+  if (!URL.canParse(origine)) return true;
+  const hoteOrigine = new URL(origine).host;
+
+  const hoteRequete = request.headers.get("host")?.trim();
+  if (hoteRequete && hoteOrigine === hoteRequete) return false;
+
+  // Adresse du site mal formée : on refuse plutôt que de laisser passer.
+  return HOTE_DU_SITE === null || hoteOrigine !== HOTE_DU_SITE;
+}
+
 export async function POST(request: Request) {
+  // 0. D'où vient la requête ? Ce contrôle passe avant tout compteur : une requête
+  //    étrangère ne doit pas entamer le quota du visiteur dont le navigateur a été
+  //    utilisé à son insu.
+  //
+  //    Sans lui, un site tiers fait envoyer un e-mail depuis le navigateur de chacun
+  //    de ses visiteurs : un POST en `text/plain` portant du JSON est une « requête
+  //    simple », que le navigateur envoie sans demander d'autorisation préalable.
+  //    Chaque visiteur apportant sa propre adresse IP, le plafond de 3 par IP ne
+  //    freine rien, et le plafond global de 40/h finit par fermer le formulaire aux
+  //    vrais prospects. Confirmé par exécution le 10/08/2026.
+  //
+  //    `form-action 'self'` dans la CSP ne protège pas de ça : cette directive
+  //    gouverne les formulaires servis par nos pages, pas un `fetch()` lancé
+  //    depuis la page d'un tiers.
+  const typeContenu = (request.headers.get("content-type") ?? "").split(";")[0].trim().toLowerCase();
+  if (typeContenu !== "application/json") {
+    return NextResponse.json({ error: REQUETE_INVALIDE }, { status: 415 });
+  }
+  if (origineEtrangere(request)) {
+    console.warn(
+      `Formulaire de contact : origine étrangère refusée (${request.headers.get("origin")}).`,
+    );
+    return NextResponse.json({ error: REQUETE_INVALIDE }, { status: 403 });
+  }
+
   // semgrep-ok: publique parce que c'est un formulaire de contact — il n'y a ni compte
   // utilisateur ni ressource privée sur ce site. Ce qui tient lieu de garde, ce sont
   // les deux plafonds et le champ piège ci-dessous.

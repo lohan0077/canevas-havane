@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { adressesDeLaPage } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Mentions Légales",
   description: "Mentions légales du site Canevas Havane : éditeur, direction de la publication, hébergement et propriété intellectuelle.",
-  alternates: { canonical: "/mentions-legales" },
+  ...adressesDeLaPage("/mentions-legales"),
   robots: { index: false },
 };
 

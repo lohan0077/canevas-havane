@@ -166,11 +166,110 @@ effective d'un message dans la boîte Gmail · indexation Google (jeton `bright-
 
 `tsc`, `eslint`, `npm run build` : 0 erreur · **15 tests, tous verts** (`npm test`) ·
 Semgrep 105 règles sur 94 fichiers : 0 signalement · gitleaks sur l'historique : 0 fuite ·
-Trivy et `npm audit` : 0 vulnérabilité · **0 texte sous le seuil de contraste sur 812
-mesurés, 13 pages** · CSP bloquante sans une seule violation ·
+`trivy fs` et `npm audit` : 0 vulnérabilité — **mais `trivy image` n'a jamais été lancé, et
+l'image en porte 20 : voir le contre-audit ci-dessous** · contraste : le chiffre annoncé ce
+matin (« 0 sur 812 mesurés ») **n'est pas reproductible**, aucun script du dépôt ne le rejoue ;
+la remesure du soir en trouve 14 sur 1494 · CSP bloquante sans une seule violation ·
 `https://canevas-havane.com/api/health` → `{"status":"ok"}` · échec fermé démontré (503 sans
 configuration SMTP) · injection d'en-tête SMTP neutralisée par nodemailer · dernier
 déploiement automatique en succès (10/08/2026 11:16 UTC).
+
+---
+
+## Contre-audit du 10/08/2026 (soir) — ce qu'un second passage a trouvé
+
+Rapport complet : [`ETAT_DU_PROJET_20260810_CONTRE-AUDIT.md`](ETAT_DU_PROJET_20260810_CONTRE-AUDIT.md).
+Tous les outils ont été **relancés**, aucune conclusion du matin reprise telle quelle.
+Phases franchies : 3 / 11 applicables. Aucun défaut irréversible.
+
+**Prouvé après corrections** : `tsc` 0 · `eslint` 0 · **22 tests verts** · `npm run build`
+succès · Semgrep **163 règles sur 54 fichiers : 0 signalement** · `trivy image` sur l'image
+finale : `exit=0`.
+
+**Deux défauts trouvés — corrigés et prouvés le même soir**
+
+1. **Le socle n'était plus corrigé.** `Dockerfile` était sur `node:20-alpine`. **Node 20 est
+   sorti du support le 30/04/2026** : plus aucun correctif de sécurité.
+   `trivy image node:20-alpine` → **20 vulnérabilités HIGH/CRITICAL**.
+   **Pourquoi la CI ne l'a pas vu : elle lançait `trivy fs`, jamais `trivy image`.**
+   `trivy fs` lit les fichiers du dépôt ; il n'ouvre pas l'image qui exécute le code.
+   → Passé en **Node 22 LTS** (jusqu'au 30/04/2027), **npm retiré de l'image de production**
+   (il portait à lui seul toutes les vulnérabilités, via `tar`, `sigstore`, `picomatch`,
+   `ip-address` — or le serveur démarre par `node server.js` et n'appelle jamais npm).
+   Image finale mesurée : **0 HIGH/CRITICAL**, `node v22.23.2`, npm absent, accueil 200,
+   santé `ok`. **Ne pas remplacer ce retrait par un fichier d'exceptions** : une alerte
+   permanente finit toujours par être contournée, le code vulnérable en place.
+   **Deux gardes, qui n'attrapent pas la même chose :** l'étape `trivy image` de la CI (les
+   failles) et la règle Semgrep `image-node-hors-support` (**la date** — une version peut
+   être hors support sans qu'aucune faille n'ait encore été publiée contre elle). Quand
+   Node 22 approchera d'avril 2027, mettre à jour la liste de versions de cette règle.
+2. **CSRF sur `/api/contact`** — prouvé par exécution contre un SMTP piège. La route ne
+   vérifiait ni `Origin`, ni `Referer`, ni `Content-Type` ; un `POST` en `text/plain` portant
+   du JSON est une « requête simple », envoyée sans autorisation préalable. Un site tiers
+   faisait donc envoyer des e-mails depuis le navigateur de ses visiteurs, **chacun avec sa
+   propre IP** — le plafond de 3 par IP ne freinait rien, et le plafond global de 40/h
+   fermait le formulaire aux vrais prospects. `form-action 'self'` ne protège pas de ça :
+   cette directive gouverne nos formulaires, pas un `fetch()` lancé depuis la page d'un tiers.
+   → `Content-Type: application/json` exigé (415 sinon), `Origin` étranger refusé (403),
+   **avant tout compteur** — une requête étrangère ne doit pas entamer le quota du visiteur
+   dont le navigateur a été détourné. Un `Origin` absent reste accepté : les navigateurs le
+   posent toujours sur un POST inter-sites, donc son absence signifie curl, une sonde ou un
+   test. Attaque rejouée contre l'image finale : `415 / 403 / 403`, et `502` pour le vrai
+   formulaire — vérifié aussi depuis un navigateur sur `/contact`, sans violation CSP.
+   **Le bloc de tests `origine de la requête (CSRF)` existe pour ça : s'il devient rouge, la
+   porte est rouverte.** Éprouvé par mutation — gardes neutralisées, 5 tests tombent.
+
+**La leçon d'écriture qui va avec** : `origineEtrangere()` est écrit sans `try`/`catch`
+(`URL.canParse`). Dans une fonction dont la valeur de retour décide d'un refus, une exception
+attrapée est le chemin le plus court vers un échec qui s'ouvre — la règle maison
+`echec-ouvert` a signalé la première version, et elle avait raison.
+
+**Dette résorbée dans la foulée**
+
+- **Adresse canonique et `og:url` viennent désormais de la même fonction**,
+  `adressesDeLaPage()` dans `src/lib/seo.ts` : elles ne peuvent plus diverger parce
+  qu'elles ne s'écrivent plus séparément. Deux pièges découverts en le faisant, à ne
+  jamais réapprendre : **Next *remplace* `openGraph` au lieu de le fusionner** (les
+  articles du journal perdaient `og:site_name`, `og:locale` et `og:url`), et **déclarer
+  un `openGraph` désactive la convention de fichier `opengraph-image.png`** — ma première
+  version a fait perdre son image de partage à `/tarifs`. Pour surcharger, passer un
+  second argument à `adressesDeLaPage()` ; ne jamais redéclarer `openGraph` en entier.
+  Garde : règle `canonique-ecrit-a-la-main`.
+- **Contraste : 0 sous le seuil sur 1450 mesurés**, et **la mesure tourne à chaque
+  poussée** (`outils/contraste.mjs` dans la CI). Les 7 ornements portent
+  `aria-hidden="true"`. Le script exempte les éléments décoratifs — WCAG 1.4.3 le permet,
+  **à condition qu'ils soient déclarés tels**. Couplage volontaire : ce qui sort de la
+  mesure sort aussi de la restitution vocale.
+- **Un retour arrière existe** — le déploiement étiquette l'image en service
+  `canevas-havane:precedente` avant de la remplacer ; `outils/retour-arriere.sh` la remet
+  en ligne sans rien reconstruire. Vérifié en bac à sable. **Jamais joué sur le serveur :
+  la phase 9 n'est donc pas franchie**, et c'est pour ça que le déploiement ne l'appelle
+  pas tout seul.
+- **`docs/CADRAGE.md`** — la phase 0 a enfin un document. Les points sans réponse dans le
+  code y sont marqués « à confirmer » plutôt que devinés.
+- **Rotation des journaux** du conteneur (5 × 10 Mo). Ce n'est **pas** un suivi d'erreurs.
+
+**Dette restante** — aucun suivi d'erreurs, aucune alerte, aucune sonde externe ·
+`canevas-havane.com` absent de PushRank · les tests ne couvrent que `/api/contact`.
+
+**Refermé sans rien faire** — l'indexation Google est **confirmée : 10 pages référencées**
+(`site:canevas-havane.com`). Ce point était « non vérifié » faute de jeton.
+
+### La règle de mesure, apprise ce soir
+
+Un résultat qu'aucune commande du dépôt ne rejoue n'est pas une preuve. Le « 0 texte sous le
+seuil sur 812 mesurés » du matin n'a pas pu être reproduit : la remesure indépendante trouve
+14 échecs sur 1494 textes. **Toute mesure annoncée dans ce fichier doit pouvoir être relancée
+par une commande écrite ici.**
+
+Deux pièges qui faussent silencieusement une mesure de contraste, à connaître :
+**Tailwind 4 renvoie les couleurs calculées en `oklab(...)`** — un analyseur qui attend
+`rgb(...)` y lit du noir et produit des centaines de faux échecs (ma première passe en a
+annoncé 600). Il faut faire résoudre la couleur par le navigateur. Et **un texte peint par
+un dégradé a une couleur transparente** : son contraste ne se calcule pas, il se regarde —
+on le compte à part, jamais en « conforme ».
+
+---
 
 ## Après chaque fichier écrit — la commande complète
 

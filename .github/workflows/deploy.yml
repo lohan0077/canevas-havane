@@ -17,13 +17,16 @@ jobs:
     name: Vérifications
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # étiquette v4 au 10/08/2026
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # étiquette v7.0.1 au 10/08/2026
         with:
           fetch-depth: 0 # Gitleaks doit voir tout l'historique, pas seulement le dernier commit
 
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # étiquette v4 au 10/08/2026
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # étiquette v7.0.0 au 10/08/2026
         with:
-          node-version: '20'
+          # Doit rester aligné sur le `FROM node:<version>-alpine` du Dockerfile :
+          # compiler sur une version et exécuter sur une autre, c'est tester autre
+          # chose que ce qui tourne. Node 22 est supporté jusqu'au 30/04/2027.
+          node-version: '22'
           cache: npm
 
       - name: Installation des dépendances
@@ -45,6 +48,37 @@ jobs:
         run: npm run build
         env:
           NEXT_PUBLIC_SITE_URL: https://canevas-havane.com
+
+      # Le contraste est MESURÉ dans un navigateur, sur les pages compilées.
+      #
+      # La garde qui existait — une règle Semgrep sur les classes Tailwind écrites —
+      # ne voit que le code source : elle ne sait rien de la couleur réellement
+      # rendue, ni de l'arrière-plan sur lequel elle tombe. Le 10/08/2026, le
+      # rapport du matin annonçait « 0 texte sous le seuil sur 812 mesurés » sans
+      # qu'aucune commande du dépôt ne permette de rejouer ce chiffre ; la remesure
+      # du soir en a trouvé 14. Un résultat qu'on ne peut pas relancer n'est pas une
+      # preuve. Il se relance désormais à chaque poussée.
+      - name: Contraste des textes (mesuré en navigateur)
+        run: |
+          npx playwright install --with-deps chromium
+          # On démarre le serveur `standalone`, pas `next start` : c'est exactement
+          # celui que lance le conteneur en production (`CMD node server.js`).
+          # `next start` refuse d'ailleurs de fonctionner avec `output: standalone`
+          # — il le dit lui-même dans ses journaux. Mesurer autre chose que ce qui
+          # part en ligne n'aurait pas grand sens.
+          cp -r public .next/standalone/
+          cp -r .next/static .next/standalone/.next/
+          PORT=3100 node .next/standalone/server.js &
+          for i in $(seq 1 30); do
+            curl -sf -o /dev/null http://localhost:3100/ && break
+            sleep 2
+          done
+          # Garde-fou : si un autre service occupait le port, on mesurerait le mauvais
+          # site sans s'en apercevoir. C'est arrivé pendant le contre-audit — la mesure
+          # portait sur kéo.fr, qui tournait sur le port choisi.
+          curl -s http://localhost:3100/ | grep -q "Canevas Havane" \
+            || { echo "::error::Le port 3100 ne sert pas Canevas Havane"; exit 1; }
+          node outils/contraste.mjs http://localhost:3100
 
       # Les trois outils ci-dessous sont installés en versions figées plutôt
       # qu'appelés via des actions tierces : une étiquette d'action peut être
@@ -81,6 +115,28 @@ jobs:
             --no-progress \
             .
 
+      # L'étape ci-dessus lit les FICHIERS du dépôt. Elle n'ouvre jamais l'image
+      # dans laquelle le code s'exécute — et c'est par là qu'un défaut est passé :
+      # le 10/08/2026, l'image tournait sur Node 20, hors support depuis le
+      # 30 avril, avec 20 vulnérabilités graves, pendant que cette CI affichait
+      # « 0 vulnérabilité » en toute bonne foi. Elle disait vrai de ce qu'elle
+      # regardait. On regarde donc maintenant aussi l'image elle-même.
+      #
+      # Si cette étape passe au rouge sur des paquets qu'on ne contrôle pas,
+      # la réponse n'est pas d'ajouter une exception : c'est de retirer de
+      # l'image le composant qu'on n'exécute pas (c'est ce qui a été fait pour
+      # npm), ou de monter d'une version LTS.
+      - name: Image de production vulnérable
+        run: |
+          docker build -t canevas-havane:ci .
+          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:0.73.0 image \
+            --scanners vuln \
+            --severity HIGH,CRITICAL \
+            --ignore-unfixed \
+            --exit-code 1 \
+            --no-progress \
+            canevas-havane:ci
+
   # ─────────────────────────────────────────────────────────────────────
   # Déploiement — uniquement sur main, uniquement si les vérifications passent.
   # ─────────────────────────────────────────────────────────────────────
@@ -91,7 +147,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # étiquette v4 au 10/08/2026
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # étiquette v7.0.1 au 10/08/2026
 
       - name: Deploy to VPS
         uses: appleboy/scp-action@917f8b81dfc1ccd331fef9e2d61bdc6c8be94634 # v0.1.7
@@ -111,6 +167,11 @@ jobs:
           script: |
             set -e
             cd ~/app/canevas-havane
+            # On garde sous la main l'image qui tourne actuellement, avant de la
+            # remplacer : c'est la seule chose qui rend un retour arrière possible.
+            # Jusqu'ici, une mise en ligne qui cassait le site laissait le site
+            # cassé — le contrôle ci-dessous passait au rouge, et c'est tout.
+            docker image tag canevas-havane:courante canevas-havane:precedente 2>/dev/null || true
             docker compose up -d --build
             # Volontairement, on ne touche PAS à Caddy.
             #

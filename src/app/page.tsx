@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import { adressesDeLaPage } from "@/lib/seo";
 import Link from "next/link";
 import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Canevas Havane | Agence Web & Design de Prestige en Ardèche",
   description: "Agence de création numérique haut de gamme : sites web sur mesure, identité de marque, SEO et acquisition. Basée en Ardèche, elle intervient à Lyon, Valence et dans toute la France.",
-  alternates: { canonical: "/" },
+  ...adressesDeLaPage("/"),
 };
 
 const services = [
@@ -238,7 +239,7 @@ export default function Home() {
                 className="object-cover opacity-50 group-hover:scale-110 transition-transform duration-1000"
               />
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-7xl font-medium text-[var(--color-foreground)]/[0.05] select-none pointer-events-none uppercase tracking-tighter font-serif">ARTISAN</span>
+                <span aria-hidden="true" className="text-7xl font-medium text-[var(--color-foreground)]/[0.05] select-none pointer-events-none uppercase tracking-tighter font-serif">ARTISAN</span>
               </div>
             </div>
           </div>

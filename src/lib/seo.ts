@@ -2,6 +2,55 @@ export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://canevas-hava
 
 export const siteName = "Canevas Havane";
 
+/**
+ * Adresse canonique **et** adresse Open Graph d'une page, produites ensemble.
+ *
+ * Les deux disaient des choses différentes : le canonique pointait bien sur la
+ * page, mais `og:url` était figé sur l'accueil dans le layout et hérité tel quel
+ * par les treize pages. Partager la page Tarifs sur LinkedIn ou WhatsApp affichait
+ * donc un aperçu qui renvoyait à l'accueil, et les partages ne s'accumulaient pas
+ * sur la bonne adresse. Contre-audit du 10/08/2026.
+ *
+ * Les redonner par une seule fonction est plus solide qu'une règle qui vérifie
+ * après coup : on ne peut plus déclarer l'un en oubliant l'autre.
+ *
+ * Les champs communs sont répétés ici parce que Next **remplace** `openGraph` au
+ * lieu de le fusionner : dès qu'une page en déclare un, celui du layout disparaît
+ * en entier — c'est ce qui privait les articles du journal de `og:site_name` et
+ * de `og:locale`. Les chemins sont relatifs, `metadataBase` les complète.
+ */
+export function adressesDeLaPage(chemin: string, openGraphEnPlus: Record<string, unknown> = {}) {
+  return {
+    alternates: { canonical: chemin },
+    openGraph: {
+      url: chemin,
+      siteName,
+      locale: "fr_FR",
+      type: "website" as const,
+      // L'image doit être nommée explicitement.
+      //
+      // Elle venait jusqu'ici de la convention de fichier `src/app/opengraph-image.png`,
+      // que Next applique tant qu'**aucune** page ne déclare `openGraph`. Dès qu'une
+      // page en déclare un, la convention ne s'applique plus et l'aperçu de partage
+      // part sans visuel. Constaté en compilant : `/tarifs` avait perdu son image.
+      // Le fichier de convention reste servi à cette adresse.
+      images: [
+        {
+          url: "/opengraph-image.png",
+          width: 1200,
+          height: 630,
+          alt: "Canevas Havane — Excellence Numérique & Design de Prestige",
+        },
+      ],
+      // Les articles du journal ont leur propre image, leur propre type et une
+      // date de publication : ils surchargent ici plutôt que de redéclarer un
+      // `openGraph` complet — c'est cette redéclaration qui leur faisait perdre
+      // `og:site_name`, `og:locale` et `og:url`.
+      ...openGraphEnPlus,
+    },
+  };
+}
+
 /** Fiche d'identité de l'entreprise, injectée sur toutes les pages via le layout. */
 export const organizationJsonLd = {
   "@context": "https://schema.org",

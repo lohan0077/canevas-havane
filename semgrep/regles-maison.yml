@@ -300,3 +300,50 @@ rules:
       sombre — seuils calculés, pas choisis à vue. Pour un ornement réellement
       décoratif, utiliser la notation entre crochets (par exemple `/[0.05]`) et
       ajouter `select-none pointer-events-none`.
+
+  - id: image-node-hors-support
+    languages: [generic]
+    severity: ERROR
+    paths:
+      include:
+        - "**/Dockerfile"
+        - "**/Dockerfile.*"
+    patterns:
+      - pattern-regex: "FROM\\s+node:(1[0-9]|2[013]|25)[-.\\s]"
+    message: >-
+      Cette version de Node n'est plus supportée : plus aucun correctif de sécurité
+      n'arrivera pour le moteur qui exécute le site. Utiliser une version LTS
+      encore suivie — 22 (jusqu'au 30/04/2027), 24 (30/04/2028) ou 26 (30/04/2029).
+
+      Cette règle attrape ce qu'un scan de vulnérabilités ne peut pas voir : une
+      version peut être hors support sans qu'aucune faille n'ait encore été publiée
+      contre elle. Le 10/08/2026, l'image tournait sur Node 20, hors support depuis
+      le 30 avril, et la CI affichait « 0 vulnérabilité » — parce qu'elle lisait les
+      fichiers du dépôt sans jamais ouvrir l'image. Garde jumelle : l'étape
+      `trivy image` de `.github/workflows/deploy.yml`.
+
+      Penser à mettre à jour cette liste de versions quand la LTS courante sortira
+      du support.
+
+  - id: canonique-ecrit-a-la-main
+    languages: [generic]
+    severity: ERROR
+    paths:
+      include:
+        - "**/app/**/page.tsx"
+        - "**/app/**/layout.tsx"
+    patterns:
+      - pattern-regex: "alternates:\\s*\\{\\s*canonical:"
+    message: >-
+      Adresse canonique écrite à la main. Utiliser `...adressesDeLaPage("/le-chemin")`
+      de `src/lib/seo.ts`, qui produit l'adresse canonique ET `og:url` ensemble.
+
+      Les deux disaient des choses différentes : le canonique pointait sur la page,
+      mais `og:url` restait figé sur l'accueil dans le layout, hérité par les treize
+      pages — partager la page Tarifs affichait un aperçu renvoyant à l'accueil
+      (contre-audit du 10/08/2026). Deux pièges à connaître si on est tenté de
+      redéclarer `openGraph` : Next le **remplace** au lieu de le fusionner, ce qui
+      fait perdre `og:site_name` et `og:locale` ; et déclarer un `openGraph` désactive
+      la convention de fichier `opengraph-image.png`, donc l'aperçu part sans visuel.
+      Pour surcharger — un article avec sa propre image — passer un second argument
+      à `adressesDeLaPage()`.

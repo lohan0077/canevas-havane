@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { breadcrumbJsonLd, jsonLdScript } from "@/lib/seo";
+import { adressesDeLaPage, breadcrumbJsonLd, jsonLdScript } from "@/lib/seo";
 import Link from "next/link";
 import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "L'Atelier — À Propos",
   description: "Découvrez l'atelier Canevas Havane : notre vision, notre exigence et notre approche artisanale de la création numérique de prestige.",
-  alternates: { canonical: "/a-propos" },
+  ...adressesDeLaPage("/a-propos"),
 };
 
 export default function AboutPage() {
@@ -61,7 +61,7 @@ export default function AboutPage() {
                     className="object-cover opacity-60 group-hover:scale-110 transition-transform duration-1000"
                   />
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-5xl md:text-7xl font-medium text-[var(--color-foreground)]/[0.05] select-none pointer-events-none uppercase tracking-tighter font-serif">PURETÉ</span>
+                    <span aria-hidden="true" className="text-5xl md:text-7xl font-medium text-[var(--color-foreground)]/[0.05] select-none pointer-events-none uppercase tracking-tighter font-serif">PURETÉ</span>
                   </div>
                </div>
             </div>
@@ -92,7 +92,7 @@ export default function AboutPage() {
                     className="object-cover opacity-60 group-hover:scale-110 transition-transform duration-1000"
                   />
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-7xl font-medium text-[var(--color-foreground)]/[0.05] select-none pointer-events-none -rotate-3 italic font-light font-serif">HÉRITAGE</span>
+                    <span aria-hidden="true" className="text-7xl font-medium text-[var(--color-foreground)]/[0.05] select-none pointer-events-none -rotate-3 italic font-light font-serif">HÉRITAGE</span>
                   </div>
                </div>
             </div>

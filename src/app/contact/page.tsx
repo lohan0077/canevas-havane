@@ -63,7 +63,7 @@ export default function ContactPage() {
         {/* Focused Form Section */}
         <div className="w-full glass-card p-8 md:p-24 space-y-12 md:space-y-20 relative overflow-hidden flex flex-col items-center rounded-[2rem] md:rounded-[3rem]">
           {/* Decorative Background Text */}
-          <div className="absolute top-0 right-0 opacity-[0.02] select-none pointer-events-none translate-x-1/4 -translate-y-1/4">
+          <div aria-hidden="true" className="absolute top-0 right-0 opacity-[0.02] select-none pointer-events-none translate-x-1/4 -translate-y-1/4">
              <span className="text-[40vw] md:text-[25vw] font-black uppercase tracking-tighter italic whitespace-nowrap">CONTACT</span>
           </div>
 

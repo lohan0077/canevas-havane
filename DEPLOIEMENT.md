@@ -197,11 +197,48 @@ Puis tester le formulaire depuis `/contact` et confirmer la réception sur Gmail
 | Formulaire : « service non configuré » | Une variable SMTP manque dans `.env.production` |
 | `Invalid login` dans les logs | Mot de passe d'application incorrect, ou validation en deux étapes désactivée |
 
-Retour arrière si besoin :
+---
+
+## Retour arrière — remettre en ligne la version d'avant
+
+Une mise en ligne qui casse le site laissait, jusqu'au 10/08/2026, le site cassé : le
+contrôle de santé passait au rouge dans GitHub, et rien de plus. Il n'existait aucun moyen
+de revenir en arrière, parce que chaque reconstruction écrasait l'image précédente sans en
+garder trace.
+
+Désormais, le déploiement étiquette l'image en service `canevas-havane:precedente` juste
+avant de la remplacer. Pour y revenir, **sur le serveur** :
 
 ```bash
-cp ~/app/docker-compose.yml.bak ~/app/docker-compose.yml && cp ~/app/Caddyfile.bak ~/app/Caddyfile
+cd ~/app/canevas-havane && bash outils/retour-arriere.sh
 ```
+
+Le script remet l'image précédente en service, redémarre le conteneur **sans rien
+reconstruire** — donc sans dépendre du code, qui est précisément ce qu'on soupçonne — puis
+interroge `/api/health` jusqu'à cinq fois. S'il rend la main en erreur, la panne ne vient
+pas du code déployé : regarder Caddy, le réseau Docker, ou le `.env` du serveur.
+
+Il ne touche jamais à Caddy — voir l'avertissement plus bas.
+
+> **⚠️ Cette procédure n'a jamais été jouée sur le serveur.** Le mécanisme a été vérifié en
+> bac à sable : une image volontairement cassée mise « en ligne », puis restaurée par le
+> script, avec un conteneur qui repart. Mais tant qu'elle n'a pas été exécutée une fois en
+> conditions réelles, elle ne compte pas — une procédure de secours jamais jouée n'est pas
+> une procédure de secours. **À faire une fois, calmement, hors incident.** C'est aussi
+> pourquoi le déploiement ne l'appelle pas automatiquement : un retour arrière non éprouvé
+> qui se déclenche tout seul fait plus de dégâts que la panne qu'il prétend réparer.
+
+### La répétition, à faire une fois
+
+```bash
+# Sur le serveur, apres un deploiement reussi :
+docker images canevas-havane          # doit montrer :courante ET :precedente
+bash outils/retour-arriere.sh         # doit finir par « Le site répond de nouveau »
+curl -s https://canevas-havane.com/api/health   # {"status":"ok"}
+```
+
+Puis relancer le workflow de déploiement pour revenir à la version courante. Noter la date
+de cette répétition ici, et dans `CLAUDE.md`.
 
 ---
 

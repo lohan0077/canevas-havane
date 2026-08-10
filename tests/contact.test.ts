@@ -208,3 +208,81 @@ describe("limitation de débit", () => {
     expect(codes.filter((code) => code === 429)).toHaveLength(2);
   });
 });
+
+describe("origine de la requête (CSRF)", () => {
+  // Ces tests existent pour un défaut confirmé par exécution le 10/08/2026 : la
+  // route acceptait n'importe quelle origine et n'importe quel type de contenu.
+  // Un POST en `text/plain` portant du JSON est une « requête simple », qu'un
+  // navigateur envoie sans autorisation préalable : n'importe quel site tiers
+  // faisait donc envoyer un e-mail depuis le navigateur de ses visiteurs, chacun
+  // avec sa propre adresse IP — le plafond par IP ne freinait rien, et le plafond
+  // global finissait par fermer le formulaire aux vrais prospects.
+  //
+  // S'ils deviennent rouges, la porte est rouverte.
+
+  it("refuse un type de contenu qui contourne le contrôle inter-sites", async () => {
+    const POST = await routeNeuve();
+    const reponse = await POST(
+      new Request("http://localhost/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=UTF-8", "X-Forwarded-For": "203.0.113.9" },
+        body: messageValide(),
+      }),
+    );
+    expect(reponse.status).toBe(415);
+  });
+
+  it("refuse une requête sans type de contenu", async () => {
+    const POST = await routeNeuve();
+    const reponse = await POST(
+      new Request("http://localhost/api/contact", {
+        method: "POST",
+        headers: { "X-Forwarded-For": "203.0.113.9" },
+        body: messageValide(),
+      }),
+    );
+    expect(reponse.status).toBe(415);
+  });
+
+  it("refuse une requête lancée depuis le site d'un tiers", async () => {
+    const POST = await routeNeuve();
+    const reponse = await POST(
+      requete(messageValide(), "203.0.113.9", { Origin: "https://site-attaquant.example" }),
+    );
+    expect(reponse.status).toBe(403);
+  });
+
+  it("refuse une origine opaque (iframe cloisonnée, redirection)", async () => {
+    const POST = await routeNeuve();
+    const reponse = await POST(requete(messageValide(), "203.0.113.9", { Origin: "null" }));
+    expect(reponse.status).toBe(403);
+  });
+
+  it("accepte le formulaire du site lui-même", async () => {
+    const POST = await routeNeuve();
+    const reponse = await POST(
+      requete(messageValide(), "203.0.113.9", { Origin: "http://localhost", Host: "localhost" }),
+    );
+    // 503 : pas de configuration SMTP dans les tests. L'important est que la
+    // requête soit allée jusqu'à la tentative d'envoi.
+    expect(reponse.status).toBe(503);
+  });
+
+  it("laisse passer une requête sans origine (sonde, curl, test)", async () => {
+    const POST = await routeNeuve();
+    const reponse = await POST(requete(messageValide(), "203.0.113.9"));
+    expect(reponse.status).toBe(503);
+  });
+
+  it("une requête étrangère n'entame pas le quota du visiteur visé", async () => {
+    const POST = await routeNeuve();
+    // Le navigateur d'un visiteur est détourné par un site tiers : dix tentatives.
+    for (let essai = 0; essai < 10; essai += 1) {
+      await POST(requete(messageValide(), "198.51.100.7", { Origin: "https://site-attaquant.example" }));
+    }
+    // Ce visiteur doit garder ses trois envois intacts quand il vient de lui-même.
+    const reponse = await POST(requete(messageValide(), "198.51.100.7"));
+    expect(reponse.status).not.toBe(429);
+    expect(reponse.status).toBe(503);
+  });
+});

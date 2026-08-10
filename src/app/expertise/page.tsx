@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { breadcrumbJsonLd, jsonLdScript } from "@/lib/seo";
+import { adressesDeLaPage, breadcrumbJsonLd, jsonLdScript } from "@/lib/seo";
 import Link from "next/link";
 import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Expertise — Web, SEO & Acquisition",
   description: "Architecture web sur mesure, design d'exception, SEO sémantique et campagnes d'acquisition : les expertises de Canevas Havane au service de votre marque.",
-  alternates: { canonical: "/expertise" },
+  ...adressesDeLaPage("/expertise"),
 };
 
 const services = [
@@ -104,7 +104,7 @@ export default function ExpertisePage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-background)] to-transparent opacity-40 z-10" />
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-8xl md:text-[12rem] font-medium text-[var(--color-foreground)]/[0.05] select-none pointer-events-none uppercase tracking-tighter z-20 font-serif">
+                    <span aria-hidden="true" className="text-8xl md:text-[12rem] font-medium text-[var(--color-foreground)]/[0.05] select-none pointer-events-none uppercase tracking-tighter z-20 font-serif">
                       {index + 1 < 10 ? `0${index + 1}` : index + 1}
                     </span>
                   </div>
