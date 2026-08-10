@@ -203,3 +203,44 @@ rules:
       - pattern-regex: "Access-Control-Allow-Origin[\"'\\s:,]+\\*"
     message: >-
       CORS ouvert à toutes les origines. À restreindre à la liste des origines connues.
+
+  # ─── A04 — conception : taille du corps de requête ──────────────────────
+  # Ajoutée le 10/08/2026 : `request.json()` chargeait 20 Mo en mémoire avant
+  # toute vérification, et le champ piège du schéma n'avait aucune borne.
+  - id: route-sans-plafond-de-corps
+    languages: [typescript]
+    severity: ERROR
+    paths:
+      include:
+        - "**/api/**/route.ts"
+    patterns:
+      - pattern: |
+          export async function $M(...) { ... }
+      - metavariable-regex:
+          metavariable: $M
+          regex: "^(POST|PUT|PATCH)$"
+      - pattern-regex: "request\\.(json|text|formData|arrayBuffer)\\(\\)"
+      - pattern-not-regex: "(lireCorpsPlafonne|content-length|contentLength|TAILLE_MAX|semgrep-ok)"
+    message: >-
+      Cette route lit le corps de la requête sans plafond de taille. `request.json()`
+      met tout en mémoire avant que le moindre contrôle ne s'exécute : passer par
+      `lireCorpsPlafonne()` (src/lib/corps-requete.ts), ou vérifier `content-length`
+      d'abord. Trouvé le 10/08/2026 — 20 Mo étaient acceptés et analysés.
+
+  # ─── Performance : images sans dimensionnement ──────────────────────────
+  # Sans `sizes`, une image en `fill` est traitée comme si elle occupait toute
+  # la largeur de la fenêtre : Next sert la plus grande variante disponible,
+  # même pour une vignette dans une grille à trois colonnes.
+  - id: image-fill-sans-sizes
+    languages: [typescript]
+    severity: WARNING
+    patterns:
+      - pattern-either:
+          - pattern: <Image ... fill ... />
+          - pattern: <Image ... fill={true} ... />
+      - pattern-not: <Image ... sizes="..." ... />
+      - pattern-not: <Image ... sizes={...} ... />
+    message: >-
+      `<Image fill>` sans attribut `sizes`. Ajouter la largeur réelle occupée par
+      l'image, par exemple sizes="(max-width: 768px) 100vw, 33vw" pour une grille
+      à trois colonnes. 17 images étaient dans ce cas le 10/08/2026.
