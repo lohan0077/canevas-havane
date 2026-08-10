@@ -35,7 +35,8 @@ sans objet ici : ce projet n'a ni base de données ni paiement.
 ── SYNTHÈSE ──
 Phases franchies : 4 / 12  (5, 6, 9 et 2 — cette dernière sans objet)
 🔴 Irréversible   : aucun
-🟠 Bloquant       : le formulaire de contact se coupe pour 42 requêtes · corps de requête non plafonné · newsletter fantôme (RGPD + promesse non tenue) · information RGPD absente au point de collecte · main non protégée
+🟠 Bloquant       : le formulaire de contact se coupe pour 42 requêtes · corps de requête non plafonné · newsletter fantôme (RGPD + promesse non tenue) · information RGPD absente au point de collecte · main non protégée · 258 textes sous le seuil de contraste sur 840
+                    → TOUS corrigés le 10/08/2026, voir « Ce qui a été corrigé »
 🟡 Dette          : aucun test · contraste AA en échec · images surdimensionnées · CSP encore en observation · pas de suivi d'erreurs · sitemap lastmod faux · 276 fichiers d'outillage publiés · actions épinglées par étiquette
 ⬜ Non vérifié    : sauvegardes et restauration du VPS · retour arrière · supervision externe · réception effective d'un message dans la boîte Gmail · indexation Google
 ```
@@ -390,38 +391,42 @@ $ gh api repos/lohan0077/canevas-havane/branches/main/protection
 Le job « Vérifications » existe et fonctionne, mais rien n'oblige à le franchir : une
 poussée directe sur `main` déploie sans passer par lui. C'était déjà le cas au 09/08.
 
-### 🟡 4. Contraste sous le seuil d'accessibilité
+### 🟠 4. Contraste sous le seuil d'accessibilité — 258 textes sur 840
 
-Mesuré dans un navigateur sur la page d'accueil, en calculant le ratio réel :
+> **Correction d'un chiffre de ce rapport.** J'avais d'abord annoncé 81 textes en échec.
+> C'était faux, et par ma faute : mon outil de mesure ignorait silencieusement toute
+> couleur que le navigateur exprime en `oklab()` — c'est-à-dire **tous les textes à
+> opacité réduite**, qui sont précisément le motif dominant de ce design. Une fois le
+> parseur corrigé (la couleur est résolue en peignant un pixel et en le relisant), le
+> compte réel est **258 textes sous le seuil, sur 840 mesurés, réparties sur les 13 pages**.
 
-```
-"Branding & Design"   11 px  ratio 2.54:1  (seuil 4.5:1)
-"Web & Mobile"        11 px  ratio 2.54:1
-"Marketing & SEO"     11 px  ratio 2.54:1
-"Expérience Digitale" 11 px  ratio 2.54:1
-"SaaS & Finance"      11 px  ratio 2.54:1
-"L'Artisanat Digital" 11 px  ratio 2.54:1
-```
+Trois causes, par ordre d'ampleur :
 
-La couleur en cause est l'accent de la marque, `rgb(242, 116, 56)`, employé partout pour
-les petits libellés en capitales. Les autres textes signalés par la mesure sont des titres
-en dégradé (`color: rgba(0,0,0,0)` + `background-clip: text`) : la mesure ne sait pas les
-juger, ils sont visuellement lisibles. **Le vrai problème est l'accent orange sur fond
-clair, à 10–11 px.**
+1. **Les textes à opacité réduite.** `/10` à `/60` sur le brun tabac au-dessus du beige
+   donnent de 1,21:1 à 4,14:1. Le seuil est 4,5:1. Cela touche les paragraphes, les dates
+   d'articles, le symbole « € » du simulateur, la mention de copyright du pied de page.
+2. **L'orange de la marque en couleur de texte.** `rgb(242, 116, 56)` sur le beige :
+   **2,54:1**. Il sert pour tous les petits libellés en capitales, sur toutes les pages.
+3. **Deux textes blancs sur fond clair**, à 1,13:1 : le titre du bloc final de
+   `/expertise` (blanc sur une `glass-card` transparente à 98 %, donc blanc sur beige) et
+   la pastille « 2025 — COLLECTION » de `/realisations`. Ceux-là ne sont pas « peu
+   lisibles », ils sont invisibles.
 
-### 🟡 5. Vingt images servies en 3840 px
+À noter aussi : les liens de la barre de navigation étaient à 3,03:1 et le menu mobile à
+2,38:1, et la première ligne des grands titres — « NOS CHAMPS D' » avant « EXPERTISE. » —
+à 1,87:1 alors qu'elle porte la moitié du texte du `h1`.
 
-Vingt balises `<Image fill>` n'ont pas d'attribut `sizes`. Sans lui, Next demande la
-plus grande variante disponible :
+### 🟡 5. Dix-sept images sans dimensionnement déclaré
 
-```
-GET /_next/image?url=%2Fhero-grand-final-4k.webp&w=3840  → 136 175 octets
-GET /_next/image?url=%2Fhero-grand-final-4k.webp&w=1920  →  84 953 octets
-```
+> **Deuxième correction.** J'avais écrit « vingt images » et présenté la requête en 3840 px
+> du visuel d'accueil comme la preuve. Les deux étaient inexacts : mon comptage ratait les
+> `sizes` écrits sur la ligne suivante (il y en avait 4, donc **17** manquants), et la
+> requête en 3840 px est **légitime** — l'écran de mesure est en densité 2, une image
+> pleine largeur sur 1280 px demande donc bien 2560 px, et Next prend le palier au-dessus.
 
-Sur un écran de 1280 px, la page d'accueil transfère donc environ 50 Ko de plus que
-nécessaire pour le seul visuel principal. C'était noté au 09/08 pour `logo.webp` ; le
-problème est en fait général.
+Le vrai gain est ailleurs : sans `sizes`, une vignette dans une grille à trois colonnes est
+traitée comme si elle occupait toute la largeur de la fenêtre. C'est là qu'on transfère
+plusieurs fois le nécessaire.
 
 ### 🟡 6. Le sitemap se déclare modifié à chaque requête
 
@@ -434,6 +439,30 @@ que les 13 pages viennent d'être modifiées. Google finit par ignorer un `lastm
 gabarits de l'outillage BMAD. Ils ne contiennent pas de secret, mais ils sont publiés sur
 un dépôt public, allongent chaque `checkout` de la CI, et sont recopiés sur le VPS à
 chaque déploiement (`scp-action` avec `source: "."`).
+
+---
+
+## Ce qui a été corrigé le jour même
+
+Branche `correctifs-audit-20260810`. Chaque ligne a sa preuve.
+
+| Défaut | Correctif | Preuve |
+|---|---|---|
+| Le formulaire coupé pour 42 requêtes | Le plafond global n'est plus décompté qu'après la validation et le champ piège | 15 tests automatisés, dont celui qui rejoue l'attaque. Vérifié qu'il **échoue** si l'on remet l'ancien ordre : 2 rouges sur 15 |
+| Corps de requête non plafonné | `lireCorpsPlafonne()` — refus sur `Content-Length`, puis morceau par morceau pour l'envoi en flux | Test : corps de 20 Mo → 413, corps en flux sans longueur annoncée → 413 |
+| Message d'erreur Zod en anglais | Liste blanche des messages renvoyables au visiteur | Test : aucune réponse d'erreur ne contient la formulation anglaise de Zod |
+| Newsletter fantôme | Bloc retiré ; il invite désormais à écrire. Plus aucune collecte hors formulaire de contact | La politique de confidentialité redécrit la réalité |
+| Aucune information RGPD au point de collecte | Mention + lien vers `/confidentialite` sous le formulaire | Présent dans le HTML de `/contact` |
+| Contraste | Variable `--color-primary-texte` pour le texte, opacités remontées aux seuils calculés, 2 textes blancs sur fond clair corrigés | **0 texte sous le seuil sur 812 mesurés, 13 pages.** Le plus juste : 4,56:1 pour un seuil de 4,5 |
+| 17 images sans `sizes` | Valeur donnée cas par cas selon la largeur réellement occupée | Plus aucune image en `fill` sans `sizes` |
+| CSP en observation | Passée en mode bloquant, `upgrade-insecure-requests` réintroduit | 13 pages chargées sous la politique appliquée : 0 violation, 44 images chargées, React s'hydrate, `POST /api/contact` répond |
+| `main` non protégée | Protection posée : job « Vérifications » requis, PR obligatoire, ni force-push ni suppression | `gh api …/branches/main/protection` renvoie la configuration |
+| Actions épinglées par étiquette | Épinglées par empreinte SHA | Chaque empreinte revérifiée contre son étiquette d'origine |
+| `lastmod` du sitemap toujours « maintenant » | Date de publication pour les articles, date de révision tenue à la main pour les pages fixes | — |
+| Aucun garde-fou contre le retour des défauts | Deux règles Semgrep : `route-sans-plafond-de-corps`, `image-fill-sans-sizes` | Elles se déclenchent sur du code volontairement fautif et restent muettes sur le projet |
+
+Reste ouvert, parce que cela demande un accès que je n'ai pas : la supervision
+UptimeRobot, la sauvegarde et la restauration du VPS, l'ajout du site à PushRank.
 
 ---
 

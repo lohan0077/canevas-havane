@@ -113,52 +113,67 @@ Phases franchies : 4 / 12. Aucun défaut irréversible.
   autre adresse forgée. Caddy réécrit l'en-tête. **Cette protection dépend de Caddy, pas
   du code** : `src/lib/rate-limit.ts` fait confiance à `X-Forwarded-For` sans le vérifier.
 
-**Ouvert — à traiter en premier**
+**Trouvé le 10/08 et corrigé le même jour** (branche `correctifs-audit-20260810`)
 
-0. **Le formulaire de contact peut être coupé pendant une heure pour 42 requêtes.**
-   `src/app/api/contact/route.ts:46` décompte le plafond global **avant** de lire le corps
-   (ligne 57) et avant de le valider (ligne 62). Une requête dont le corps n'est même pas du
-   JSON consomme donc un jeton du plafond horaire, gratuitement. Reproduit : 14 adresses ×
-   3 requêtes malformées → un prospect légitime reçoit `429 … Retry-After: 3577`. Personne
-   n'est prévenu : le site répond 200 et `/api/health` répond `ok`. **Correctif : ne
-   décompter le plafond global qu'après la validation et après le champ piège.** Au passage,
-   plafonner la taille du corps : 20 000 063 octets sont aujourd'hui acceptés et analysés,
-   et `website` est le seul champ du schéma sans `.max()`.
+1. **Le formulaire de contact pouvait être coupé une heure pour 42 requêtes.** Le plafond
+   global était décompté **avant** la lecture et la validation du corps : une requête dont
+   le contenu n'était même pas du JSON consommait un jeton, gratuitement. Reproduit —
+   14 adresses × 3 requêtes malformées, puis un prospect légitime reçoit `429 … Retry-After:
+   3577`. Le plafond global n'est désormais décompté qu'au moment où un e-mail va partir.
+   **Le test `des requêtes malformées ne ferment pas le formulaire aux visiteurs légitimes`
+   existe pour ça : s'il devient rouge, on a remis le décompte trop tôt.**
+2. **Corps de requête non plafonné** — 20 000 063 octets étaient acceptés et analysés.
+   `lireCorpsPlafonne()` (`src/lib/corps-requete.ts`) refuse au-delà de 16 Ko, sur
+   `Content-Length` puis morceau par morceau pour l'envoi en flux.
+3. **Newsletter fantôme retirée.** Le bloc de `/blog` promettait une lettre d'information
+   inexistante, postait vers `/api/contact`, n'avait pas de champ piège et consommait le
+   compteur du formulaire de contact. Il invite maintenant à écrire.
+4. **Information RGPD au point de collecte** ajoutée sous le formulaire, avec le lien vers
+   `/confidentialite`.
+5. **Contraste** — 258 textes sur 840 étaient sous le seuil. Zéro aujourd'hui, sur les
+   13 pages. Voir la règle ci-dessous.
+6. **`main` est protégée** — job « Vérifications » requis, PR obligatoire, ni force-push ni
+   suppression. Les administrateurs ne sont pas soumis : la porte de secours reste ouverte.
+7. **CSP en mode bloquant**, actions GitHub épinglées par empreinte, `lastmod` du sitemap
+   honnête, 17 images complétées avec `sizes`.
 
-1. **Le formulaire « newsletter » de `/blog` ment.** Il promet une lettre d'information qui
-   n'existe pas, poste vers `POST /api/contact`, n'a pas de champ piège, consomme le
-   compteur du formulaire de contact, et collecte une adresse e-mail pour une finalité que
-   la politique de confidentialité ne déclare pas. Violation directe de la règle n° 8
-   ci-dessus. Décider : le retirer, ou le tenir.
-2. **Aucune information RGPD au point de collecte** — ni `/contact` ni `/blog` ne renvoient
-   à `/confidentialite`. Le lien n'existe que dans le pied de page.
-3. **`main` toujours non protégée** — `gh api …/branches/main/protection` → 404. Le job
-   « Vérifications » existe mais rien n'oblige à le franchir.
-4. **Un message d'erreur Zod brut, en anglais**, est renvoyé au visiteur quand un champ
-   manque (`Invalid input: expected string, received undefined`).
+### La règle de couleur, à ne plus jamais enfreindre
 
-**Dette mesurée**
+`--color-primary` (#F27438) est réservé aux **aplats, bordures, dégradés et ornements**.
+Pour du **texte**, utiliser `--color-primary-texte` (#B04A15) : l'orange vif donne 2,54:1
+sur le beige, très loin des 4,5:1 exigés. Sur fond sombre le rapport s'inverse, et une
+règle de `globals.css` y redéfinit la variable — ne pas la contourner en écrivant la
+couleur en dur. De même, pas de texte sous `/70` sur fond clair ni sous `/60` sur fond
+sombre. Aucune couleur unique ne peut satisfaire les deux fonds : c'est arithmétique.
 
-Aucun test automatisé (aucun exécuteur installé) · contraste **2,54:1 mesuré** sur les
-libellés de 10–11 px en accent `rgb(242,116,56)`, sous le seuil AA de 4,5:1 · 20 images en
-`fill` sans `sizes` (le héros part en 3840 px, 136 Ko au lieu de 85) · CSP encore en mode
-observation · aucun suivi d'erreurs · `sitemap.ts` annonce `lastModified: new Date()` ·
-276 fichiers d'outillage BMAD publiés sur un dépôt public et recopiés au déploiement ·
-actions GitHub épinglées par étiquette · aucun document de cadrage · dépôt public.
+**Dette restante**
+
+Aucun suivi d'erreurs (pas de Sentry) · 276 fichiers d'outillage BMAD publiés sur un dépôt
+public et recopiés au déploiement · aucun document de cadrage · dépôt public · les tests
+couvrent la route de contact, rien d'autre.
 
 **Non vérifié — et pourquoi**
 
 Sauvegardes et restauration du VPS Hetzner, retour arrière d'un déploiement (aucun accès
 serveur) · supervision externe sur `/api/health` (invérifiable de l'extérieur) · réception
-effective d'un message dans la boîte Gmail · indexation Google (jeton `bright-data` expiré).
+effective d'un message dans la boîte Gmail · indexation Google (jeton `bright-data` expiré)
+· `canevas-havane.com` n'est suivi dans aucun outil de mesure (absent de PushRank).
 
 **Prouvé fonctionnel le 10/08/2026**
 
-`tsc`, `eslint`, `npm run build` : 0 erreur · Semgrep 103 règles sur 91 fichiers : 0
-signalement · gitleaks sur l'historique : 0 fuite · Trivy et `npm audit` : 0 vulnérabilité ·
+`tsc`, `eslint`, `npm run build` : 0 erreur · **15 tests, tous verts** (`npm test`) ·
+Semgrep 105 règles sur 94 fichiers : 0 signalement · gitleaks sur l'historique : 0 fuite ·
+Trivy et `npm audit` : 0 vulnérabilité · **0 texte sous le seuil de contraste sur 812
+mesurés, 13 pages** · CSP bloquante sans une seule violation ·
 `https://canevas-havane.com/api/health` → `{"status":"ok"}` · échec fermé démontré (503 sans
 configuration SMTP) · injection d'en-tête SMTP neutralisée par nodemailer · dernier
 déploiement automatique en succès (10/08/2026 11:16 UTC).
+
+## Après chaque fichier écrit — la commande complète
+
+```bash
+npx tsc --noEmit && npm run lint && npm test
+```
 
 ---
 
