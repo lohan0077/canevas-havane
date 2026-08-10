@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { articles, getArticle } from "../articles";
-import { breadcrumbJsonLd, jsonLdScript, siteName, siteUrl } from "@/lib/seo";
+import { adressesDeLaPage, breadcrumbJsonLd, jsonLdScript, siteName, siteUrl } from "@/lib/seo";
 
 export function generateStaticParams() {
   return articles.map((article) => ({ slug: article.slug }));
@@ -19,15 +19,16 @@ export async function generateMetadata({
   return {
     title: article.title,
     description: article.excerpt,
-    alternates: { canonical: `/blog/${article.slug}` },
-    openGraph: {
+    // L'adresse canonique et `og:url` viennent de la même fonction : elles ne
+    // peuvent plus diverger. Le reste surcharge les valeurs communes.
+    ...adressesDeLaPage(`/blog/${article.slug}`, {
       title: article.title,
       description: article.excerpt,
       images: [{ url: article.image }],
       type: "article",
       publishedTime: article.isoDate,
       authors: [siteName],
-    },
+    }),
     twitter: {
       card: "summary_large_image",
       title: article.title,

@@ -40,12 +40,15 @@ export const metadata: Metadata = {
     siteName: "Canevas Havane",
     locale: "fr_FR",
     type: "website",
-    url: siteUrl,
+    // Pas d'`url` ici. Elle y était, figée sur l'accueil, et les treize pages en
+    // héritaient : partager la page Tarifs affichait un aperçu qui renvoyait à
+    // l'accueil. Chaque page donne désormais la sienne via `adressesDeLaPage()`,
+    // en même temps que son adresse canonique.
   },
   twitter: {
     card: "summary_large_image",
-    title: "Canevas Havane | Excellence Numérique & Design de Prestige",
-    description: "Agence de création numérique de prestige : sites sur mesure, identité de marque, SEO et acquisition.",
+    // Pas de `title` ni de `description` figés non plus : ils écrasaient ceux de
+    // chaque page. Sans eux, Next reprend le titre et la description de la page.
   },
   robots: {
     index: true,
@@ -74,13 +77,13 @@ export default function RootLayout({
         />
         <div className="noise-overlay" />
         <div className="glow-mesh" />
-        
+
         <Navbar />
 
         <main>
           {children}
         </main>
-        
+
         <Footer />
 
         {/*

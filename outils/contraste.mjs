@@ -86,8 +86,16 @@ const mesure = () => {
   const echecs = [];
   const degrades = [];
   let mesures = 0;
+  let decoratifs = 0;
 
   for (const el of document.querySelectorAll("body *")) {
+    // Texte purement décoratif : WCAG 1.4.3 l'exempte du seuil de contraste,
+    // mais seulement s'il est réellement déclaré décoratif. `aria-hidden` est
+    // donc la condition de l'exemption, pas une case à cocher : ce qui sort de
+    // la mesure sort aussi de la restitution vocale. Un ornement qu'on voudrait
+    // exempter sans le masquer resterait compté en échec — c'est voulu.
+    if (el.closest('[aria-hidden="true"]')) { decoratifs++; continue; }
+
     const txt = Array.from(el.childNodes)
       .filter((n) => n.nodeType === 3)
       .map((n) => n.textContent.trim())
@@ -125,11 +133,11 @@ const mesure = () => {
       });
     }
   }
-  return { mesures, echecs, degrades: degrades.length, exemplesDegrades: degrades.slice(0, 3) };
+  return { mesures, echecs, decoratifs, degrades: degrades.length, exemplesDegrades: degrades.slice(0, 3) };
 };
 
 const navigateur = await chromium.launch();
-let totalMesures = 0, totalEchecs = 0, totalDegrades = 0;
+let totalMesures = 0, totalEchecs = 0, totalDegrades = 0, totalDecoratifs = 0;
 
 for (const schema of ["light", "dark"]) {
   const contexte = await navigateur.newContext({
@@ -145,12 +153,13 @@ for (const schema of ["light", "dark"]) {
     await onglet.evaluate(() => window.scrollTo(0, 0));
     await onglet.waitForTimeout(300);
 
-    const { mesures, echecs, degrades, exemplesDegrades } = await onglet.evaluate(mesure);
+    const { mesures, echecs, decoratifs, degrades, exemplesDegrades } = await onglet.evaluate(mesure);
     totalMesures += mesures;
     totalEchecs += echecs.length;
     totalDegrades += degrades;
+    totalDecoratifs += decoratifs;
     console.log(
-      `${echecs.length === 0 ? "OK   " : "ECHEC"} [${schema}] ${chemin.padEnd(26)} HTTP ${reponse?.status()}  ${String(mesures).padStart(4)} mesures, ${echecs.length} sous le seuil, ${degrades} en degrade (non mesurable)`,
+      `${echecs.length === 0 ? "OK   " : "ECHEC"} [${schema}] ${chemin.padEnd(26)} HTTP ${reponse?.status()}  ${String(mesures).padStart(4)} mesures, ${echecs.length} sous le seuil, ${decoratifs} decoratifs exemptes, ${degrades} en degrade`,
     );
     if (degrades && exemplesDegrades.length) console.log(`      degrades : ${exemplesDegrades.join(" | ")}`);
     for (const e of echecs) {
@@ -161,5 +170,5 @@ for (const schema of ["light", "dark"]) {
 }
 
 await navigateur.close();
-console.log(`\n=== TOTAL : ${totalMesures} textes mesures, ${totalEchecs} sous le seuil WCAG AA, ${totalDegrades} en degrade (a verifier a l'oeil) ===`);
+console.log(`\n=== TOTAL : ${totalMesures} textes mesures, ${totalEchecs} sous le seuil WCAG AA, ${totalDecoratifs} decoratifs exemptes (aria-hidden), ${totalDegrades} en degrade (a verifier a l'oeil) ===`);
 process.exit(totalEchecs === 0 ? 0 : 1);

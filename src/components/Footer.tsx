@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer className="relative bg-[var(--color-foreground)] text-white pt-12 pb-8 overflow-hidden">
       {/* Background Decorative Text */}
-      <div className="absolute inset-x-0 -top-6 md:-top-12 flex justify-center opacity-[0.03] pointer-events-none select-none whitespace-nowrap leading-none tracking-tighter uppercase font-serif overflow-hidden">
+      <div aria-hidden="true" className="absolute inset-x-0 -top-6 md:-top-12 flex justify-center opacity-[0.03] pointer-events-none select-none whitespace-nowrap leading-none tracking-tighter uppercase font-serif overflow-hidden">
         <span className="text-[20vw] font-black">Canevas Havane</span>
       </div>
 

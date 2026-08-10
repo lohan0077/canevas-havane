@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { adressesDeLaPage } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Politique de Confidentialité",
   description: "Politique de confidentialité de Canevas Havane : données collectées, finalité, durée de conservation, destinataires et droits RGPD.",
-  alternates: { canonical: "/confidentialite" },
+  ...adressesDeLaPage("/confidentialite"),
   robots: { index: false },
 };
 

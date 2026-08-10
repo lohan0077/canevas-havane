@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { adressesDeLaPage } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Conditions Générales de Vente",
   description: "Conditions générales de vente de Canevas Havane : prestations, prix, paiement, durée, propriété du site, résiliation et rachat.",
-  alternates: { canonical: "/cgv" },
+  ...adressesDeLaPage("/cgv"),
   robots: { index: false },
 };
 

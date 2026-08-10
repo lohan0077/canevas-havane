@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import SimulateurRachat from "@/components/SimulateurRachat";
-import { breadcrumbJsonLd, jsonLdScript, siteUrl } from "@/lib/seo";
+import { adressesDeLaPage, breadcrumbJsonLd, jsonLdScript, siteUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Tarifs — Partenariat à la Commission",
   description:
     "Votre site de prestige sans avance de frais : Canevas Havane se rémunère sur le bénéfice généré. SEO en abonnement à 150 €/mois, campagnes Ads sur devis.",
-  alternates: { canonical: "/tarifs" },
+  ...adressesDeLaPage("/tarifs"),
 };
 
 const offres = [

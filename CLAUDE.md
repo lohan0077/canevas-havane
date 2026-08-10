@@ -224,11 +224,33 @@ finale : `exit=0`.
 attrapée est le chemin le plus court vers un échec qui s'ouvre — la règle maison
 `echec-ouvert` a signalé la première version, et elle avait raison.
 
-**Dette confirmée ce soir** — `openGraph.url` figé sur l'accueil dans `src/app/layout.tsx:43`,
-hérité par les 13 pages (le canonique, lui, est correct) · les grands mots d'ornement
-(« PURETÉ », « HÉRITAGE », « 01 02 03 ») n'ont pas `aria-hidden="true"` : un lecteur d'écran
-les annonce · aucun retour arrière de déploiement, jamais testé · aucun suivi d'erreurs ·
-`canevas-havane.com` absent de PushRank.
+**Dette résorbée dans la foulée**
+
+- **Adresse canonique et `og:url` viennent désormais de la même fonction**,
+  `adressesDeLaPage()` dans `src/lib/seo.ts` : elles ne peuvent plus diverger parce
+  qu'elles ne s'écrivent plus séparément. Deux pièges découverts en le faisant, à ne
+  jamais réapprendre : **Next *remplace* `openGraph` au lieu de le fusionner** (les
+  articles du journal perdaient `og:site_name`, `og:locale` et `og:url`), et **déclarer
+  un `openGraph` désactive la convention de fichier `opengraph-image.png`** — ma première
+  version a fait perdre son image de partage à `/tarifs`. Pour surcharger, passer un
+  second argument à `adressesDeLaPage()` ; ne jamais redéclarer `openGraph` en entier.
+  Garde : règle `canonique-ecrit-a-la-main`.
+- **Contraste : 0 sous le seuil sur 1450 mesurés**, et **la mesure tourne à chaque
+  poussée** (`outils/contraste.mjs` dans la CI). Les 7 ornements portent
+  `aria-hidden="true"`. Le script exempte les éléments décoratifs — WCAG 1.4.3 le permet,
+  **à condition qu'ils soient déclarés tels**. Couplage volontaire : ce qui sort de la
+  mesure sort aussi de la restitution vocale.
+- **Un retour arrière existe** — le déploiement étiquette l'image en service
+  `canevas-havane:precedente` avant de la remplacer ; `outils/retour-arriere.sh` la remet
+  en ligne sans rien reconstruire. Vérifié en bac à sable. **Jamais joué sur le serveur :
+  la phase 9 n'est donc pas franchie**, et c'est pour ça que le déploiement ne l'appelle
+  pas tout seul.
+- **`docs/CADRAGE.md`** — la phase 0 a enfin un document. Les points sans réponse dans le
+  code y sont marqués « à confirmer » plutôt que devinés.
+- **Rotation des journaux** du conteneur (5 × 10 Mo). Ce n'est **pas** un suivi d'erreurs.
+
+**Dette restante** — aucun suivi d'erreurs, aucune alerte, aucune sonde externe ·
+`canevas-havane.com` absent de PushRank · les tests ne couvrent que `/api/contact`.
 
 **Refermé sans rien faire** — l'indexation Google est **confirmée : 10 pages référencées**
 (`site:canevas-havane.com`). Ce point était « non vérifié » faute de jeton.

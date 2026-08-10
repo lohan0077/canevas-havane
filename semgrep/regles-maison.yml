@@ -324,3 +324,26 @@ rules:
 
       Penser à mettre à jour cette liste de versions quand la LTS courante sortira
       du support.
+
+  - id: canonique-ecrit-a-la-main
+    languages: [generic]
+    severity: ERROR
+    paths:
+      include:
+        - "**/app/**/page.tsx"
+        - "**/app/**/layout.tsx"
+    patterns:
+      - pattern-regex: "alternates:\\s*\\{\\s*canonical:"
+    message: >-
+      Adresse canonique écrite à la main. Utiliser `...adressesDeLaPage("/le-chemin")`
+      de `src/lib/seo.ts`, qui produit l'adresse canonique ET `og:url` ensemble.
+
+      Les deux disaient des choses différentes : le canonique pointait sur la page,
+      mais `og:url` restait figé sur l'accueil dans le layout, hérité par les treize
+      pages — partager la page Tarifs affichait un aperçu renvoyant à l'accueil
+      (contre-audit du 10/08/2026). Deux pièges à connaître si on est tenté de
+      redéclarer `openGraph` : Next le **remplace** au lieu de le fusionner, ce qui
+      fait perdre `og:site_name` et `og:locale` ; et déclarer un `openGraph` désactive
+      la convention de fichier `opengraph-image.png`, donc l'aperçu part sans visuel.
+      Pour surcharger — un article avec sa propre image — passer un second argument
+      à `adressesDeLaPage()`.

@@ -1,11 +1,27 @@
 services:
   canevas-havane:
     build: .
+    # Nom d'image stable, pour qu'un retour arrière ait quelque chose à désigner.
+    # Sans lui, chaque reconstruction produisait une image au nom généré : rien ne
+    # permettait de revenir à la précédente. Le déploiement étiquette l'image qui
+    # tourne en `:precedente` avant de reconstruire — voir `outils/retour-arriere.sh`.
+    image: canevas-havane:courante
     container_name: app-canevas-havane-1
     restart: unless-stopped
     env_file: .env
     environment:
       - NODE_ENV=production
+    # Les journaux étaient conservés sans limite de taille, avec le réglage par
+    # défaut de Docker : rien ne les faisait tourner, et rien ne les protégeait
+    # non plus de la disparition du conteneur. Ce n'est pas un suivi d'erreurs —
+    # il n'y en a toujours aucun, et personne n'est alerté — mais au moins les
+    # traces des dernières pannes survivent à un redémarrage et ne remplissent
+    # pas le disque du serveur, qui héberge aussi edificia.fr et kéo.fr.
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
     networks:
       - keo_bridge
 

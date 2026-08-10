@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { breadcrumbJsonLd, jsonLdScript } from "@/lib/seo";
+import { adressesDeLaPage, breadcrumbJsonLd, jsonLdScript } from "@/lib/seo";
 import Link from "next/link";
 import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Edificia — Étude de Cas",
   description: "Étude de cas Edificia : un écosystème SaaS de pilotage financier conçu par Canevas Havane pour les entreprises exigeantes.",
-  alternates: { canonical: "/realisations/edificia" },
+  ...adressesDeLaPage("/realisations/edificia"),
 };
 
 export default function EdificiaCaseStudy() {

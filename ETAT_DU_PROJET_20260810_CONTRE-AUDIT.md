@@ -375,12 +375,115 @@ semgrep             -> Findings: 0 (0 blocking) · 163 regles · 54 fichiers
 trivy image         -> exit=0
 ```
 
-### Ce qui reste ouvert
+### C — Le partage d'une page renvoie enfin à cette page
 
-La dette 🟡 du tableau ci-dessus, inchangée : `og:url` figé, ornements non masqués aux
-lecteurs d'écran, contraste non branché en CI, aucun retour arrière, aucun suivi d'erreurs,
-aucun document de cadrage, site absent de PushRank. Et les ⬜ non vérifiables sans accès :
-sauvegardes, réception réelle d'un e-mail, dépendance à la configuration de Caddy.
+`adressesDeLaPage()` dans `src/lib/seo.ts` produit l'adresse canonique **et** `og:url`
+ensemble : elles ne peuvent plus diverger, parce qu'elles ne s'écrivent plus séparément.
+
+En le faisant, deux défauts de plus sont apparus, qu'aucune lecture du code n'aurait
+donnés — seule la compilation les a montrés :
+
+- **Next *remplace* `openGraph` au lieu de le fusionner.** Les articles du journal, qui
+  déclaraient le leur, partaient donc sans `og:site_name`, sans `og:locale` — et sans
+  `og:url` du tout.
+- **Déclarer un `openGraph` désactive la convention de fichier `opengraph-image.png`.**
+  Ma première version a fait perdre son image de partage à `/tarifs`. Constaté en
+  inspectant le HTML compilé, corrigé en nommant l'image explicitement.
+
+Vérifié sur les pages compilées — `og:url` identique au canonique partout, image présente :
+
+```
+index             og:url=https://canevas-havane.com                  image=1  canonique identique OK
+tarifs            og:url=https://canevas-havane.com/tarifs           image=1  canonique identique OK
+cgv               og:url=https://canevas-havane.com/cgv              image=1  canonique identique OK
+expertise         og:url=https://canevas-havane.com/expertise        image=1  canonique identique OK
+a-propos          og:url=https://canevas-havane.com/a-propos         image=1  canonique identique OK
+contact           og:url=https://canevas-havane.com/contact          image=1  canonique identique OK
+realisations      og:url=https://canevas-havane.com/realisations     image=1  canonique identique OK
+mentions-legales  og:url=https://canevas-havane.com/mentions-legales image=1  canonique identique OK
+confidentialite   og:url=https://canevas-havane.com/confidentialite  image=1  canonique identique OK
+article de blog   og:url + og:site_name + og:locale + og:type=article + son image propre
+```
+
+Garde : la règle `canonique-ecrit-a-la-main` refuse une adresse canonique écrite à la main.
+Éprouvée sur le motif interdit — elle le signale.
+
+### D — Contraste : 0 sur 1450, et la mesure tourne à chaque poussée
+
+Les sept ornements typographiques portent `aria-hidden="true"` ; le cadre décoratif du
+MacBook a désormais un `alt` vide au lieu d'annoncer « MacBook Frame ».
+
+Le script de mesure exempte les éléments décoratifs — WCAG 1.4.3 le permet, **à condition
+qu'ils soient déclarés tels**. Le couplage est volontaire : ce qui sort de la mesure sort
+aussi de la restitution vocale. Un ornement qu'on voudrait exempter sans le masquer resterait
+compté en échec.
+
+```
+=== TOTAL : 1450 textes mesures, 0 sous le seuil WCAG AA, 78 decoratifs exemptes (aria-hidden), 62 en degrade ===
+code de sortie du script : 0
+```
+
+L'étape est branchée dans la CI : elle démarre le site compilé et mesure. Le chiffre n'est
+plus un souvenir, il se rejoue.
+
+*Incident de mesure à noter : la première tentative locale mesurait le site **Kéo**, qui
+occupait le port 3000. Les résultats étaient absurdes (« NAVIGATION GÉNÉRALE », 404). D'où
+le port dédié 3100, et la vérification du `<title>` servi avant toute mesure.*
+
+### E — Un retour arrière existe
+
+Le déploiement étiquette l'image en service `canevas-havane:precedente` avant de la
+remplacer ; `outils/retour-arriere.sh` la remet en ligne **sans rien reconstruire** — donc
+sans dépendre du code, qui est justement ce qu'on soupçonne. Procédure écrite dans
+`DEPLOIEMENT.md`.
+
+Vérifié en bac à sable : une image volontairement cassée mise « en ligne », puis restaurée
+par le mécanisme, conteneur reparti sur `node v22.23.2`.
+
+**Mais il n'a jamais été joué sur le serveur, donc la phase 9 n'est pas franchie.** Une
+procédure de secours jamais exécutée n'est pas une procédure de secours. C'est aussi pourquoi
+le déploiement ne l'appelle pas tout seul : un retour arrière non éprouvé qui se déclenche
+automatiquement fait plus de dégâts que la panne qu'il prétend réparer.
+
+### Phase 0 — un document de cadrage existe
+
+`docs/CADRAGE.md` : pour qui, le parcours critique et ce qu'il impose, le hors-périmètre et
+son coût d'entrée, les données personnelles, les contraintes réglementaires, ce qui compte
+comme fini. Reconstitué depuis le code et les pages publiées — les points qui n'ont pas de
+réponse dans le code y sont marqués « à confirmer » plutôt que devinés.
+
+### Journaux
+
+Rotation posée sur le conteneur (5 × 10 Mo). **Ce n'est pas un suivi d'erreurs** — il n'y en
+a toujours aucun et personne n'est alerté — mais les traces des dernières pannes survivent
+désormais à un redémarrage, et ne peuvent plus remplir le disque d'un serveur qui héberge
+aussi `edificia.fr` et `kéo.fr`.
+
+### Vérification complète, après tout
+
+```
+docker compose config -> OK
+npx tsc --noEmit      -> 0 erreur
+npm run lint          -> 0 signalement
+npm test              -> Tests 22 passed (22)
+npm run build         -> succes
+semgrep               -> Findings: 0 (0 blocking) · 165 regles
+trivy image           -> exit=0
+contraste             -> 1450 mesures, 0 sous le seuil, exit=0
+```
+
+### Ce qui reste — et qui ne peut pas être fait sans Lohan
+
+| Ce qu'il reste | Pourquoi je ne peux pas le faire |
+|---|---|
+| **Jouer le retour arrière une fois** sur le serveur | Aucun accès SSH. Tant que ce n'est pas fait, phase 9 non franchie. |
+| **Suivi d'erreurs** (Sentry ou équivalent) | Créer un compte tiers demande son inscription — je ne crée pas de compte. |
+| **Sonde externe** sur `/api/health` | Même raison : compte à créer chez un service de surveillance. |
+| **Envoyer un vrai message** et confirmer sa réception dans Gmail | Aucun accès à la boîte. La chaîne est prouvée jusqu'au `DATA` SMTP, pas au-delà. |
+| **Vérifier et restaurer une sauvegarde Hetzner** | Aucun accès serveur. C'est l'une des quatre erreurs irréversibles de la méthode. |
+| **Ajouter `canevas-havane.com` à PushRank** | Le connecteur est en lecture seule. |
+| **Confirmer la configuration de Caddy** | Hors du dépôt. Toute la limitation par IP en dépend, en silence. |
+| **Répondre aux 4 questions ouvertes** de `docs/CADRAGE.md` | Ce sont des décisions, pas des faits techniques. |
 
 **Rien n'est parti en production** : ces corrections vivent sur la branche
 `contre-audit-20260810`.

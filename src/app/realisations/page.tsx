@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { breadcrumbJsonLd, jsonLdScript } from "@/lib/seo";
+import { adressesDeLaPage, breadcrumbJsonLd, jsonLdScript } from "@/lib/seo";
 import Link from "next/link";
 import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Réalisations — Nos Projets",
   description: "Sélection de projets signés Canevas Havane : plateformes immobilières, SaaS financiers et expériences digitales sur mesure.",
-  alternates: { canonical: "/realisations" },
+  ...adressesDeLaPage("/realisations"),
 };
 
 const projects = [

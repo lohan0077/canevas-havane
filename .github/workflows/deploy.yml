@@ -49,6 +49,25 @@ jobs:
         env:
           NEXT_PUBLIC_SITE_URL: https://canevas-havane.com
 
+      # Le contraste est MESURÉ dans un navigateur, sur les pages compilées.
+      #
+      # La garde qui existait — une règle Semgrep sur les classes Tailwind écrites —
+      # ne voit que le code source : elle ne sait rien de la couleur réellement
+      # rendue, ni de l'arrière-plan sur lequel elle tombe. Le 10/08/2026, le
+      # rapport du matin annonçait « 0 texte sous le seuil sur 812 mesurés » sans
+      # qu'aucune commande du dépôt ne permette de rejouer ce chiffre ; la remesure
+      # du soir en a trouvé 14. Un résultat qu'on ne peut pas relancer n'est pas une
+      # preuve. Il se relance désormais à chaque poussée.
+      - name: Contraste des textes (mesuré en navigateur)
+        run: |
+          npx --yes playwright@1.62.1 install --with-deps chromium
+          npx next start -p 3100 &
+          for i in $(seq 1 30); do
+            curl -sf -o /dev/null http://localhost:3100/ && break
+            sleep 2
+          done
+          npx --yes -p playwright@1.62.1 node outils/contraste.mjs http://localhost:3100
+
       # Les trois outils ci-dessous sont installés en versions figées plutôt
       # qu'appelés via des actions tierces : une étiquette d'action peut être
       # redéplacée sur un autre commit, une version d'outil non.
@@ -136,6 +155,11 @@ jobs:
           script: |
             set -e
             cd ~/app/canevas-havane
+            # On garde sous la main l'image qui tourne actuellement, avant de la
+            # remplacer : c'est la seule chose qui rend un retour arrière possible.
+            # Jusqu'ici, une mise en ligne qui cassait le site laissait le site
+            # cassé — le contrôle ci-dessous passait au rouge, et c'est tout.
+            docker image tag canevas-havane:courante canevas-havane:precedente 2>/dev/null || true
             docker compose up -d --build
             # Volontairement, on ne touche PAS à Caddy.
             #

@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { breadcrumbJsonLd, jsonLdScript } from "@/lib/seo";
+import { adressesDeLaPage, breadcrumbJsonLd, jsonLdScript } from "@/lib/seo";
 import Link from "next/link";
 import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Kéo — Étude de Cas",
   description: "Étude de cas Kéo : une plateforme de gestion immobilière de prestige alliant performance logicielle et raffinement visuel, signée Canevas Havane.",
-  alternates: { canonical: "/realisations/keo" },
+  ...adressesDeLaPage("/realisations/keo"),
 };
 
 export default function KeoCaseStudy() {
@@ -41,11 +41,14 @@ export default function KeoCaseStudy() {
 
           <div className="aspect-[16/9] w-full relative rounded-3xl md:rounded-[4rem] overflow-hidden glass-card bg-[#0d0d0d] flex items-center justify-center p-8 md:p-16">
             <div className="relative w-full h-full">
-              {/* MacBook Mockup Container */}
+              {/* MacBook Mockup Container.
+                  Le cadre est purement décoratif : un `alt` vide le retire de la
+                  restitution vocale, au lieu d'y annoncer « MacBook Frame ». */}
               <div className="absolute inset-0 z-20 pointer-events-none">
                 <Image
                   src="/macbook-hero-final.webp"
-                  alt="MacBook Frame"
+                  alt=""
+                  aria-hidden="true"
                   fill
                   sizes="(max-width: 1200px) 100vw, 1200px"
                   className="object-contain"
