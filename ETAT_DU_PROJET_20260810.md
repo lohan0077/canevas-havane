@@ -459,10 +459,17 @@ Branche `correctifs-audit-20260810`. Chaque ligne a sa preuve.
 | `main` non protégée | Protection posée : job « Vérifications » requis, PR obligatoire, ni force-push ni suppression | `gh api …/branches/main/protection` renvoie la configuration |
 | Actions épinglées par étiquette | Épinglées par empreinte SHA | Chaque empreinte revérifiée contre son étiquette d'origine |
 | `lastmod` du sitemap toujours « maintenant » | Date de publication pour les articles, date de révision tenue à la main pour les pages fixes | — |
-| Aucun garde-fou contre le retour des défauts | Deux règles Semgrep : `route-sans-plafond-de-corps`, `image-fill-sans-sizes` | Elles se déclenchent sur du code volontairement fautif et restent muettes sur le projet |
+| Aucun garde-fou contre le retour des défauts | Cinq règles Semgrep : `route-sans-plafond-de-corps`, `image-fill-sans-sizes`, `formulaire-sans-champ-piege`, `accent-vif-en-couleur-de-texte`, `texte-sous-le-seuil-de-contraste` | Chacune se déclenche sur du code volontairement fautif et reste muette sur le projet |
+| 275 fichiers d'outillage publiés et déployés | Sortis du suivi git (ils restent sur le disque) | Semgrep passe de 94 à 52 fichiers analysés |
 
 Reste ouvert, parce que cela demande un accès que je n'ai pas : la supervision
 UptimeRobot, la sauvegarde et la restauration du VPS, l'ajout du site à PushRank.
+
+**Un mot d'honnêteté sur le garde-fou du contraste.** Les deux règles Semgrep attrapent la
+façon dont le défaut se réintroduit *en pratique* — quelqu'un écrit une classe trop pâle.
+Elles ne mesurent rien : un texte blanc posé sur une carte transparente, comme celui de
+`/expertise`, leur échapperait. La vraie mesure demande un navigateur en intégration
+continue. C'est la dette assumée de cette correction.
 
 ---
 

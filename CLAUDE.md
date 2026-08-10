@@ -148,9 +148,12 @@ sombre. Aucune couleur unique ne peut satisfaire les deux fonds : c'est arithmé
 
 **Dette restante**
 
-Aucun suivi d'erreurs (pas de Sentry) · 276 fichiers d'outillage BMAD publiés sur un dépôt
-public et recopiés au déploiement · aucun document de cadrage · dépôt public · les tests
-couvrent la route de contact, rien d'autre.
+Aucun suivi d'erreurs (pas de Sentry) · aucun document de cadrage · dépôt public · les
+tests couvrent la route de contact, rien d'autre · le contraste est gardé par des règles
+Semgrep sur les classes écrites, pas par une mesure en navigateur rejouée en CI.
+
+Les 275 fichiers d'outillage BMAD sont sortis du suivi git le 10/08/2026 : ils restent sur
+le disque, mais ne sont plus publiés ni recopiés sur le serveur à chaque déploiement.
 
 **Non vérifié — et pourquoi**
 
