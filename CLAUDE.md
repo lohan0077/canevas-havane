@@ -182,9 +182,16 @@ Rapport complet : [`ETAT_DU_PROJET_20260810_CONTRE-AUDIT.md`](ETAT_DU_PROJET_202
 Tous les outils ont été **relancés**, aucune conclusion du matin reprise telle quelle.
 Phases franchies : 3 / 11 applicables. Aucun défaut irréversible.
 
-**Prouvé après corrections** : `tsc` 0 · `eslint` 0 · **22 tests verts** · `npm run build`
-succès · Semgrep **163 règles sur 54 fichiers : 0 signalement** · `trivy image` sur l'image
-finale : `exit=0`.
+**En production depuis le 10/08/2026 17:19 UTC** (PR #4, déploiement en succès).
+Vérifié sur le site en ligne juste après : `/api/health` → `ok` · les 13 pages en 200 ·
+`og:url` propre à chaque page · l'attaque du formulaire refusée (`415` / `403`) · le vrai
+formulaire non bloqué (400 de validation, testé depuis un navigateur sans envoyer d'e-mail)
+· contraste **1450 mesures, 0 sous le seuil** · aucune violation CSP en console.
+
+**Prouvé en CI** (GitHub, pas seulement en local) : `tsc` 0 · `eslint` 0 · **22 tests
+verts** · build · Semgrep 165 règles : 0 signalement · gitleaks sur l'historique : 0 fuite ·
+`trivy fs` 0 · **`trivy image` sur l'image de production : 0** · **contraste : 1450 mesures,
+0 sous le seuil**.
 
 **Deux défauts trouvés — corrigés et prouvés le même soir**
 
@@ -251,6 +258,24 @@ attrapée est le chemin le plus court vers un échec qui s'ouvre — la règle m
 
 **Dette restante** — aucun suivi d'erreurs, aucune alerte, aucune sonde externe ·
 `canevas-havane.com` absent de PushRank · les tests ne couvrent que `/api/contact`.
+
+### Ce que la CI a trouvé et que la vérification locale ne pouvait pas trouver
+
+À garder en tête avant d'annoncer qu'une étape de CI « devrait marcher » : la première
+version de l'étape de contraste passait en local et a échoué sur GitHub, pour deux raisons
+qu'aucun test local n'exposait.
+
+1. **`npx -p playwright node script.mjs` n'installe pas playwright là où `node` le cherche.**
+   En local, un lien symbolique masquait le problème. Playwright est désormais une
+   dépendance de développement épinglée — versionnée, verrouillée par `package-lock`, et
+   absente de l'image de production (le runner ne copie que `.next/standalone`).
+2. **`next start` ne fonctionne pas avec `output: standalone`** — Next l'écrit dans ses
+   propres journaux. La CI démarre maintenant `node .next/standalone/server.js`, donc
+   exactement le serveur que lance le conteneur. On mesure ce qui part en ligne.
+
+S'y ajoute un garde-fou né d'une vraie erreur : une mesure locale a porté sur **kéo.fr**,
+qui occupait le port choisi, et a rendu des résultats absurdes sans le signaler. La CI
+vérifie désormais que le port sert bien Canevas Havane avant de mesurer quoi que ce soit.
 
 **Refermé sans rien faire** — l'indexation Google est **confirmée : 10 pages référencées**
 (`site:canevas-havane.com`). Ce point était « non vérifié » faute de jeton.

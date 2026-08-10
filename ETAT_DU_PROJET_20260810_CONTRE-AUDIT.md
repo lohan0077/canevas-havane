@@ -485,5 +485,53 @@ contraste             -> 1450 mesures, 0 sous le seuil, exit=0
 | **Confirmer la configuration de Caddy** | Hors du dépôt. Toute la limitation par IP en dépend, en silence. |
 | **Répondre aux 4 questions ouvertes** de `docs/CADRAGE.md` | Ce sont des décisions, pas des faits techniques. |
 
-**Rien n'est parti en production** : ces corrections vivent sur la branche
-`contre-audit-20260810`.
+---
+
+## Mise en ligne — 10/08/2026, 17:19 UTC
+
+Fusionné par la PR #4, après trois passages de la chaîne de vérification sur GitHub.
+
+**Les deux défauts que seule la CI pouvait montrer.** La première version de l'étape de
+contraste passait chez moi et a échoué sur GitHub : `npx -p playwright node script.mjs`
+n'installe pas playwright là où `node` le cherche (en local, un lien symbolique masquait le
+problème), et `next start` ne fonctionne pas avec `output: standalone` — Next l'écrit dans
+ses propres journaux. La CI démarre désormais `node .next/standalone/server.js`, donc
+exactement le serveur du conteneur : on mesure ce qui part en ligne.
+
+Au passage, la CI signalait elle-même que `actions/checkout` et `actions/setup-node`
+tournaient encore sur Node 20, déprécié sur les runners. Montées en v7, toujours épinglées
+par empreinte — c'est le même sujet que le reste de ce rapport : un socle qu'on ne remonte
+pas finit hors support.
+
+### Vérifié sur le site en ligne, après déploiement
+
+```
+/api/health                          -> {"status":"ok"}
+/, /tarifs, /contact, /blog, /cgv, /realisations/keo  -> HTTP 200
+
+og:url /tarifs                       -> https://canevas-havane.com/tarifs
+og:url /contact                      -> https://canevas-havane.com/contact
+og:url /blog/minimalisme-web-de-luxe -> https://canevas-havane.com/blog/minimalisme-web-de-luxe
+
+formulaire, text/plain depuis un tiers -> HTTP 415
+formulaire, json depuis un tiers       -> HTTP 403
+formulaire legitime (navigateur, page /contact, corps vide volontaire)
+                                       -> HTTP 400 « Merci de remplir tous les champs. »
+                                          (franchit les gardes, echoue a la validation :
+                                           aucun e-mail envoye pour le prouver)
+
+contraste sur https://canevas-havane.com
+  -> 1450 textes mesures, 0 sous le seuil WCAG AA, exit=0
+console du navigateur                -> aucune violation CSP
+```
+
+### En CI, pas seulement en local
+
+```
+tsc 0 · eslint 0 · 22 tests verts · build
+gitleaks (historique complet)  -> 0 fuite
+semgrep 165 regles             -> 0 signalement
+trivy fs                       -> 0
+trivy image (canevas-havane:ci, alpine 3.24.1) -> 0
+contraste                      -> 1450 mesures, 0 sous le seuil
+```
