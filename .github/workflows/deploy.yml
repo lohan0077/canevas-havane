@@ -35,6 +35,12 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      # Ces tests couvrent la seule route qui envoie quelque chose. Le plus important
+      # d'entre eux vérifie qu'une rafale de requêtes malformées ne ferme pas le
+      # formulaire aux visiteurs légitimes — le défaut trouvé le 10/08/2026.
+      - name: Tests
+        run: npm test
+
       - name: Compilation
         run: npm run build
         env:
