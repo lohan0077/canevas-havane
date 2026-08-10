@@ -94,32 +94,71 @@ Les corrections vivent sur la branche `audit-20260809`.
 - **`jsonLdScript` échappe** les chevrons et les séparateurs de ligne Unicode.
 - **Garde-fous** — `.pre-commit-config.yaml` et `semgrep/regles-maison.yml` adaptées au projet.
 
-**Reste à faire — par Lohan**
+---
 
-- Publier SPF et DMARC chez internet.bs (valeurs exactes dans `DEPLOIEMENT.md`).
-- Protéger la branche `main` sur GitHub en exigeant le job « Vérifications ».
-- Brancher UptimeRobot sur `/api/health` (procédure dans `DEPLOIEMENT.md`).
-- Relire les CGV : elles décrivent la pratique telle que le site l'annonce, pas telle qu'elle
-  est réellement négociée.
-- Lancer `pre-commit install` une fois, pour activer le crochet.
+## Audit du 10/08/2026 — ce qui a changé
 
-**Dette restante**
+Rapport complet : [`ETAT_DU_PROJET_20260810.md`](ETAT_DU_PROJET_20260810.md).
+Phases franchies : 4 / 12. Aucun défaut irréversible.
 
-Aucun test automatisé · dépôt public · actions GitHub épinglées par étiquette et non par
-empreinte · CSP encore en mode observation (à basculer en bloquant après quelques jours) ·
-aucun document de cadrage, README encore au gabarit `create-next-app` · `logo.webp` utilise
-`fill` sans `sizes`.
+**Refermé depuis le 09/08**
 
-**Non vérifié**
+- **SPF et DMARC publiés** — `dig` : `v=spf1 -all` et `v=DMARC1; p=reject`. Posture
+  cohérente pour un domaine qui n'émet pas de courrier. **Conséquence : écrire un jour
+  depuis `contact@canevas-havane.com` exigera de modifier ce SPF d'abord.**
+- **Crochet `pre-commit` posé** (`.git/hooks/pre-commit` généré par pre-commit).
+- **README complet** — il n'est plus au gabarit `create-next-app`.
+- **La limitation de débit résiste à un en-tête forgé** — prouvé en production :
+  4 envois depuis une `X-Forwarded-For` forgée → `200 200 200 429`, puis `429` depuis une
+  autre adresse forgée. Caddy réécrit l'en-tête. **Cette protection dépend de Caddy, pas
+  du code** : `src/lib/rate-limit.ts` fait confiance à `X-Forwarded-For` sans le vérifier.
 
-Sauvegardes et retour arrière du VPS Hetzner (pas d'accès serveur) · accessibilité RGAA
-(aucun audit lancé) · réception effective du message de test du 09/08/2026 dans la boîte Gmail.
+**Ouvert — à traiter en premier**
 
-**Prouvé fonctionnel**
+0. **Le formulaire de contact peut être coupé pendant une heure pour 42 requêtes.**
+   `src/app/api/contact/route.ts:46` décompte le plafond global **avant** de lire le corps
+   (ligne 57) et avant de le valider (ligne 62). Une requête dont le corps n'est même pas du
+   JSON consomme donc un jeton du plafond horaire, gratuitement. Reproduit : 14 adresses ×
+   3 requêtes malformées → un prospect légitime reçoit `429 … Retry-After: 3577`. Personne
+   n'est prévenu : le site répond 200 et `/api/health` répond `ok`. **Correctif : ne
+   décompter le plafond global qu'après la validation et après le champ piège.** Au passage,
+   plafonner la taille du corps : 20 000 063 octets sont aujourd'hui acceptés et analysés,
+   et `website` est le seul champ du schéma sans `.max()`.
 
-Le déploiement automatique tourne (commit `4fe69cb`). Le formulaire de contact tourne
-(`POST /api/contact` → `{"ok":true}`, testé en production le 09/08/2026). `tsc`, `eslint`,
-`npm run build`, Semgrep (103 règles), gitleaks et Trivy : tous à zéro.
+1. **Le formulaire « newsletter » de `/blog` ment.** Il promet une lettre d'information qui
+   n'existe pas, poste vers `POST /api/contact`, n'a pas de champ piège, consomme le
+   compteur du formulaire de contact, et collecte une adresse e-mail pour une finalité que
+   la politique de confidentialité ne déclare pas. Violation directe de la règle n° 8
+   ci-dessus. Décider : le retirer, ou le tenir.
+2. **Aucune information RGPD au point de collecte** — ni `/contact` ni `/blog` ne renvoient
+   à `/confidentialite`. Le lien n'existe que dans le pied de page.
+3. **`main` toujours non protégée** — `gh api …/branches/main/protection` → 404. Le job
+   « Vérifications » existe mais rien n'oblige à le franchir.
+4. **Un message d'erreur Zod brut, en anglais**, est renvoyé au visiteur quand un champ
+   manque (`Invalid input: expected string, received undefined`).
+
+**Dette mesurée**
+
+Aucun test automatisé (aucun exécuteur installé) · contraste **2,54:1 mesuré** sur les
+libellés de 10–11 px en accent `rgb(242,116,56)`, sous le seuil AA de 4,5:1 · 20 images en
+`fill` sans `sizes` (le héros part en 3840 px, 136 Ko au lieu de 85) · CSP encore en mode
+observation · aucun suivi d'erreurs · `sitemap.ts` annonce `lastModified: new Date()` ·
+276 fichiers d'outillage BMAD publiés sur un dépôt public et recopiés au déploiement ·
+actions GitHub épinglées par étiquette · aucun document de cadrage · dépôt public.
+
+**Non vérifié — et pourquoi**
+
+Sauvegardes et restauration du VPS Hetzner, retour arrière d'un déploiement (aucun accès
+serveur) · supervision externe sur `/api/health` (invérifiable de l'extérieur) · réception
+effective d'un message dans la boîte Gmail · indexation Google (jeton `bright-data` expiré).
+
+**Prouvé fonctionnel le 10/08/2026**
+
+`tsc`, `eslint`, `npm run build` : 0 erreur · Semgrep 103 règles sur 91 fichiers : 0
+signalement · gitleaks sur l'historique : 0 fuite · Trivy et `npm audit` : 0 vulnérabilité ·
+`https://canevas-havane.com/api/health` → `{"status":"ok"}` · échec fermé démontré (503 sans
+configuration SMTP) · injection d'en-tête SMTP neutralisée par nodemailer · dernier
+déploiement automatique en succès (10/08/2026 11:16 UTC).
 
 ---
 
