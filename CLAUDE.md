@@ -166,11 +166,62 @@ effective d'un message dans la boîte Gmail · indexation Google (jeton `bright-
 
 `tsc`, `eslint`, `npm run build` : 0 erreur · **15 tests, tous verts** (`npm test`) ·
 Semgrep 105 règles sur 94 fichiers : 0 signalement · gitleaks sur l'historique : 0 fuite ·
-Trivy et `npm audit` : 0 vulnérabilité · **0 texte sous le seuil de contraste sur 812
-mesurés, 13 pages** · CSP bloquante sans une seule violation ·
+`trivy fs` et `npm audit` : 0 vulnérabilité — **mais `trivy image` n'a jamais été lancé, et
+l'image en porte 20 : voir le contre-audit ci-dessous** · contraste : le chiffre annoncé ce
+matin (« 0 sur 812 mesurés ») **n'est pas reproductible**, aucun script du dépôt ne le rejoue ;
+la remesure du soir en trouve 14 sur 1494 · CSP bloquante sans une seule violation ·
 `https://canevas-havane.com/api/health` → `{"status":"ok"}` · échec fermé démontré (503 sans
 configuration SMTP) · injection d'en-tête SMTP neutralisée par nodemailer · dernier
 déploiement automatique en succès (10/08/2026 11:16 UTC).
+
+---
+
+## Contre-audit du 10/08/2026 (soir) — ce qu'un second passage a trouvé
+
+Rapport complet : [`ETAT_DU_PROJET_20260810_CONTRE-AUDIT.md`](ETAT_DU_PROJET_20260810_CONTRE-AUDIT.md).
+Tous les outils ont été **relancés**, aucune conclusion du matin reprise telle quelle.
+Phases franchies : 3 / 11 applicables. Aucun défaut irréversible.
+
+**Deux défauts à refermer**
+
+1. **Le socle n'est plus corrigé.** `Dockerfile:1` → `node:20-alpine`. **Node 20 est sorti
+   du support le 30/04/2026** : plus aucun correctif de sécurité. `trivy image node:20-alpine`
+   → **20 vulnérabilités HIGH/CRITICAL**, contre 8 sur `node:22-alpine`.
+   **Pourquoi la CI ne l'a pas vu : elle lance `trivy fs`, jamais `trivy image`.** `trivy fs`
+   lit les fichiers du dépôt ; il n'ouvre pas l'image qui exécute le code. Le jour où on
+   corrige, on ajoute l'étape `trivy image` — sinon le trou se rouvre au prochain socle.
+2. **CSRF sur `/api/contact`** — prouvé par exécution contre un SMTP piège. La route ne
+   vérifie ni `Origin`, ni `Referer`, ni `Content-Type` ; un `POST` en `text/plain` portant
+   du JSON est une « requête simple », envoyée sans autorisation préalable. Un site tiers
+   fait donc envoyer des e-mails depuis le navigateur de ses visiteurs, **chacun avec sa
+   propre IP** — le plafond de 3 par IP ne freine rien, et le plafond global de 40/h ferme
+   le formulaire aux vrais prospects. `form-action 'self'` ne protège pas de ça : cette
+   directive gouverne nos formulaires, pas un `fetch()` lancé depuis la page d'un tiers.
+
+**Dette confirmée ce soir** — `openGraph.url` figé sur l'accueil dans `src/app/layout.tsx:43`,
+hérité par les 13 pages (le canonique, lui, est correct) · les grands mots d'ornement
+(« PURETÉ », « HÉRITAGE », « 01 02 03 ») n'ont pas `aria-hidden="true"` : un lecteur d'écran
+les annonce · aucun retour arrière de déploiement, jamais testé · aucun suivi d'erreurs ·
+`canevas-havane.com` absent de PushRank.
+
+**Refermé sans rien faire** — l'indexation Google est **confirmée : 10 pages référencées**
+(`site:canevas-havane.com`). Ce point était « non vérifié » faute de jeton.
+
+### La règle de mesure, apprise ce soir
+
+Un résultat qu'aucune commande du dépôt ne rejoue n'est pas une preuve. Le « 0 texte sous le
+seuil sur 812 mesurés » du matin n'a pas pu être reproduit : la remesure indépendante trouve
+14 échecs sur 1494 textes. **Toute mesure annoncée dans ce fichier doit pouvoir être relancée
+par une commande écrite ici.**
+
+Deux pièges qui faussent silencieusement une mesure de contraste, à connaître :
+**Tailwind 4 renvoie les couleurs calculées en `oklab(...)`** — un analyseur qui attend
+`rgb(...)` y lit du noir et produit des centaines de faux échecs (ma première passe en a
+annoncé 600). Il faut faire résoudre la couleur par le navigateur. Et **un texte peint par
+un dégradé a une couleur transparente** : son contraste ne se calcule pas, il se regarde —
+on le compte à part, jamais en « conforme ».
+
+---
 
 ## Après chaque fichier écrit — la commande complète
 
