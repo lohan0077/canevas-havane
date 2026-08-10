@@ -14,21 +14,21 @@ const services = [
     category: "Branding & Design",
     description: "Nous créons des univers visuels qui transcendent le simple logo pour devenir de véritables héritages.",
     items: ["Logotype & Iconographie", "Charte Graphique", "Direction Artistique", "Design Editorial"],
-    color: "#F27438"
+    color: "var(--color-primary-texte)"
   },
   {
     title: "Expériences Digitales",
     category: "Web & Mobile",
     description: "Des interfaces haute couture alliant performance technologique et émotion esthétique.",
     items: ["UX/UI Design de Luxe", "Développement Next.js", "E-commerce Premium", "Applications Métier"],
-    color: "#F27438"
+    color: "var(--color-primary-texte)"
   },
   {
     title: "Visibilité & Influence",
     category: "Marketing & SEO",
     description: "Dominez votre marché avec une stratégie de croissance élégante et chirurgicale.",
     items: ["SEO Sémantique", "Google Ads Performance", "Content Strategy", "Social Media Management"],
-    color: "#F27438"
+    color: "var(--color-primary-texte)"
   }
 ];
 
@@ -88,7 +88,7 @@ export default function Home() {
             </div>
 
             <h1 className="heading-display mb-8 md:mb-12 text-left w-full leading-[0.8] flex flex-col items-start">
-              <span className="block opacity-20 transform transition-opacity duration-700 uppercase tracking-tighter whitespace-nowrap">CONCEVOIR</span>
+              <span className="block opacity-60 transform transition-opacity duration-700 uppercase tracking-tighter whitespace-nowrap">CONCEVOIR</span>
               <span className="text-gradient block italic font-light uppercase tracking-tight ml-[0.1em] md:ml-[0.2em] whitespace-nowrap">L'INOUBLIABLE.</span>
             </h1>
 
@@ -98,13 +98,13 @@ export default function Home() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-10 items-center">
-              <Link href="/realisations" className="group flex items-center gap-4 text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] overflow-hidden text-[#2C1E16]/60">
+              <Link href="/realisations" className="group flex items-center gap-4 text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] overflow-hidden text-[#2C1E16]/70">
                 <span className="h-[1px] w-8 bg-[#2C1E16]/20 group-hover:w-16 transition-all duration-500"></span>
                 Découvrir l'Atelier
               </Link>
             </div>
           </div>
-          
+
           {/* Right side is intentionally empty to let the background image (MacBook) shine through */}
           <div className="hidden lg:block h-full" />
         </div>
@@ -115,15 +115,15 @@ export default function Home() {
         <div className="max-centered-container px-6">
           <div className="text-center space-y-8 mb-32">
             <h2 className="heading-display uppercase leading-[0.85] font-serif font-medium">
-              <span className="block opacity-30">NOS CHAMPS D'</span>
+              <span className="block opacity-60">NOS CHAMPS D'</span>
               <span className="text-gradient block italic">EXPERTISE.</span>
             </h2>
           </div>
 
           <div className="space-y-24 md:space-y-48 w-full">
             {services.map((service, index) => (
-              <div 
-                key={service.title} 
+              <div
+                key={service.title}
                 className={`flex flex-col ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-12 lg:gap-32 items-center text-left w-full`}
               >
                 <div className="flex-1 space-y-6 md:space-y-8 order-2 lg:order-1">
@@ -133,7 +133,7 @@ export default function Home() {
                       {service.title}
                     </h2>
                   </div>
-                  
+
                   <p className="text-lg md:text-xl text-[var(--color-foreground)]/70 font-light leading-relaxed">
                     {service.description}
                   </p>
@@ -145,6 +145,7 @@ export default function Home() {
                       src={expertiseImages[index]}
                       alt={service.title}
                       fill
+                      sizes="(max-width: 1024px) 100vw, 50vw"
                       className="object-cover transition-transform duration-1000 ease-out group-hover:scale-110 opacity-60"
                     />
                     <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-background)] to-transparent opacity-40 z-10" />
@@ -161,7 +162,7 @@ export default function Home() {
         <div className="max-centered-container px-6">
           <div className="text-center space-y-8" style={{ marginBottom: '50px' }}>
             <h2 className="heading-display uppercase leading-[0.85] font-serif font-medium">
-              <span className="block opacity-30">NOS DERNIÈRES</span>
+              <span className="block opacity-60">NOS DERNIÈRES</span>
               <span className="text-gradient block italic font-light">RÉALISATIONS.</span>
             </h2>
           </div>
@@ -169,18 +170,19 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-24 lg:gap-32 w-full">
             {projects.map((project) => (
               <div key={project.title} className="group relative flex flex-col space-y-16">
-                <Link 
-                  href={`/realisations/${project.slug}`} 
+                <Link
+                  href={`/realisations/${project.slug}`}
                   className="aspect-[16/10] overflow-hidden glass-card relative bg-[var(--color-foreground)]/[0.02] rounded-[3rem] cursor-pointer block"
                 >
-                  <Image 
-                    src={project.image} 
+                  <Image
+                    src={project.image}
                     alt={project.title}
                     fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
                     className="object-contain opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000 p-8 grayscale-[0.5] group-hover:grayscale-0"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-foreground)]/40 to-transparent opacity-60 transition-opacity duration-700 z-10" />
-                  
+
                   {/* Internal Link Indicator */}
                   <div className="absolute top-8 right-8 z-20 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0">
                     <div className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white">
@@ -190,10 +192,10 @@ export default function Home() {
                 </Link>
 
                 <div className="space-y-4">
-                  <h4 className="text-[11px] font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">{project.category}</h4>
+                  <h4 className="text-[11px] font-black uppercase tracking-[0.4em] text-[var(--color-primary-texte)]">{project.category}</h4>
                   <Link
                     href={`/realisations/${project.slug}`}
-                    className="text-4xl font-medium uppercase tracking-tight text-[var(--color-foreground)] group-hover:text-[var(--color-primary)] transition-colors duration-500 font-serif block"
+                    className="text-4xl font-medium uppercase tracking-tight text-[var(--color-foreground)] group-hover:text-[var(--color-primary-texte)] transition-colors duration-500 font-serif block"
                   >
                     {project.title}
                   </Link>
@@ -201,7 +203,7 @@ export default function Home() {
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-foreground)]/30 hover:text-[var(--color-primary)] transition-colors"
+                    className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-foreground)]/70 hover:text-[var(--color-primary-texte)] transition-colors"
                   >
                     Voir le site en ligne
                     <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14 21 3"/></svg>
@@ -218,24 +220,25 @@ export default function Home() {
         <div className="max-centered-container px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32 items-center">
             <div className="space-y-10">
-              <h4 className="text-[11px] font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">L'Artisanat Digital</h4>
+              <h4 className="text-[11px] font-black uppercase tracking-[0.4em] text-[var(--color-primary-texte)]">L'Artisanat Digital</h4>
               <h2 className="text-4xl md:text-6xl font-medium uppercase tracking-tight leading-none font-serif">
                 L'OPÉRA DU <br />
-                <span className="opacity-20 italic">PIXEL.</span>
+                <span className="opacity-60 italic">PIXEL.</span>
               </h2>
               <p className="text-xl text-[var(--color-foreground)]/70 font-light leading-relaxed">
-                Chaque ligne de code est une note, chaque design est une symphonie. 
+                Chaque ligne de code est une note, chaque design est une symphonie.
               </p>
             </div>
             <div className="relative aspect-[4/3] glass-card overflow-hidden">
-              <Image 
+              <Image
                 src="/pixel-opera.webp"
                 alt="Signature Atelier"
                 fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover opacity-50 group-hover:scale-110 transition-transform duration-1000"
               />
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-7xl font-medium text-[var(--color-foreground)]/[0.05] select-none uppercase tracking-tighter font-serif">ARTISAN</span>
+                <span className="text-7xl font-medium text-[var(--color-foreground)]/[0.05] select-none pointer-events-none uppercase tracking-tighter font-serif">ARTISAN</span>
               </div>
             </div>
           </div>

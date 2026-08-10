@@ -19,18 +19,17 @@ const csp = [
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",
-  // `upgrade-insecure-requests` est volontairement absent : le navigateur l'ignore
-  // dans une politique en mode observation et affiche une erreur dans la console à
-  // chaque page. À réintroduire le jour où l'on passe en mode bloquant. En attendant,
-  // HSTS impose déjà le HTTPS.
+  // Réintroduit avec le passage en mode bloquant : le navigateur l'ignorait — en
+  // affichant une erreur — tant que la politique était en simple observation.
+  "upgrade-insecure-requests",
 ].join("; ");
 
 // En-têtes de sécurité appliqués à toutes les réponses.
 const securityHeaders = [
-  // Mode observation : les violations sont signalées dans la console du navigateur,
-  // rien n'est bloqué. À basculer en "Content-Security-Policy" une fois qu'on a
-  // vérifié qu'aucune page ne remonte de violation.
-  { key: "Content-Security-Policy-Report-Only", value: csp },
+  // Mode bloquant depuis le 10/08/2026. La politique a d'abord tourné en simple
+  // observation ; les 13 pages ont été rechargées une à une dans un navigateur,
+  // console ouverte, sans une seule violation. On bloque donc pour de bon.
+  { key: "Content-Security-Policy", value: csp },
   { key: "X-Frame-Options", value: "DENY" },
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },

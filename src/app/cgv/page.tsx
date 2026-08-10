@@ -297,7 +297,7 @@ export default function CGV() {
             Conditions Générales de Vente
           </h1>
           <div className="h-[1px] w-24 bg-[var(--color-primary)]"></div>
-          <p className="text-[var(--color-foreground)]/40 text-xs uppercase tracking-[0.3em]">
+          <p className="text-[var(--color-foreground)]/70 text-xs uppercase tracking-[0.3em]">
             Dernière mise à jour : {derniereMiseAJour}
           </p>
         </div>
@@ -305,7 +305,7 @@ export default function CGV() {
         <div className="space-y-16 text-[var(--color-foreground)]/70 font-light leading-loose section-spacer">
           {articles.map((article) => (
             <section key={article.titre} className="space-y-6">
-              <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">
+              <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary-texte)]">
                 {article.titre}
               </h2>
               {article.contenu}
@@ -313,14 +313,14 @@ export default function CGV() {
           ))}
 
           <section className="space-y-6">
-            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">
+            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary-texte)]">
               Contact
             </h2>
             <p>
               Pour toute question relative aux présentes conditions :{" "}
               <a
                 href={`mailto:${prestataire.email}`}
-                className="text-[var(--color-primary)] hover:underline decoration-1 underline-offset-4"
+                className="text-[var(--color-primary-texte)] hover:underline decoration-1 underline-offset-4"
               >
                 {prestataire.email}
               </a>

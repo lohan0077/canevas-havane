@@ -54,7 +54,7 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={`text-[9px] font-black uppercase tracking-[0.2em] transition-all duration-300 ${
-                  pathname === link.href ? "text-[var(--color-primary)]" : "text-[#2C2420]/50 hover:text-[var(--color-primary)]"
+                  pathname === link.href ? "text-[var(--color-primary-texte)]" : "text-[#2C2420]/70 hover:text-[var(--color-primary-texte)]"
                 }`}
               >
                 {link.label}
@@ -101,7 +101,7 @@ export default function Navbar() {
                   href={link.href}
                   onClick={() => setIsOpen(false)}
                   className={`text-4xl md:text-6xl font-medium uppercase tracking-tight font-serif ${
-                    pathname === link.href ? "text-gradient italic" : "text-[var(--color-foreground)] opacity-40 hover:opacity-100"
+                    pathname === link.href ? "text-gradient italic" : "text-[var(--color-foreground)] opacity-60 hover:opacity-100"
                   }`}
                 >
                   {link.label}

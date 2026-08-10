@@ -78,7 +78,7 @@ export default async function ArticlePage({
         {/* Back link */}
         <Link
           href="/blog"
-          className="group inline-flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.4em] text-[var(--color-foreground)]/30 hover:text-[var(--color-foreground)] transition-colors mb-16 md:mb-24"
+          className="group inline-flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.4em] text-[var(--color-foreground)]/70 hover:text-[var(--color-foreground)] transition-colors mb-16 md:mb-24"
         >
           <span className="w-8 h-[1px] bg-current group-hover:w-16 transition-all duration-500"></span>
           Retour au Journal
@@ -87,17 +87,17 @@ export default async function ArticlePage({
         {/* Header */}
         <header className="space-y-8 md:space-y-12 mb-16 md:mb-24">
           <div className="flex items-center gap-6 md:gap-8">
-            <span className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.4em] text-[var(--color-primary)] italic">
+            <span className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.4em] text-[var(--color-primary-texte)] italic">
               {article.category}
             </span>
-            <span className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.4em] text-[var(--color-foreground)]/20">
+            <span className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.4em] text-[var(--color-foreground)]/70">
               <time dateTime={article.isoDate}>{article.date}</time> — {article.readTime} de lecture
             </span>
           </div>
           <h1 className="text-4xl md:text-7xl font-medium uppercase tracking-tight leading-[0.9] font-serif">
             {article.title}
           </h1>
-          <p className="text-xl md:text-2xl text-[var(--color-foreground)]/50 font-light leading-relaxed max-w-3xl">
+          <p className="text-xl md:text-2xl text-[var(--color-foreground)]/70 font-light leading-relaxed max-w-3xl">
             {article.excerpt}
           </p>
         </header>
@@ -124,7 +124,7 @@ export default async function ArticlePage({
               {section.paragraphs.map((paragraph) => (
                 <p
                   key={paragraph.slice(0, 40)}
-                  className="text-lg md:text-xl text-[var(--color-foreground)]/60 font-light leading-relaxed"
+                  className="text-lg md:text-xl text-[var(--color-foreground)]/70 font-light leading-relaxed"
                 >
                   {paragraph}
                 </p>
@@ -138,7 +138,7 @@ export default async function ArticlePage({
           <h3 className="text-3xl md:text-5xl font-medium uppercase tracking-tight font-serif">
             Un projet en tête ?
           </h3>
-          <p className="text-lg md:text-xl text-[var(--color-foreground)]/50 font-light max-w-xl mx-auto">
+          <p className="text-lg md:text-xl text-[var(--color-foreground)]/70 font-light max-w-xl mx-auto">
             Parlons de la manière dont ces principes peuvent servir votre marque.
           </p>
           <div>
@@ -150,7 +150,7 @@ export default async function ArticlePage({
 
         {/* Other articles */}
         <div className="mt-24 md:mt-32 space-y-12">
-          <h4 className="text-[10px] md:text-[12px] font-black uppercase tracking-[0.6em] text-[var(--color-primary)]">
+          <h4 className="text-[10px] md:text-[12px] font-black uppercase tracking-[0.6em] text-[var(--color-primary-texte)]">
             À lire ensuite
           </h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
@@ -160,13 +160,13 @@ export default async function ArticlePage({
                 href={`/blog/${other.slug}`}
                 className="group glass-card rounded-[2rem] p-8 md:p-12 space-y-4 hover:bg-[var(--color-foreground)]/[0.03] transition-colors duration-500"
               >
-                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[var(--color-primary)] italic">
+                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[var(--color-primary-texte)] italic">
                   {other.category}
                 </span>
-                <h5 className="text-xl md:text-2xl font-medium uppercase tracking-tight font-serif group-hover:text-[var(--color-primary)] transition-colors">
+                <h5 className="text-xl md:text-2xl font-medium uppercase tracking-tight font-serif group-hover:text-[var(--color-primary-texte)] transition-colors">
                   {other.title}
                 </h5>
-                <p className="text-base text-[var(--color-foreground)]/50 font-light leading-relaxed">
+                <p className="text-base text-[var(--color-foreground)]/70 font-light leading-relaxed">
                   {other.excerpt}
                 </p>
               </Link>
