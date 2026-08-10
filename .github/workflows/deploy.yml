@@ -23,7 +23,10 @@ jobs:
 
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # étiquette v4 au 10/08/2026
         with:
-          node-version: '20'
+          # Doit rester aligné sur le `FROM node:<version>-alpine` du Dockerfile :
+          # compiler sur une version et exécuter sur une autre, c'est tester autre
+          # chose que ce qui tourne. Node 22 est supporté jusqu'au 30/04/2027.
+          node-version: '22'
           cache: npm
 
       - name: Installation des dépendances
@@ -80,6 +83,28 @@ jobs:
             --exit-code 1 \
             --no-progress \
             .
+
+      # L'étape ci-dessus lit les FICHIERS du dépôt. Elle n'ouvre jamais l'image
+      # dans laquelle le code s'exécute — et c'est par là qu'un défaut est passé :
+      # le 10/08/2026, l'image tournait sur Node 20, hors support depuis le
+      # 30 avril, avec 20 vulnérabilités graves, pendant que cette CI affichait
+      # « 0 vulnérabilité » en toute bonne foi. Elle disait vrai de ce qu'elle
+      # regardait. On regarde donc maintenant aussi l'image elle-même.
+      #
+      # Si cette étape passe au rouge sur des paquets qu'on ne contrôle pas,
+      # la réponse n'est pas d'ajouter une exception : c'est de retirer de
+      # l'image le composant qu'on n'exécute pas (c'est ce qui a été fait pour
+      # npm), ou de monter d'une version LTS.
+      - name: Image de production vulnérable
+        run: |
+          docker build -t canevas-havane:ci .
+          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:0.73.0 image \
+            --scanners vuln \
+            --severity HIGH,CRITICAL \
+            --ignore-unfixed \
+            --exit-code 1 \
+            --no-progress \
+            canevas-havane:ci
 
   # ─────────────────────────────────────────────────────────────────────
   # Déploiement — uniquement sur main, uniquement si les vérifications passent.

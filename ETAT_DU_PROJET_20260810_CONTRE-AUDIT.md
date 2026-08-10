@@ -289,3 +289,98 @@ La méthode demande, pour chaque défaut, la règle ou le test qui le rendra imp
 Le script `contraste.mjs` est prêt : il parcourt les 13 pages dans les deux thèmes, résout
 les couleurs `oklab` par le navigateur lui-même, isole les textes en dégradé, et **sort en
 code d'erreur 1** dès qu'un texte passe sous le seuil — ce qui suffit à faire échouer la CI.
+
+---
+
+## Corrections appliquées le 10/08/2026 au soir
+
+Les deux 🟠 sont refermés. La dette 🟡 reste ouverte, par décision.
+
+### A — Node 22 LTS, et le trou de la CI rebouché
+
+`Dockerfile` passe de `node:20-alpine` à `node:22-alpine` (supporté jusqu'au 30/04/2027),
+et la CI compile désormais sur la même version — compiler sur un moteur et exécuter sur un
+autre, c'est tester autre chose que ce qui tourne.
+
+**npm est retiré de l'image de production.** Les vulnérabilités graves ne venaient pas du
+site : elles venaient de `tar`, `sigstore`, `picomatch` et `ip-address`, embarqués dans npm.
+Or le serveur démarre par `node server.js` et n'appelle jamais npm. Plutôt que d'ajouter un
+fichier d'exceptions — qui aurait laissé le code vulnérable en place et rendu l'alerte
+permanente, donc contournée tôt ou tard — on supprime le code.
+
+Mesuré sur l'image réellement construite :
+
+```
+node:20-alpine (avant)            -> 20 HIGH/CRITICAL
+image finale corrigee (apres)     ->  0 HIGH/CRITICAL au total
+trivy image --exit-code 1          -> exit=0
+
+node --version dans l'image       -> v22.23.2
+npm dans l'image                  -> absent (voulu)
+accueil                           -> HTTP 200
+/api/health                       -> {"status":"ok"}
+```
+
+Deux gardes, qui n'attrapent pas la même chose :
+
+- une étape **`trivy image`** dans la CI, qui construit l'image et l'ouvre — ce que
+  `trivy fs` ne fait jamais ;
+- une règle Semgrep **`image-node-hors-support`**, qui attrape la *date* plutôt que les
+  failles : une version peut être hors support sans qu'aucune faille n'ait encore été
+  publiée contre elle. Vérifiée sur le défaut d'origine :
+  ```
+  ❯❯❱ semgrep.image-node-hors-support
+           1┆ FROM node:20-alpine AS base
+  ```
+
+### B — Le formulaire n'accepte plus les demandes venues d'ailleurs
+
+`src/app/api/contact/route.ts` exige `Content-Type: application/json` (415 sinon) et refuse
+tout `Origin` étranger (403). Le contrôle passe **avant tout compteur** : une requête
+étrangère n'entame plus le quota du visiteur dont le navigateur a été utilisé à son insu.
+
+L'origine est comparée à l'hôte de la requête, puis à l'adresse du site — le développement
+local et les prévisualisations fonctionnent donc sans liste à tenir à jour. Un `Origin`
+absent reste accepté : les navigateurs le posent toujours sur un POST inter-sites, donc son
+absence signifie curl, une sonde ou un test — jamais une page tierce.
+
+Écrit sans `try`/`catch` (`URL.canParse`) : dans une fonction dont la valeur de retour décide
+d'un refus, une exception attrapée est le chemin le plus court vers un échec qui s'ouvre.
+La règle maison `echec-ouvert` avait d'ailleurs signalé la première version.
+
+**L'attaque de l'audit, rejouée contre l'image finale :**
+
+```
+text/plain depuis un tiers : HTTP 415      (avant : 200, et l'e-mail partait)
+json depuis un tiers       : HTTP 403
+origine opaque (null)      : HTTP 403
+le formulaire du site      : HTTP 502      (va jusqu'a l'envoi SMTP : aucun serveur n'ecoute)
+```
+
+Vérifié aussi depuis un vrai navigateur, sur la vraie page `/contact`, avec l'`Origin` posé
+par le navigateur : `502`, et aucune violation CSP en console. Le formulaire n'est pas cassé.
+
+**7 tests ajoutés** (15 → 22). Ils ont été éprouvés par mutation : en neutralisant les deux
+gardes, 5 d'entre eux passent au rouge, puis reviennent au vert une fois la protection
+rétablie. Un test qui ne tombe jamais ne garde rien.
+
+### Vérification complète après corrections
+
+```
+npx tsc --noEmit    -> 0 erreur
+npm run lint        -> 0 signalement
+npm test            -> Test Files 1 passed · Tests 22 passed (22)
+npm run build       -> succes
+semgrep             -> Findings: 0 (0 blocking) · 163 regles · 54 fichiers
+trivy image         -> exit=0
+```
+
+### Ce qui reste ouvert
+
+La dette 🟡 du tableau ci-dessus, inchangée : `og:url` figé, ornements non masqués aux
+lecteurs d'écran, contraste non branché en CI, aucun retour arrière, aucun suivi d'erreurs,
+aucun document de cadrage, site absent de PushRank. Et les ⬜ non vérifiables sans accès :
+sauvegardes, réception réelle d'un e-mail, dépendance à la configuration de Caddy.
+
+**Rien n'est parti en production** : ces corrections vivent sur la branche
+`contre-audit-20260810`.

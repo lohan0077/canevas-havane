@@ -182,21 +182,47 @@ Rapport complet : [`ETAT_DU_PROJET_20260810_CONTRE-AUDIT.md`](ETAT_DU_PROJET_202
 Tous les outils ont été **relancés**, aucune conclusion du matin reprise telle quelle.
 Phases franchies : 3 / 11 applicables. Aucun défaut irréversible.
 
-**Deux défauts à refermer**
+**Prouvé après corrections** : `tsc` 0 · `eslint` 0 · **22 tests verts** · `npm run build`
+succès · Semgrep **163 règles sur 54 fichiers : 0 signalement** · `trivy image` sur l'image
+finale : `exit=0`.
 
-1. **Le socle n'est plus corrigé.** `Dockerfile:1` → `node:20-alpine`. **Node 20 est sorti
-   du support le 30/04/2026** : plus aucun correctif de sécurité. `trivy image node:20-alpine`
-   → **20 vulnérabilités HIGH/CRITICAL**, contre 8 sur `node:22-alpine`.
-   **Pourquoi la CI ne l'a pas vu : elle lance `trivy fs`, jamais `trivy image`.** `trivy fs`
-   lit les fichiers du dépôt ; il n'ouvre pas l'image qui exécute le code. Le jour où on
-   corrige, on ajoute l'étape `trivy image` — sinon le trou se rouvre au prochain socle.
+**Deux défauts trouvés — corrigés et prouvés le même soir**
+
+1. **Le socle n'était plus corrigé.** `Dockerfile` était sur `node:20-alpine`. **Node 20 est
+   sorti du support le 30/04/2026** : plus aucun correctif de sécurité.
+   `trivy image node:20-alpine` → **20 vulnérabilités HIGH/CRITICAL**.
+   **Pourquoi la CI ne l'a pas vu : elle lançait `trivy fs`, jamais `trivy image`.**
+   `trivy fs` lit les fichiers du dépôt ; il n'ouvre pas l'image qui exécute le code.
+   → Passé en **Node 22 LTS** (jusqu'au 30/04/2027), **npm retiré de l'image de production**
+   (il portait à lui seul toutes les vulnérabilités, via `tar`, `sigstore`, `picomatch`,
+   `ip-address` — or le serveur démarre par `node server.js` et n'appelle jamais npm).
+   Image finale mesurée : **0 HIGH/CRITICAL**, `node v22.23.2`, npm absent, accueil 200,
+   santé `ok`. **Ne pas remplacer ce retrait par un fichier d'exceptions** : une alerte
+   permanente finit toujours par être contournée, le code vulnérable en place.
+   **Deux gardes, qui n'attrapent pas la même chose :** l'étape `trivy image` de la CI (les
+   failles) et la règle Semgrep `image-node-hors-support` (**la date** — une version peut
+   être hors support sans qu'aucune faille n'ait encore été publiée contre elle). Quand
+   Node 22 approchera d'avril 2027, mettre à jour la liste de versions de cette règle.
 2. **CSRF sur `/api/contact`** — prouvé par exécution contre un SMTP piège. La route ne
-   vérifie ni `Origin`, ni `Referer`, ni `Content-Type` ; un `POST` en `text/plain` portant
+   vérifiait ni `Origin`, ni `Referer`, ni `Content-Type` ; un `POST` en `text/plain` portant
    du JSON est une « requête simple », envoyée sans autorisation préalable. Un site tiers
-   fait donc envoyer des e-mails depuis le navigateur de ses visiteurs, **chacun avec sa
-   propre IP** — le plafond de 3 par IP ne freine rien, et le plafond global de 40/h ferme
-   le formulaire aux vrais prospects. `form-action 'self'` ne protège pas de ça : cette
-   directive gouverne nos formulaires, pas un `fetch()` lancé depuis la page d'un tiers.
+   faisait donc envoyer des e-mails depuis le navigateur de ses visiteurs, **chacun avec sa
+   propre IP** — le plafond de 3 par IP ne freinait rien, et le plafond global de 40/h
+   fermait le formulaire aux vrais prospects. `form-action 'self'` ne protège pas de ça :
+   cette directive gouverne nos formulaires, pas un `fetch()` lancé depuis la page d'un tiers.
+   → `Content-Type: application/json` exigé (415 sinon), `Origin` étranger refusé (403),
+   **avant tout compteur** — une requête étrangère ne doit pas entamer le quota du visiteur
+   dont le navigateur a été détourné. Un `Origin` absent reste accepté : les navigateurs le
+   posent toujours sur un POST inter-sites, donc son absence signifie curl, une sonde ou un
+   test. Attaque rejouée contre l'image finale : `415 / 403 / 403`, et `502` pour le vrai
+   formulaire — vérifié aussi depuis un navigateur sur `/contact`, sans violation CSP.
+   **Le bloc de tests `origine de la requête (CSRF)` existe pour ça : s'il devient rouge, la
+   porte est rouverte.** Éprouvé par mutation — gardes neutralisées, 5 tests tombent.
+
+**La leçon d'écriture qui va avec** : `origineEtrangere()` est écrit sans `try`/`catch`
+(`URL.canParse`). Dans une fonction dont la valeur de retour décide d'un refus, une exception
+attrapée est le chemin le plus court vers un échec qui s'ouvre — la règle maison
+`echec-ouvert` a signalé la première version, et elle avait raison.
 
 **Dette confirmée ce soir** — `openGraph.url` figé sur l'accueil dans `src/app/layout.tsx:43`,
 hérité par les 13 pages (le canonique, lui, est correct) · les grands mots d'ornement
