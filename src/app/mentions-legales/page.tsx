@@ -27,26 +27,26 @@ export default function MentionsLegales() {
 
         <div className="space-y-16 text-[var(--color-foreground)]/70 font-light leading-loose section-spacer">
           <section className="space-y-6">
-            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">1. Éditeur du Site</h2>
+            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary-texte)]">1. Éditeur du Site</h2>
             <p>
               Le site <strong>CANEVAS HAVANE</strong> est édité par {editeur.nomComplet}, entrepreneur individuel
               exerçant sous le régime de la micro-entreprise, dont le siège de l'activité est situé
               au {editeur.adresse}. <br />
               Immatriculé au Registre National des Entreprises sous le numéro SIREN {editeur.siren}
               (SIRET {editeur.siret}), code APE 8299Z — Autres activités de soutien aux entreprises. <br />
-              Contact : <a href={`mailto:${editeur.email}`} className="text-[var(--color-primary)] hover:underline decoration-1 underline-offset-4">{editeur.email}</a>
+              Contact : <a href={`mailto:${editeur.email}`} className="text-[var(--color-primary-texte)] hover:underline decoration-1 underline-offset-4">{editeur.email}</a>
             </p>
           </section>
 
           <section className="space-y-6">
-            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">2. Direction de la Publication</h2>
+            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary-texte)]">2. Direction de la Publication</h2>
             <p>
               Le directeur de la publication est {editeur.nomComplet}, en qualité d'entrepreneur individuel.
             </p>
           </section>
 
           <section className="space-y-6">
-            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">3. Hébergement</h2>
+            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary-texte)]">3. Hébergement</h2>
             <p>
               Le site est hébergé par Hetzner Online GmbH, Industriestr. 25, 91710 Gunzenhausen, Allemagne.
               Téléphone : +49 (0)9831 505-0.
@@ -54,9 +54,9 @@ export default function MentionsLegales() {
           </section>
 
           <section className="space-y-6">
-            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">4. Propriété Intellectuelle</h2>
+            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary-texte)]">4. Propriété Intellectuelle</h2>
             <p>
-              L'ensemble de ce site relève de la législation française et internationale sur le droit d'auteur et la propriété intellectuelle. 
+              L'ensemble de ce site relève de la législation française et internationale sur le droit d'auteur et la propriété intellectuelle.
               Tous les droits de reproduction sont réservés, y compris pour les documents téléchargeables et les représentations iconographiques et photographiques.
             </p>
           </section>

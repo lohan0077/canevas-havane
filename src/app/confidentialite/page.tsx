@@ -17,24 +17,24 @@ export default function Confidentialite() {
         <div className="mb-16 md:mb-24 space-y-6">
            <h1 className="text-3xl md:text-6xl font-medium uppercase tracking-tight text-[var(--color-foreground)] font-serif">Vie Privée</h1>
            <div className="h-[1px] w-24 bg-[var(--color-primary)]"></div>
-           <p className="text-[var(--color-foreground)]/40 text-xs uppercase tracking-[0.3em]">
+           <p className="text-[var(--color-foreground)]/70 text-xs uppercase tracking-[0.3em]">
              Dernière mise à jour : {derniereMiseAJour}
            </p>
         </div>
 
         <div className="space-y-16 text-[var(--color-foreground)]/70 font-light leading-loose section-spacer">
           <section className="space-y-6">
-            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">1. Responsable du Traitement</h2>
+            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary-texte)]">1. Responsable du Traitement</h2>
             <p>
               Le responsable du traitement des données est Lohan Gault, entrepreneur individuel,
               274 rue du Couas, 07430 Vernosc-lès-Annonay (SIREN 927 448 647). <br />
               Pour toute question relative à vos données :{" "}
-              <a href="mailto:gaultlohan@gmail.com" className="text-[var(--color-primary)] hover:underline decoration-1 underline-offset-4">gaultlohan@gmail.com</a>
+              <a href="mailto:gaultlohan@gmail.com" className="text-[var(--color-primary-texte)] hover:underline decoration-1 underline-offset-4">gaultlohan@gmail.com</a>
             </p>
           </section>
 
           <section className="space-y-6">
-            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">2. Données Collectées</h2>
+            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary-texte)]">2. Données Collectées</h2>
             <p>
               Nous collectons uniquement les informations que vous saisissez volontairement dans
               notre formulaire de contact : <strong>votre nom, votre adresse email et le contenu
@@ -50,7 +50,7 @@ export default function Confidentialite() {
           </section>
 
           <section className="space-y-6">
-            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">3. Finalité et Base Légale</h2>
+            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary-texte)]">3. Finalité et Base Légale</h2>
             <p>
               Vos données servent exclusivement à répondre à votre demande de devis ou de
               renseignements, puis à gérer la relation commerciale qui en découle.
@@ -66,7 +66,7 @@ export default function Confidentialite() {
           </section>
 
           <section className="space-y-6">
-            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">4. Durée de Conservation</h2>
+            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary-texte)]">4. Durée de Conservation</h2>
             <p>
               Les messages restés sans suite commerciale sont supprimés au plus tard{" "}
               <strong>12 mois</strong> après le dernier échange. Lorsqu'une relation commerciale
@@ -77,7 +77,7 @@ export default function Confidentialite() {
           </section>
 
           <section className="space-y-6">
-            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">5. Destinataires et Hébergement</h2>
+            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary-texte)]">5. Destinataires et Hébergement</h2>
             <p>
               Vos données ne sont ni vendues, ni louées, ni cédées à des tiers à des fins
               commerciales. Deux prestataires techniques y ont nécessairement accès :
@@ -98,7 +98,7 @@ export default function Confidentialite() {
           </section>
 
           <section className="space-y-6">
-            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">6. Vos Droits</h2>
+            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary-texte)]">6. Vos Droits</h2>
             <p>
               Conformément au RGPD, vous disposez d'un droit d'<strong>accès</strong>, de{" "}
               <strong>rectification</strong>, d'<strong>effacement</strong>, de{" "}
@@ -108,19 +108,19 @@ export default function Confidentialite() {
             </p>
             <p>
               Pour les exercer, écrivez à{" "}
-              <a href="mailto:gaultlohan@gmail.com" className="text-[var(--color-primary)] hover:underline decoration-1 underline-offset-4">gaultlohan@gmail.com</a>.
+              <a href="mailto:gaultlohan@gmail.com" className="text-[var(--color-primary-texte)] hover:underline decoration-1 underline-offset-4">gaultlohan@gmail.com</a>.
               Une réponse vous sera apportée dans un délai d'un mois.
             </p>
             <p>
               Si vous estimez, après nous avoir contactés, que vos droits ne sont pas respectés,
               vous pouvez introduire une réclamation auprès de la <strong>CNIL</strong> —
               3 place de Fontenoy, TSA 80715, 75334 Paris Cedex 07 —{" "}
-              <a href="https://www.cnil.fr/fr/plaintes" className="text-[var(--color-primary)] hover:underline decoration-1 underline-offset-4" target="_blank" rel="noopener noreferrer">www.cnil.fr/fr/plaintes</a>.
+              <a href="https://www.cnil.fr/fr/plaintes" className="text-[var(--color-primary-texte)] hover:underline decoration-1 underline-offset-4" target="_blank" rel="noopener noreferrer">www.cnil.fr/fr/plaintes</a>.
             </p>
           </section>
 
           <section className="space-y-6">
-            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">7. Cookies</h2>
+            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary-texte)]">7. Cookies</h2>
             <p>
               <strong>Ce site ne dépose aucun cookie</strong> et n'utilise aucun traceur :
               ni mesure d'audience, ni publicité, ni réseau social. C'est la raison pour
@@ -134,7 +134,7 @@ export default function Confidentialite() {
           </section>
 
           <section className="space-y-6">
-            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">8. Sécurité</h2>
+            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary-texte)]">8. Sécurité</h2>
             <p>
               Les échanges avec le site sont chiffrés de bout en bout (HTTPS, HSTS). L'envoi des
               messages vers la boîte de réception s'effectue par une liaison chiffrée. L'accès au

@@ -138,17 +138,17 @@ export default function TarifsPage() {
         <div className="text-center space-y-8 mb-24 md:mb-40">
           <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-[var(--color-foreground)]/5 bg-white/40 backdrop-blur-md">
             <div className="w-1.5 h-1.5 rounded-full bg-[var(--color-primary)] animate-pulse shadow-[0_0_10px_var(--color-primary)]"></div>
-            <span className="text-[9px] font-black uppercase tracking-[0.4em] text-[var(--color-foreground)]/60 italic">
+            <span className="text-[9px] font-black uppercase tracking-[0.4em] text-[var(--color-foreground)]/70 italic">
               Modèle de partenariat
             </span>
           </div>
 
           <h1 className="heading-display">
-            <span className="block opacity-30">SANS AVANCE</span>
+            <span className="block opacity-60">SANS AVANCE</span>
             <span className="text-gradient block italic font-light">DE FRAIS.</span>
           </h1>
 
-          <p className="max-w-2xl mx-auto text-lg md:text-xl text-[var(--color-foreground)]/60 font-light leading-relaxed px-4">
+          <p className="max-w-2xl mx-auto text-lg md:text-xl text-[var(--color-foreground)]/70 font-light leading-relaxed px-4">
             Nous ne vendons pas un site, nous misons sur votre croissance. <br className="hidden md:block" />
             Vous ne payez que sur ce que le site vous rapporte réellement.
           </p>
@@ -166,18 +166,18 @@ export default function TarifsPage() {
               <div className="space-y-6">
                 <h2
                   className={`text-[10px] md:text-[11px] font-black uppercase tracking-[0.4em] ${
-                    offre.accent ? "text-[var(--color-primary)]" : "text-[var(--color-foreground)]/30"
+                    offre.accent ? "text-[var(--color-primary-texte)]" : "text-[var(--color-foreground)]/70"
                   }`}
                 >
                   {offre.label}
                 </h2>
                 <div className="space-y-1">
                   <p className="text-4xl md:text-5xl font-medium font-serif tracking-tight">{offre.prix}</p>
-                  <span className="block text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-foreground)]/25">
+                  <span className="block text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-foreground)]/70">
                     {offre.unite}
                   </span>
                 </div>
-                <p className="text-base md:text-lg text-[var(--color-foreground)]/60 font-light leading-relaxed">
+                <p className="text-base md:text-lg text-[var(--color-foreground)]/70 font-light leading-relaxed">
                   {offre.accroche}
                 </p>
               </div>
@@ -194,7 +194,7 @@ export default function TarifsPage() {
                 ))}
               </ul>
 
-              <p className="text-[10px] md:text-[11px] text-[var(--color-foreground)]/30 uppercase tracking-[0.2em] leading-loose border-t border-[var(--color-foreground)]/5 pt-6 italic">
+              <p className="text-[10px] md:text-[11px] text-[var(--color-foreground)]/70 uppercase tracking-[0.2em] leading-loose border-t border-[var(--color-foreground)]/5 pt-6 italic">
                 {offre.note}
               </p>
             </div>
@@ -205,10 +205,10 @@ export default function TarifsPage() {
           Mention obligatoire : en franchise en base de TVA, les prix sont nets et
           doivent le dire — sur le site comme sur les factures (art. 293 B du CGI).
         */}
-        <p className="text-center text-[10px] md:text-[11px] text-[var(--color-foreground)]/40 uppercase tracking-[0.25em] leading-loose mb-32 md:mb-48 max-w-3xl mx-auto">
+        <p className="text-center text-[10px] md:text-[11px] text-[var(--color-foreground)]/70 uppercase tracking-[0.25em] leading-loose mb-32 md:mb-48 max-w-3xl mx-auto">
           Prix nets en euros — TVA non applicable, article 293 B du CGI. <br />
           Prestations soumises aux{" "}
-          <Link href="/cgv" className="text-[var(--color-primary)] hover:underline decoration-1 underline-offset-4">
+          <Link href="/cgv" className="text-[var(--color-primary-texte)] hover:underline decoration-1 underline-offset-4">
             conditions générales de vente
           </Link>
           .
@@ -217,11 +217,11 @@ export default function TarifsPage() {
         {/* Fonctionnement */}
         <div className="space-y-16 md:space-y-24 mb-32 md:mb-48">
           <div className="text-center space-y-6">
-            <h2 className="text-[10px] md:text-[12px] font-black uppercase tracking-[0.6em] text-[var(--color-primary)]">
+            <h2 className="text-[10px] md:text-[12px] font-black uppercase tracking-[0.6em] text-[var(--color-primary-texte)]">
               Le fonctionnement
             </h2>
             <p className="text-3xl md:text-6xl font-medium uppercase tracking-tight font-serif leading-[0.9]">
-              <span className="block opacity-20">QUATRE ÉTAPES,</span>
+              <span className="block opacity-60">QUATRE ÉTAPES,</span>
               <span className="text-gradient block italic">ZÉRO RISQUE.</span>
             </p>
           </div>
@@ -229,13 +229,13 @@ export default function TarifsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16">
             {etapes.map((e) => (
               <div key={e.num} className="space-y-5">
-                <span className="block text-5xl md:text-6xl font-medium font-serif text-[var(--color-foreground)]/10">
+                <span className="block text-5xl md:text-6xl font-medium font-serif text-[var(--color-foreground)]/70">
                   {e.num}
                 </span>
                 <h3 className="text-xl md:text-2xl font-medium uppercase tracking-tight font-serif text-[var(--color-secondary)]">
                   {e.titre}
                 </h3>
-                <p className="text-base text-[var(--color-foreground)]/55 font-light leading-relaxed">{e.texte}</p>
+                <p className="text-base text-[var(--color-foreground)]/70 font-light leading-relaxed">{e.texte}</p>
               </div>
             ))}
           </div>
@@ -244,13 +244,13 @@ export default function TarifsPage() {
         {/* Propriété & rachat */}
         <div className="space-y-16 md:space-y-20 mb-32 md:mb-48">
           <div className="text-center space-y-8 max-w-3xl mx-auto">
-            <h2 className="text-[10px] md:text-[12px] font-black uppercase tracking-[0.6em] text-[var(--color-primary)]">
+            <h2 className="text-[10px] md:text-[12px] font-black uppercase tracking-[0.6em] text-[var(--color-primary-texte)]">
               Propriété & rachat
             </h2>
             <p className="text-3xl md:text-5xl font-medium uppercase tracking-tight font-serif leading-[0.95]">
               Devenez propriétaire <span className="text-gradient italic">quand vous le décidez.</span>
             </p>
-            <p className="text-lg md:text-xl text-[var(--color-foreground)]/55 font-light leading-relaxed">
+            <p className="text-lg md:text-xl text-[var(--color-foreground)]/70 font-light leading-relaxed">
               Pendant le partenariat, le site reste notre propriété : c'est ce qui nous permet de le créer sans
               rien vous facturer. À tout moment, vous pouvez en acquérir la pleine propriété. Le prix de rachat
               équivaut à <span className="text-[var(--color-foreground)] font-normal">dix fois le bénéfice mensuel</span> que
@@ -264,10 +264,10 @@ export default function TarifsPage() {
         {/* CTA */}
         <div className="glass-card rounded-[2rem] md:rounded-[3rem] p-10 md:p-24 text-center space-y-8">
           <h2 className="text-3xl md:text-6xl font-medium uppercase tracking-tight font-serif leading-[0.9]">
-            <span className="block opacity-20">PARLONS DE</span>
+            <span className="block opacity-60">PARLONS DE</span>
             <span className="text-gradient block italic">VOTRE PROJET.</span>
           </h2>
-          <p className="text-lg md:text-xl text-[var(--color-foreground)]/50 font-light max-w-xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-[var(--color-foreground)]/70 font-light max-w-xl mx-auto leading-relaxed">
             L'étude de votre marché est gratuite. Vous saurez rapidement si le modèle vous convient.
           </p>
           <div className="pt-4">

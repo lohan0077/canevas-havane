@@ -46,15 +46,15 @@ export default function ContactPage() {
         <div className="text-center space-y-8 md:space-y-12 mb-12 md:mb-24">
           <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full border border-[var(--color-foreground)]/5 bg-white/40 backdrop-blur-md">
             <div className="w-1.5 h-1.5 rounded-full bg-[var(--color-primary)] animate-pulse shadow-[0_0_15px_var(--color-primary)]"></div>
-            <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] md:tracking-[0.5em] text-[var(--color-foreground)]/60 italic">Commençons l'ascension</span>
+            <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] md:tracking-[0.5em] text-[var(--color-foreground)]/70 italic">Commençons l'ascension</span>
           </div>
 
           <h1 className="text-5xl md:text-9xl font-black uppercase leading-[0.8] tracking-tighter">
-            <span className="block opacity-20">VOTRE</span>
+            <span className="block opacity-60">VOTRE</span>
             <span className="text-gradient block italic">HÉRITAGE.</span>
           </h1>
 
-          <p className="max-w-xl mx-auto text-lg md:text-xl text-[var(--color-foreground)]/50 font-light leading-relaxed px-4">
+          <p className="max-w-xl mx-auto text-lg md:text-xl text-[var(--color-foreground)]/70 font-light leading-relaxed px-4">
             Chaque projet d'exception commence par une conversation. <br className="hidden md:block" />
             Décrivez votre vision, nous construirons votre impact.
           </p>
@@ -69,7 +69,7 @@ export default function ContactPage() {
 
           <div className="relative z-10 space-y-3 md:space-y-4 text-center w-full">
             <h3 className="text-3xl md:text-4xl font-black uppercase tracking-tight text-[var(--color-secondary)]">Détails du Projet</h3>
-            <p className="text-[var(--color-foreground)]/60 text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] md:tracking-[0.4em] italic leading-loose">
+            <p className="text-[var(--color-foreground)]/70 text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] md:tracking-[0.4em] italic leading-loose">
               Informations confidentielles & privilégiées
             </p>
           </div>
@@ -100,41 +100,41 @@ export default function ContactPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 w-full">
               <div className="space-y-3 md:space-y-4 group text-center flex flex-col items-center">
-                <label className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-[var(--color-secondary)] group-focus-within:text-[var(--color-primary)] transition-colors">Nom complet</label>
+                <label className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-[var(--color-secondary)] group-focus-within:text-[var(--color-primary-texte)] transition-colors">Nom complet</label>
                 <input
                   type="text"
                   name="name"
                   required
                   placeholder="Jean-Sébastien Bach"
-                  className="w-full bg-transparent border-b-2 border-[var(--color-foreground)]/10 py-3 md:py-4 focus:outline-none focus:border-[var(--color-primary)] transition-all duration-700 font-light text-xl md:text-2xl placeholder:text-[var(--color-foreground)]/10 text-center"
+                  className="w-full bg-transparent border-b-2 border-[var(--color-foreground)]/10 py-3 md:py-4 focus:outline-none focus:border-[var(--color-primary)] transition-all duration-700 font-light text-xl md:text-2xl placeholder:text-[var(--color-foreground)]/70 text-center"
                 />
               </div>
               <div className="space-y-3 md:space-y-4 group text-center flex flex-col items-center">
-                <label className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-[var(--color-secondary)] group-focus-within:text-[var(--color-primary)] transition-colors">Email de Prestige</label>
+                <label className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-[var(--color-secondary)] group-focus-within:text-[var(--color-primary-texte)] transition-colors">Email de Prestige</label>
                 <input
                   type="email"
                   name="email"
                   required
                   placeholder="jsb@canevas-havane.com"
-                  className="w-full bg-transparent border-b-2 border-[var(--color-foreground)]/10 py-3 md:py-4 focus:outline-none focus:border-[var(--color-primary)] transition-all duration-700 font-light text-xl md:text-2xl placeholder:text-[var(--color-foreground)]/10 text-center"
+                  className="w-full bg-transparent border-b-2 border-[var(--color-foreground)]/10 py-3 md:py-4 focus:outline-none focus:border-[var(--color-primary)] transition-all duration-700 font-light text-xl md:text-2xl placeholder:text-[var(--color-foreground)]/70 text-center"
                 />
               </div>
             </div>
 
             <div className="space-y-3 md:space-y-4 group text-center flex flex-col items-center w-full">
-              <label className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-[var(--color-secondary)] group-focus-within:text-[var(--color-primary)] transition-colors">Votre Projet (Message)</label>
+              <label className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-[var(--color-secondary)] group-focus-within:text-[var(--color-primary-texte)] transition-colors">Votre Projet (Message)</label>
               <textarea
                 rows={4}
                 name="message"
                 required
                 placeholder="Décrivez l'impact que vous souhaitez créer..."
-                className="w-full bg-transparent border-b-2 border-[var(--color-foreground)]/10 py-3 md:py-4 focus:outline-none focus:border-[var(--color-primary)] transition-all duration-700 font-light text-xl md:text-2xl placeholder:text-[var(--color-foreground)]/10 resize-none text-center"
+                className="w-full bg-transparent border-b-2 border-[var(--color-foreground)]/10 py-3 md:py-4 focus:outline-none focus:border-[var(--color-primary)] transition-all duration-700 font-light text-xl md:text-2xl placeholder:text-[var(--color-foreground)]/70 resize-none text-center"
               />
             </div>
 
             <div className="pt-8 md:pt-12 text-center flex flex-col items-center w-full">
               {status === "success" && (
-                <p className="mb-8 text-sm font-medium tracking-wide text-[var(--color-primary)]" role="status">
+                <p className="mb-8 text-sm font-medium tracking-wide text-[var(--color-primary-texte)]" role="status">
                   Message envoyé. Nous revenons vers vous sous 24h ouvrées.
                 </p>
               )}
@@ -150,18 +150,18 @@ export default function ContactPage() {
               >
                 {status === "sending" ? "Envoi en cours…" : "Initier le Dialogue"}
               </button>
-              <p className="mt-8 md:mt-12 text-[9px] md:text-[10px] text-[var(--color-foreground)]/50 uppercase tracking-[0.4em] md:tracking-[0.5em] font-medium scale-90">
+              <p className="mt-8 md:mt-12 text-[9px] md:text-[10px] text-[var(--color-foreground)]/70 uppercase tracking-[0.4em] md:tracking-[0.5em] font-medium scale-90">
                 — Réponse sélective sous 24h ouvrées —
               </p>
               {/* Information au moment de la collecte (art. 13 du RGPD) : le lien du
                   pied de page ne suffit pas, il doit être là où l'on saisit ses données. */}
-              <p className="mt-6 max-w-xl text-xs md:text-sm text-[var(--color-foreground)]/60 font-light leading-relaxed">
+              <p className="mt-6 max-w-xl text-xs md:text-sm text-[var(--color-foreground)]/70 font-light leading-relaxed">
                 Votre nom, votre adresse email et votre message servent uniquement à
                 répondre à votre demande. Ils ne sont ni vendus ni cédés. Vous pouvez
                 demander à tout moment leur accès, leur rectification ou leur effacement —{" "}
                 <Link
                   href="/confidentialite"
-                  className="text-[var(--color-primary)] underline decoration-1 underline-offset-4 hover:opacity-80 transition-opacity"
+                  className="text-[var(--color-primary-texte)] underline decoration-1 underline-offset-4 hover:opacity-80 transition-opacity"
                 >
                   politique de confidentialité
                 </Link>
@@ -174,18 +174,18 @@ export default function ContactPage() {
         {/* Global Access Footer */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-24 text-center w-full mt-12 mb-12 md:mt-24 md:mb-24">
            <div className="space-y-3 md:space-y-6">
-              <h4 className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">Siège</h4>
+              <h4 className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-[var(--color-primary-texte)]">Siège</h4>
               <p className="text-xl md:text-2xl font-black uppercase tracking-tight text-[var(--color-foreground)]">Ardèche, Fr.</p>
            </div>
             <div className="space-y-3 md:space-y-6">
-               <h4 className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">Atelier</h4>
+               <h4 className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-[var(--color-primary-texte)]">Atelier</h4>
                <p className="text-xl md:text-2xl font-black uppercase tracking-tight text-[var(--color-foreground)]">Sur Mesure</p>
             </div>
            <div className="space-y-3 md:space-y-6">
-              <h4 className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">Écrire</h4>
+              <h4 className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-[var(--color-primary-texte)]">Écrire</h4>
               <a
                 href="mailto:gaultlohan@gmail.com"
-                className="text-base md:text-lg font-black uppercase tracking-tight text-[var(--color-foreground)] hover:text-[var(--color-primary)] transition-colors break-all"
+                className="text-base md:text-lg font-black uppercase tracking-tight text-[var(--color-foreground)] hover:text-[var(--color-primary-texte)] transition-colors break-all"
               >
                 gaultlohan@gmail.com
               </a>

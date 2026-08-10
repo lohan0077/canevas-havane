@@ -21,10 +21,10 @@ export default function SimulateurRachat() {
   return (
     <div className="glass-card rounded-[2rem] md:rounded-[3rem] p-8 md:p-16 space-y-12">
       <div className="space-y-4 text-center">
-        <h3 className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.4em] text-[var(--color-primary)]">
+        <h3 className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.4em] text-[var(--color-primary-texte)]">
           Simulateur
         </h3>
-        <p className="text-xl md:text-2xl font-light text-[var(--color-foreground)]/60 font-serif">
+        <p className="text-xl md:text-2xl font-light text-[var(--color-foreground)]/70 font-serif">
           Estimez votre partenariat en un chiffre.
         </p>
       </div>
@@ -46,7 +46,7 @@ export default function SimulateurRachat() {
             onChange={(e) => setBenefice(Math.max(0, Number(e.target.value) || 0))}
             className="w-48 bg-transparent border-b-2 border-[var(--color-foreground)]/10 py-3 focus:outline-none focus:border-[var(--color-primary)] transition-all duration-700 font-light text-3xl md:text-5xl text-center"
           />
-          <span className="text-3xl md:text-5xl font-light text-[var(--color-foreground)]/20">€</span>
+          <span className="text-3xl md:text-5xl font-light text-[var(--color-foreground)]/70">€</span>
         </div>
         <input
           type="range"
@@ -62,31 +62,31 @@ export default function SimulateurRachat() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 pt-8 border-t border-[var(--color-foreground)]/5">
         <div className="space-y-3 text-center">
-          <span className="block text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-foreground)]/30">
+          <span className="block text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-foreground)]/70">
             Votre part mensuelle
           </span>
           <p className="text-2xl md:text-4xl font-medium font-serif text-[var(--color-foreground)]">
             {euros(benefice - commissionMax)} – {euros(benefice - commissionMin)}
           </p>
-          <span className="block text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-[var(--color-foreground)]/25 italic">
+          <span className="block text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-[var(--color-foreground)]/70 italic">
             après commission de {euros(commissionMin)} à {euros(commissionMax)}
           </span>
         </div>
 
         <div className="space-y-3 text-center">
-          <span className="block text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-primary)]">
+          <span className="block text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-primary-texte)]">
             Prix de rachat
           </span>
-          <p className="text-2xl md:text-4xl font-medium font-serif text-[var(--color-primary)]">
+          <p className="text-2xl md:text-4xl font-medium font-serif text-[var(--color-primary-texte)]">
             {euros(rachat)}
           </p>
-          <span className="block text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-[var(--color-foreground)]/25 italic">
+          <span className="block text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-[var(--color-foreground)]/70 italic">
             pour devenir pleinement propriétaire
           </span>
         </div>
       </div>
 
-      <p className="text-[10px] md:text-[11px] text-center text-[var(--color-foreground)]/25 uppercase tracking-[0.25em] leading-loose">
+      <p className="text-[10px] md:text-[11px] text-center text-[var(--color-foreground)]/70 uppercase tracking-[0.25em] leading-loose">
         Estimation indicative — le taux exact est fixé lors de la négociation.
       </p>
     </div>

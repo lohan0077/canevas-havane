@@ -25,14 +25,14 @@ export default function BlogPage() {
         {/* Editorial Header */}
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10 md:gap-12 mb-24 md:mb-48">
           <div className="space-y-6 md:space-y-8 max-w-3xl">
-             <h4 className="text-[10px] md:text-[12px] font-black uppercase tracking-[0.6em] text-[var(--color-primary)] mb-8 md:mb-12">Le Journal d'Exception</h4>
+             <h4 className="text-[10px] md:text-[12px] font-black uppercase tracking-[0.6em] text-[var(--color-primary-texte)] mb-8 md:mb-12">Le Journal d'Exception</h4>
               <h1 className="heading-display text-left">
                 RÉFLEXIONS & <br />
-                <span className="opacity-10 italic font-light tracking-[-0.05em] uppercase">VISION.</span>
+                <span className="opacity-60 italic font-light tracking-[-0.05em] uppercase">VISION.</span>
               </h1>
           </div>
           <div className="space-y-12 text-left lg:text-right w-full lg:w-auto">
-            <p className="text-lg md:text-xl text-[var(--color-foreground)]/30 font-light max-w-sm lg:border-r border-[var(--color-foreground)]/10 lg:pr-8 pb-4">
+            <p className="text-lg md:text-xl text-[var(--color-foreground)]/70 font-light max-w-sm lg:border-r border-[var(--color-foreground)]/10 lg:pr-8 pb-4">
               Une exploration immersive des frontières entre design de prestige et technologie de pointe.
             </p>
           </div>
@@ -51,6 +51,7 @@ export default function BlogPage() {
                   src={categories[1].image}
                   alt={categories[1].label}
                   fill
+                  sizes="(max-width: 1200px) 100vw, 1200px"
                   className="object-cover opacity-60 group-hover:opacity-80 transition-all duration-1000 transform group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent" />
@@ -59,7 +60,7 @@ export default function BlogPage() {
               <div className="relative z-20 h-full flex flex-col justify-center p-8 md:p-32 space-y-8 md:space-y-10">
                 <div className="space-y-6 md:space-y-10 max-w-2xl">
                   <div className="flex items-center gap-4 md:gap-8">
-                      <span className="text-3xl md:text-4xl text-[var(--color-primary)] group-hover:scale-110 transition-transform duration-500">{categories[1].icon}</span>
+                      <span className="text-3xl md:text-4xl text-[var(--color-primary-texte)] group-hover:scale-110 transition-transform duration-500">{categories[1].icon}</span>
                       <span className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.3em] md:tracking-[0.4em] text-white/70 italic">Expériences Web Immersives</span>
                   </div>
                   <h2 className="text-5xl md:text-8xl font-medium uppercase tracking-tight leading-[0.85] text-white font-serif">
@@ -89,17 +90,18 @@ export default function BlogPage() {
                           src={cat.image}
                           alt={cat.label}
                           fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                           className="object-contain opacity-20 group-hover:opacity-40 transition-opacity duration-700 p-8"
                        />
                        <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-background)]/80 via-transparent to-transparent z-10" />
 
                        <div className="relative z-20 space-y-3 p-4 md:p-8">
-                          <span className="text-3xl md:text-4xl text-[var(--color-primary)] opacity-40 group-hover:opacity-100 transition-opacity duration-700">{cat.icon}</span>
-                          <h3 className="text-3xl md:text-4xl font-medium uppercase tracking-tight font-serif group-hover:text-[var(--color-primary)] transition-colors">{cat.label}</h3>
-                          <p className="text-base md:text-lg text-[var(--color-foreground)]/50 font-light leading-relaxed line-clamp-2">
+                          <span className="text-3xl md:text-4xl text-[var(--color-primary-texte)] opacity-40 group-hover:opacity-100 transition-opacity duration-700">{cat.icon}</span>
+                          <h3 className="text-3xl md:text-4xl font-medium uppercase tracking-tight font-serif group-hover:text-[var(--color-primary-texte)] transition-colors">{cat.label}</h3>
+                          <p className="text-base md:text-lg text-[var(--color-foreground)]/70 font-light leading-relaxed line-clamp-2">
                             {cat.desc}
                           </p>
-                          <div className="pt-4 flex items-center gap-2 text-[9px] md:text-[10px] font-black uppercase tracking-widest text-[var(--color-primary)] opacity-100 md:opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-0 md:translate-y-4 group-hover:translate-y-0">
+                          <div className="pt-4 flex items-center gap-2 text-[9px] md:text-[10px] font-black uppercase tracking-widest text-[var(--color-primary-texte)] opacity-100 md:opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-0 md:translate-y-4 group-hover:translate-y-0">
                             Explorer le Blog <span>→</span>
                           </div>
                        </div>
@@ -112,12 +114,12 @@ export default function BlogPage() {
           /* Header for Filtered View (Keep existing logic or simplify) */
           <div className="mb-32 flex justify-between items-center border-b border-[var(--color-foreground)]/5 pb-12">
              <div className="space-y-4">
-                <span className="text-[11px] font-black uppercase tracking-[0.5em] text-[var(--color-primary)] italic">Archive</span>
+                <span className="text-[11px] font-black uppercase tracking-[0.5em] text-[var(--color-primary-texte)] italic">Archive</span>
                 <h2 className="text-6xl font-medium uppercase tracking-tight font-serif">{activeCategory}</h2>
              </div>
              <button
                 onClick={() => setActiveCategory("Tous")}
-                className="group flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.4em] text-[var(--color-foreground)]/30 hover:text-[var(--color-foreground)] transition-colors"
+                className="group flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.4em] text-[var(--color-foreground)]/70 hover:text-[var(--color-foreground)] transition-colors"
              >
                 <span className="w-8 h-[1px] bg-current group-hover:w-16 transition-all duration-500"></span>
                 Retour au Journal
@@ -127,12 +129,12 @@ export default function BlogPage() {
 
         {/* Articles Grid */}
         {activeCategory === "Tous" && (
-          <h2 className="text-[10px] md:text-[12px] font-black uppercase tracking-[0.6em] text-[var(--color-primary)] mb-16 md:mb-24">
+          <h2 className="text-[10px] md:text-[12px] font-black uppercase tracking-[0.6em] text-[var(--color-primary-texte)] mb-16 md:mb-24">
             Tous les articles
           </h2>
         )}
         {filteredArticles.length === 0 ? (
-          <p className="text-lg text-[var(--color-foreground)]/40 font-light italic mb-32">
+          <p className="text-lg text-[var(--color-foreground)]/70 font-light italic mb-32">
             Aucun article dans cette catégorie pour le moment.
           </p>
         ) : (
@@ -150,17 +152,17 @@ export default function BlogPage() {
                   </div>
                   <div className="space-y-6 md:space-y-8 px-2 md:px-4">
                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[var(--color-primary)] italic">{article.category}</span>
-                        <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[var(--color-foreground)]/20">{article.date}</span>
+                        <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[var(--color-primary-texte)] italic">{article.category}</span>
+                        <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[var(--color-foreground)]/70">{article.date}</span>
                      </div>
-                     <h3 className="text-2xl md:text-3xl font-medium uppercase tracking-tight leading-[0.9] group-hover:text-[var(--color-primary)] transition-colors duration-700 font-serif">
+                     <h3 className="text-2xl md:text-3xl font-medium uppercase tracking-tight leading-[0.9] group-hover:text-[var(--color-primary-texte)] transition-colors duration-700 font-serif">
                         {article.title}
                      </h3>
-                     <p className="text-base md:text-lg text-[var(--color-foreground)]/50 font-light leading-relaxed">
+                     <p className="text-base md:text-lg text-[var(--color-foreground)]/70 font-light leading-relaxed">
                         {article.excerpt}
                      </p>
                      <div className="pt-6 border-t border-[var(--color-foreground)]/5 flex justify-between items-center group-hover:border-[var(--color-primary)]/20 transition-colors">
-                        <span className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.4em] text-[var(--color-foreground)]/30 group-hover:text-[var(--color-foreground)] transition-colors">Explorer l'article</span>
+                        <span className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.4em] text-[var(--color-foreground)]/70 group-hover:text-[var(--color-foreground)] transition-colors">Explorer l'article</span>
                         <div className="w-12 h-[1px] bg-[var(--color-foreground)]/10 group-hover:w-24 group-hover:bg-[var(--color-primary)] transition-all duration-700"></div>
                      </div>
                   </div>
@@ -178,7 +180,7 @@ export default function BlogPage() {
            </div>
 
            <div className="space-y-4 relative z-10">
-              <h4 className="text-[10px] md:text-[12px] font-black uppercase tracking-[0.6em] md:tracking-[0.8em] text-[var(--color-primary)]">Parlons de votre projet</h4>
+              <h4 className="text-[10px] md:text-[12px] font-black uppercase tracking-[0.6em] md:tracking-[0.8em] text-[var(--color-primary-texte)]">Parlons de votre projet</h4>
               <h2 className="text-3xl md:text-5xl lg:text-[6rem] font-medium uppercase tracking-tight leading-[0.9] md:leading-[0.8] text-white font-serif">
                 ENGAGER LE <br />
                 <span className="text-gradient italic font-light">DIALOGUE.</span>
