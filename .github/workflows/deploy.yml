@@ -60,13 +60,25 @@ jobs:
       # preuve. Il se relance désormais à chaque poussée.
       - name: Contraste des textes (mesuré en navigateur)
         run: |
-          npx --yes playwright@1.62.1 install --with-deps chromium
-          npx next start -p 3100 &
+          npx playwright install --with-deps chromium
+          # On démarre le serveur `standalone`, pas `next start` : c'est exactement
+          # celui que lance le conteneur en production (`CMD node server.js`).
+          # `next start` refuse d'ailleurs de fonctionner avec `output: standalone`
+          # — il le dit lui-même dans ses journaux. Mesurer autre chose que ce qui
+          # part en ligne n'aurait pas grand sens.
+          cp -r public .next/standalone/
+          cp -r .next/static .next/standalone/.next/
+          PORT=3100 node .next/standalone/server.js &
           for i in $(seq 1 30); do
             curl -sf -o /dev/null http://localhost:3100/ && break
             sleep 2
           done
-          npx --yes -p playwright@1.62.1 node outils/contraste.mjs http://localhost:3100
+          # Garde-fou : si un autre service occupait le port, on mesurerait le mauvais
+          # site sans s'en apercevoir. C'est arrivé pendant le contre-audit — la mesure
+          # portait sur kéo.fr, qui tournait sur le port choisi.
+          curl -s http://localhost:3100/ | grep -q "Canevas Havane" \
+            || { echo "::error::Le port 3100 ne sert pas Canevas Havane"; exit 1; }
+          node outils/contraste.mjs http://localhost:3100
 
       # Les trois outils ci-dessous sont installés en versions figées plutôt
       # qu'appelés via des actions tierces : une étiquette d'action peut être
