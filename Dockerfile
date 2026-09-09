@@ -5,6 +5,13 @@
 # 10/08/2026. Quand cette date approchera, on remonte d'une version LTS — et
 # l'étape `trivy image` de la CI le rappellera avant qu'il soit tard.
 FROM node:22-alpine AS base
+# Correctifs de sécurité de l'OS de l'image de base : le tag `node:22-alpine`
+# n'est pas toujours reconstruit dès qu'un paquet Alpine est corrigé, et
+# `trivy image` (porte de sortie de la CI) refuse une faille GRAVE dès qu'un
+# correctif existe. On remonte donc les paquets à leur version corrigée à la
+# construction, plutôt que de désactiver le contrôle. Ex. openssl
+# (libcrypto3/libssl3) CVE-2026-14456, corrigé en 3.5.8-r0.
+RUN apk upgrade --no-cache libcrypto3 libssl3
 
 FROM base AS deps
 RUN apk add --no-cache libc6-compat
