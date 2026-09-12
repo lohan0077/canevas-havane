@@ -4,8 +4,9 @@
 
 Site vitrine de **Canevas Havane**, agence de création numérique (Lohan Gault, micro-entreprise,
 SIREN 927 448 647). Cible : dirigeants de PME cherchant un site haut de gamme. Modèle : site
-livré sans avance de frais, rémunération sur le bénéfice généré, plus un abonnement SEO à
-150 €/mois et un rachat possible à 10 × le bénéfice mensuel.
+livré sans avance de frais, rémunération négociée au devis (montant fixe ou pourcentage
+du bénéfice), plus un abonnement SEO à 150 €/mois et un rachat possible à 10 × le bénéfice
+mensuel, sauf accord différent au devis (modèle mis à jour le 12/09/2026).
 
 Next.js 16 · React 19 · Tailwind 4 · Docker sur VPS Hetzner derrière Caddy · déploiement
 GitHub Actions au push sur `main`. **Ni base de données, ni compte utilisateur, ni paiement

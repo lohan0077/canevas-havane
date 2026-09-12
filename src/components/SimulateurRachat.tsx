@@ -5,8 +5,6 @@ import { useState } from "react";
 // Prix de rachat = bénéfice mensuel × ce multiplicateur.
 // Modifier cette seule valeur suffit à changer la formule sur toute la page.
 const MULTIPLICATEUR_RACHAT = 10;
-const COMMISSION_MIN = 0.25;
-const COMMISSION_MAX = 0.5;
 
 const euros = (n: number) =>
   new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR", maximumFractionDigits: 0 }).format(n);
@@ -15,8 +13,6 @@ export default function SimulateurRachat() {
   const [benefice, setBenefice] = useState(100);
 
   const rachat = benefice * MULTIPLICATEUR_RACHAT;
-  const commissionMin = benefice * COMMISSION_MIN;
-  const commissionMax = benefice * COMMISSION_MAX;
 
   return (
     <div className="glass-card rounded-[2rem] md:rounded-[3rem] p-8 md:p-16 space-y-12">
@@ -60,24 +56,12 @@ export default function SimulateurRachat() {
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 pt-8 border-t border-[var(--color-foreground)]/5">
-        <div className="space-y-3 text-center">
-          <span className="block text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-foreground)]/70">
-            Votre part mensuelle
-          </span>
-          <p className="text-2xl md:text-4xl font-medium font-serif text-[var(--color-foreground)]">
-            {euros(benefice - commissionMax)} – {euros(benefice - commissionMin)}
-          </p>
-          <span className="block text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-[var(--color-foreground)]/70 italic">
-            après commission de {euros(commissionMin)} à {euros(commissionMax)}
-          </span>
-        </div>
-
+      <div className="pt-8 border-t border-[var(--color-foreground)]/5">
         <div className="space-y-3 text-center">
           <span className="block text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-primary-texte)]">
             Prix de rachat
           </span>
-          <p className="text-2xl md:text-4xl font-medium font-serif text-[var(--color-primary-texte)]">
+          <p className="text-3xl md:text-5xl font-medium font-serif text-[var(--color-primary-texte)]">
             {euros(rachat)}
           </p>
           <span className="block text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-[var(--color-foreground)]/70 italic">
@@ -87,7 +71,7 @@ export default function SimulateurRachat() {
       </div>
 
       <p className="text-[10px] md:text-[11px] text-center text-[var(--color-foreground)]/70 uppercase tracking-[0.25em] leading-loose">
-        Estimation indicative — le taux exact est fixé lors de la négociation.
+        Estimation indicative — les modalités exactes sont fixées au devis.
       </p>
     </div>
   );
