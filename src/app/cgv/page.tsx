@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 /** Dernière révision du texte — à mettre à jour à chaque modification de fond. */
-const derniereMiseAJour = "9 août 2026";
+const derniereMiseAJour = "12 septembre 2026";
 
 const prestataire = {
   nomComplet: "Lohan Gault",
@@ -53,7 +53,8 @@ const articles: { titre: string; contenu: React.ReactNode }[] = [
           <li>
             <strong>Création de site internet en partenariat</strong> — conception,
             développement, hébergement et maintenance, sans avance de frais du Client. Le
-            Prestataire se rémunère par une commission sur le bénéfice généré par le site.
+            Prestataire se rémunère selon des modalités négociées et fixées au devis :
+            montant forfaitaire ou pourcentage du bénéfice généré par le site.
           </li>
           <li>
             <strong>Référencement naturel (SEO)</strong> — prestation récurrente facturée
@@ -98,9 +99,10 @@ const articles: { titre: string; contenu: React.ReactNode }[] = [
         </p>
         <ul className="space-y-3 list-disc pl-6">
           <li>
-            <strong>Création de site en partenariat</strong> — aucun frais initial. Le
-            Prestataire perçoit une commission comprise entre <strong>25 % et 50 %</strong>{" "}
-            du bénéfice mensuel généré par le site, dont le taux exact est fixé au devis.
+            <strong>Création de site en partenariat</strong> — aucun frais initial. La
+            rémunération du Prestataire est négociée avec le Client et fixée au devis :
+            soit un <strong>montant forfaitaire mensuel</strong>, soit un{" "}
+            <strong>pourcentage du bénéfice mensuel</strong> généré par le site.
           </li>
           <li>
             <strong>Référencement naturel</strong> — <strong>150 € par mois</strong>,
@@ -124,9 +126,10 @@ const articles: { titre: string; contenu: React.ReactNode }[] = [
     contenu: (
       <>
         <p>
-          Les prestations récurrentes sont facturées mensuellement, à terme échu. Les
-          commissions sur bénéfice sont facturées mensuellement sur la base des résultats
-          constatés le mois précédent, dont le Client communique les éléments.
+          Les prestations récurrentes sont facturées mensuellement, à terme échu. La
+          rémunération du partenariat est facturée mensuellement ; lorsqu'elle est assise
+          sur le bénéfice, elle est calculée sur les résultats constatés le mois précédent,
+          dont le Client communique les éléments.
         </p>
         <p>
           Sauf mention contraire au devis, les factures sont payables à{" "}
@@ -193,7 +196,7 @@ const articles: { titre: string; contenu: React.ReactNode }[] = [
         </p>
         <p>
           Le rachat effectif transfère l'intégralité des droits d'exploitation au Client et met
-          fin à la commission sur bénéfice, à compter du paiement complet du prix.
+          fin à la rémunération du partenariat, à compter du paiement complet du prix.
         </p>
       </>
     ),
@@ -206,7 +209,8 @@ const articles: { titre: string; contenu: React.ReactNode }[] = [
           La bonne exécution des prestations suppose la collaboration active du Client. Celui-ci
           s'engage à fournir en temps utile les contenus, accès et informations nécessaires, à
           désigner un interlocuteur unique habilité à valider, et à communiquer de bonne foi les
-          éléments comptables permettant de calculer la commission sur bénéfice.
+          éléments comptables permettant de calculer la rémunération, lorsque celle-ci est
+          assise sur le bénéfice.
         </p>
         <p>
           Les retards imputables au Client dans la fourniture de ces éléments décalent
