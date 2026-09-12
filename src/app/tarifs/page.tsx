@@ -4,9 +4,9 @@ import SimulateurRachat from "@/components/SimulateurRachat";
 import { adressesDeLaPage, breadcrumbJsonLd, jsonLdScript, siteUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Tarifs — Partenariat à la Commission",
+  title: "Tarifs — Partenariat sans avance de frais",
   description:
-    "Votre site de prestige sans avance de frais : Canevas Havane se rémunère sur le bénéfice généré. SEO en abonnement à 150 €/mois, campagnes Ads sur devis.",
+    "Votre site de prestige à 0 € d'avance : rémunération négociée au devis, montant fixe ou pourcentage du bénéfice, rachat possible à tout moment. SEO à 150 €/mois.",
   ...adressesDeLaPage("/tarifs"),
 };
 
@@ -20,7 +20,7 @@ const offres = [
       "Conception & développement sur mesure",
       "Hébergement et maintenance inclus",
       "Évolutions continues du site",
-      "Rémunération de 25 à 50 % du bénéfice généré",
+      "Rémunération négociée au devis : montant fixe ou pourcentage du bénéfice",
     ],
     note: "Canevas Havane demeure propriétaire du site. Option de rachat à tout moment.",
     accent: true,
@@ -64,21 +64,21 @@ const etapes = [
   },
   {
     num: "02",
+    titre: "Accord",
+    texte:
+      "Nous fixons ensemble la rémunération, inscrite au devis : un montant fixe ou un pourcentage du bénéfice. Rien d'autre, rien de caché.",
+  },
+  {
+    num: "03",
     titre: "Création",
     texte:
       "Conception, développement et mise en ligne. Vous ne réglez rien : nous prenons le risque à votre place.",
   },
   {
-    num: "03",
+    num: "04",
     titre: "Croissance",
     texte:
-      "Le site travaille. Hébergement, maintenance et améliorations restent à notre charge.",
-  },
-  {
-    num: "04",
-    titre: "Partage",
-    texte:
-      "Nous percevons entre 25 et 50 % du bénéfice généré. Sans bénéfice, aucune facture.",
+      "Le site travaille. Hébergement, maintenance et améliorations restent à notre charge — et vous pouvez racheter le site quand vous le décidez.",
   },
 ];
 
@@ -93,7 +93,7 @@ const offreCatalogueJsonLd = {
       "@type": "Offer",
       name: "Création de site internet",
       description:
-        "Conception, développement, hébergement et maintenance sans avance de frais. Rémunération de 25 à 50 % du bénéfice généré.",
+        "Conception, développement, hébergement et maintenance sans avance de frais. Rémunération négociée au devis : montant fixe ou pourcentage du bénéfice généré.",
       price: "0",
       priceCurrency: "EUR",
       category: "Création de site internet",
@@ -149,8 +149,8 @@ export default function TarifsPage() {
           </h1>
 
           <p className="max-w-2xl mx-auto text-lg md:text-xl text-[var(--color-foreground)]/70 font-light leading-relaxed px-4">
-            Nous ne vendons pas un site, nous misons sur votre croissance. <br className="hidden md:block" />
-            Vous ne payez que sur ce que le site vous rapporte réellement.
+            Nous créons votre site à nos frais, sans que vous avanciez un euro. <br className="hidden md:block" />
+            La rémunération se négocie ensemble — un montant fixe ou un pourcentage du bénéfice.
           </p>
         </div>
 
@@ -252,9 +252,10 @@ export default function TarifsPage() {
             </p>
             <p className="text-lg md:text-xl text-[var(--color-foreground)]/70 font-light leading-relaxed">
               Pendant le partenariat, le site reste notre propriété : c'est ce qui nous permet de le créer sans
-              rien vous facturer. À tout moment, vous pouvez en acquérir la pleine propriété. Le prix de rachat
-              équivaut à <span className="text-[var(--color-foreground)] font-normal">dix fois le bénéfice mensuel</span> que
-              le site génère alors.
+              rien vous facturer. À tout moment, vous pouvez en acquérir la pleine propriété. Sauf accord
+              différent inscrit au devis, le prix de rachat équivaut à{" "}
+              <span className="text-[var(--color-foreground)] font-normal">dix fois le bénéfice mensuel</span> que
+              le site génère alors — et la rémunération s'arrête.
             </p>
           </div>
 
