@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { adressesDeLaPage } from "@/lib/seo";
 import Link from "next/link";
 import Image from "next/image";
+import SimulateurRachat from "@/components/SimulateurRachat";
 
 export const metadata: Metadata = {
   title: "Canevas Havane | Agence Web & Design de Prestige en Ardèche",
@@ -37,6 +38,24 @@ const expertiseImages = [
   "/macbook-hero-final.webp",
   "/seo-luxury-new.webp",
   "/ads-luxury-new.webp"
+];
+
+const modelesPartenariat = [
+  {
+    label: "Rendez-vous",
+    facturation: "Par rendez-vous pris via votre site",
+    pourQui: "Ostéopathes, psychologues, courtiers, auto-écoles…",
+  },
+  {
+    label: "Vente en ligne",
+    facturation: "En pourcentage des ventes réalisées via votre site",
+    pourQui: "Épiceries fines, caves, torréfacteurs, créateurs…",
+  },
+  {
+    label: "Demandes de devis",
+    facturation: "Par demande de devis qualifiée reçue via votre site",
+    pourQui: "Piscinistes, cuisinistes, installateurs, paysagistes…",
+  },
 ];
 
 const projects = [
@@ -242,6 +261,48 @@ export default function Home() {
                 <span aria-hidden="true" className="text-7xl font-medium text-[var(--color-foreground)]/[0.05] select-none pointer-events-none uppercase tracking-tighter font-serif">ARTISAN</span>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Le partenariat : 0 € à l'avance, trois modèles, simulateur */}
+      <section className="w-full bg-[var(--color-background)]" style={{ marginTop: '100px', paddingTop: '50px', paddingBottom: '50px' }}>
+        <div className="max-centered-container px-6 space-y-16 md:space-y-24">
+          <div className="text-center space-y-6 max-w-3xl mx-auto">
+            <h4 className="text-[11px] font-black uppercase tracking-[0.4em] text-[var(--color-primary-texte)]">Le partenariat</h4>
+            <h2 className="text-4xl md:text-6xl font-medium uppercase tracking-tight leading-none font-serif">
+              0 € À L'AVANCE, <br />
+              <span className="opacity-60 italic">PAYÉ AU TRAVAIL FOURNI.</span>
+            </h2>
+            <p className="text-xl text-[var(--color-foreground)]/70 font-light leading-relaxed">
+              Nous créons votre site à nos frais. Vous ne payez que sur ce qu'il vous
+              rapporte — montant fixé ensemble à la signature, rachat possible à tout moment.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {modelesPartenariat.map((m) => (
+              <div key={m.label} className="glass-card rounded-[2rem] p-8 space-y-4 text-center">
+                <h3 className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.4em] text-[var(--color-primary-texte)]">
+                  {m.label}
+                </h3>
+                <p className="text-xl md:text-2xl font-medium font-serif tracking-tight leading-tight">
+                  {m.facturation}
+                </p>
+                <p className="text-base text-[var(--color-foreground)]/70 font-light leading-relaxed">{m.pourQui}</p>
+              </div>
+            ))}
+          </div>
+
+          <SimulateurRachat />
+
+          <div className="text-center">
+            <Link
+              href="/tarifs"
+              className="text-[11px] font-black uppercase tracking-[0.3em] text-[var(--color-primary-texte)] hover:underline decoration-1 underline-offset-8"
+            >
+              Le détail du modèle, la FAQ et les tarifs →
+            </Link>
           </div>
         </div>
       </section>
