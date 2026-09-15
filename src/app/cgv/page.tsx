@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 /** Dernière révision du texte — à mettre à jour à chaque modification de fond. */
-const derniereMiseAJour = "12 septembre 2026";
+const derniereMiseAJour = "15 septembre 2026";
 
 const prestataire = {
   nomComplet: "Lohan Gault",
@@ -53,8 +53,10 @@ const articles: { titre: string; contenu: React.ReactNode }[] = [
           <li>
             <strong>Création de site internet en partenariat</strong> — conception,
             développement, hébergement et maintenance, sans avance de frais du Client. Le
-            Prestataire se rémunère selon des modalités négociées et fixées au devis :
-            montant forfaitaire ou pourcentage du bénéfice généré par le site.
+            Prestataire se rémunère uniquement sur l'activité passée via le site, selon le
+            modèle négocié et fixé au devis : montant par rendez-vous pris via le site,
+            pourcentage des ventes réalisées via le site, ou montant par demande de devis
+            qualifiée reçue via le site.
           </li>
           <li>
             <strong>Référencement naturel (SEO)</strong> — prestation récurrente facturée
@@ -100,9 +102,13 @@ const articles: { titre: string; contenu: React.ReactNode }[] = [
         <ul className="space-y-3 list-disc pl-6">
           <li>
             <strong>Création de site en partenariat</strong> — aucun frais initial. La
-            rémunération du Prestataire est négociée avec le Client et fixée au devis :
-            soit un <strong>montant forfaitaire mensuel</strong>, soit un{" "}
-            <strong>pourcentage du bénéfice mensuel</strong> généré par le site.
+            rémunération du Prestataire est négociée avec le Client et fixée au devis selon
+            l'un des modèles suivants : un <strong>montant fixe ou un pourcentage par
+            rendez-vous pris via le site</strong> ; un <strong>pourcentage des ventes
+            réalisées via le site</strong> ; un <strong>montant fixe par demande de devis
+            qualifiée reçue via le site</strong>, c'est-à-dire un formulaire complété avec
+            des coordonnées valides. Les opérations réalisées en dehors du site ne donnent
+            lieu à aucune rémunération.
           </li>
           <li>
             <strong>Référencement naturel</strong> — <strong>150 € par mois</strong>,
@@ -127,9 +133,9 @@ const articles: { titre: string; contenu: React.ReactNode }[] = [
       <>
         <p>
           Les prestations récurrentes sont facturées mensuellement, à terme échu. La
-          rémunération du partenariat est facturée mensuellement ; lorsqu'elle est assise
-          sur le bénéfice, elle est calculée sur les résultats constatés le mois précédent,
-          dont le Client communique les éléments.
+          rémunération du partenariat est facturée mensuellement, sur la base des rendez-vous,
+          ventes et demandes de devis constatés via le site le mois précédent et recensés
+          dans un journal consultable en permanence par le Client.
         </p>
         <p>
           Sauf mention contraire au devis, les factures sont payables à{" "}
@@ -189,10 +195,11 @@ const articles: { titre: string; contenu: React.ReactNode }[] = [
           d'exploiter.
         </p>
         <p>
-          Le Client peut à tout moment acquérir la pleine propriété du site. Le prix de rachat
-          est égal, sauf accord différent formalisé au devis, à <strong>dix fois le bénéfice
-          mensuel</strong> généré par le site, apprécié sur la moyenne des trois derniers mois.
-          Le simulateur présenté sur le site est indicatif et ne constitue pas une offre ferme.
+          Le Client peut à tout moment acquérir la pleine propriété du site. Sauf accord
+          différent formalisé au devis, le prix de rachat est égal à <strong>dix fois le
+          montant mensuel moyen facturé au titre du partenariat</strong>, apprécié sur les
+          trois derniers mois. Le simulateur présenté sur le site est indicatif et ne
+          constitue pas une offre ferme.
         </p>
         <p>
           Le rachat effectif transfère l'intégralité des droits d'exploitation au Client et met
@@ -208,9 +215,9 @@ const articles: { titre: string; contenu: React.ReactNode }[] = [
         <p>
           La bonne exécution des prestations suppose la collaboration active du Client. Celui-ci
           s'engage à fournir en temps utile les contenus, accès et informations nécessaires, à
-          désigner un interlocuteur unique habilité à valider, et à communiquer de bonne foi les
-          éléments comptables permettant de calculer la rémunération, lorsque celle-ci est
-          assise sur le bénéfice.
+          désigner un interlocuteur unique habilité à valider, et à communiquer de bonne foi
+          les éléments permettant de vérifier les opérations facturables, lorsqu'elles ne sont
+          pas constatées directement via le site.
         </p>
         <p>
           Les retards imputables au Client dans la fourniture de ces éléments décalent
