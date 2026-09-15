@@ -195,8 +195,11 @@ const articles: { titre: string; contenu: React.ReactNode }[] = [
           d'exploiter.
         </p>
         <p>
-          Le Client peut à tout moment acquérir la pleine propriété du site, au prix et selon
-          les modalités de rachat <strong>fixés au devis dès la conclusion du contrat</strong>.
+          Le Client peut à tout moment acquérir la pleine propriété du site. Sauf accord
+          différent formalisé au devis, le prix de rachat est égal à <strong>dix fois le
+          montant mensuel moyen facturé au titre du partenariat</strong>, apprécié sur les
+          trois derniers mois. Le simulateur présenté sur le site est indicatif et ne
+          constitue pas une offre ferme.
         </p>
         <p>
           Le rachat effectif transfère l'intégralité des droits d'exploitation au Client et met

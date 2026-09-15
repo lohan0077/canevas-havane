@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import SimulateurRachat from "@/components/SimulateurRachat";
 import { adressesDeLaPage, breadcrumbJsonLd, jsonLdScript, siteUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -131,7 +132,7 @@ const faq = [
   {
     question: "Puis-je racheter mon site ?",
     reponse:
-      "Oui, à tout moment. Pendant le partenariat, le site est la propriété de Canevas Havane — c'est ce qui permet de le créer sans avance de frais. Les conditions de rachat sont inscrites au devis dès la signature ; le rachat vous transfère la pleine propriété et met fin à la facturation du partenariat.",
+      "Oui, à tout moment. Pendant le partenariat, le site est la propriété de Canevas Havane — c'est ce qui permet de le créer sans avance de frais. Sauf accord différent inscrit au devis, le prix de rachat équivaut à dix fois le montant mensuel du partenariat ; le rachat vous transfère la propriété à 100 % et met fin à la facturation.",
   },
   {
     question: "Comment ça se passe si j'arrête ?",
@@ -353,6 +354,27 @@ export default function TarifsPage() {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Propriété & rachat */}
+        <div className="space-y-16 md:space-y-20 mb-32 md:mb-48">
+          <div className="text-center space-y-8 max-w-3xl mx-auto">
+            <h2 className="text-[10px] md:text-[12px] font-black uppercase tracking-[0.6em] text-[var(--color-primary-texte)]">
+              Propriété & rachat
+            </h2>
+            <p className="text-3xl md:text-5xl font-medium uppercase tracking-tight font-serif leading-[0.95]">
+              Devenez propriétaire <span className="text-gradient italic">à 100 %, quand vous le décidez.</span>
+            </p>
+            <p className="text-lg md:text-xl text-[var(--color-foreground)]/70 font-light leading-relaxed">
+              Pendant le partenariat, le site reste notre propriété : c'est ce qui nous permet de le créer sans
+              rien vous facturer. À tout moment, vous pouvez en acquérir la pleine propriété. Sauf accord
+              différent inscrit au devis, le prix de rachat équivaut à{" "}
+              <span className="text-[var(--color-foreground)] font-normal">dix fois le montant mensuel du partenariat</span>{" "}
+              — et la facturation s'arrête.
+            </p>
+          </div>
+
+          <SimulateurRachat />
         </div>
 
         {/* FAQ */}
