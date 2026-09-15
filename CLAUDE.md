@@ -7,8 +7,10 @@ SIREN 927 448 647). Cible : dirigeants de PME cherchant un site haut de gamme. M
 livré sans avance de frais, facturation fixée au devis sur l'activité passée via le site
 selon trois modèles — montant par rendez-vous pris, pourcentage des ventes en ligne, montant
 par demande de devis qualifiée —, plus un abonnement SEO à 150 €/mois et un rachat à
-10 × le montant mensuel du partenariat, sauf accord différent au devis (modèle mis à jour
-le 15/09/2026). Vocabulaire
+10 × le chiffre d'affaires mensuel moyen généré via le site sur 6 mois, plancher 1 500 € HT,
+sauf accord différent au devis. Le contrat de référence est
+`contrat-partenariat-canevas-havane-v2.docx` (hors dépôt) ; CGV et /tarifs alignés dessus
+le 15/09/2026. Vocabulaire
 interdit sur /tarifs : « bénéfice », « lead », « commission », « 25 à 50 % » ; aucune promesse
 chiffrée de résultats.
 

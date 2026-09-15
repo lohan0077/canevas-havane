@@ -101,14 +101,19 @@ const articles: { titre: string; contenu: React.ReactNode }[] = [
         </p>
         <ul className="space-y-3 list-disc pl-6">
           <li>
-            <strong>Création de site en partenariat</strong> — aucun frais initial. La
-            rémunération du Prestataire est négociée avec le Client et fixée au devis selon
-            l'un des modèles suivants : un <strong>montant fixe ou un pourcentage par
-            rendez-vous pris via le site</strong> ; un <strong>pourcentage des ventes
-            réalisées via le site</strong> ; un <strong>montant fixe par demande de devis
-            qualifiée reçue via le site</strong>, c'est-à-dire un formulaire complété avec
-            des coordonnées valides. Les opérations réalisées en dehors du site ne donnent
-            lieu à aucune rémunération.
+            <strong>Création de site en partenariat</strong> — aucun frais initial ni
+            abonnement. La rémunération du Prestataire est négociée avec le Client et fixée
+            au devis selon l'un des modèles suivants : un <strong>montant fixe ou un
+            pourcentage par rendez-vous pris via le site</strong> et non annulé avant
+            l'heure prévue ; un <strong>pourcentage du montant hors taxes de chaque vente
+            réalisée via le site</strong>, payée et non intégralement remboursée dans les
+            quatorze jours, hors frais de livraison ; un <strong>montant fixe par demande
+            de devis qualifiée reçue via le site</strong> — formulaire comportant un nom,
+            un téléphone et une adresse électronique valides et une description du besoin,
+            hors doublons sur trente jours et demandes frauduleuses ou automatisées. À
+            défaut de mention au devis s'appliquent : <strong>5 € par rendez-vous, 10 %
+            par vente, 10 € par demande</strong>. Les opérations réalisées en dehors du
+            site ne donnent lieu à aucune rémunération.
           </li>
           <li>
             <strong>Référencement naturel</strong> — <strong>150 € par mois</strong>,
@@ -133,13 +138,22 @@ const articles: { titre: string; contenu: React.ReactNode }[] = [
       <>
         <p>
           Les prestations récurrentes sont facturées mensuellement, à terme échu. La
-          rémunération du partenariat est facturée mensuellement, sur la base des rendez-vous,
-          ventes et demandes de devis constatés via le site le mois précédent et recensés
-          dans un journal consultable en permanence par le Client.
+          rémunération du partenariat est facturée le premier jour ouvré de chaque mois pour
+          les rendez-vous, ventes et demandes de devis constatés via le site le mois
+          précédent, recensés dans un <strong>journal horodaté consultable en permanence</strong>{" "}
+          par le Client et exportable ; l'export de la période est joint à chaque facture.
+          Pour le modèle de vente en ligne, la rémunération est prélevée à la source sur
+          chaque paiement par la plateforme de paiement (Stripe) : la facture mensuelle est
+          alors récapitulative et porte la mention « acquittée », et la rémunération d'une
+          vente intégralement remboursée dans les quatorze jours est restituée.
         </p>
         <p>
-          Sauf mention contraire au devis, les factures sont payables à{" "}
+          Sauf mention contraire au devis, la rémunération du partenariat est réglée par
+          prélèvement SEPA le 5 de chaque mois, et les autres factures sont payables à{" "}
           <strong>30 jours</strong> à compter de leur date d'émission, par virement bancaire.
+          Toute contestation d'une facture est notifiée par écrit dans les{" "}
+          <strong>10 jours</strong> de sa réception, en précisant les opérations contestées ;
+          elle ne suspend pas le paiement de la partie non contestée.
         </p>
         <p>
           Conformément aux articles L.441-10 et D.441-5 du code de commerce, tout retard de
@@ -188,6 +202,7 @@ const articles: { titre: string; contenu: React.ReactNode }[] = [
           Dans le cadre de la formule de partenariat sans avance de frais, le{" "}
           <strong>Prestataire demeure propriétaire du site</strong> — code source, architecture
           et développements — et en concède au Client un droit d'usage pour la durée du contrat.
+          Le nom de domaine est réservé au nom du Prestataire, qui en assure le renouvellement.
         </p>
         <p>
           Le Client demeure en toute hypothèse propriétaire de sa marque, de ses contenus
@@ -195,15 +210,24 @@ const articles: { titre: string; contenu: React.ReactNode }[] = [
           d'exploiter.
         </p>
         <p>
-          Le Client peut à tout moment acquérir la pleine propriété du site. Sauf accord
-          différent formalisé au devis, le prix de rachat est égal à <strong>dix fois le
-          montant mensuel moyen facturé au titre du partenariat</strong>, apprécié sur les
-          trois derniers mois. Le simulateur présenté sur le site est indicatif et ne
-          constitue pas une offre ferme.
+          Le Client peut à tout moment acquérir la pleine propriété du site et du nom de
+          domaine. Sauf accord différent formalisé au devis, le prix de rachat est égal à{" "}
+          <strong>dix fois le chiffre d'affaires mensuel moyen généré via le site</strong>,
+          apprécié sur les six derniers mois — pour le modèle rendez-vous, la somme des prix
+          des prestations réservées ; pour la vente en ligne, la somme hors taxes des ventes ;
+          pour les demandes de devis, à défaut de chiffre d'affaires mesurable, cinquante fois
+          la rémunération mensuelle moyenne du partenariat — sans pouvoir être inférieur à{" "}
+          <strong>1 500 € HT</strong>. Ce plancher s'applique aussi lorsque le site compte
+          moins de six mois d'exploitation. Le simulateur présenté sur le site est indicatif
+          et ne constitue pas une offre ferme.
         </p>
         <p>
-          Le rachat effectif transfère l'intégralité des droits d'exploitation au Client et met
-          fin à la rémunération du partenariat, à compter du paiement complet du prix.
+          Le rachat effectif transfère au Client les droits d'exploitation du site, avec
+          remise du code source et transfert du nom de domaine ; les services mutualisés de
+          la plateforme du Prestataire (réservation, boutique et paiement, formulaire de
+          devis, statistiques, notifications) en sont exclus et cessent d'être fournis, sauf
+          abonnement distinct. Le rachat met fin à la rémunération du partenariat, à compter
+          du paiement complet du prix.
         </p>
       </>
     ),
