@@ -1,10 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
+import { useState, type FormEvent } from "react";
 
-// Prix de rachat = montant mensuel du partenariat × ce multiplicateur,
-// sauf accord différent au devis. Modifier cette seule valeur suffit.
+// Formule du contrat (article 8) : prix de rachat = 10 × le chiffre d'affaires
+// mensuel moyen généré via le site (6 derniers mois), jamais moins que le plancher.
+// Rendez-vous : CA = prestations réservées ; Vente : CA = ventes HT ;
+// Devis : à défaut de CA mesurable, 50 × la rémunération mensuelle du partenariat.
 const MULTIPLICATEUR_RACHAT = 10;
+const MULTIPLICATEUR_RACHAT_DEVIS = 50;
+const PLANCHER_RACHAT = 1500;
 
 const euros = (n: number) =>
   new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR", maximumFractionDigits: 0 }).format(n);
@@ -50,12 +55,14 @@ const parametres: Record<
       defaut: 10,
       unite: "demandes",
     },
-    taux: { label: "Montant par demande", min: 5, max: 100, step: 5, defaut: 30, unite: "€" },
+    taux: { label: "Montant par demande", min: 5, max: 100, step: 5, defaut: 10, unite: "€" },
   },
 };
 
 export default function SimulateurRachat() {
   const [modele, setModele] = useState<Modele>("rendez-vous");
+  const [statut, setStatut] = useState<"repos" | "envoi" | "envoye" | "erreur">("repos");
+  const [messageErreur, setMessageErreur] = useState("");
   const [volumes, setVolumes] = useState<Record<Modele, number>>({
     "rendez-vous": parametres["rendez-vous"].volume.defaut,
     vente: parametres.vente.volume.defaut,
@@ -67,12 +74,66 @@ export default function SimulateurRachat() {
     devis: parametres.devis.taux.defaut,
   });
 
+  // Prix moyen d'une prestation réservée — sert uniquement au modèle Rendez-vous,
+  // dont le chiffre d'affaires ne se déduit pas du montant facturé par rendez-vous.
+  const [prixPrestation, setPrixPrestation] = useState(50);
+
   const p = parametres[modele];
   const volume = volumes[modele];
   const taux = tauxChoisis[modele];
 
   const mensuel = modele === "vente" ? (volume * taux) / 100 : volume * taux;
-  const rachat = mensuel * MULTIPLICATEUR_RACHAT;
+  const rachatBrut =
+    modele === "vente"
+      ? volume * MULTIPLICATEUR_RACHAT
+      : modele === "devis"
+        ? mensuel * MULTIPLICATEUR_RACHAT_DEVIS
+        : volume * prixPrestation * MULTIPLICATEUR_RACHAT;
+  const rachat = Math.max(rachatBrut, PLANCHER_RACHAT);
+
+  async function envoyerProposition(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const donnees = new FormData(form);
+    setStatut("envoi");
+    setMessageErreur("");
+
+    const complement = String(donnees.get("message") ?? "").trim();
+    const recapitulatif = [
+      "Proposition envoyée depuis le simulateur :",
+      `— Modèle : ${p.onglet}`,
+      `— ${p.volume.label} : ${volume} ${p.volume.unite}`,
+      `— ${p.taux.label} : ${taux} ${p.taux.unite}`,
+      ...(modele === "rendez-vous" ? [`— Prix moyen d'une prestation réservée : ${euros(prixPrestation)}`] : []),
+      `— Partenariat par mois (estimation) : ${euros(mensuel)}`,
+      `— Prix de rachat (estimation) : ${euros(rachat)}`,
+      ...(complement ? ["", `Message : ${complement}`] : []),
+    ].join("\n");
+
+    try {
+      const reponse = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: donnees.get("name"),
+          email: donnees.get("email"),
+          message: recapitulatif,
+          website: donnees.get("website"), // champ piège : vide chez un vrai visiteur
+        }),
+      });
+      if (!reponse.ok) {
+        const contenu = await reponse.json().catch(() => null);
+        setMessageErreur(contenu?.error ?? "L'envoi a échoué. Réessayez dans un instant.");
+        setStatut("erreur");
+        return;
+      }
+      form.reset();
+      setStatut("envoye");
+    } catch {
+      setMessageErreur("Connexion impossible. Vérifiez votre réseau et réessayez.");
+      setStatut("erreur");
+    }
+  }
 
   return (
     <div className="glass-card rounded-[2rem] md:rounded-[3rem] p-8 md:p-16 space-y-12">
@@ -180,6 +241,44 @@ export default function SimulateurRachat() {
             className="w-full accent-[var(--color-primary)] cursor-pointer"
           />
         </div>
+
+        {/* Le prix de rachat du modèle Rendez-vous dépend des prestations réservées,
+            pas du montant facturé par rendez-vous : on le demande. */}
+        {modele === "rendez-vous" && (
+          <div className="space-y-4">
+            <label
+              htmlFor="prix-prestation"
+              className="block text-[10px] md:text-[11px] font-black uppercase tracking-[0.3em] text-[var(--color-secondary)] text-center"
+            >
+              Prix moyen d&apos;une prestation réservée
+            </label>
+            <div className="flex items-center justify-center gap-4">
+              <input
+                id="prix-prestation"
+                type="number"
+                min={10}
+                max={300}
+                step={5}
+                value={prixPrestation}
+                onChange={(e) =>
+                  setPrixPrestation(Math.min(300, Math.max(10, Number(e.target.value) || 10)))
+                }
+                className="w-28 bg-transparent border-b-2 border-[var(--color-foreground)]/10 py-2 focus:outline-none focus:border-[var(--color-primary)] transition-all duration-700 font-light text-2xl md:text-4xl text-center"
+              />
+              <span className="text-lg md:text-xl font-light text-[var(--color-foreground)]/70">€</span>
+            </div>
+            <input
+              type="range"
+              min={10}
+              max={300}
+              step={5}
+              value={prixPrestation}
+              onChange={(e) => setPrixPrestation(Number(e.target.value))}
+              aria-label="Prix moyen d'une prestation réservée"
+              className="w-full accent-[var(--color-primary)] cursor-pointer"
+            />
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 pt-8 border-t border-[var(--color-foreground)]/5">
@@ -210,8 +309,133 @@ export default function SimulateurRachat() {
 
       <p className="text-[10px] md:text-[11px] text-center text-[var(--color-foreground)]/70 uppercase tracking-[0.25em] leading-loose">
         Estimation indicative — montants et taux réels fixés au devis. <br />
-        Rachat : dix fois le montant mensuel du partenariat, sauf accord différent au devis.
+        Rachat : dix fois le chiffre d&apos;affaires mensuel généré via votre site
+        (moyenne sur six mois), plancher 1 500 € HT, sauf accord différent au devis.
       </p>
+
+      {/* Envoi de la proposition */}
+      <form
+        onSubmit={envoyerProposition}
+        className="relative max-w-xl mx-auto space-y-8 pt-10 border-t border-[var(--color-foreground)]/5"
+      >
+        <div className="space-y-3 text-center">
+          <h4 className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.4em] text-[var(--color-primary-texte)]">
+            Envoyer cette proposition
+          </h4>
+          <p className="text-base md:text-lg text-[var(--color-foreground)]/70 font-light leading-relaxed">
+            Vos réglages partent avec le message : nous revenons vers vous avec une réponse
+            construite sur ces chiffres.
+          </p>
+        </div>
+
+        {/*
+          Champ piège anti-robot, identique au formulaire de contact. Un visiteur ne le
+          voit jamais, un lecteur d'écran l'ignore ; un robot qui le remplit voit son
+          message jeté côté serveur, qui répond quand même « envoyé ».
+        */}
+        <div
+          className="absolute h-px w-px overflow-hidden border-0 p-0 whitespace-nowrap"
+          style={{ clip: "rect(0 0 0 0)", clipPath: "inset(50%)", margin: "-1px" }}
+          aria-hidden="true"
+        >
+          <label htmlFor="simulateur-website">Ne pas remplir ce champ</label>
+          <input
+            type="text"
+            id="simulateur-website"
+            name="website"
+            tabIndex={-1}
+            autoComplete="off"
+            defaultValue=""
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="space-y-3 group text-center">
+            <label
+              htmlFor="simulateur-nom"
+              className="block text-[10px] md:text-[11px] font-black uppercase tracking-[0.3em] text-[var(--color-secondary)] group-focus-within:text-[var(--color-primary-texte)] transition-colors"
+            >
+              Votre nom
+            </label>
+            <input
+              type="text"
+              id="simulateur-nom"
+              name="name"
+              required
+              maxLength={200}
+              placeholder="Jean-Sébastien Bach"
+              className="w-full bg-transparent border-b-2 border-[var(--color-foreground)]/10 py-3 focus:outline-none focus:border-[var(--color-primary)] transition-all duration-700 font-light text-lg md:text-xl placeholder:text-[var(--color-foreground)]/70 text-center"
+            />
+          </div>
+          <div className="space-y-3 group text-center">
+            <label
+              htmlFor="simulateur-email"
+              className="block text-[10px] md:text-[11px] font-black uppercase tracking-[0.3em] text-[var(--color-secondary)] group-focus-within:text-[var(--color-primary-texte)] transition-colors"
+            >
+              Votre email
+            </label>
+            <input
+              type="email"
+              id="simulateur-email"
+              name="email"
+              required
+              maxLength={200}
+              placeholder="jsb@canevas-havane.com"
+              className="w-full bg-transparent border-b-2 border-[var(--color-foreground)]/10 py-3 focus:outline-none focus:border-[var(--color-primary)] transition-all duration-700 font-light text-lg md:text-xl placeholder:text-[var(--color-foreground)]/70 text-center"
+            />
+          </div>
+        </div>
+
+        <div className="space-y-3 group text-center">
+          <label
+            htmlFor="simulateur-message"
+            className="block text-[10px] md:text-[11px] font-black uppercase tracking-[0.3em] text-[var(--color-secondary)] group-focus-within:text-[var(--color-primary-texte)] transition-colors"
+          >
+            Votre message — facultatif
+          </label>
+          <textarea
+            id="simulateur-message"
+            name="message"
+            rows={3}
+            maxLength={4000}
+            placeholder="Votre activité, vos questions, ce que vous attendez du site…"
+            className="w-full bg-transparent border-b-2 border-[var(--color-foreground)]/10 py-3 focus:outline-none focus:border-[var(--color-primary)] transition-all duration-700 font-light text-lg md:text-xl placeholder:text-[var(--color-foreground)]/70 resize-none text-center"
+          />
+        </div>
+
+        <div className="text-center space-y-6">
+          {statut === "envoye" && (
+            <p className="text-sm font-medium tracking-wide text-[var(--color-primary-texte)]" role="status">
+              Proposition envoyée. Nous revenons vers vous sous 24h ouvrées.
+            </p>
+          )}
+          {statut === "erreur" && (
+            <p className="text-sm font-medium tracking-wide text-red-600" role="alert">
+              {messageErreur}
+            </p>
+          )}
+          <button
+            type="submit"
+            disabled={statut === "envoi"}
+            className="btn-premium !px-10 md:!px-16 !py-4 md:!py-5 !text-[10px] md:!text-xs disabled:opacity-50 disabled:cursor-wait"
+          >
+            {statut === "envoi" ? "Envoi en cours…" : "Envoyer cette proposition"}
+          </button>
+          {/* Information au moment de la collecte (art. 13 du RGPD) : elle doit être
+              là où l'on saisit ses données, pas seulement au pied de page. */}
+          <p className="max-w-md mx-auto text-xs md:text-sm text-[var(--color-foreground)]/70 font-light leading-relaxed">
+            Votre nom, votre adresse email et vos réglages servent uniquement à répondre à
+            votre demande. Ils ne sont ni vendus ni cédés —{" "}
+            <Link
+              href="/confidentialite"
+              className="text-[var(--color-primary-texte)] underline decoration-1 underline-offset-4 hover:opacity-80 transition-opacity"
+            >
+              politique de confidentialité
+            </Link>
+            .
+          </p>
+        </div>
+      </form>
     </div>
   );
 }

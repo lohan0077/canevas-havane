@@ -40,7 +40,7 @@ const modeles = [
   {
     label: "Demandes de devis",
     facturation: "Par demande de devis qualifiée reçue via votre site",
-    modalite: "Montant fixe par demande — formulaire complété, coordonnées valides",
+    modalite: "Montant fixe par demande — formulaire complet, téléphone et email valides",
     pourQui:
       "Piscinistes, cuisinistes, installateurs, déménageurs, paysagistes… les métiers qui travaillent sur devis.",
     inclus: [
@@ -117,12 +117,12 @@ const faq = [
   {
     question: "Comment est calculé ce que je paie ?",
     reponse:
-      "Le montant est fixé ensemble à la signature et inscrit au devis, selon votre activité : un montant fixe ou un pourcentage par rendez-vous pris via votre site, un pourcentage des ventes réalisées via votre site, ou un montant fixe par demande de devis qualifiée reçue via votre site — c'est-à-dire un formulaire complété avec des coordonnées valides. Aucun plafond ni abonnement pour le site.",
+      "Le montant est fixé ensemble à la signature et inscrit au devis, selon votre activité : un montant fixe ou un pourcentage par rendez-vous pris via votre site, un pourcentage des ventes réalisées via votre site, ou un montant fixe par demande de devis qualifiée reçue via votre site — un formulaire complet, avec téléphone et email valides. À titre de référence, sans autre accord au devis : 5 € par rendez-vous, 10 % par vente, 10 € par demande. Aucun plafond ni abonnement pour le site.",
   },
   {
     question: "Comment vérifier les chiffres ?",
     reponse:
-      "Un journal consultable en permanence recense chaque rendez-vous pris, chaque vente réalisée et chaque demande de devis reçue via votre site. Chaque facture s'appuie sur ce journal : vous pouvez vérifier ligne par ligne avant de régler.",
+      "Un journal horodaté, consultable en permanence et exportable, recense chaque rendez-vous pris, chaque vente réalisée et chaque demande de devis reçue via votre site. Chaque facture s'appuie sur ce journal et son export est joint à la facture : vous vérifiez ligne par ligne avant de régler.",
   },
   {
     question: "Quelle différence avec Planity, Doctolib ou Shopify ?",
@@ -132,7 +132,7 @@ const faq = [
   {
     question: "Puis-je racheter mon site ?",
     reponse:
-      "Oui, à tout moment. Pendant le partenariat, le site est la propriété de Canevas Havane — c'est ce qui permet de le créer sans avance de frais. Sauf accord différent inscrit au devis, le prix de rachat équivaut à dix fois le montant mensuel du partenariat ; le rachat vous transfère la propriété à 100 % et met fin à la facturation.",
+      "Oui, à tout moment. Pendant le partenariat, le site est la propriété de Canevas Havane — c'est ce qui permet de le créer sans avance de frais. Sauf accord différent inscrit au devis, le prix de rachat équivaut à dix fois le chiffre d'affaires mensuel moyen généré via votre site sur les six derniers mois, avec un plancher de 1 500 € HT. Le rachat vous transfère la propriété à 100 %, code source et nom de domaine compris, et met fin à la facturation.",
   },
   {
     question: "Comment ça se passe si j'arrête ?",
@@ -367,10 +367,12 @@ export default function TarifsPage() {
             </p>
             <p className="text-lg md:text-xl text-[var(--color-foreground)]/70 font-light leading-relaxed">
               Pendant le partenariat, le site reste notre propriété : c'est ce qui nous permet de le créer sans
-              rien vous facturer. À tout moment, vous pouvez en acquérir la pleine propriété. Sauf accord
-              différent inscrit au devis, le prix de rachat équivaut à{" "}
-              <span className="text-[var(--color-foreground)] font-normal">dix fois le montant mensuel du partenariat</span>{" "}
-              — et la facturation s'arrête.
+              rien vous facturer. À tout moment, vous pouvez en acquérir la pleine propriété, nom de domaine
+              compris. Sauf accord différent inscrit au devis, le prix de rachat équivaut à{" "}
+              <span className="text-[var(--color-foreground)] font-normal">
+                dix fois le chiffre d'affaires mensuel généré via votre site
+              </span>{" "}
+              en moyenne sur les six derniers mois, avec un plancher de 1 500 € HT — et la facturation s'arrête.
             </p>
           </div>
 

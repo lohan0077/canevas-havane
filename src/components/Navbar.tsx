@@ -24,7 +24,6 @@ export default function Navbar() {
     { href: "/realisations", label: "Projets" },
     { href: "/blog", label: "Journal" },
     { href: "/a-propos", label: "L'Atelier" },
-    { href: "/", label: "Mouchoirs" },
   ];
 
   return (
