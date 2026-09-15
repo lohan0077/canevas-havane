@@ -8,13 +8,22 @@ import type { NextConfig } from "next";
 // rapide. Ce que la politique protège malgré tout : le chargement de scripts
 // depuis un domaine tiers, l'inclusion du site dans une iframe, la réécriture de
 // `<base>`, et l'envoi d'un formulaire vers un domaine étranger.
+// En développement uniquement, Next a besoin de deux choses que la politique de
+// production interdit : `eval()` (outillage de débogage React — « React will never
+// use eval() in production mode ») et une WebSocket vers localhost (rechargement à
+// chaud ; sans elle, le navigateur sert silencieusement des pages périmées).
+// La politique de production, elle, ne bouge pas : zéro violation constatée en CI.
+const enDeveloppement = process.env.NODE_ENV === "development";
+
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
+  enDeveloppement
+    ? "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
+    : "script-src 'self' 'unsafe-inline'",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self' data:",
-  "connect-src 'self'",
+  enDeveloppement ? "connect-src 'self' ws:" : "connect-src 'self'",
   "object-src 'none'",
   "frame-ancestors 'none'",
   "base-uri 'self'",
