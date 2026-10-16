@@ -31,6 +31,9 @@ const pages = [
   "/", "/expertise", "/tarifs", "/realisations", "/realisations/keo",
   "/realisations/edificia", "/blog", "/a-propos", "/contact",
   "/mentions-legales", "/confidentialite", "/cgv", "/page-inexistante-404",
+  // Sites de démonstration filmés dans les vidéos : hors sitemap, mais publics.
+  "/exemples", "/exemples/premier-plongeon",
+  "/exemples/premier-plongeon/chantiers/coque-8x4", "/exemples/neuf-etes",
 ];
 
 const mesure = () => {

@@ -303,6 +303,22 @@ on le compte à part, jamais en « conforme ».
 
 ---
 
+## Sites de démonstration (`/exemples`) — 16/10/2026
+
+Les sites montrés dans les vidéos TikTok, construits pour de vrai : `/exemples` (index),
+`/exemples/premier-plongeon` (+ une page de chantier) et `/exemples/neuf-etes`. **Les
+entreprises sont fictives**, donc trois règles tiennent ensemble :
+- **jamais dans Google** : `noindex` sur tout le segment (`src/app/exemples/layout.tsx`),
+  absents du sitemap ;
+- **jamais dans `/realisations`**, qui ne présente que de vrais clients — y mêler une
+  entreprise inventée serait une pratique commerciale trompeuse ;
+- **rien ne part** : aucun `fetch`, aucun formulaire envoyé, tout se calcule dans le
+  navigateur. Le bandeau « Site de démonstration » est en tête de chaque page. Si un jour
+  une démo collecte quoi que ce soit, `/confidentialite` change dans le même commit.
+
+L'en-tête et le pied de Canevas Havane y sont masqués par `HorsDemonstrations`
+(`src/components/`). Les quatre pages sont dans la mesure de contraste de la CI.
+
 ## Après chaque fichier écrit — la commande complète
 
 ```bash
