@@ -12,6 +12,12 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "start"],
       "port": 3000
+    },
+    {
+      "name": "conteneur",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": ["-c", "PORT=3100 HOSTNAME=127.0.0.1 node .next/standalone/server.js"],
+      "port": 3100
     }
   ]
 }
