@@ -319,6 +319,20 @@ entreprises sont fictives**, donc trois règles tiennent ensemble :
 L'en-tête et le pied de Canevas Havane y sont masqués par `HorsDemonstrations`
 (`src/components/`). Les quatre pages sont dans la mesure de contraste de la CI.
 
+**L'accueil de Premier Plongeon (17/10/2026)** s'ouvre sur un premier écran repris du
+modèle « Monolith Hero » de MotionSites (`_composants/Ouverture.tsx`). Leur licence
+autorise à vendre les sites construits avec, **pas à republier le modèle** : ne jamais
+verser le texte du modèle dans le dépôt. Les quatre vidéos et l'image de fond sont
+servies depuis `public/exemples/premier-plongeon/` — la CSP bloque tout média tiers, et
+un hébergeur tiers recevrait l'IP des visiteurs. Chacune doit rester sous 2 Mo
+(crochet `check-added-large-files`) : réencoder plutôt que relever la limite.
+**`outils/contraste.mjs` ne voit pas la vidéo** — il mesure contre la nuit unie de
+l'ouverture. La mesure sur les images réelles, voiles compris, se relance par
+`node outils/contraste-video.mjs http://127.0.0.1:3100` (Google Chrome requis : le
+Chromium de Playwright ne lit pas le H.264) : 3036 mesures, 0 sous le seuil le
+17/10/2026. Elle n'est pas encore dans la CI. Sans les trois voiles, les plans où la
+caméra survole la pierre claire descendaient à 1,1:1.
+
 ## Après chaque fichier écrit — la commande complète
 
 ```bash
