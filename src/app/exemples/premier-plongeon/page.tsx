@@ -44,6 +44,17 @@ export default function PremierPlongeon() {
       <EnTete />
 
       <main>
+        <Section id="prix" className="grid gap-12 lg:grid-cols-[1fr_1.05fr] lg:items-center">
+          <div className="space-y-8">
+            <Intitule libelle={"Ton jardin fait combien\u00A0?"} titre={<>La piscine qui rentre, <span className="text-[#e8d1cb]">à l&apos;échelle.</span></>}>
+              Glisse jusqu&apos;à la surface de ton jardin : le plan te montre la coque qui
+              rentre, et ce qu&apos;elle coûte vraiment, pose comprise.
+            </Intitule>
+            <Link href={`${DOSSIER}/prix`} className={`${s.lien} ${s.technique} text-sm inline-block`}>Ce qui fait varier le prix</Link>
+          </div>
+          <Jardin />
+        </Section>
+
         <section aria-label="Premier Plongeon en chiffres" className="border-b border-[rgba(255,255,255,0.13)]">
           <ul className="max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-4">
             {CHIFFRES.map((c, i) => (
@@ -70,18 +81,8 @@ export default function PremierPlongeon() {
           <GrilleGammes />
         </Section>
 
-        <Section id="prix" sombre className="grid gap-12 lg:grid-cols-[1fr_1.05fr] lg:items-center">
-          <div className="space-y-8">
-            <Intitule libelle="Ta piscine" titre={<>Ton jardin fait <span className="text-[#e8d1cb]">combien&nbsp;?</span></>}>
-              Glisse le curseur : le plan te montre la piscine qui rentre, et ce
-              qu&apos;elle coûte vraiment, pose comprise.
-            </Intitule>
-            <Link href={`${DOSSIER}/prix`} className={`${s.lien} ${s.technique} text-sm inline-block`}>Ce qui fait varier le prix</Link>
-          </div>
-          <Jardin />
-        </Section>
 
-        <Section className="grid gap-12 lg:grid-cols-2 lg:items-center">
+        <Section sombre className="grid gap-12 lg:grid-cols-2 lg:items-center">
           <PhotoPlaque photo={photos.mosaiqueEtBois} ratio="4 / 3" sizes="(min-width: 1024px) 540px, 100vw" coupe={28} />
           <div className="space-y-10">
             <Intitule libelle="Nos engagements" titre={<>Ce qui change <span className="text-[#e8d1cb]">avec nous.</span></>} />

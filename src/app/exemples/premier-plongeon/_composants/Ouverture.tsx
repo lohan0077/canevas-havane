@@ -4,12 +4,18 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import s from "./Ouverture.module.css";
 import { Symbole } from "./Logo";
+import { DOSSIER, entreprise } from "./donnees";
 
 // Le premier écran de l'accueil, construit sur le modèle « Monolith Hero » de
 // MotionSites : un décor vidéo qui change avec le chapitre choisi, des libellés qui
-// se décodent, un titre qui monte hors d'un masque. Les vidéos sont celles du
-// modèle, servies depuis notre domaine — la politique de sécurité du site bloque
-// tout média venu d'ailleurs, et un hébergeur tiers recevrait l'IP des visiteurs.
+// se décodent, un titre qui monte hors d'un masque. Les vidéos sont celles d'une
+// vraie piscine de jardin (Pexels, licence gratuite, usage commercial autorisé),
+// servies depuis notre domaine — la politique de sécurité du site bloque tout média
+// venu d'ailleurs, et un hébergeur tiers recevrait l'IP des visiteurs.
+//
+// Chaque chapitre ouvre sur une partie du site : son bouton y mène. Le premier pose
+// la question de la vidéo « Remplir l'agenda » — ton jardin fait combien ? — et
+// descend au calculateur, juste sous l'ouverture.
 
 type Chapitre = {
   id: string;
@@ -17,9 +23,8 @@ type Chapitre = {
   video: string;
   titre: [string, string];
   lignes: string[];
+  appel: { libelle: string; href: string };
 };
-
-const DOSSIER = "/exemples/premier-plongeon";
 
 // Quatre lignes posées à la main par chapitre, comme dans le modèle : sous 548 px
 // les retours à la ligne s'effacent et le texte trouve sa propre mesure.
@@ -27,28 +32,30 @@ const DOSSIER = "/exemples/premier-plongeon";
 // rejoignent sur téléphone.
 const CHAPITRES: Chapitre[] = [
   {
+    id: "jardin",
+    libelle: "TON JARDIN",
+    video: `${DOSSIER}/jardin.mp4`,
+    titre: ["Ton jardin ", "fait combien\u00A0?"],
+    lignes: [
+      "Une seule question avant tout le reste. Entre la surface de ton jardin",
+      "et la forme du terrain : le site te montre la piscine qui rentre,",
+      "à l'échelle, et ce qu'elle coûte vraiment, pose comprise. Le prix",
+      "ferme vient après la visite technique, et il ne bouge plus.",
+    ],
+    appel: { libelle: "COMBIEN POUR MON JARDIN", href: "#prix" },
+  },
+  {
     id: "ete",
     libelle: "L'ÉTÉ",
     video: `${DOSSIER}/ete.mp4`,
     titre: ["Le premier plongeon ", "se prépare en avril"],
     lignes: [
       "Le premier dimanche de juillet, toute la famille saute en même temps.",
-      "Pour que ce jour-là arrive à l'heure, le chantier se cale au printemps :",
+      "Pour que ce jour-là arrive à l'heure, le chantier se cale au printemps\u00A0:",
       "on voit ton jardin, on te dit la piscine qui rentre, et tu choisis",
       "toi-même ta semaine de travaux.",
     ],
-  },
-  {
-    id: "plan",
-    libelle: "LE PLAN",
-    video: `${DOSSIER}/plan.mp4`,
-    titre: ["Ton jardin d'abord, ", "la piscine ensuite"],
-    lignes: [
-      "On part de ce qui ne bouge pas : la surface, l'accès pour la grue et la",
-      "nature du sol. La piscine qui rentre se décide là, pas sur catalogue.",
-      "Plus bas, le curseur te la montre à l'échelle de ton jardin, avec son",
-      "prix pose comprise.",
-    ],
+    appel: { libelle: "CHOISIR MA SEMAINE", href: `${DOSSIER}/ma-date` },
   },
   {
     id: "chantier",
@@ -56,11 +63,12 @@ const CHAPITRES: Chapitre[] = [
     video: `${DOSSIER}/chantier.mp4`,
     titre: ["Trois semaines, ", "jour par jour"],
     lignes: [
-      "Terrassement, pose de la coque, remblai, local technique, plage : chaque",
+      "Terrassement, pose de la coque, remblai, local technique, plage\u00A0: chaque",
       "chantier a sa page, avec ce qui a été fait chaque jour. C'est ce que tu",
       "cherches avant d'appeler un pisciniste, alors on le montre avant que tu",
       "aies à le demander.",
     ],
+    appel: { libelle: "NOS RÉALISATIONS", href: `${DOSSIER}/chantiers` },
   },
   {
     id: "mise-en-eau",
@@ -68,11 +76,12 @@ const CHAPITRES: Chapitre[] = [
     video: `${DOSSIER}/mise-en-eau.mp4`,
     titre: ["Et puis un matin, ", "l'eau est là"],
     lignes: [
-      "Le dernier jour, on remplit le bassin, on règle la filtration et on",
-      "t'explique tout au bord de l'eau, le temps qu'il faut. Il ne reste plus",
-      "qu'à attendre le premier dimanche de juillet, et à décider qui saute",
-      "en premier.",
+      "Le dernier jour, on remplit le bassin, on règle la filtration et le",
+      "volet, et on t'explique tout au bord de l'eau, le temps qu'il faut.",
+      "Il ne reste plus qu'à attendre le premier dimanche de juillet,",
+      "et à décider qui saute en premier.",
     ],
+    appel: { libelle: "NOS PISCINES", href: `${DOSSIER}/piscines` },
   },
 ];
 
@@ -388,7 +397,7 @@ export default function Ouverture() {
 
   return (
     <header ref={racine} className={classes}>
-      <div ref={scene} className={s.scene} role="img" aria-label="Un cube de pierre percé d'une arche éclairée, posé dans une eau immobile, à la nuit tombée">
+      <div ref={scene} className={s.scene} role="img" aria-label="Une piscine de jardin : la maison vue du ciel, un plongeon, le chantier, puis le volet qui s'ouvre sur l'eau">
         <div className={s.fond} />
         {CHAPITRES.map((c) => (
           <video
@@ -409,6 +418,7 @@ export default function Ouverture() {
           />
         ))}
       </div>
+      <div className={s.voileFond} aria-hidden="true" />
       <div className={s.voile} aria-hidden="true" />
       <div className={s.voileHaut} aria-hidden="true" />
       <div className={s.voileGauche} aria-hidden="true" />
@@ -487,7 +497,7 @@ export default function Ouverture() {
               </span>
             ))}
           </p>
-          <a className={`${s.appel} ${s.libelle}`} href="#prix">
+          <Link className={`${s.appel} ${s.libelle}`} href={chapitre.appel.href}>
             <span className={s.verre} aria-hidden="true" />
             <svg className={s.bord} viewBox="0 0 190 41" preserveAspectRatio="none" aria-hidden="true">
               <path d="M3.5.5 H179.5 L189.5 10.5 V37.5 L186.5 40.5 H10.5 L.5 30.5 V3.5 Z" vectorEffect="non-scaling-stroke" />
@@ -498,9 +508,9 @@ export default function Ouverture() {
                 <rect x="3" y="4" width="4" height="4" />
                 <rect x="0" y="7" width="4" height="4" />
               </svg>
-              <Libelle texte="COMBIEN POUR MON JARDIN" />
+              <Libelle texte={chapitre.appel.libelle} />
             </span>
-          </a>
+          </Link>
         </div>
 
         <div className={s.socle}>
@@ -531,12 +541,12 @@ export default function Ouverture() {
             <Libelle texte="DESCENDRE" />
           </a>
 
-          <Link className={`${s.chantier} ${s.libelle}`} href={`${DOSSIER}/chantiers`}>
-            <Libelle texte="NOS RÉALISATIONS" />
-            <svg viewBox="0 0 14 11" aria-hidden="true">
-              <path d="M1 5.5 H12.5 M8 1 L12.5 5.5 L8 10" strokeLinecap="round" strokeLinejoin="round" />
+          <a className={`${s.chantier} ${s.libelle}`} href={`tel:${entreprise.telephoneLien}`} aria-label={`Appeler Premier Plongeon au ${entreprise.telephone}`}>
+            <Libelle texte={entreprise.telephone} />
+            <svg viewBox="0 0 14 14" aria-hidden="true">
+              <path d="M3.2 1.2 L5.4 1.2 L6.4 4 L5 5.2 C5.8 6.9 7.1 8.2 8.8 9 L10 7.6 L12.8 8.6 L12.8 10.8 C12.8 11.9 11.9 12.8 10.8 12.8 C5.6 12.4 1.6 8.4 1.2 3.2 C1.2 2.1 2.1 1.2 3.2 1.2 Z" strokeLinejoin="round" />
             </svg>
-          </Link>
+          </a>
         </div>
       </div>
     </header>

@@ -49,8 +49,11 @@ export default function MentionsLegales() {
           <h2 className={`${s.titre} text-2xl`}>Crédits</h2>
           <p>
             Le premier écran est construit sur le modèle « Monolith Hero » de MotionSites,
-            utilisé sous licence ; ses vidéos et son image sont servies depuis ce domaine.
-            Polices : Inter et Chakra Petch, sous licence SIL Open Font.
+            utilisé sous licence. Ses quatre vidéos viennent de Pexels, sous la licence
+            Pexels : Marc Espejo (le jardin vu du ciel, le plongeon), Giwrgos Lamp (le
+            chantier), Marc Van den Broeck (le volet qui s&apos;ouvre). Le jardin en 3D
+            reprend les principes du configurateur de Kéo. Polices : Inter et Chakra Petch,
+            sous licence SIL Open Font.
           </p>
           <p>
             Photos d&apos;illustration publiées sur Unsplash, sous la licence Unsplash, et

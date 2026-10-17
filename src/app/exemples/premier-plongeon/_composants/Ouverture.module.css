@@ -62,8 +62,7 @@
   background-position: 50% 50%;
   background-repeat: no-repeat;
 }
-/* La boîte vidéo couvre l'écran en 16:9 sans recadrage : l'arche est à 4 % à gauche
-   du centre dans les images, d'où l'agrandissement de 10 % et le décalage. */
+/* La boîte vidéo couvre l'écran en 16:9 sans recadrage, centrée. */
 .video {
   position: absolute;
   left: 50%;
@@ -74,13 +73,14 @@
   /* la feuille de base de Tailwind borne toute vidéo à la largeur de son
      conteneur : sans ceci, l'image se réduit à un bandeau sur téléphone */
   max-width: none;
-  transform: translate(-45.5%, -50%) scale(1.1);
+  transform: translate(-50%, -50%);
   opacity: 0;
   transition: opacity 0.9s ease;
 }
 .visible {
   opacity: 1;
 }
+.voileFond,
 .voile,
 .voileHaut,
 .voileGauche {
@@ -88,14 +88,19 @@
   inset: 0;
   pointer-events: none;
 }
+/* Les vidéos sont tournées en plein jour : un voile uniforme les assombrit d'un
+   tiers, puis trois dégradés protègent le texte en bas, en haut et à gauche. */
+.voileFond {
+  background: linear-gradient(rgba(4, 7, 13, 0.32) 0%, rgba(4, 7, 13, 0.32) 100%);
+}
 .voile {
-  background: linear-gradient(to top, rgba(4, 7, 13, 0.74) 0%, rgba(4, 7, 13, 0.6) 28%, rgba(4, 7, 13, 0.34) 46%, rgba(4, 7, 13, 0) 62%);
+  background: linear-gradient(to top, rgba(4, 7, 13, 0.82) 0%, rgba(4, 7, 13, 0.7) 30%, rgba(4, 7, 13, 0.46) 50%, rgba(4, 7, 13, 0) 68%);
 }
 .voileHaut {
-  background: linear-gradient(to bottom, rgba(4, 7, 13, 0.52) 0%, rgba(4, 7, 13, 0.34) 14%, rgba(4, 7, 13, 0) 30%);
+  background: linear-gradient(to bottom, rgba(4, 7, 13, 0.62) 0%, rgba(4, 7, 13, 0.46) 16%, rgba(4, 7, 13, 0) 34%);
 }
 .voileGauche {
-  background: linear-gradient(to right, rgba(4, 7, 13, 0.58) 0%, rgba(4, 7, 13, 0.4) 12%, rgba(4, 7, 13, 0) 26%);
+  background: linear-gradient(to right, rgba(4, 7, 13, 0.66) 0%, rgba(4, 7, 13, 0.5) 14%, rgba(4, 7, 13, 0) 28%);
 }
 
 /* ---------- le cadre : filet de 1 px, retrait de 30u, coins coupés de 26u ---------- */
@@ -512,8 +517,8 @@
   letter-spacing: calc(0.12 * var(--t));
 }
 .chantier svg {
-  width: calc(14 * var(--t));
-  height: calc(11 * var(--t));
+  width: calc(13 * var(--t));
+  height: calc(13 * var(--t));
   margin-left: calc(11 * var(--t));
   flex: none;
   fill: none;
@@ -714,7 +719,7 @@
     left: 0;
     transform: none;
     padding: calc(6 * var(--t)) calc(16 * var(--t)) calc(6 * var(--t)) calc(24 * var(--t));
-    background: rgba(4, 7, 13, 0.68);
+    background: rgba(4, 7, 13, 0.76);
     -webkit-backdrop-filter: blur(calc(10 * var(--t)));
     backdrop-filter: blur(calc(10 * var(--t)));
     clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12 * var(--t)), calc(100% - 12 * var(--t)) 100%, 0 100%);
