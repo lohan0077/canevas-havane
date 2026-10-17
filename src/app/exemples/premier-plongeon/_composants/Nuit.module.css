@@ -1,0 +1,147 @@
+/* Le langage visuel de Premier Plongeon, repris de l'ouverture pour tout le site :
+   la nuit, des filets d'un pixel, des coins coupés, la crème pour seul accent.
+
+   Les couleurs de texte sont des teintes pleines, mesurées sur les deux fonds du
+   site (#04070d et #0a0f19) : #b9c0cc donne 11:1, #8f98a8 donne 6,4:1. */
+
+/* Une plaque : le filet est le fond de l'enveloppe, l'intérieur est recoupé un
+   rien plus court, si bien que le filet suit aussi les coins coupés. Pour un filet
+   d'un pixel, la coupe intérieure vaut la coupe extérieure moins 2 − √2 px. */
+.plaque {
+  --coupe: 16px;
+  position: relative;
+  padding: 1px;
+  background: rgba(255, 255, 255, 0.14);
+  clip-path: polygon(0 0, calc(100% - var(--coupe)) 0, 100% var(--coupe), 100% 100%, var(--coupe) 100%, 0 calc(100% - var(--coupe)));
+}
+.dedans {
+  height: 100%;
+  background: #0a0f19;
+  clip-path: polygon(0 0, calc(100% - var(--coupe) + 0.59px) 0, 100% calc(var(--coupe) - 0.59px), 100% 100%, calc(var(--coupe) - 0.59px) 100%, 0 calc(100% - var(--coupe) + 0.59px));
+}
+
+/* Le libellé de section : le repère carré des chapitres, puis le nom en crème. */
+.libelle {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--pp-libelles), var(--pp-texte), sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #e8d1cb;
+}
+.carre {
+  width: 6px;
+  height: 7px;
+  background: #ffffff;
+  flex: none;
+}
+
+.titre {
+  /* aucune marge ici : la feuille d'un module n'est rangée dans aucune couche, elle
+     l'emporterait sur les espacements de Tailwind (space-y) et collerait le texte
+     au titre */
+  font-family: var(--pp-texte), -apple-system, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #ffffff;
+  /* le style seul, pas la propriété raccourcie `text-wrap` : celle-ci fixe aussi
+     le retour à la ligne et annulerait `whitespace-nowrap` (« J-260 » se coupait) */
+  text-wrap-style: balance;
+}
+
+/* Petits libellés techniques (caractéristiques, mentions). */
+.technique {
+  font-family: var(--pp-libelles), var(--pp-texte), sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Le bouton crème, coin supérieur droit coupé : la seule couleur vive du site. */
+.bouton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 26px 0 22px;
+  border: 0;
+  cursor: pointer;
+  text-decoration: none;
+  background: #e8d1cb;
+  color: #15131b;
+  font-family: var(--pp-libelles), var(--pp-texte), sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 0 100%);
+  transition: background 0.3s ease;
+}
+.bouton:hover {
+  background: #f1e0db;
+}
+.bouton:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+}
+
+/* Le quadrillage d'un plan d'architecte, sous le calculateur et les coupes. */
+.quadrillage {
+  background-color: #070b13;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Le curseur du calculateur : un filet, un plot crème. */
+.curseur {
+  width: 100%;
+  height: 22px;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+.curseur::-webkit-slider-runnable-track {
+  height: 3px;
+  background: linear-gradient(90deg, #e8d1cb var(--rempli), rgba(255, 255, 255, 0.18) var(--rempli));
+}
+.curseur::-moz-range-track {
+  height: 3px;
+  background: linear-gradient(90deg, #e8d1cb var(--rempli), rgba(255, 255, 255, 0.18) var(--rempli));
+}
+.curseur::-webkit-slider-thumb {
+  appearance: none;
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  margin-top: -8.5px;
+  background: #e8d1cb;
+  border: 4px solid #04070d;
+  outline: 1px solid #e8d1cb;
+}
+.curseur::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  background: #e8d1cb;
+  border: 4px solid #04070d;
+  border-radius: 0;
+  outline: 1px solid #e8d1cb;
+}
+.curseur:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bouton {
+    transition: none;
+  }
+}

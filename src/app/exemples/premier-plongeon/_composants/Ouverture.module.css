@@ -35,7 +35,7 @@
   overflow: hidden;
   background: #04070d;
   color: #fff;
-  font-family: var(--pp-ouverture), -apple-system, "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--pp-texte), -apple-system, "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: geometricPrecision;
@@ -154,7 +154,7 @@
 
 /* ---------- les libellés ---------- */
 .libelle {
-  font-family: var(--pp-libelles), var(--pp-ouverture), sans-serif;
+  font-family: var(--pp-libelles), var(--pp-texte), sans-serif;
   font-weight: 700;
   font-size: calc(10 * var(--t));
   line-height: 1;
@@ -191,7 +191,7 @@
   display: block;
 }
 .marque span {
-  font-family: var(--pp-libelles), var(--pp-ouverture), sans-serif;
+  font-family: var(--pp-libelles), var(--pp-texte), sans-serif;
   font-weight: 700;
   font-size: calc(15 * var(--t));
   line-height: 1;
@@ -283,7 +283,7 @@
   position: relative;
 }
 .chapitres button {
-  font-family: var(--pp-libelles), var(--pp-ouverture), sans-serif;
+  font-family: var(--pp-libelles), var(--pp-texte), sans-serif;
   font-weight: 700;
   font-size: calc(10 * var(--t));
   line-height: 1;
@@ -327,7 +327,7 @@
   /* écrit en toutes lettres : la feuille globale du site impose sa police à
      empattements à tous les titres, et une règle posée sur l'élément l'emporte
      sur l'héritage */
-  font-family: var(--pp-ouverture), -apple-system, "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--pp-texte), -apple-system, "Helvetica Neue", Arial, sans-serif;
   font-weight: 700;
   font-size: calc(31.5 * var(--t));
   line-height: calc(32 * var(--t));

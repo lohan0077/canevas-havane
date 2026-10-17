@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { adressesDeLaPage } from "@/lib/seo";
 import BandeauDemonstration from "../../../_composants/BandeauDemonstration";
 import PiedDemonstration from "../../../_composants/PiedDemonstration";
 import CoupeDuChantier from "../../../_composants/CoupeDuChantier";
-import { titres, texte } from "../../_composants/polices";
+import { texte, libelles } from "../../_composants/polices";
+import { Intitule, Plaque, styles as s } from "../../_composants/Habillage";
 import Logo from "../../_composants/Logo";
 
 // « Chaque chantier devient une page » : la page d'un chantier, telle que la vidéo la
@@ -25,69 +27,95 @@ const JOURS = [
   { jour: "Jour 21", titre: "Mise en eau", texte: "Filtration réglée, eau équilibrée. Le premier plongeon est pour eux.", etape: 6 },
 ];
 
+const CARACTERISTIQUES = ["3 semaines de travaux", "Volet immergé", "Plage en bois", "31 400 € TTC · exemple"];
+
+const FILET = "border-[rgba(255,255,255,0.13)]";
+
 export default function ChantierCoque8x4() {
   return (
-    <div className={`${titres.variable} ${texte.variable} font-[family-name:var(--pp-texte)] min-h-screen bg-[#F6EFE4] text-[#0F3442]`}>
+    <div className={`${texte.variable} ${libelles.variable} font-[family-name:var(--pp-texte)] min-h-screen bg-[#04070d] text-[#e6eaf5]`}>
       <BandeauDemonstration entreprise="Premier Plongeon" />
 
-      <header className="sticky top-0 z-30 bg-[#F6EFE4]/95 backdrop-blur border-b border-[#E7DCCB]">
-        <nav className="max-w-5xl mx-auto flex items-center justify-between gap-3 px-4 sm:px-5 py-4">
+      <header className={`sticky top-0 z-30 bg-[#04070d]/90 backdrop-blur border-b ${FILET}`}>
+        <nav className="max-w-6xl mx-auto flex items-center justify-between gap-3 px-4 sm:px-6 py-4">
           <Link href="/exemples/premier-plongeon" aria-label="Premier Plongeon, accueil">
-            <Logo />
+            <Logo replie />
           </Link>
-          <ul className="flex gap-3 sm:gap-8 text-sm font-bold whitespace-nowrap">
-            <li><Link href="/exemples/premier-plongeon#chantiers" className="hover:text-[#0E6E8C]">Chantiers</Link></li>
-            <li><Link href="/exemples/premier-plongeon#prix" className="hover:text-[#0E6E8C]">Prix</Link></li>
-            <li><Link href="/exemples/premier-plongeon#date" className="hover:text-[#0E6E8C]">Ma date</Link></li>
+          <ul className={`${s.technique} flex gap-5 sm:gap-8 text-[11px] sm:text-xs whitespace-nowrap`}>
+            <li><Link href="/exemples/premier-plongeon#chantiers" className="text-[#e6eaf5] hover:text-[#e8d1cb] transition-colors">Chantiers</Link></li>
+            <li><Link href="/exemples/premier-plongeon#prix" className="text-[#e6eaf5] hover:text-[#e8d1cb] transition-colors">Prix</Link></li>
+            <li><Link href="/exemples/premier-plongeon#date" className="text-[#e6eaf5] hover:text-[#e8d1cb] transition-colors">Ma date</Link></li>
           </ul>
         </nav>
       </header>
 
-      <main className="max-w-5xl mx-auto px-5 pt-10 pb-20 space-y-12">
-        <div className="space-y-5">
-          <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#0E6E8C]">Chantier n° 27</p>
-          <h1 className="font-[family-name:var(--pp-titres)] text-5xl sm:text-6xl font-semibold leading-[1.02] tracking-tight">
-            Piscine coque <span className="italic text-[#0E6E8C] whitespace-nowrap">8 × 4</span>
-          </h1>
-          <ul className="flex flex-wrap gap-2 text-sm font-bold">
-            {["3 semaines de travaux", "Volet immergé", "Plage en bois", "31\u202F400\u00A0€ TTC · exemple"].map((x) => (
-              <li key={x} className="rounded-full bg-white px-4 py-2 border border-[#E7DCCB]">{x}</li>
-            ))}
-          </ul>
+      <main>
+        <div className="max-w-6xl mx-auto px-5 sm:px-6 pt-10 sm:pt-14 space-y-12">
+          <Plaque coupe={28}>
+            <Image
+              src="/exemples/premier-plongeon/profil.webp"
+              alt=""
+              width={1600}
+              height={900}
+              priority
+              sizes="(min-width: 1152px) 1104px, 100vw"
+              className="block w-full h-[34vh] min-h-[220px] max-h-[440px] object-cover"
+            />
+          </Plaque>
+
+          <div className="space-y-8">
+            <Intitule niveau={1} libelle="Chantier n° 27" titre={<>Piscine coque <span className="text-[#e8d1cb] whitespace-nowrap">{"8 × 4"}</span></>} />
+            <ul className="flex flex-wrap gap-3">
+              {CARACTERISTIQUES.map((x) => (
+                <li key={x}>
+                  <Plaque coupe={10}>
+                    <span className={`${s.technique} block px-4 py-2.5 text-[11px] text-[#e6eaf5]`}>{x}</span>
+                  </Plaque>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
-        <ol className="space-y-6">
-          {JOURS.map((j) => (
-            <li key={j.jour} className="rounded-[24px] bg-white overflow-hidden shadow-[0_20px_50px_-34px_rgba(15,52,66,0.6)] sm:grid sm:grid-cols-[1.1fr_1fr]">
-              <div className="bg-[#E9F3EC] px-4 py-5 flex items-center">
-                <CoupeDuChantier etape={j.etape} libelle={`Coupe du chantier : ${j.titre.toLowerCase()}`} fond="#E9F3EC" />
-              </div>
-              <div className="p-6 space-y-2">
-                <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#0E6E8C]">{j.jour}</p>
-                <p className="font-[family-name:var(--pp-titres)] text-2xl font-semibold">{j.titre}</p>
-                <p className="text-[#4A6470] leading-relaxed">{j.texte}</p>
-              </div>
+        <ol className="max-w-6xl mx-auto px-5 sm:px-6 py-16 sm:py-20 space-y-6">
+          {JOURS.map((j, i) => (
+            <li key={j.jour}>
+              <Plaque coupe={24}>
+                <div className="grid md:grid-cols-[1.1fr_1fr]">
+                  <div className={`${s.quadrillage} px-5 py-6 sm:px-8 flex items-center`}>
+                    <CoupeDuChantier etape={j.etape} palette="nuit" fond="#070b13" libelle={`Coupe du chantier : ${j.titre.toLowerCase()}`} />
+                  </div>
+                  <div className="p-6 sm:p-8 space-y-3 flex flex-col justify-center">
+                    <p className="flex items-center justify-between gap-4">
+                      <span className={`${s.technique} text-xs text-[#e8d1cb]`}>{j.jour}</span>
+                      <span className={`${s.technique} text-[11px] text-[#8f98a8]`}>Étape {i + 1} / {JOURS.length}</span>
+                    </p>
+                    <h2 className={`${s.titre} text-2xl sm:text-3xl`}>{j.titre}</h2>
+                    <p className="text-[#b9c0cc] leading-relaxed">{j.texte}</p>
+                  </div>
+                </div>
+              </Plaque>
             </li>
           ))}
         </ol>
 
-        <p className="text-sm text-[#4A6470]">
-          Schémas à la place des photos : l&apos;entreprise est fictive. Sur un vrai site, ce
-          sont les photos du chantier, publiées avec l&apos;accord du client.
-        </p>
-
-        <div className="rounded-[28px] bg-[#0F3442] text-white p-8 sm:p-10 space-y-4 text-center">
-          <p className="font-[family-name:var(--pp-titres)] text-3xl sm:text-4xl font-semibold">Une piscine comme celle-ci ?</p>
-          <Link
-            href="/exemples/premier-plongeon#date"
-            className="inline-block rounded-full bg-[#C4471D] px-8 py-4 text-lg font-extrabold hover:bg-[#B5401A] transition-colors"
-          >
-            Choisir ma date de chantier
-          </Link>
+        <div className="max-w-6xl mx-auto px-5 sm:px-6 pb-24 space-y-8">
+          <p className="text-sm text-[#8f98a8]">
+            Schémas à la place des photos : l&apos;entreprise est fictive. Sur un vrai site, ce
+            sont les photos du chantier, publiées avec l&apos;accord du client.
+          </p>
+          <Plaque coupe={28}>
+            <div className="p-8 sm:p-12 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+              <p className={`${s.titre} text-3xl sm:text-4xl`}>Une piscine comme celle-ci&nbsp;?</p>
+              <Link href="/exemples/premier-plongeon#date" className={s.bouton}>
+                Choisir ma date de chantier
+              </Link>
+            </div>
+          </Plaque>
         </div>
       </main>
 
-      <PiedDemonstration entreprise="Premier Plongeon" className="bg-[#0F3442] text-[#E4EEF1]" />
+      <PiedDemonstration entreprise="Premier Plongeon" className={`bg-[#04070d] text-[#b9c0cc] border-t ${FILET}`} />
     </div>
   );
 }

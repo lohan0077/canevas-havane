@@ -333,6 +333,15 @@ Chromium de Playwright ne lit pas le H.264) : 3036 mesures, 0 sous le seuil le
 17/10/2026. Elle n'est pas encore dans la CI. Sans les trois voiles, les plans où la
 caméra survole la pierre claire descendaient à 1,1:1.
 
+Le même jour, **tout le site Premier Plongeon** (accueil et page de chantier) est passé
+dans la langue de l'ouverture : la nuit, des filets d'un pixel, des coins coupés, la
+crème `#e8d1cb` pour seul accent, Inter et Chakra Petch. Les pièces communes sont dans
+`_composants/Habillage.tsx` et `Nuit.module.css`. Deux pièges, à ne pas réapprendre :
+**une feuille de module CSS n'est rangée dans aucune couche, elle l'emporte donc sur
+toutes les classes Tailwind** — un `margin: 0` y collait le texte aux titres en
+annulant `space-y` ; et **`text-wrap: balance` fixe aussi le retour à la ligne** et
+annule `whitespace-nowrap` (écrire `text-wrap-style: balance`).
+
 ## Après chaque fichier écrit — la commande complète
 
 ```bash

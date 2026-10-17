@@ -1,6 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import { Plaque, styles as s } from "./Habillage";
 
 const JOUR = 86_400_000;
 
@@ -33,18 +34,22 @@ export default function CompteARebours() {
   const [annee, jour, restants] = valeur ? valeur.split("|") : ["…", "…", "…"];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
-      <div className="mx-auto w-56 rotate-[-3deg] rounded-[26px] overflow-hidden bg-white shadow-[0_24px_50px_-24px_rgba(15,52,66,0.55)] text-center">
-        <div className="bg-[#C4471D] text-white text-lg font-extrabold uppercase tracking-[0.2em] py-3">Juillet {annee}</div>
-        <div className="py-5">
-          <p className="text-[96px] leading-none font-extrabold text-[#0F3442] tabular-nums">{jour}</p>
-          <p className="font-[family-name:var(--pp-titres)] italic text-3xl text-[#0F3442]">dimanche</p>
+    <div className="grid grid-cols-1 sm:grid-cols-[minmax(0,15rem)_1fr] gap-6 items-stretch">
+      <Plaque coupe={18}>
+        <div className="text-center">
+          <p className={`${s.technique} bg-[#e8d1cb] text-[#15131b] text-sm py-3`}>Juillet {annee}</p>
+          <div className="py-6 space-y-1">
+            <p className="text-[88px] leading-none font-bold text-white tabular-nums">{jour}</p>
+            <p className={`${s.technique} text-sm text-[#b9c0cc]`}>Dimanche</p>
+          </div>
         </div>
-      </div>
-      <div className="text-center sm:text-left space-y-2">
-        <p className="text-6xl font-extrabold tabular-nums text-[#0F3442]">J-{restants}</p>
-        <p className="text-lg text-[#4A6470]">avant le premier dimanche de juillet.</p>
-      </div>
+      </Plaque>
+      <Plaque coupe={18}>
+        <div className="h-full p-6 sm:p-8 flex flex-col justify-center gap-3">
+          <p className={`${s.titre} text-[52px] lg:text-6xl tabular-nums whitespace-nowrap`}>J-{restants}</p>
+          <p className="text-lg text-[#b9c0cc]">avant le premier dimanche de juillet.</p>
+        </div>
+      </Plaque>
     </div>
   );
 }

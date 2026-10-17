@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import s from "./Ouverture.module.css";
+import { Symbole } from "./Logo";
 
 // Le premier écran de l'accueil, construit sur le modèle « Monolith Hero » de
 // MotionSites : un décor vidéo qui change avec le chapitre choisi, des libellés qui
@@ -424,11 +425,7 @@ export default function Ouverture() {
 
         <Link href={DOSSIER} className={s.logo} aria-label="Premier Plongeon, accueil">
           <span className={s.marque}>
-            <svg viewBox="0 0 32 32" aria-hidden="true">
-              <circle cx="16" cy="16" r="14.6" fill="none" stroke="#FFFFFF" strokeWidth="1.6" />
-              <path d="M7 15.5c3 0 3-2.5 5-2.5S15 15.5 16 15.5s3-2.5 5-2.5 2 2.5 4 2.5" fill="none" stroke="#6FD3E8" strokeWidth="2.2" strokeLinecap="round" />
-              <path d="M7 20.5c3 0 3-2.5 5-2.5S15 20.5 16 20.5s3-2.5 5-2.5 2 2.5 4 2.5" fill="none" stroke="#FFFFFF" strokeWidth="2.2" strokeLinecap="round" />
-            </svg>
+            <Symbole />
             <span>PREMIER PLONGEON</span>
           </span>
         </Link>
