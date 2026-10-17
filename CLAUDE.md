@@ -357,6 +357,25 @@ appelées chez Unsplash), créditées dans les mentions légales du site. Les fo
 n'envoient rien. Les 12 pages sont dans `outils/contraste.mjs` : 4382 textes, 0 sous le
 seuil le 17/10/2026.
 
+**Même jour, troisième passage — l'ouverture parle enfin du site.** L'arche du modèle
+n'avait aucun rapport avec une piscine : les vidéos sont désormais quatre plans de
+**Pexels** (licence gratuite, usage commercial), un par chapitre, et **chaque chapitre
+mène à une page** par son bouton. Le premier pose la question de la vidéo « Remplir
+l'agenda » — « Ton jardin fait combien ? » — et le calculateur vient juste dessous.
+Encodage : 1280 × 720, deux passes, ~1,8 Mo chacune. Un plan de chantier montrait le nom
+et le téléphone d'une vraie entreprise sur la pelle : remplacé — **regarder chaque image
+d'une vidéo avant de la publier**. Les vidéos de jour exigent un voile uniforme
+(`.voileFond`) en plus des trois dégradés : 2890 mesures, 0 sous le seuil.
+
+**Le calculateur est en 3D** (`Jardin3D.tsx`), d'après le configurateur de Kéo (l'app de
+Lohan) : surface, forme du terrain, côté de la maison, terrasse → la plus grande coque
+qui tient à 1 m des limites (`jardin-geometrie.ts`, calcul pur partagé avec le plan 2D de
+secours). **three.js seul, épinglé (0.186.1)** — pas les surcouches React de Kéo, dont
+les éclairages tout faits se téléchargent sur un serveur tiers. Chargé à la demande :
+vérifié présent sur l'accueil et `/prix` seulement. `npm audit` : 0 en production ; 8
+vulnérabilités dans les outils de développement (vitest, règles ESLint de Next),
+présentes avant l'ajout de three.js.
+
 ## Après chaque fichier écrit — la commande complète
 
 ```bash
