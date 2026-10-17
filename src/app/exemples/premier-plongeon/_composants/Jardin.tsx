@@ -4,6 +4,7 @@ import { useCallback, useMemo, useState, type CSSProperties } from "react";
 import dynamic from "next/dynamic";
 import { Plaque, styles as s } from "./Habillage";
 import { COTES, FORMES, RECUL, calculerJardin, metres, type CoteMaison, type Forme, type Jardin as Geometrie } from "./jardin-geometrie";
+import type { Ambiance } from "./Jardin3D";
 
 // « Ton jardin fait combien ? » — on entre la surface du jardin et son agencement
 // (forme du terrain, côté de la maison, terrasse) ; le jardin apparaît en 3D avec la
@@ -98,6 +99,7 @@ export default function Jardin() {
   const [maison, setMaison] = useState<CoteMaison>("haut");
   const [terrasse, setTerrasse] = useState(true);
   const [sans3D, setSans3D] = useState(false);
+  const [ambiance, setAmbiance] = useState<Ambiance>("jour");
   const indisponible = useCallback(() => setSans3D(true), []);
 
   const jardin = useMemo(() => calculerJardin({ surface, forme, maison, terrasse }), [surface, forme, maison, terrasse]);
@@ -106,20 +108,39 @@ export default function Jardin() {
 
   return (
     <Plaque coupe={22}>
-      <div className={`${s.quadrillage} relative aspect-[320/196]`}>
+      <div className={`${s.quadrillage} relative aspect-[4/3] overflow-hidden`}>
         <Plan jardin={jardin} surface={surface} />
         {!sans3D && (
           <div className="absolute inset-0" aria-hidden="true">
-            <Jardin3D jardin={jardin} onIndisponible={indisponible} />
+            <Jardin3D jardin={jardin} ambiance={ambiance} onIndisponible={indisponible} />
           </div>
         )}
         <p className={`${s.technique} pointer-events-none absolute left-3 top-3 bg-[#04070d]/85 px-2.5 py-1.5 text-[10px] text-[#e6eaf5]`}>
           Jardin {metres(jardin.largeur)} × {metres(jardin.profondeur)}{" "}m
         </p>
         {!sans3D && (
-          <p className={`${s.technique} pointer-events-none absolute right-3 bottom-3 bg-[#04070d]/85 px-2.5 py-1.5 text-[10px] text-[#b9c0cc]`}>
-            Glisse pour tourner
-          </p>
+          <>
+            <div role="group" aria-label="Lumière de la vue 3D" className="absolute right-3 top-3 flex">
+              {(["jour", "soir"] as const).map((a) => (
+                <button
+                  key={a}
+                  type="button"
+                  aria-pressed={ambiance === a}
+                  onClick={() => setAmbiance(a)}
+                  className={`${s.technique} min-h-[32px] px-3 text-[10px] border transition-colors focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2 ${
+                    ambiance === a
+                      ? "bg-[#e8d1cb] border-[#e8d1cb] text-[#15131b]"
+                      : "bg-[#04070d]/85 border-[rgba(255,255,255,0.2)] text-[#e6eaf5] hover:border-[rgba(255,255,255,0.5)]"
+                  }`}
+                >
+                  {a === "jour" ? "Jour" : "Soir"}
+                </button>
+              ))}
+            </div>
+            <p className={`${s.technique} pointer-events-none absolute right-3 bottom-3 bg-[#04070d]/85 px-2.5 py-1.5 text-[10px] text-[#b9c0cc]`}>
+              Glisse pour tourner
+            </p>
+          </>
         )}
       </div>
 

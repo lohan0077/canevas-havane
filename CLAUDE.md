@@ -376,6 +376,17 @@ vérifié présent sur l'accueil et `/prix` seulement. `npm audit` : 0 en produc
 vulnérabilités dans les outils de développement (vitest, règles ESLint de Next),
 présentes avant l'ajout de three.js.
 
+Le rendu (17/10/2026) est une **maquette d'architecte** : socle et coupe de terre, maison
+en deux volumes à toits plats, bassin creusé et carrelé, eau animée, boutons Jour / Soir.
+Toutes les textures sont peintes dans le navigateur, l'éclairage d'ambiance vient de
+`RoomEnvironment` : aucun fichier, aucun CDN. Occlusion ambiante et halo sur ordinateur
+seulement. Trois pièges rencontrés : **le halo voile tout le jour** (il n'est allumé que
+le soir) ; **la caméra doit regarder la façade côté jardin**, sinon une maison sur le
+côté cache le jardin ; **le soleil se place par rapport au regard** — tourné du mauvais
+côté, il éclaire la maison par l'arrière et les ombres disparaissent. Le mobilier ne se
+pose que là où il ne touche ni la terrasse ni la margelle. Vérifié : sans WebGL, le plan
+2D reste ; avec « animations réduites », l'image ne bouge pas.
+
 ## Après chaque fichier écrit — la commande complète
 
 ```bash
