@@ -4,8 +4,10 @@ import { useState } from "react";
 
 export type Produit = { nom: string; detail?: string; prix: number };
 
+// « 1 250,00 € » écrit à la main plutôt que par Intl, dont l'espace avant € varie d'un
+// navigateur à l'autre (elle manquait à l'écran).
 const euros = (n: number) =>
-  n.toLocaleString("fr-FR", { style: "currency", currency: "EUR" }).replace(/ | /g, " ");
+  `${n.toFixed(2).replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, "\u202F")}\u00A0€`;
 
 /**
  * Une petite boutique : des produits, des quantités, un total TTC et un bouton qui
@@ -31,7 +33,7 @@ export default function Panier({
   };
 
   return (
-    <div className="rounded-[26px] bg-[var(--carte)] border border-[var(--trait)] p-6 sm:p-8 space-y-5">
+    <div className="rounded-[26px] bg-[var(--carte)] text-[var(--encre)] border border-[var(--trait)] p-6 sm:p-8 space-y-5">
       <ul className="divide-y divide-[var(--trait)]">
         {produits.map((p, i) => (
           <li key={p.nom} className="flex items-center justify-between gap-4 py-4">
@@ -41,9 +43,9 @@ export default function Panier({
               <span className="block text-sm font-bold tabular-nums">{euros(p.prix)}</span>
             </span>
             <span className="flex items-center gap-3 shrink-0">
-              <button type="button" aria-label={`Retirer un ${p.nom}`} onClick={() => changer(i, -1)} className="h-10 w-10 rounded-full border-2 border-[var(--trait)] text-xl font-bold">−</button>
+              <button type="button" aria-label={`Retirer : ${p.nom}`} onClick={() => changer(i, -1)} className="h-10 w-10 rounded-full border-2 border-[var(--trait)] text-xl font-bold">−</button>
               <span className="w-5 text-center text-lg font-bold tabular-nums">{quantites[i]}</span>
-              <button type="button" aria-label={`Ajouter un ${p.nom}`} onClick={() => changer(i, 1)} className="h-10 w-10 rounded-full bg-[var(--accent)] text-[var(--sur-accent)] text-xl font-bold">+</button>
+              <button type="button" aria-label={`Ajouter : ${p.nom}`} onClick={() => changer(i, 1)} className="h-10 w-10 rounded-full bg-[var(--accent)] text-[var(--sur-accent)] text-xl font-bold">+</button>
             </span>
           </li>
         ))}

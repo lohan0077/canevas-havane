@@ -29,7 +29,7 @@ export default function Questionnaire({
   const resultat = [...resultats].sort((a, b) => b.min - a.min).find((r) => score >= r.min) ?? resultats[0];
 
   return (
-    <div className="rounded-[26px] bg-[var(--carte)] border border-[var(--trait)] p-6 sm:p-8 space-y-5">
+    <div className="rounded-[26px] bg-[var(--carte)] text-[var(--encre)] border border-[var(--trait)] p-6 sm:p-8 space-y-5">
       <div className="flex gap-1.5" aria-hidden="true">
         {questions.map((q, i) => (
           <span key={q.question} className={`h-1.5 flex-1 rounded-full ${i < etape ? "bg-[var(--accent)]" : "bg-[var(--trait)]"}`} />

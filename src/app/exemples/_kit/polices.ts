@@ -9,7 +9,7 @@ import {
 // avant d'entrer ici. Cormorant Garamond n'y est pas — ses accents se décalent.
 // `preload: false` partout : la page ne précharge pas une police qu'elle n'affiche pas.
 // Next exige un appel par constante, options écrites en toutes lettres.
-const fraunces = Fraunces({ subsets: ["latin"], display: "swap", preload: false, variable: "--f-fraunces" });
+const fraunces = Fraunces({ subsets: ["latin"], display: "swap", preload: false, style: ["normal", "italic"], variable: "--f-fraunces" });
 const playfair = Playfair_Display({ subsets: ["latin"], display: "swap", preload: false, style: ["normal", "italic"], variable: "--f-playfair" });
 const dmSerif = DM_Serif_Display({ subsets: ["latin"], display: "swap", preload: false, weight: "400", style: ["normal", "italic"], variable: "--f-dmserif" });
 const instrument = Instrument_Serif({ subsets: ["latin"], display: "swap", preload: false, weight: "400", style: ["normal", "italic"], variable: "--f-instrument" });

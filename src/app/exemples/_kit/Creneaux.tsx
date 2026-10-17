@@ -7,7 +7,8 @@ export type Creneau = { libelle: string; sous?: string; pris?: boolean };
 /**
  * Des créneaux (semaines, jours, heures) qu'on choisit puis qu'on bloque soi-même.
  * Les créneaux pris sont un exemple, et la page le dit (`note`). La confirmation
- * dit aussi que rien n'est envoyé : c'est une démonstration.
+ * dit aussi que rien n'est envoyé : c'est une démonstration. Dans `confirmation`,
+ * `{creneau}` est remplacé par le créneau choisi (« Pré-réservée : {creneau} »).
  */
 export default function Creneaux({
   creneaux,
@@ -63,7 +64,7 @@ export default function Creneaux({
       </div>
       <p className="text-sm text-[var(--doux)]">{note}</p>
       {choisi !== null && (
-        <div className="rounded-[24px] bg-[var(--carte)] border border-[var(--trait)] p-6 space-y-4">
+        <div className="rounded-[24px] bg-[var(--carte)] text-[var(--encre)] border border-[var(--trait)] p-6 space-y-4">
           <p className="text-2xl font-[family-name:var(--titres)] font-semibold">{titreCarte}</p>
           <p className="text-lg">
             {creneaux[choisi].libelle}
@@ -71,7 +72,7 @@ export default function Creneaux({
           </p>
           {bloque ? (
             <div role="status" className="rounded-2xl bg-[var(--fond)] border-2 border-[var(--accent)] p-4 space-y-1">
-              <p className="font-bold">{confirmation}</p>
+              <p className="font-bold">{confirmation.replace("{creneau}", creneaux[choisi].libelle + (creneaux[choisi].sous ? ` · ${creneaux[choisi].sous}` : ""))}</p>
               <p className="text-sm text-[var(--doux)]">Démonstration : rien n&apos;est envoyé, rien n&apos;est enregistré.</p>
             </div>
           ) : (

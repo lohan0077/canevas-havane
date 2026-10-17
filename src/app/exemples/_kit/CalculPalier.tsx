@@ -35,7 +35,7 @@ export default function CalculPalier({
   const rempli = ((valeur - min) / (max - min)) * 100;
 
   return (
-    <div className="rounded-[26px] bg-[var(--carte)] border border-[var(--trait)] p-6 sm:p-8 space-y-6">
+    <div className="rounded-[26px] bg-[var(--carte)] text-[var(--encre)] border border-[var(--trait)] p-6 sm:p-8 space-y-6">
       <label className="block space-y-3">
         <span className="flex items-baseline justify-between gap-4">
           <span className="text-sm font-bold uppercase tracking-[0.14em]">{etiquette}</span>
