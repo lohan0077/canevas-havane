@@ -303,6 +303,90 @@ on le compte à part, jamais en « conforme ».
 
 ---
 
+## Sites de démonstration (`/exemples`) — 16/10/2026
+
+Les sites montrés dans les vidéos TikTok, construits pour de vrai : `/exemples` (index),
+`/exemples/premier-plongeon` (+ une page de chantier) et `/exemples/neuf-etes`. **Les
+entreprises sont fictives**, donc trois règles tiennent ensemble :
+- **jamais dans Google** : `noindex` sur tout le segment (`src/app/exemples/layout.tsx`),
+  absents du sitemap ;
+- **jamais dans `/realisations`**, qui ne présente que de vrais clients — y mêler une
+  entreprise inventée serait une pratique commerciale trompeuse ;
+- **rien ne part** : aucun `fetch`, aucun formulaire envoyé, tout se calcule dans le
+  navigateur. Le bandeau « Site de démonstration » est en tête de chaque page. Si un jour
+  une démo collecte quoi que ce soit, `/confidentialite` change dans le même commit.
+
+L'en-tête et le pied de Canevas Havane y sont masqués par `HorsDemonstrations`
+(`src/components/`). Les quatre pages sont dans la mesure de contraste de la CI.
+
+**L'accueil de Premier Plongeon (17/10/2026)** s'ouvre sur un premier écran repris du
+modèle « Monolith Hero » de MotionSites (`_composants/Ouverture.tsx`). Leur licence
+autorise à vendre les sites construits avec, **pas à republier le modèle** : ne jamais
+verser le texte du modèle dans le dépôt. Les quatre vidéos et l'image de fond sont
+servies depuis `public/exemples/premier-plongeon/` — la CSP bloque tout média tiers, et
+un hébergeur tiers recevrait l'IP des visiteurs. Chacune doit rester sous 2 Mo
+(crochet `check-added-large-files`) : réencoder plutôt que relever la limite.
+**`outils/contraste.mjs` ne voit pas la vidéo** — il mesure contre la nuit unie de
+l'ouverture. La mesure sur les images réelles, voiles compris, se relance par
+`node outils/contraste-video.mjs http://127.0.0.1:3100` (Google Chrome requis : le
+Chromium de Playwright ne lit pas le H.264) : 3036 mesures, 0 sous le seuil le
+17/10/2026. Elle n'est pas encore dans la CI. Sans les trois voiles, les plans où la
+caméra survole la pierre claire descendaient à 1,1:1.
+
+Le même jour, **tout le site Premier Plongeon** (accueil et page de chantier) est passé
+dans la langue de l'ouverture : la nuit, des filets d'un pixel, des coins coupés, la
+crème `#e8d1cb` pour seul accent, Inter et Chakra Petch. Les pièces communes sont dans
+`_composants/Habillage.tsx` et `Nuit.module.css`. Deux pièges, à ne pas réapprendre :
+**une feuille de module CSS n'est rangée dans aucune couche, elle l'emporte donc sur
+toutes les classes Tailwind** — un `margin: 0` y collait le texte aux titres en
+annulant `space-y` ; et **`text-wrap: balance` fixe aussi le retour à la ligne** et
+annule `whitespace-nowrap` (écrire `text-wrap-style: balance`). Corollaire : ne jamais
+écrire dans le module une propriété qu'une classe Tailwind doit pouvoir changer
+(`display` contre `lg:hidden`, `color` contre `text-[…]`) — sinon, classe en `…!`.
+
+**Premier Plongeon est devenu un site complet (17/10/2026)**, au niveau de la démo
+notariale « Aubier » (`~/Desktop/Pro/Entreprenariat/Notaire`) : 12 pages (accueil,
+piscines, réalisations + 3 chantiers, entreprise, prix, ma date, questions, contact,
+mentions légales), un gabarit commun (`premier-plongeon/layout.tsx` : pied de page,
+barre d'action mobile, apparitions au défilement) et **une seule source de données,
+`_composants/donnees.ts`**. Les règles de la fiction y sont écrites : téléphone dans la
+tranche ARCEP réservée (04 65 71 xx xx), aucune adresse e-mail, équipe en initiales,
+avis et chiffres marqués « exemple », faits réglementaires vrais. Les 14 photos sont
+d'Unsplash, **servies depuis `public/exemples/premier-plongeon/photos/`** (jamais
+appelées chez Unsplash), créditées dans les mentions légales du site. Les formulaires
+n'envoient rien. Les 12 pages sont dans `outils/contraste.mjs` : 4382 textes, 0 sous le
+seuil le 17/10/2026.
+
+**Même jour, troisième passage — l'ouverture parle enfin du site.** L'arche du modèle
+n'avait aucun rapport avec une piscine : les vidéos sont désormais quatre plans de
+**Pexels** (licence gratuite, usage commercial), un par chapitre, et **chaque chapitre
+mène à une page** par son bouton. Le premier pose la question de la vidéo « Remplir
+l'agenda » — « Ton jardin fait combien ? » — et le calculateur vient juste dessous.
+Encodage : 1280 × 720, deux passes, ~1,8 Mo chacune. Un plan de chantier montrait le nom
+et le téléphone d'une vraie entreprise sur la pelle : remplacé — **regarder chaque image
+d'une vidéo avant de la publier**. Les vidéos de jour exigent un voile uniforme
+(`.voileFond`) en plus des trois dégradés : 2890 mesures, 0 sous le seuil.
+
+**Le calculateur est en 3D** (`Jardin3D.tsx`), d'après le configurateur de Kéo (l'app de
+Lohan) : surface, forme du terrain, côté de la maison, terrasse → la plus grande coque
+qui tient à 1 m des limites (`jardin-geometrie.ts`, calcul pur partagé avec le plan 2D de
+secours). **three.js seul, épinglé (0.186.1)** — pas les surcouches React de Kéo, dont
+les éclairages tout faits se téléchargent sur un serveur tiers. Chargé à la demande :
+vérifié présent sur l'accueil et `/prix` seulement. `npm audit` : 0 en production ; 8
+vulnérabilités dans les outils de développement (vitest, règles ESLint de Next),
+présentes avant l'ajout de three.js.
+
+Le rendu (17/10/2026) est une **maquette d'architecte** : socle et coupe de terre, maison
+en deux volumes à toits plats, bassin creusé et carrelé, eau animée, boutons Jour / Soir.
+Toutes les textures sont peintes dans le navigateur, l'éclairage d'ambiance vient de
+`RoomEnvironment` : aucun fichier, aucun CDN. Occlusion ambiante et halo sur ordinateur
+seulement. Trois pièges rencontrés : **le halo voile tout le jour** (il n'est allumé que
+le soir) ; **la caméra doit regarder la façade côté jardin**, sinon une maison sur le
+côté cache le jardin ; **le soleil se place par rapport au regard** — tourné du mauvais
+côté, il éclaire la maison par l'arrière et les ombres disparaissent. Le mobilier ne se
+pose que là où il ne touche ni la terrasse ni la margelle. Vérifié : sans WebGL, le plan
+2D reste ; avec « animations réduites », l'image ne bouge pas.
+
 ## Après chaque fichier écrit — la commande complète
 
 ```bash

@@ -3,6 +3,7 @@ import { Cormorant_Garamond, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import HorsDemonstrations from "@/components/HorsDemonstrations";
 import { jsonLdScript, organizationJsonLd, siteUrl } from "@/lib/seo";
 
 // Polices servies depuis notre propre domaine. Next les télécharge à la compilation
@@ -75,16 +76,20 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={jsonLdScript(organizationJsonLd)}
         />
-        <div className="noise-overlay" />
-        <div className="glow-mesh" />
+        <HorsDemonstrations>
+          <div className="noise-overlay" />
+          <div className="glow-mesh" />
 
-        <Navbar />
+          <Navbar />
+        </HorsDemonstrations>
 
         <main>
           {children}
         </main>
 
-        <Footer />
+        <HorsDemonstrations>
+          <Footer />
+        </HorsDemonstrations>
 
         {/*
           Pas de bandeau de consentement : le site ne dépose aucun cookie et n'utilise

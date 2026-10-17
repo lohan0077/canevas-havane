@@ -31,6 +31,14 @@ const pages = [
   "/", "/expertise", "/tarifs", "/realisations", "/realisations/keo",
   "/realisations/edificia", "/blog", "/a-propos", "/contact",
   "/mentions-legales", "/confidentialite", "/cgv", "/page-inexistante-404",
+  // Sites de démonstration filmés dans les vidéos : hors sitemap, mais publics.
+  "/exemples", "/exemples/premier-plongeon",
+  "/exemples/premier-plongeon/piscines", "/exemples/premier-plongeon/chantiers",
+  "/exemples/premier-plongeon/chantiers/coque-8x4", "/exemples/premier-plongeon/chantiers/coque-7x3-5",
+  "/exemples/premier-plongeon/chantiers/coque-5x2-5", "/exemples/premier-plongeon/entreprise",
+  "/exemples/premier-plongeon/prix", "/exemples/premier-plongeon/ma-date",
+  "/exemples/premier-plongeon/questions", "/exemples/premier-plongeon/contact",
+  "/exemples/premier-plongeon/mentions-legales", "/exemples/neuf-etes",
 ];
 
 const mesure = () => {
