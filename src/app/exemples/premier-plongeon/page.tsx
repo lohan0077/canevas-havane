@@ -4,16 +4,18 @@ import { adressesDeLaPage } from "@/lib/seo";
 import BandeauDemonstration from "../_composants/BandeauDemonstration";
 import PiedDemonstration from "../_composants/PiedDemonstration";
 import CoupeDuChantier from "../_composants/CoupeDuChantier";
-import { titres, texte } from "./_composants/polices";
+import { titres, texte, ouverture, libelles } from "./_composants/polices";
 import Jardin from "./_composants/Jardin";
 import CompteARebours from "./_composants/CompteARebours";
 import Creneaux from "./_composants/Creneaux";
 import Logo from "./_composants/Logo";
+import Ouverture from "./_composants/Ouverture";
 
 // Le site imaginé dans la vidéo « Si je devais remplir l'agenda d'un pisciniste ».
 // Chaque idée de la vidéo est ici en état de marche : le jardin qui dit quelle
 // piscine rentre, le premier dimanche de juillet, une page par chantier, les dates
-// qu'on bloque soi-même.
+// qu'on bloque soi-même. Le premier écran reprend le modèle « Monolith Hero » de
+// MotionSites ; le calculateur vient juste après.
 export const metadata: Metadata = {
   title: "Premier Plongeon — site de démonstration",
   description: "Site de démonstration d'un pisciniste imaginaire, réalisé par Canevas Havane : la piscine qui rentre dans ton jardin, et la date de chantier qu'on bloque soi-même.",
@@ -22,11 +24,18 @@ export const metadata: Metadata = {
 
 export default function PremierPlongeon() {
   return (
-    <div className={`${titres.variable} ${texte.variable} font-[family-name:var(--pp-texte)] min-h-screen bg-[#F6EFE4] text-[#0F3442]`}>
-      <BandeauDemonstration entreprise="Premier Plongeon" />
+    <div className={`${titres.variable} ${texte.variable} ${ouverture.variable} ${libelles.variable} font-[family-name:var(--pp-texte)] min-h-screen bg-[#F6EFE4] text-[#0F3442]`}>
+      {/* Le bandeau et l'ouverture partagent exactement un écran : le socle de
+          l'ouverture reste visible quelle que soit la hauteur du bandeau. */}
+      <div className="flex flex-col h-svh">
+        <BandeauDemonstration entreprise="Premier Plongeon" />
+        <Ouverture />
+      </div>
 
-      <header className="sticky top-0 z-30 bg-[#F6EFE4]/95 backdrop-blur border-b border-[#E7DCCB]">
-        <nav className="max-w-5xl mx-auto flex items-center justify-between gap-3 px-4 sm:px-5 py-4">
+      {/* Placée après l'ouverture, la barre défile avec elle puis reste en haut
+          de l'écran pour tout le reste de la page. */}
+      <div className="sticky top-0 z-30 bg-[#F6EFE4]/95 backdrop-blur border-b border-[#E7DCCB]">
+        <nav aria-label="Raccourcis" className="max-w-5xl mx-auto flex items-center justify-between gap-3 px-4 sm:px-5 py-4">
           <Link href="/exemples/premier-plongeon" aria-label="Premier Plongeon, accueil">
             <Logo />
           </Link>
@@ -36,15 +45,15 @@ export default function PremierPlongeon() {
             <li><a href="#date" className="hover:text-[#0E6E8C]">Ma date</a></li>
           </ul>
         </nav>
-      </header>
+      </div>
 
       <main>
-        <section id="prix" className="scroll-mt-24 max-w-5xl mx-auto px-5 pt-10 pb-16 sm:pt-16 grid gap-10 md:grid-cols-2 md:items-center">
+        <section id="prix" className="scroll-mt-24 max-w-5xl mx-auto px-5 py-16 sm:py-20 grid gap-10 md:grid-cols-2 md:items-center">
           <div className="space-y-5">
-            <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#0E6E8C]">Ta piscine</p>
-            <h1 className="font-[family-name:var(--pp-titres)] text-5xl sm:text-6xl font-semibold leading-[1.02] tracking-tight">
+            <p className="font-[family-name:var(--pp-libelles)] text-sm font-bold uppercase tracking-[0.18em] text-[#0E6E8C]">Ta piscine</p>
+            <h2 className="font-[family-name:var(--pp-titres)] text-5xl sm:text-6xl font-semibold leading-[1.02] tracking-tight">
               Ton jardin fait <span className="italic text-[#0E6E8C]">combien&nbsp;?</span>
-            </h1>
+            </h2>
             <p className="text-lg leading-relaxed text-[#4A6470]">
               Glisse le curseur : le plan te montre la piscine qui rentre, et ce
               qu&apos;elle coûte vraiment, pose comprise.
@@ -53,10 +62,10 @@ export default function PremierPlongeon() {
           <Jardin />
         </section>
 
-        <section className="bg-[#CDEFF6]">
+        <section id="ete" className="scroll-mt-24 bg-[#CDEFF6]">
           <div className="max-w-5xl mx-auto px-5 py-16 sm:py-20 space-y-10">
             <div className="space-y-4 max-w-2xl">
-              <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#0E5A72]">Pourquoi on fait ça</p>
+              <p className="font-[family-name:var(--pp-libelles)] text-sm font-bold uppercase tracking-[0.18em] text-[#0E5A72]">Pourquoi on fait ça</p>
               <h2 className="font-[family-name:var(--pp-titres)] text-4xl sm:text-5xl font-semibold leading-[1.05] tracking-tight">
                 On ne vend pas une piscine. On vend le <span className="italic">premier dimanche de juillet.</span>
               </h2>
@@ -71,7 +80,7 @@ export default function PremierPlongeon() {
 
         <section id="chantiers" className="scroll-mt-24 max-w-5xl mx-auto px-5 py-16 sm:py-20 space-y-8">
           <div className="space-y-4 max-w-2xl">
-            <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#0E6E8C]">Nos chantiers</p>
+            <p className="font-[family-name:var(--pp-libelles)] text-sm font-bold uppercase tracking-[0.18em] text-[#0E6E8C]">Nos chantiers</p>
             <h2 className="font-[family-name:var(--pp-titres)] text-4xl sm:text-5xl font-semibold leading-[1.05] tracking-tight">
               Chaque chantier a <span className="italic">sa page.</span>
             </h2>
@@ -99,7 +108,7 @@ export default function PremierPlongeon() {
         <section id="date" className="scroll-mt-24 bg-white/60 border-t border-[#E7DCCB]">
           <div className="max-w-5xl mx-auto px-5 py-16 sm:py-20 space-y-8">
             <div className="space-y-4 max-w-2xl">
-              <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#0E6E8C]">Ma date</p>
+              <p className="font-[family-name:var(--pp-libelles)] text-sm font-bold uppercase tracking-[0.18em] text-[#0E6E8C]">Ma date</p>
               <h2 className="font-[family-name:var(--pp-titres)] text-4xl sm:text-5xl font-semibold leading-[1.05] tracking-tight">
                 Chantiers 2027 : <span className="italic">les dates.</span>
               </h2>
