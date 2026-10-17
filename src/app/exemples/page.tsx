@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { adressesDeLaPage } from "@/lib/seo";
+import { SITES } from "./_registre";
 
 export const metadata: Metadata = {
   title: "Sites de démonstration",
@@ -8,24 +9,19 @@ export const metadata: Metadata = {
   ...adressesDeLaPage("/exemples"),
 };
 
-// Une entrée par site de démonstration. Ces entreprises n'existent pas : elles ne
-// figurent pas dans les réalisations, qui ne présentent que de vrais clients.
-const sites = [
-  {
-    nom: "Premier Plongeon",
-    chemin: "/exemples/premier-plongeon",
-    metier: "Pisciniste",
-    serie: "Remplir l'agenda",
-    idee: "Le jardin qui dit quelle piscine rentre, une fourchette de prix honnête, et les dates de chantier qu'on bloque soi-même.",
-  },
-  {
-    nom: "Neuf Étés",
-    chemin: "/exemples/neuf-etes",
-    metier: "Marque de piscines",
-    serie: "Créer une marque",
-    idee: "Une seule question — l'âge de tes enfants — et le nombre d'étés qu'il te reste avec eux, à la maison.",
-  },
-];
+// Les sites viennent de _registre.ts, écrit par outils/registre-exemples.mjs à partir
+// de la fiche de chaque site. Ces entreprises n'existent pas : elles ne figurent pas
+// dans les réalisations, qui ne présentent que de vrais clients.
+// Un métier, deux vidéos : « Remplir l'agenda » d'abord, « Créer une marque » ensuite.
+const parMetier = Object.values(
+  SITES.reduce<Record<string, (typeof SITES)[number][]>>((groupes, site) => {
+    const cle = site.video.replace(/^(agenda|marque)-/, "");
+    (groupes[cle] ??= []).push(site);
+    return groupes;
+  }, {}),
+)
+  .map((sites) => sites.sort((a, b) => a.serie.localeCompare(b.serie)).reverse())
+  .sort((a, b) => a[0].metier.localeCompare(b[0].metier, "fr"));
 
 export default function ExemplesPage() {
   return (
@@ -47,22 +43,31 @@ export default function ExemplesPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 w-full">
-          {sites.map((site) => (
-            <Link
-              key={site.chemin}
-              href={site.chemin}
-              className="group glass-card !rounded-[2rem] p-8 md:p-12 flex flex-col gap-5 border border-[var(--color-foreground)]/10 hover:border-[var(--color-primary)] transition-colors duration-500"
-            >
-              <span className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.4em] text-[var(--color-primary-texte)]">
-                {site.metier} · série « {site.serie} »
-              </span>
-              <span className="text-4xl md:text-5xl font-serif font-medium text-[var(--color-foreground)]">{site.nom}</span>
-              <span className="text-[var(--color-foreground)]/70 font-light text-base md:text-lg leading-relaxed">{site.idee}</span>
-              <span className="text-sm font-bold uppercase tracking-widest text-[var(--color-foreground)] group-hover:text-[var(--color-primary-texte)] transition-colors">
-                Ouvrir le site →
-              </span>
-            </Link>
+        <div className="space-y-12 md:space-y-16 w-full">
+          {parMetier.map((sites) => (
+            <section key={sites[0].video} className="space-y-5">
+              <h2 className="text-[11px] md:text-xs font-black uppercase tracking-[0.4em] text-[var(--color-primary-texte)] font-[family-name:var(--font-plus)]">
+                {sites[0].metier}
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
+                {sites.map((site) => (
+                  <Link
+                    key={site.chemin}
+                    href={site.chemin}
+                    className="group glass-card !rounded-[2rem] p-7 md:p-10 flex flex-col gap-4 border border-[var(--color-foreground)]/10 hover:border-[var(--color-primary)] transition-colors duration-500"
+                  >
+                    <span className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.3em] text-[var(--color-foreground)]/70">
+                      Série « {site.serie} »
+                    </span>
+                    <span className="text-3xl md:text-4xl font-serif font-medium text-[var(--color-foreground)]">{site.nom}</span>
+                    <span className="text-[var(--color-foreground)]/70 font-light text-base leading-relaxed">{site.idee}</span>
+                    <span className="text-sm font-bold uppercase tracking-widest text-[var(--color-foreground)] group-hover:text-[var(--color-primary-texte)] transition-colors">
+                      Ouvrir le site →
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </section>
           ))}
         </div>
 
