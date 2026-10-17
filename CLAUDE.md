@@ -340,7 +340,22 @@ crème `#e8d1cb` pour seul accent, Inter et Chakra Petch. Les pièces communes s
 **une feuille de module CSS n'est rangée dans aucune couche, elle l'emporte donc sur
 toutes les classes Tailwind** — un `margin: 0` y collait le texte aux titres en
 annulant `space-y` ; et **`text-wrap: balance` fixe aussi le retour à la ligne** et
-annule `whitespace-nowrap` (écrire `text-wrap-style: balance`).
+annule `whitespace-nowrap` (écrire `text-wrap-style: balance`). Corollaire : ne jamais
+écrire dans le module une propriété qu'une classe Tailwind doit pouvoir changer
+(`display` contre `lg:hidden`, `color` contre `text-[…]`) — sinon, classe en `…!`.
+
+**Premier Plongeon est devenu un site complet (17/10/2026)**, au niveau de la démo
+notariale « Aubier » (`~/Desktop/Pro/Entreprenariat/Notaire`) : 12 pages (accueil,
+piscines, réalisations + 3 chantiers, entreprise, prix, ma date, questions, contact,
+mentions légales), un gabarit commun (`premier-plongeon/layout.tsx` : pied de page,
+barre d'action mobile, apparitions au défilement) et **une seule source de données,
+`_composants/donnees.ts`**. Les règles de la fiction y sont écrites : téléphone dans la
+tranche ARCEP réservée (04 65 71 xx xx), aucune adresse e-mail, équipe en initiales,
+avis et chiffres marqués « exemple », faits réglementaires vrais. Les 14 photos sont
+d'Unsplash, **servies depuis `public/exemples/premier-plongeon/photos/`** (jamais
+appelées chez Unsplash), créditées dans les mentions légales du site. Les formulaires
+n'envoient rien. Les 12 pages sont dans `outils/contraste.mjs` : 4382 textes, 0 sous le
+seuil le 17/10/2026.
 
 ## Après chaque fichier écrit — la commande complète
 

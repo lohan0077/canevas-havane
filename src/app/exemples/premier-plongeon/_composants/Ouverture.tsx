@@ -440,14 +440,15 @@ export default function Ouverture() {
             }}
           >
             <div className={`${s.liens} ${s.libelle}`}>
-              <a href="#prix"><Libelle texte="LE PRIX" /></a>
-              <a href="#ete"><Libelle texte="L'ÉTÉ" /></a>
-              <a href="#chantiers"><Libelle texte="LES CHANTIERS" /></a>
+              <Link href={`${DOSSIER}/piscines`}><Libelle texte="PISCINES" /></Link>
+              <Link href={`${DOSSIER}/chantiers`}><Libelle texte="RÉALISATIONS" /></Link>
+              <Link href={`${DOSSIER}/prix`}><Libelle texte="PRIX" /></Link>
+              <Link href={`${DOSSIER}/entreprise`}><Libelle texte="L'ENTREPRISE" /></Link>
             </div>
-            <a className={`${s.pastille} ${s.date} ${s.libelle}`} href="#date">
+            <Link className={`${s.pastille} ${s.date} ${s.libelle}`} href={`${DOSSIER}/ma-date`}>
               <IconeCarres />
               <Libelle texte="MA DATE" />
-            </a>
+            </Link>
           </div>
           <button
             ref={boutonMenu}
@@ -530,8 +531,8 @@ export default function Ouverture() {
             <Libelle texte="DESCENDRE" />
           </a>
 
-          <Link className={`${s.chantier} ${s.libelle}`} href={`${DOSSIER}/chantiers/coque-8x4`}>
-            <Libelle texte="VOIR UN CHANTIER" />
+          <Link className={`${s.chantier} ${s.libelle}`} href={`${DOSSIER}/chantiers`}>
+            <Libelle texte="NOS RÉALISATIONS" />
             <svg viewBox="0 0 14 11" aria-hidden="true">
               <path d="M1 5.5 H12.5 M8 1 L12.5 5.5 L8 10" strokeLinecap="round" strokeLinejoin="round" />
             </svg>

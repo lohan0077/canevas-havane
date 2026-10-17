@@ -2,18 +2,7 @@
 
 import { useState } from "react";
 import { Plaque, styles as s } from "./Habillage";
-
-const ANNEE = 2027;
-const SEMAINES = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
-// Semaines déjà prises : un exemple. Sur un vrai site, le planning de l'entreprise.
-const PRISES = new Set([11, 12, 15, 17, 18, 20]);
-
-/** Lundi de la semaine ISO `semaine` de l'année `annee` (le 4 janvier est toujours en semaine 1). */
-function lundi(annee: number, semaine: number) {
-  const quatreJanvier = new Date(Date.UTC(annee, 0, 4));
-  const lundiSemaine1 = Date.UTC(annee, 0, 4 - ((quatreJanvier.getUTCDay() + 6) % 7));
-  return new Date(lundiSemaine1 + (semaine - 1) * 7 * 86_400_000);
-}
+import { ANNEE, PRISES, SEMAINES, lundi } from "./donnees";
 
 const jourMois = (d: Date) =>
   d.toLocaleDateString("fr-FR", { day: "numeric", month: "short", timeZone: "UTC" });

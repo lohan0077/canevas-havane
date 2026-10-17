@@ -1,5 +1,7 @@
 import type { CSSProperties, ReactNode } from "react";
+import Image from "next/image";
 import s from "./Nuit.module.css";
+import type { Photo } from "./donnees";
 
 /** Une plaque aux coins coupés, cerclée d'un filet d'un pixel. */
 export function Plaque({
@@ -44,9 +46,40 @@ export function Intitule({
         <span className={s.carre} aria-hidden="true" />
         {libelle}
       </p>
-      <Titre className={`${s.titre} ${long ? "text-[28px] sm:text-4xl" : "text-[34px] sm:text-5xl"}`}>{titre}</Titre>
+      <Titre className={`${s.titre} text-white ${long ? "text-[28px] sm:text-4xl" : "text-[34px] sm:text-5xl"}`}>{titre}</Titre>
       {children && <p className="text-lg leading-relaxed text-[#b9c0cc]">{children}</p>}
     </div>
+  );
+}
+
+/**
+ * Une photo dans sa plaque. `ratio` fixe le cadrage (la photo est recadrée pour
+ * le remplir) ; `decorative` vide le texte alternatif quand l'image n'apporte rien
+ * que le texte voisin ne dise déjà.
+ */
+export function PhotoPlaque({
+  photo,
+  ratio = "4 / 3",
+  sizes,
+  coupe = 24,
+  className = "",
+  decorative = false,
+  priority = false,
+}: {
+  photo: Photo;
+  ratio?: string;
+  sizes: string;
+  coupe?: number;
+  className?: string;
+  decorative?: boolean;
+  priority?: boolean;
+}) {
+  return (
+    <Plaque coupe={coupe} className={`${s.revele} ${className}`}>
+      <div className={`${s.zoom} relative overflow-hidden`} style={{ aspectRatio: ratio }}>
+        <Image src={photo.src} alt={decorative ? "" : photo.alt} fill sizes={sizes} priority={priority} className="object-cover" />
+      </div>
+    </Plaque>
   );
 }
 

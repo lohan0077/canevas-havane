@@ -2,15 +2,10 @@
 
 import { useState, type CSSProperties } from "react";
 import { Plaque, styles as s } from "./Habillage";
+import { gammes } from "./donnees";
 
-// La piscine qui rentre, selon la surface du jardin. Prix d'exemple, pose comprise.
-// Espaces insécables dans les dimensions et les prix : « 8 × 4 » ne se coupe pas.
-const TAILLES = [
-  { jusqua: 89, coque: "5 × 2,5", longueur: 5, largeur: 2.5, prix: "17 000 – 23 000 €" },
-  { jusqua: 119, coque: "6 × 3", longueur: 6, largeur: 3, prix: "20 000 – 27 000 €" },
-  { jusqua: 159, coque: "7 × 3,5", longueur: 7, largeur: 3.5, prix: "23 000 – 31 000 €" },
-  { jusqua: 200, coque: "8 × 4", longueur: 8, largeur: 4, prix: "25 000 – 34 000 €" },
-];
+// La piscine qui rentre, selon la surface du jardin : les gammes de `donnees.ts`.
+// Prix d'exemple, pose comprise.
 const MIN = 60;
 const MAX = 200;
 
@@ -22,7 +17,7 @@ const metres = (m: number) => m.toLocaleString("fr-FR", { maximumFractionDigits:
 
 export default function Jardin() {
   const [surface, setSurface] = useState(80);
-  const taille = TAILLES.find((t) => surface <= t.jusqua) ?? TAILLES[TAILLES.length - 1];
+  const taille = gammes.find((g) => surface <= g.jusqua) ?? gammes[gammes.length - 1];
 
   const longueurJardin = Math.sqrt(surface * 1.6);
   const largeurJardin = longueurJardin * PX_PAR_METRE;
@@ -102,7 +97,7 @@ export default function Jardin() {
 
         <Plaque fond="#0e1522" coupe={14}>
           <div className="p-5 sm:p-6 space-y-2">
-            <p className={`${s.technique} text-xs text-[#e8d1cb]`}>La piscine qui rentre</p>
+            <p className={`${s.technique} text-xs text-[#e8d1cb]`}>La piscine qui rentre · gamme {taille.nom}</p>
             <p className={`${s.titre} text-[26px] sm:text-3xl`}>Coque {taille.coque}{" "}m</p>
             <p className="text-lg font-bold tabular-nums text-[#7edbee]">{taille.prix} TTC</p>
             <p className={`${s.technique} text-[11px] text-[#8f98a8]`}>Pose comprise · prix d&apos;exemple</p>
