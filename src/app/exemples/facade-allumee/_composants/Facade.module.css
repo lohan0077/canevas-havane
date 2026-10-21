@@ -1,0 +1,47 @@
+/* L'enseigne s'allume une fois, progressivement, et reste allumée : jamais de
+   clignotement (Code de l'environnement, art. R. 581-59 — les enseignes
+   clignotantes sont interdites, sauf pharmacies et services d'urgence). */
+.allumage {
+  animation: allumage 1.4s cubic-bezier(.2, .7, .2, 1) .2s both;
+}
+.vitrine {
+  animation: vitrine 1.6s ease-out .1s both;
+}
+@keyframes allumage {
+  from { opacity: .12; }
+  to { opacity: 1; }
+}
+@keyframes vitrine {
+  from { opacity: .35; }
+  to { opacity: 1; }
+}
+
+/* La feuille « Envoie ta façade », qui monte du bas de l'écran. */
+.feuille {
+  animation: monte .45s cubic-bezier(.2, .8, .2, 1) both;
+}
+.voile {
+  animation: voile .3s ease-out both;
+}
+@keyframes monte {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+@keyframes voile {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* La signature qui s'écrit, sur la page du dossier. */
+.signature path {
+  stroke-dasharray: 420;
+  animation: trace 1.1s ease-out both;
+}
+@keyframes trace {
+  from { stroke-dashoffset: 420; }
+  to { stroke-dashoffset: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .allumage, .vitrine, .feuille, .voile, .signature path { animation: none; }
+}
