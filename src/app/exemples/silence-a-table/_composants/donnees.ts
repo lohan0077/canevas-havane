@@ -61,7 +61,7 @@ export const MENUS: Record<string, Menu> = {
     id: "juin",
     saison: "Menu de juin",
     entree: { nom: "Petits pois, menthe et chèvre frais", detail: "Velouté froid, chèvre frais de la ferme, menthe du jardin.", allergenes: ["Lait"] },
-    plat: { nom: "Volaille fermière, jus court", detail: "Rôtie entière, découpée en salle. Pommes grenaille, carottes fanes.", allergenes: ["Lait", "Céleri"] },
+    plat: { nom: "Volaille rôtie, jus court", detail: "Rôtie entière, découpée en salle. Pommes grenaille, carottes fanes.", allergenes: ["Lait", "Céleri"] },
     dessert: { nom: "Framboises, crémeux vanille", detail: "Crémeux à la vanille, framboises fraîches, crumble au beurre.", allergenes: ["Gluten", "Lait", "Œufs"] },
   },
   septembre: {

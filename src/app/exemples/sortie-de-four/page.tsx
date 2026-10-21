@@ -175,7 +175,7 @@ export default function SortieDeFour() {
         <div className="space-y-6">
           <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--accent-texte)]">Sans passer à l&apos;atelier</p>
           <h2 className="text-5xl font-normal">
-            Céramique artisanale, <span className="italic">en ligne.</span>
+            Céramique faite main, <span className="italic">en ligne.</span>
           </h2>
           <dl className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
             {[
