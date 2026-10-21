@@ -1,0 +1,11 @@
+/* Le plan qui se dessine : chaque meuble apparaît à son tour (délai posé en ligne). */
+@keyframes pose {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: none; }
+}
+.meuble {
+  animation: pose 0.35s ease-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .meuble { animation: none; }
+}

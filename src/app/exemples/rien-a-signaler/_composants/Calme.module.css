@@ -1,0 +1,15 @@
+/* La réponse qui se pose, le message du dimanche qui descend sur l'écran verrouillé. */
+@keyframes pose {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes descend {
+  from { opacity: 0; transform: translateY(-40px) scale(0.94); }
+  70% { opacity: 1; transform: translateY(4px) scale(1.01); }
+  to { opacity: 1; transform: none; }
+}
+.reponse { animation: pose 0.4s ease-out both; }
+.notification { animation: descend 0.55s ease-out both; }
+@media (prefers-reduced-motion: reduce) {
+  .reponse, .notification { animation: none; }
+}

@@ -1,0 +1,16 @@
+/* Le plan qui se dessine, puis ses trois annotations, l'une après l'autre. */
+@keyframes apparait {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes pastille {
+  0% { opacity: 0; transform: scale(0.2); }
+  70% { opacity: 1; transform: scale(1.15); }
+  to { opacity: 1; transform: scale(1); }
+}
+.feuille { animation: apparait 0.45s ease-out both; }
+.note { animation: apparait 0.4s ease-out both; }
+.pastille { transform-box: fill-box; transform-origin: center; animation: pastille 0.45s ease-out both; }
+@media (prefers-reduced-motion: reduce) {
+  .feuille, .note, .pastille { animation: none; }
+}
