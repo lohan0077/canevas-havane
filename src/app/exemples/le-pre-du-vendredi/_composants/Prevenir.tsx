@@ -36,7 +36,7 @@ export default function Prevenir({ titre, detail, id }: { titre?: React.ReactNod
             type="tel"
             inputMode="tel"
             autoComplete="tel"
-            placeholder="06 00 00 00 00"
+            placeholder="06 39 98 00 00"
             value={numero}
             readOnly={fait}
             onChange={(e) => setNumero(e.target.value)}

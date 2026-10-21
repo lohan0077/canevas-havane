@@ -59,7 +59,7 @@ export default function EnvoyerRecette() {
           type="tel"
           inputMode="tel"
           autoComplete="tel"
-          placeholder="06 00 00 00 00"
+          placeholder="06 39 98 00 00"
           value={numero}
           readOnly={envoye}
           onChange={(e) => setNumero(e.target.value)}

@@ -58,7 +58,7 @@ export default function Cadre({
 
   return (
     <div
-      className={`${polices} font-[family-name:var(--texte)] min-h-screen bg-[var(--fond)] text-[var(--encre)] [&_h1]:font-[family-name:var(--titres)] [&_h2]:font-[family-name:var(--titres)] [&_h3]:font-[family-name:var(--titres)] [&_h1]:leading-[1.04] [&_h2]:leading-[1.08] [&_h3]:leading-[1.15]`}
+      className={`${polices} font-[family-name:var(--texte)] min-h-screen bg-[var(--fond)] text-[var(--encre)] [&_h1]:font-[family-name:var(--titres)] [&_h2]:font-[family-name:var(--titres)] [&_h3]:font-[family-name:var(--titres)] [&_h4]:font-[family-name:var(--titres)] [&_h5]:font-[family-name:var(--titres)] [&_h6]:font-[family-name:var(--titres)] [&_h1]:leading-[1.04] [&_h2]:leading-[1.08] [&_h3]:leading-[1.15]`}
       style={variables}
     >
       <BandeauDemonstration entreprise={entreprise} />

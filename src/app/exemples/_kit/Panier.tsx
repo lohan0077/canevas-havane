@@ -40,11 +40,11 @@ export default function Panier({
             <span className="min-w-0">
               <span className="block text-lg font-semibold">{p.nom}</span>
               {p.detail && <span className="block text-sm text-[var(--doux)]">{p.detail}</span>}
-              <span className="block text-sm font-bold tabular-nums">{euros(p.prix)}</span>
+              <span className="block text-sm font-bold tabular-nums lining-nums">{euros(p.prix)}</span>
             </span>
             <span className="flex items-center gap-3 shrink-0">
               <button type="button" aria-label={`Retirer : ${p.nom}`} onClick={() => changer(i, -1)} className="h-10 w-10 rounded-full border-2 border-[var(--trait)] text-xl font-bold">−</button>
-              <span className="w-5 text-center text-lg font-bold tabular-nums">{quantites[i]}</span>
+              <span className="w-5 text-center text-lg font-bold tabular-nums lining-nums">{quantites[i]}</span>
               <button type="button" aria-label={`Ajouter : ${p.nom}`} onClick={() => changer(i, 1)} className="h-10 w-10 rounded-full bg-[var(--accent)] text-[var(--sur-accent)] text-xl font-bold">+</button>
             </span>
           </li>
@@ -52,7 +52,7 @@ export default function Panier({
       </ul>
       <p className="flex items-baseline justify-between text-xl font-extrabold">
         <span>Total TTC</span>
-        <span className="tabular-nums">{euros(total)}</span>
+        <span className="tabular-nums lining-nums">{euros(total)}</span>
       </p>
       {valide ? (
         <div role="status" className="rounded-2xl bg-[var(--fond)] border-2 border-[var(--accent)] p-4 space-y-1">

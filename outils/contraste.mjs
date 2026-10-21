@@ -41,6 +41,13 @@ const pagesDuSite = [
 // sont trouvées en suivant les liens internes de chaque site, pendant la mesure.
 const pagesExemples = JSON.parse(readFileSync(new URL("./pages-exemples.json", import.meta.url), "utf8"));
 const pages = [...pagesDuSite, ...pagesExemples].filter((p) => p.startsWith(filtre));
+// Ne rien mesurer n'est pas réussir : une liste vide (filtre mal tapé, liste des
+// exemples régénérée à vide pendant qu'un autre la réécrit) doit échouer, pas
+// annoncer « 0 sous le seuil ».
+if (pages.length === 0) {
+  console.error(`Aucune page à mesurer${filtre ? ` pour « ${filtre} »` : ""} : relancer node outils/registre-exemples.mjs ?`);
+  process.exit(1);
+}
 
 const mesure = () => {
   // Résolution de n'importe quelle notation CSS (rgb, oklab, oklch, color-mix…)
@@ -206,4 +213,8 @@ for (const schema of ["light", "dark"]) {
 
 await navigateur.close();
 console.log(`\n=== TOTAL : ${totalMesures} textes mesures, ${totalEchecs} sous le seuil WCAG AA, ${totalDecoratifs} decoratifs exemptes (aria-hidden), ${totalDegrades} en degrade (a verifier a l'oeil) ===`);
+if (totalMesures === 0) {
+  console.error("Aucun texte mesuré : les pages sont-elles vides, ou le serveur ne répond-il pas ?");
+  process.exit(1);
+}
 process.exit(totalEchecs === 0 ? 0 : 1);
