@@ -387,6 +387,39 @@ côté, il éclaire la maison par l'arrière et les ombres disparaissent. Le mob
 pose que là où il ne touche ni la terrasse ni la margelle. Vérifié : sans WebGL, le plan
 2D reste ; avec « animations réduites », l'image ne bouge pas.
 
+## Les 102 sites de démonstration — 21/10/2026
+
+**Un site par vidéo** des séries « Remplir l'agenda » et « Créer une marque » (51 métiers ×
+2), chacun filmé dans sa vidéo à la place des maquettes. Chaque site vit dans
+`src/app/exemples/<site>/` (accueil, deux ou trois pages, mentions légales et crédits) et
+porte une `fiche.ts`. **On n'édite jamais la liste à la main** : `node
+outils/registre-exemples.mjs` écrit `_registre.ts` (page `/exemples`, groupée par métier)
+et `outils/pages-exemples.json` (mesure de contraste).
+
+- **Le kit** `src/app/exemples/_kit/` : `Cadre` (deux polices, couleurs en variables,
+  bandeau et pied de démonstration), `CalculPalier`, `Creneaux`, `Questionnaire`, `Panier`,
+  `MentionsDemonstration`. `polices.ts` est une **liste fermée de 23 polices dont les accents
+  ont été vérifiés à l'écran** : n'en ajouter une qu'après le même essai.
+- **Photos** : `node outils/photo-exemple.mjs <site> <nom> <adresse> "<auteur>" <page>` —
+  Unsplash ou Pexels seulement, WebP de 300 Ko au plus, servies depuis notre domaine,
+  crédit écrit dans `credits.json` et affiché par les mentions du site.
+- **Contraste** : `outils/contraste.mjs` part de `pages-exemples.json`, suit les liens
+  internes de chaque site (sous-pages générées comprises), mesure quatre pages à la fois,
+  accepte un filtre (`… http://localhost:3100 /exemples/<site>`) et **échoue s'il ne mesure
+  rien**. Le 21/10/2026, sur la compilation de production : 525 pages, 77 508 textes
+  mesurés, 0 sous le seuil (`node outils/contraste.mjs http://localhost:3100`).
+- **Les règles de la fiction**, tenues sur les 102 : bandeau sur chaque page, `noindex`,
+  aucun `fetch` ni envoi, prix TTC marqués « exemple » (HT seulement en B2B, et dit),
+  téléphones dans les tranches réservées à la fiction (`01 99 00`, `06 39 98`, `04 65 71`),
+  aucune adresse e-mail, aucun avis ni note, aucune marque réelle, ni « artisan »,
+  « fermier », « bio », « clinique » sans qualité établie. Les règles de chaque métier
+  sont dans le `SOURCES.md` de sa vidéo (dossier `Videos/`, hors dépôt).
+- **Deux pièges rencontrés en les construisant** : le cache disque de Turbopack en
+  développement a pris 9 Go et rempli le disque (pour une longue session :
+  `experimental.turbopackFileSystemCacheForDev: false`, sans le committer) ; et macOS
+  **efface les fichiers de `/private/tmp` non ouverts depuis trois jours** — ne jamais y
+  laisser de travail non commité.
+
 ## Après chaque fichier écrit — la commande complète
 
 ```bash
