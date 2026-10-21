@@ -1,0 +1,45 @@
+import type { Metadata } from "next";
+import { adressesDeLaPage } from "@/lib/seo";
+import MentionsDemonstration from "../../_kit/MentionsDemonstration";
+import { cabinet } from "../_composants/donnees";
+
+export const metadata: Metadata = {
+  title: "Mentions légales et crédits — Le Pourquoi, site de démonstration",
+  description: "Le Pourquoi est un cabinet d'ostéopathie fictif : qui a réalisé ce site de démonstration, ce qu'il ne collecte pas, et d'où viennent ses photos.",
+  ...adressesDeLaPage("/exemples/le-pourquoi/mentions-legales"),
+};
+
+export default function MentionsLegales() {
+  return (
+    <MentionsDemonstration
+      site="le-pourquoi"
+      entreprise="Le Pourquoi"
+      polices="Outfit et Newsreader"
+      enPlus={
+        <>
+          <p>
+            La praticienne, {cabinet.praticienne}, n&apos;existe pas. Son titre et son diplôme
+            sont affichés comme un ostéopathe doit le faire, sur sa plaque et sur tout document
+            (décret n° 2007-435 du 25 mars 2007, art. 14) : diplôme et numéro ADELI{" "}
+            {cabinet.adeli} sont des exemples.
+          </p>
+          <p>
+            Les pages des gestes sont des textes d&apos;exemple : elles décrivent une pratique,
+            sans conseil médical ni promesse de résultat. Aucun témoignage, aucune note, aucune
+            image de patient. Les dates des « questions de la semaine » sont un calendrier
+            d&apos;exemple.
+          </p>
+          <p>
+            Le téléphone {cabinet.telephone} appartient à la tranche que l&apos;ARCEP réserve aux
+            œuvres de fiction. L&apos;adresse est inventée. La prise de rendez-vous ne demande
+            aucun motif de consultation.
+          </p>
+          <p>
+            La mise en page du premier écran s&apos;inspire du modèle « Breathstone » de la
+            bibliothèque MotionSites, transposé à un cabinet d&apos;ostéopathie.
+          </p>
+        </>
+      }
+    />
+  );
+}

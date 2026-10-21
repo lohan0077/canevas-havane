@@ -1,0 +1,12 @@
+/* Les clés du trousseau. Une clé à venir : un contour pointillé. Allumée : moutarde,
+   avec un léger balancement, comme une clé qu'on vient d'accrocher. */
+.corps { fill: var(--carte); stroke: var(--doux); stroke-width: 2.5; stroke-dasharray: 5 4; transition: fill .35s ease, stroke .35s ease; }
+.numero { font: 700 19px var(--titres); fill: var(--doux); }
+.allumee .corps { fill: var(--accent); stroke: var(--encre); stroke-dasharray: none; }
+.allumee .numero { fill: var(--encre); }
+.allumee { animation: balance .9s ease-out; transform-origin: 0 -22px; }
+.halo { fill: var(--accent); opacity: .28; animation: halo 1.6s ease-out infinite alternate; }
+.permis .corps { stroke-width: 3; }
+@keyframes balance { 0% { transform: rotate(-14deg); } 45% { transform: rotate(9deg); } 75% { transform: rotate(-4deg); } 100% { transform: rotate(0); } }
+@keyframes halo { from { opacity: .18; } to { opacity: .42; } }
+@media (prefers-reduced-motion: reduce) { .allumee, .halo { animation: none; } }

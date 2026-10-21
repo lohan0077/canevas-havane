@@ -1,0 +1,22 @@
+/* La page du mois tombe du haut, comme une feuille de calendrier qu'on rabat. */
+.page {
+  transform-origin: top center;
+  animation: tourner 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes tourner {
+  from {
+    transform: rotateX(-75deg);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page {
+    animation: none;
+  }
+}

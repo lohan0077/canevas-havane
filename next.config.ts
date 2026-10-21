@@ -56,6 +56,9 @@ const nextConfig: NextConfig = {
   output: "standalone",
   compress: true,
   poweredByHeader: false,
+  // Pas de pastille « N » de Next en développement : les sites de démonstration sont
+  // filmés pour les vidéos, et elle apparaissait à l'image.
+  devIndicators: false,
   images: {
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 2678400, // 31 jours
