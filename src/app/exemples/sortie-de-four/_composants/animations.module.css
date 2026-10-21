@@ -1,0 +1,17 @@
+/* Les mouvements du site Sortie de Four : la girelle qui tourne, la lueur du four. */
+@keyframes tour {
+  to { stroke-dashoffset: -64; }
+}
+.tourne {
+  animation: tour 0.6s linear infinite;
+}
+@keyframes lueur {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
+}
+.lueur {
+  animation: lueur 2.4s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tourne, .lueur { animation: none; }
+}
