@@ -39,7 +39,7 @@ export default function Agenda({ depart = "mardi" }: { depart?: string }) {
   };
 
   return (
-    <div className="rounded-[28px] bg-[var(--carte)] border border-[var(--trait)] p-5 sm:p-8 space-y-6" data-film="agenda">
+    <div className="rounded-[2rem] bg-[var(--carte)] border border-[var(--trait)] p-5 sm:p-8 space-y-6 shadow-[0_30px_80px_-40px_rgba(19,42,36,0.45)]" data-film="agenda">
       <div className="flex items-baseline justify-between gap-4">
         <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--doux)]">Semaine d&apos;exemple</p>
         <p className="text-xs font-semibold text-[var(--doux)]">Séance adulte · {seanceAdulte.duree}</p>
@@ -53,8 +53,8 @@ export default function Agenda({ depart = "mardi" }: { depart?: string }) {
             data-jour={j.id}
             aria-pressed={j.id === jourId}
             onClick={() => choisirJour(j.id)}
-            className={`min-h-12 rounded-2xl text-[15px] font-bold transition-colors ${
-              j.id === jourId ? "bg-[var(--encre)] text-[var(--fond)]" : "bg-[var(--fond)] text-[var(--encre)] hover:bg-[#E6E2D9]"
+            className={`min-h-12 rounded-2xl font-[family-name:var(--titres)] text-[15px] font-semibold transition-all duration-300 ${
+              j.id === jourId ? "bg-[var(--encre)] text-[var(--fond)] scale-[1.04]" : "bg-[var(--fond)] text-[var(--encre)] hover:bg-[#E9DFCF]"
             }`}
           >
             {j.court}
@@ -76,15 +76,15 @@ export default function Agenda({ depart = "mardi" }: { depart?: string }) {
                 setHeure(c.heure);
                 setErreur("");
               }}
-              className={`relative min-h-[58px] rounded-2xl border-2 px-2 py-2 text-center transition-colors ${
+              className={`relative min-h-[58px] rounded-2xl border-2 px-2 py-2 text-center transition-all duration-300 ${
                 c.pris
                   ? "border-transparent bg-[var(--fond)] text-[var(--doux)] line-through decoration-1"
                   : actif
-                    ? "border-[var(--accent)] bg-[#FBEDE7] text-[var(--encre)]"
+                    ? "border-[var(--accent)] bg-[#FBE7DC] text-[var(--encre)] scale-[1.03]"
                     : "border-[var(--trait)] bg-[var(--carte)] text-[var(--encre)] hover:border-[var(--encre)]"
               }`}
             >
-              <span className="block text-[17px] font-extrabold tabular-nums">{c.heure}</span>
+              <span className="block font-[family-name:var(--titres)] text-[17px] font-semibold tabular-nums">{c.heure}</span>
               <span className="block text-[11px] font-semibold mt-0.5">
                 {c.pris ? "Pris" : tot(c.heure) ? "Avant le travail" : tard(c.heure) ? "Après le travail" : "Libre"}
               </span>
@@ -98,7 +98,7 @@ export default function Agenda({ depart = "mardi" }: { depart?: string }) {
 
       {heure && (
         <form onSubmit={envoyer} className="rounded-[22px] bg-[var(--fond)] p-5 space-y-4" data-film="formulaire" noValidate>
-          <p className="text-2xl font-extrabold tracking-[-0.02em]">
+          <p className="font-[family-name:var(--titres)] text-2xl font-semibold tracking-[-0.02em]">
             {jour.long.charAt(0).toUpperCase() + jour.long.slice(1)}, {heure}
           </p>
           <p className="text-[15px] text-[var(--doux)]">
@@ -107,7 +107,7 @@ export default function Agenda({ depart = "mardi" }: { depart?: string }) {
           <label className="block space-y-1.5">
             <span className="text-sm font-bold">Nom</span>
             <input
-              id="sd-nom"
+              id="lp-nom"
               value={nom}
               onChange={(e) => setNom(e.target.value)}
               readOnly={reserve}
@@ -118,7 +118,7 @@ export default function Agenda({ depart = "mardi" }: { depart?: string }) {
           <label className="block space-y-1.5">
             <span className="text-sm font-bold">Téléphone</span>
             <input
-              id="sd-tel"
+              id="lp-tel"
               value={tel}
               onChange={(e) => setTel(e.target.value)}
               readOnly={reserve}
@@ -129,7 +129,7 @@ export default function Agenda({ depart = "mardi" }: { depart?: string }) {
           </label>
           {reserve ? (
             <div role="status" className="rounded-2xl bg-[var(--carte)] border-2 border-[var(--accent)] p-4 space-y-1">
-              <p className="text-lg font-extrabold">Réservé : {jour.long} {heure}</p>
+              <p className="font-[family-name:var(--titres)] text-lg font-semibold">Réservé : {jour.long} {heure}</p>
               <p className="text-sm text-[var(--doux)]">Démonstration : rien n&apos;est envoyé, rien n&apos;est enregistré.</p>
             </div>
           ) : (
@@ -138,7 +138,7 @@ export default function Agenda({ depart = "mardi" }: { depart?: string }) {
                 On ne vous demande pas pourquoi vous venez. Vous le direz au cabinet.
               </p>
               {erreur && <p role="alert" className="text-sm font-bold text-[var(--accent-texte)]">{erreur}</p>}
-              <button type="submit" className="w-full min-h-14 rounded-full bg-[var(--accent)] text-[var(--sur-accent)] text-lg font-extrabold">
+              <button type="submit" className="w-full min-h-14 rounded-full bg-[var(--accent)] font-[family-name:var(--titres)] text-lg font-semibold text-[var(--sur-accent)] transition-transform hover:scale-[1.01]">
                 Réserver
               </button>
             </>

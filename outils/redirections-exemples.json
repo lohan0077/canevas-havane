@@ -1,0 +1,10 @@
+[
+  {
+    "source": "/exemples/sans-detour",
+    "destination": "/exemples/le-pourquoi"
+  },
+  {
+    "source": "/exemples/sans-detour/:chemin*",
+    "destination": "/exemples/le-pourquoi"
+  }
+]

@@ -176,10 +176,20 @@ for (const schema of ["light", "dark"]) {
       const chemin = file.shift();
       occupes++;
       const reponse = await onglet.goto(origine + chemin, { waitUntil: "networkidle", timeout: 45000 });
-      await onglet.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-      await onglet.waitForTimeout(1200);
+      // Descente par paliers : un bloc qui apparaît en entrant à l'écran (Apparition,
+      // TitreRevele) reste invisible — donc non mesuré — si la page saute d'un coup
+      // en bas. On passe partout, puis on laisse finir les fondus.
+      await onglet.evaluate(async () => {
+        for (let y = 0; y < document.documentElement.scrollHeight; y += Math.round(innerHeight * 0.6)) {
+          window.scrollTo(0, y);
+          await new Promise((r) => setTimeout(r, 60));
+        }
+      });
+      await onglet.waitForTimeout(1400);
       await onglet.evaluate(() => window.scrollTo(0, 0));
-      await onglet.waitForTimeout(300);
+      // Un en-tête qui change de couleur en haut de page (NavVerre) le fait en fondu :
+      // mesuré pendant le fondu, il donne une couleur qui n'existe qu'un instant.
+      await onglet.waitForTimeout(900);
 
       // Les sous-pages d'un site de démonstration, qu'aucune liste ne connaît d'avance.
       const site = siteDe(chemin);

@@ -80,27 +80,26 @@ import { fiche as f77 } from "./relue/fiche";
 import { fiche as f78 } from "./reviens/fiche";
 import { fiche as f79 } from "./rien-a-signaler/fiche";
 import { fiche as f80 } from "./samedi-chantier/fiche";
-import { fiche as f81 } from "./sans-detour/fiche";
-import { fiche as f82 } from "./sans-histoire/fiche";
-import { fiche as f83 } from "./sans-motif/fiche";
-import { fiche as f84 } from "./sans-soupir/fiche";
-import { fiche as f85 } from "./sept-mille-diners/fiche";
-import { fiche as f86 } from "./silence-a-table/fiche";
-import { fiche as f87 } from "./sortie-de-four/fiche";
-import { fiche as f88 } from "./souvenance/fiche";
-import { fiche as f89 } from "./tel-quel/fiche";
-import { fiche as f90 } from "./tiers-regard/fiche";
-import { fiche as f91 } from "./ton-depot/fiche";
-import { fiche as f92 } from "./tour-du-quartier/fiche";
-import { fiche as f93 } from "./transmis/fiche";
-import { fiche as f94 } from "./trois-marches/fiche";
-import { fiche as f95 } from "./tu-vas-voir/fiche";
-import { fiche as f96 } from "./un-seul-onglet/fiche";
-import { fiche as f97 } from "./veilleuse/fiche";
-import { fiche as f98 } from "./vert-en-aout/fiche";
-import { fiche as f99 } from "./vingt-deux-heures/fiche";
-import { fiche as f100 } from "./voix-basse/fiche";
-import { fiche as f101 } from "./vue-cadree/fiche";
+import { fiche as f81 } from "./sans-histoire/fiche";
+import { fiche as f82 } from "./sans-motif/fiche";
+import { fiche as f83 } from "./sans-soupir/fiche";
+import { fiche as f84 } from "./sept-mille-diners/fiche";
+import { fiche as f85 } from "./silence-a-table/fiche";
+import { fiche as f86 } from "./sortie-de-four/fiche";
+import { fiche as f87 } from "./souvenance/fiche";
+import { fiche as f88 } from "./tel-quel/fiche";
+import { fiche as f89 } from "./tiers-regard/fiche";
+import { fiche as f90 } from "./ton-depot/fiche";
+import { fiche as f91 } from "./tour-du-quartier/fiche";
+import { fiche as f92 } from "./transmis/fiche";
+import { fiche as f93 } from "./trois-marches/fiche";
+import { fiche as f94 } from "./tu-vas-voir/fiche";
+import { fiche as f95 } from "./un-seul-onglet/fiche";
+import { fiche as f96 } from "./veilleuse/fiche";
+import { fiche as f97 } from "./vert-en-aout/fiche";
+import { fiche as f98 } from "./vingt-deux-heures/fiche";
+import { fiche as f99 } from "./voix-basse/fiche";
+import { fiche as f100 } from "./vue-cadree/fiche";
 
 export const SITES = [
   { chemin: "/exemples/a-garder", ...f0 },
@@ -184,25 +183,24 @@ export const SITES = [
   { chemin: "/exemples/reviens", ...f78 },
   { chemin: "/exemples/rien-a-signaler", ...f79 },
   { chemin: "/exemples/samedi-chantier", ...f80 },
-  { chemin: "/exemples/sans-detour", ...f81 },
-  { chemin: "/exemples/sans-histoire", ...f82 },
-  { chemin: "/exemples/sans-motif", ...f83 },
-  { chemin: "/exemples/sans-soupir", ...f84 },
-  { chemin: "/exemples/sept-mille-diners", ...f85 },
-  { chemin: "/exemples/silence-a-table", ...f86 },
-  { chemin: "/exemples/sortie-de-four", ...f87 },
-  { chemin: "/exemples/souvenance", ...f88 },
-  { chemin: "/exemples/tel-quel", ...f89 },
-  { chemin: "/exemples/tiers-regard", ...f90 },
-  { chemin: "/exemples/ton-depot", ...f91 },
-  { chemin: "/exemples/tour-du-quartier", ...f92 },
-  { chemin: "/exemples/transmis", ...f93 },
-  { chemin: "/exemples/trois-marches", ...f94 },
-  { chemin: "/exemples/tu-vas-voir", ...f95 },
-  { chemin: "/exemples/un-seul-onglet", ...f96 },
-  { chemin: "/exemples/veilleuse", ...f97 },
-  { chemin: "/exemples/vert-en-aout", ...f98 },
-  { chemin: "/exemples/vingt-deux-heures", ...f99 },
-  { chemin: "/exemples/voix-basse", ...f100 },
-  { chemin: "/exemples/vue-cadree", ...f101 },
+  { chemin: "/exemples/sans-histoire", ...f81 },
+  { chemin: "/exemples/sans-motif", ...f82 },
+  { chemin: "/exemples/sans-soupir", ...f83 },
+  { chemin: "/exemples/sept-mille-diners", ...f84 },
+  { chemin: "/exemples/silence-a-table", ...f85 },
+  { chemin: "/exemples/sortie-de-four", ...f86 },
+  { chemin: "/exemples/souvenance", ...f87 },
+  { chemin: "/exemples/tel-quel", ...f88 },
+  { chemin: "/exemples/tiers-regard", ...f89 },
+  { chemin: "/exemples/ton-depot", ...f90 },
+  { chemin: "/exemples/tour-du-quartier", ...f91 },
+  { chemin: "/exemples/transmis", ...f92 },
+  { chemin: "/exemples/trois-marches", ...f93 },
+  { chemin: "/exemples/tu-vas-voir", ...f94 },
+  { chemin: "/exemples/un-seul-onglet", ...f95 },
+  { chemin: "/exemples/veilleuse", ...f96 },
+  { chemin: "/exemples/vert-en-aout", ...f97 },
+  { chemin: "/exemples/vingt-deux-heures", ...f98 },
+  { chemin: "/exemples/voix-basse", ...f99 },
+  { chemin: "/exemples/vue-cadree", ...f100 },
 ];

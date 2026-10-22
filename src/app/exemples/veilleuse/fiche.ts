@@ -1,4 +1,4 @@
-import type { Fiche } from "../_kit/fiche";
+import type { FicheAncienne as Fiche } from "../_kit/fiche";
 
 export const fiche: Fiche = {
   nom: "Veilleuse",

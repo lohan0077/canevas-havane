@@ -35,8 +35,9 @@ export default function MentionsLegales() {
             aucun motif de consultation.
           </p>
           <p>
-            La mise en page du premier écran s&apos;inspire du modèle « Breathstone » de la
-            bibliothèque MotionSites, transposé à un cabinet d&apos;ostéopathie.
+            Ce site réunit les deux vidéos des ostéopathes : « Créer une marque » (le nom, les
+            gestes expliqués) et « Remplir l&apos;agenda » (ce que je ne fais pas, le prix affiché,
+            les créneaux de 7 h et de 20 h).
           </p>
         </>
       }

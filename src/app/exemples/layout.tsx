@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import "./_kit/mouvement.css";
 
 // Les sites de démonstration présentent des entreprises imaginaires : aucun ne doit
 // apparaître dans Google, où il passerait pour un vrai pisciniste. La règle vaut pour
@@ -13,5 +14,13 @@ export const metadata: Metadata = {
 };
 
 export default function ExemplesLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      {/* Sans JavaScript, rien ne déclencherait les apparitions : tout est montré d'emblée. */}
+      <noscript>
+        <style>{".kit-apparait,.kit-mot{opacity:1!important;transform:none!important;filter:none!important;clip-path:none!important}"}</style>
+      </noscript>
+      {children}
+    </>
+  );
 }
