@@ -107,7 +107,7 @@ export const etapes = [
   {
     titre: "Fonds versés",
     prix: "Honoraires",
-    note: "exemple : 1 900 € TTC pour 190 000 €",
+    note: "exemple\u00a0: 1\u00a0900\u00a0€ TTC pour 190\u00a0000\u00a0€",
     texte: "Tu paies nos honoraires une fois les fonds versés par la banque. Pas avant. Si aucune banque ne prête, les fonds ne sont jamais versés : tu ne nous dois rien.",
   },
 ];

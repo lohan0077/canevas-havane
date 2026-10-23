@@ -245,7 +245,7 @@ export default function BonneNouvelle() {
           {ENGAGEMENTS.map((e, i) => (
             <Apparition as="li" key={e.oui} delai={i * 140} className="grid grid-cols-1 gap-4 py-7 md:grid-cols-2 md:gap-12">
               <p className="flex gap-4 text-[20px] leading-snug"><span aria-hidden="true" className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[#3FA36B] text-[15px] font-bold text-[#10251A]">✓</span>{e.oui}</p>
-              <p className="flex gap-4 text-[20px] leading-snug text-[var(--doux)]"><span aria-hidden="true" className="grid h-8 w-8 shrink-0 place-items-center rounded-full border-2 border-[#1B2A41] text-[14px] font-bold text-[#1B2A41]">✕</span><span className="kit-barre">{e.non}</span></p>
+              <p className="flex gap-4 text-[20px] leading-snug text-[var(--doux)]"><span aria-hidden="true" className="grid h-8 w-8 shrink-0 place-items-center rounded-full border-2 border-[#1B2A41] text-[14px] font-bold text-[#1B2A41]">✕</span>{e.non}</p>
             </Apparition>
           ))}
         </ul>

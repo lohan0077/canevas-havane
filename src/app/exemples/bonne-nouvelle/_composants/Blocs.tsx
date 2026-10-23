@@ -116,7 +116,7 @@ export function EnTetePage({
   return (
     <section className="kit-grain relative isolate overflow-hidden bg-[#1B2A41] text-[#FFF8EC]">
       <Nuit />
-      <div className={`relative mx-auto grid max-w-7xl gap-12 px-5 pb-16 pt-36 sm:px-8 md:pb-24 md:pt-44 ${aCote ? "lg:grid-cols-[1.15fr_0.85fr] lg:items-end" : ""}`}>
+      <div className={`relative mx-auto grid grid-cols-1 max-w-7xl gap-12 px-5 pb-16 pt-36 sm:px-8 md:pb-24 md:pt-44 ${aCote ? "lg:grid-cols-[1.15fr_0.85fr] lg:items-end" : ""}`}>
         <div className="space-y-7">
           <Apparition><Surtitre clair>{surtitre}</Surtitre></Apparition>
           <TitreRevele
