@@ -123,7 +123,7 @@ export default function ParoleTenue() {
                 </p>
                 <p className="rounded-[1.4rem] bg-[var(--accent)] p-5 text-[var(--sur-accent)]">
                   <span className="block text-[12px] font-semibold uppercase tracking-[0.18em]">De côté, 18 mois</span>
-                  <span className="mt-1 block font-[family-name:var(--titres)] text-[2.2rem] leading-none tabular-nums">{euros(Math.ceil(japon.budget / 18))}<span className="text-[1.2rem]">&nbsp;/ mois</span></span>
+                  <span className="mt-1 block whitespace-nowrap font-[family-name:var(--titres)] text-[1.9rem] leading-none tabular-nums sm:text-[2.2rem]">{euros(Math.ceil(japon.budget / 18))}<span className="text-[1rem]">&nbsp;/&nbsp;mois</span></span>
                 </p>
               </div>
             </Apparition>
@@ -235,7 +235,7 @@ export default function ParoleTenue() {
               <Bouton href={`${DOSSIER}/ta-promesse#mur`} variante="sombre">Coller mon billet</Bouton>
             </Apparition>
           </div>
-          <ul className="grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-3" aria-label="Billets du mur (exemples)">
+          <ul className="mx-auto grid w-full max-w-sm grid-cols-1 gap-x-4 gap-y-5 sm:max-w-none sm:grid-cols-3" aria-label="Billets du mur (exemples)">
             {MUR_EXEMPLES.map((b, i) => (
               <Apparition as="li" key={b.ou} de="zoom" delai={i * 90}>
                 <Billet ou={b.ou} pour={b.pour} angle={ANGLES[i]} />

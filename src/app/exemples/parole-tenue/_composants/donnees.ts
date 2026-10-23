@@ -27,7 +27,7 @@ export const agence = {
 // Code du tourisme, art. R.211-2 : nom, forme juridique, immatriculation, garant et
 // assureur (nom et adresse), sur le site. Tous des exemples.
 export const MENTIONS_TOURISME = [
-  { libelle: "Raison sociale", valeur: "Parole Tenue, SARL au capital de 8 000 € (exemple)" },
+  { libelle: "Raison sociale", valeur: "Parole Tenue, SARL au capital de 8 000 €, RCS Ville-d'Exemple 000 000 000 (exemple)" },
   { libelle: "Immatriculation Atout France", valeur: "IM000000000 (exemple), au registre des opérateurs de voyages et de séjours" },
   { libelle: "Garant financier", valeur: "Garantie Exemple, 12 rue de l'Exemple, Ville-d'Exemple (exemple)" },
   { libelle: "Assureur responsabilité civile professionnelle", valeur: "Assurances Exemple, 12 rue de l'Exemple, Ville-d'Exemple (exemple)" },

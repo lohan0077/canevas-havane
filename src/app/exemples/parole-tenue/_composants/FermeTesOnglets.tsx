@@ -122,7 +122,7 @@ export default function FermeTesOnglets() {
                         {onglets > 1 ? `${onglets} onglets ouverts` : "1 onglet : ton voyage"}
                       </p>
                       <p className="font-[family-name:var(--titres)] text-[2.2rem] leading-tight">
-                        Rendez-vous {c.jour.toLowerCase()} {c.heure}.
+                        Rendez-vous {c.jour.toLowerCase()} {c.heure.replace(/ /g, "\u00a0")}.
                       </p>
                       <p className="leading-relaxed">
                         Trente minutes avec un conseiller, en visio ou à l&apos;agence. Il ferme les onglets à ta place.
