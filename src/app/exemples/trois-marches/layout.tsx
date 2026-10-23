@@ -30,7 +30,7 @@ export default function TroisMarchesLayout({ children }: { children: React.React
     >
       <NavVerre accueil={DOSSIER} marque={<Marque />} liens={NAVIGATION} action={{ href: `${DOSSIER}/estimation`, libelle: "Faire estimer" }} />
       {/* La marge du menu flottant (kit) laisse une bande de 12 px : le contenu remonte d'autant. */}
-      <div className="-mt-3">{children}</div>
+      <div>{children}</div>
       <Pied />
     </Cadre>
   );

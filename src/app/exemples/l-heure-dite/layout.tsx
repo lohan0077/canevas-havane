@@ -36,7 +36,7 @@ export default function LHeureDiteLayout({ children }: { children: React.ReactNo
         action={{ href: `${DOSSIER}/rendez-vous`, libelle: "Choisir mon heure" }}
       />
       {/* L'en-tête flottant garde sa marge de 12 px dans le flux : on la rattrape. */}
-      <div className="-mt-3 lining-nums">{children}</div>
+      <div className="lining-nums">{children}</div>
       <Pied />
     </Cadre>
   );

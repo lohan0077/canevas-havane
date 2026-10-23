@@ -142,7 +142,7 @@ export function EnTetePage({
   origine?: string;
 }) {
   return (
-    <section className="kit-grain relative isolate -mt-3 flex min-h-[78svh] flex-col overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
+    <section className="kit-grain relative isolate flex min-h-[78svh] flex-col overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
       {photo ? (
         <>
           <PhotoCinema src={photo.src} alt="" priority origine={origine} className="opacity-70" />

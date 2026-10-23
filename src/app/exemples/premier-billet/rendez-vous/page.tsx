@@ -34,7 +34,7 @@ export default function RendezVous() {
             </li>
           ))}
         </Apparition>
-        <Apparition de="zoom" className="border border-[var(--trait)] bg-[var(--carte)] p-5 shadow-[0_40px_80px_-50px_rgba(10,25,20,0.6)] sm:p-8">
+        <Apparition de="zoom" className="order-first border border-[var(--trait)] bg-[var(--carte)] p-5 lg:order-none shadow-[0_40px_80px_-50px_rgba(10,25,20,0.6)] sm:p-8">
           <Creneaux
             creneaux={CRENEAUX}
             colonnes={3}

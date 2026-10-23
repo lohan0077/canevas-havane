@@ -33,7 +33,6 @@ const VIDE: Champs = {
   client: "", clientAdresse: "", clientPro: true, designation: "", quantite: "1", prix: "", echeance: "",
 };
 
-const jjmmaaaa = (d: Date) => d.toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit", year: "numeric" });
 const montant = (n: number) => n.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
 
 /** Le SIREN : neuf chiffres, dont le dernier est une clé de Luhn. */
@@ -63,16 +62,21 @@ function verifier(c: Champs) {
   ];
 }
 
-/** L'exemple, rempli mention par mention : on voit chaque ligne se cocher. */
-function etapesExemple(aujourdhui: Date): Partial<Champs>[] {
-  const echeance = new Date(aujourdhui.getTime() + 30 * 86_400_000);
+/**
+ * L'exemple, rempli mention par mention : on voit chaque ligne se cocher. Ses dates sont
+ * fixes (le 3 mars, comme la facture encadrée) : l'exemple, et le film qui le montre, ne
+ * dépendent pas du jour où on les regarde.
+ */
+const EXEMPLE_DATE = "03/03/2026";
+const EXEMPLE_ECHEANCE = "02/04/2026";
+function etapesExemple(): Partial<Champs>[] {
   return [
     { numero: "0001" },
-    { date: jjmmaaaa(aujourdhui) },
+    { date: EXEMPLE_DATE },
     { nom: "Atelier M., céramiste (exemple)", adresse: "12 rue de l'Exemple, 00000 Ville-Exemple", siren: "000 000 000" },
     { client: "Boutique d'exemple", clientAdresse: "3 place de l'Exemple, 00000 Ville-Voisine" },
     { designation: "Six bols en grès, émail bleu", quantite: "6", prix: "38" },
-    { echeance: jjmmaaaa(echeance) },
+    { echeance: EXEMPLE_ECHEANCE },
   ];
 }
 
@@ -107,7 +111,7 @@ export default function PremiereFacture({ compact = false }: { compact?: boolean
   const exemple = () => {
     minuteurs.current.forEach((m) => window.clearTimeout(m));
     setC(VIDE);
-    minuteurs.current = etapesExemple(new Date()).map((p, i) => window.setTimeout(() => maj(p), 260 + i * 380));
+    minuteurs.current = etapesExemple().map((p, i) => window.setTimeout(() => maj(p), 260 + i * 380));
   };
   const effacer = () => {
     minuteurs.current.forEach((m) => window.clearTimeout(m));

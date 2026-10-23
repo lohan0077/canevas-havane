@@ -38,7 +38,7 @@ export default function PremierBilletLayout({ children }: { children: React.Reac
         action={{ href: `${DOSSIER}/rendez-vous`, libelle: "Rendez-vous" }}
       />
       {/* La marge du menu flottant (kit) laisse une bande de 12 px : le contenu remonte d'autant. */}
-      <div className="-mt-3">{children}</div>
+      <div>{children}</div>
       <Pied />
     </Cadre>
   );

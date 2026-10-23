@@ -37,7 +37,7 @@ export default function BonneNouvelleLayout({ children }: { children: React.Reac
         surSombre
       />
       {/* La marge du menu flottant (kit) laisse une bande de 12 px : le contenu remonte d'autant. */}
-      <div className="-mt-3">{children}</div>
+      <div>{children}</div>
       <CreneauEnBas />
       <Pied />
     </Cadre>

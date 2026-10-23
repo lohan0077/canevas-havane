@@ -40,8 +40,7 @@ export default function NeufEtes() {
   return (
     <main>
       {/* ---------- Premier écran : l'ouverture vidéo, en quatre chapitres ---------- */}
-      {/* -mt-3 : l'en-tête flottant du kit laisse une marge de 12 px sous le bandeau. */}
-      <div className="-mt-3 flex h-[100svh] min-h-[560px] flex-col">
+      <div className="flex h-[100svh] min-h-[560px] flex-col">
         <Ouverture />
       </div>
 

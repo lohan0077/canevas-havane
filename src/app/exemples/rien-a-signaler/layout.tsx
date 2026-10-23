@@ -39,7 +39,7 @@ export default function RienASignalerLayout({ children }: { children: React.Reac
       />
       {/* L'en-tête flottant garde sa marge de 12 px dans le flux : on la rattrape, pour que la
           nuit du premier écran touche le bandeau du délai. */}
-      <div className="-mt-3">{children}</div>
+      <div>{children}</div>
       <Pied />
     </Cadre>
   );

@@ -29,7 +29,7 @@ export default function VertEnAout() {
   return (
     <main>
       {/* ---------- Premier écran : partagé en deux ---------- */}
-      <section className="kit-grain relative isolate -mt-3 flex min-h-[100svh] flex-col overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
+      <section className="kit-grain relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
         <p aria-hidden="true" className="pointer-events-none absolute -bottom-[0.18em] left-1/2 -translate-x-1/2 select-none font-[family-name:var(--titres)] text-[32vw] font-black leading-none tracking-[-0.06em] text-transparent [-webkit-text-stroke:1.5px_rgba(224,184,92,0.16)]">
           AOÛT
         </p>

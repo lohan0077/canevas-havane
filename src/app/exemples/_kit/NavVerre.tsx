@@ -58,10 +58,13 @@ export default function NavVerre({
     : "bg-[color-mix(in_oklab,var(--carte)_88%,transparent)] text-[var(--encre)] border-[var(--trait)] shadow-[0_12px_40px_-18px_rgba(0,0,0,0.35)]";
 
   return (
-    <div className="sticky top-3 z-50 h-0">
+    // Le conteneur collant ne prend aucune hauteur ; la pastille y est posée en absolu.
+    // (Une marge sur la pastille traversait le conteneur vide et repoussait la page de
+    // 12 px sous le bandeau de démonstration.)
+    <div className="sticky top-0 z-50 h-0">
       <nav
         aria-label="Principale"
-        className={`mx-auto mt-3 flex w-[calc(100%-1.5rem)] max-w-6xl items-center justify-between gap-3 rounded-full border px-3 py-2 backdrop-blur-xl backdrop-saturate-150 transition-colors duration-500 sm:w-[calc(100%-3rem)] sm:px-4 ${pastille}`}
+        className={`absolute left-1/2 top-3 flex w-[calc(100%-1.5rem)] -translate-x-1/2 max-w-6xl items-center justify-between gap-3 rounded-full border px-3 py-2 backdrop-blur-xl backdrop-saturate-150 transition-colors duration-500 sm:w-[calc(100%-3rem)] sm:px-4 ${pastille}`}
       >
         <Link href={accueil} className="flex min-h-11 items-center rounded-full pl-1 pr-2" onClick={() => setOuvert(false)}>
           {marque}
