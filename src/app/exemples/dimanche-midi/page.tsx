@@ -212,7 +212,7 @@ export default function DimancheMidi() {
             <div className="space-y-6">
               <Apparition><Surtitre>Un dimanche par mois</Surtitre></Apparition>
               <TitreRevele
-                texte="Le cabinet ouvre *à midi.*"
+                texte={"Le cabinet ouvre *à\u00a0midi.*"}
                 className={`text-[clamp(3rem,6.6vw,6rem)] ${TITRE}`}
                 classeAccent={ACCENT}
               />

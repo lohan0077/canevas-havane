@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 export default function PageDimanche() {
   return (
     <main>
-      <EnTetePage surtitre="Un dimanche par mois" titre="Le cabinet ouvre *à midi.*" photo={photos.salle} origine="50% 40%">
+      <EnTetePage surtitre="Un dimanche par mois" titre={"Le cabinet ouvre *à\u00a0midi.*"} photo={photos.salle} origine="50% 40%">
         Parents et enfants, ensemble, au cabinet, sur inscription. Sans frais. On ouvre le carnet de
         famille, et chacun pose ses questions.
       </EnTetePage>
