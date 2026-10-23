@@ -58,7 +58,7 @@ export default async function PageMaison({ params }: { params: Promise<{ slug: s
               L&apos;histoire de la maison
             </p>
             <blockquote>
-              <TitreRevele as="p" texte={`«\u00a0${m.histoire.citation}\u00a0»`} className={`text-[clamp(2.4rem,5vw,4.4rem)] italic ${TITRE}`} classeAccent={ACCENT} />
+              <TitreRevele as="p" texte={`«\u00a0${m.histoire.citation}\u00a0»`} className={`font-[family-name:var(--titres)] text-[clamp(2.4rem,5vw,4.4rem)] italic ${TITRE}`} classeAccent={ACCENT} />
               <footer data-film="auteur" className="mt-5 text-[16px] text-[var(--doux)]">
                 {m.histoire.auteur} · {m.histoire.annees} · exemple
               </footer>

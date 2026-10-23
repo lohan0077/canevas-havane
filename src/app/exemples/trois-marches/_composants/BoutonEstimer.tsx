@@ -33,7 +33,7 @@ export default function BoutonEstimer() {
         data-film="estimer"
         aria-haspopup="dialog"
         onClick={() => setOuvert(true)}
-        className="flex h-16 w-full items-center justify-center gap-3 rounded-full bg-[var(--accent)] px-8 text-[18px] font-semibold text-[var(--sur-accent)] shadow-[0_16px_40px_rgba(233,162,59,0.3)]"
+        className="flex h-16 w-full items-center justify-center gap-3 rounded-full bg-[var(--accent)] px-8 text-[18px] font-semibold text-[var(--sur-accent)] shadow-[0_16px_40px_rgba(180,83,44,0.3)]"
       >
         Faire estimer ma maison
         <span aria-hidden="true">→</span>
