@@ -50,7 +50,7 @@ export default function VideoChantier({ src, poster, libelle }: { src: string; p
       <button
         type="button"
         onClick={basculer}
-        className="absolute bottom-4 left-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--sombre)] px-4 font-[family-name:var(--titres)] text-[15px] font-bold text-[var(--sur-sombre)]"
+        className="absolute bottom-4 left-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--sombre)] px-4 font-[family-name:var(--titres)] text-[15px] font-normal text-[var(--sur-sombre)]"
       >
         <span aria-hidden="true">{lecture ? "❚❚" : "▶"}</span>
         {lecture ? "Pause" : "Lecture"}

@@ -62,7 +62,7 @@ export default function CalculEtes() {
       <div className="flex items-center justify-between gap-3 border-b border-white/15 px-6 py-4 sm:px-8">
         <span className="flex items-center gap-3">
           <Monogramme className="h-9 w-9 text-lg" />
-          <span className="font-[family-name:var(--titres)] text-lg font-bold">Le calcul de l&apos;été</span>
+          <span className="font-[family-name:var(--titres)] text-lg font-normal">Le calcul de l&apos;été</span>
         </span>
         <span className="rounded-full border border-white/25 px-3 py-1 text-[13px]">Rien n&apos;est envoyé</span>
       </div>
@@ -76,7 +76,7 @@ export default function CalculEtes() {
       >
         {saisies.map((valeur, i) => (
           <div key={LIBELLES[i]} className="flex flex-col gap-3 rounded-[1.5rem] bg-white/[0.08] px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5">
-            <label htmlFor={`ne-age-${i + 1}`} className="font-[family-name:var(--titres)] text-[17px] font-bold">
+            <label htmlFor={`ne-age-${i + 1}`} className="font-[family-name:var(--titres)] text-[17px] font-normal">
               {LIBELLES[i]}
             </label>
             <span className="flex items-center justify-between gap-2 sm:justify-start">
@@ -98,7 +98,7 @@ export default function CalculEtes() {
                 placeholder="–"
                 value={valeur}
                 onChange={(e) => changer(i, e.target.value)}
-                className="w-[4.5rem] rounded-2xl border-2 border-white/25 bg-[var(--sombre)] px-2 py-2 text-center font-[family-name:var(--titres)] text-3xl font-bold tabular-nums text-[var(--sur-sombre)] outline-none placeholder:text-[var(--sur-sombre)] focus:border-[var(--accent)]"
+                className="w-[4.5rem] rounded-2xl border-2 border-white/25 bg-[var(--sombre)] px-2 py-2 text-center font-[family-name:var(--titres)] text-3xl font-normal tabular-nums text-[var(--sur-sombre)] outline-none placeholder:text-[var(--sur-sombre)] focus:border-[var(--accent)]"
               />
               <button
                 type="button"
@@ -117,7 +117,7 @@ export default function CalculEtes() {
           <button
             type="button"
             onClick={() => setSaisies([...saisies, ""])}
-            className="font-[family-name:var(--titres)] text-[15px] font-bold text-[var(--accent)] underline underline-offset-4"
+            className="font-[family-name:var(--titres)] text-[15px] font-normal text-[var(--accent)] underline underline-offset-4"
           >
             + Ajouter un enfant
           </button>
@@ -126,7 +126,7 @@ export default function CalculEtes() {
         <button
           type="submit"
           data-film="calculer"
-          className="flex min-h-14 w-full items-center justify-center gap-3 rounded-full bg-[var(--accent)] px-6 font-[family-name:var(--titres)] text-lg font-bold text-[var(--sur-accent)] transition-transform hover:scale-[1.01]"
+          className="flex min-h-14 w-full items-center justify-center gap-3 rounded-full bg-[var(--accent)] px-6 font-[family-name:var(--titres)] text-lg font-normal text-[var(--sur-accent)] transition-transform hover:scale-[1.01]"
         >
           Compter mes étés
         </button>
@@ -140,8 +140,8 @@ export default function CalculEtes() {
 
       {resultat && (
         <div role="status" data-film="resultat" className="border-t border-white/15 bg-[#0A2A39] px-6 pb-8 pt-7 sm:px-8">
-          <p className="font-[family-name:var(--titres)] text-sm font-bold uppercase tracking-[0.16em] text-[var(--accent)]">Il te reste</p>
-          <Apparition as="p" de="zoom" className="mt-2 font-[family-name:var(--titres)] text-[clamp(4.5rem,13vw,7.5rem)] font-bold leading-[0.9] tracking-[-0.015em] tabular-nums">
+          <p className="font-[family-name:var(--titres)] text-sm font-normal uppercase tracking-[0.16em] text-[var(--accent)]">Il te reste</p>
+          <Apparition as="p" de="zoom" className="mt-2 font-[family-name:var(--titres)] text-[clamp(4.5rem,13vw,7.5rem)] font-normal leading-[0.9] tracking-[-0.015em] tabular-nums">
             {resultat.tous} {resultat.tous > 1 ? "étés" : "été"}
           </Apparition>
           <p className="mt-2 text-2xl">
@@ -157,7 +157,7 @@ export default function CalculEtes() {
                 key={i}
                 de="zoom"
                 delai={150 + i * 80}
-                className="flex items-center gap-2 rounded-2xl bg-[var(--accent)] px-3 py-2.5 font-[family-name:var(--titres)] text-[15px] font-bold text-[var(--sur-accent)]"
+                className="flex items-center gap-2 rounded-2xl bg-[var(--accent)] px-3 py-2.5 font-[family-name:var(--titres)] text-[15px] font-normal text-[var(--sur-accent)]"
               >
                 <Soleil className="h-4 w-4 [&_circle]:fill-[#12445A] [&_g]:stroke-[#12445A]" />
                 Été {resultat.depuis + i}

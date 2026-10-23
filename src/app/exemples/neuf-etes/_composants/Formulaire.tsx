@@ -36,7 +36,7 @@ export default function Formulaire({
   if (envoye) {
     return (
       <div className="space-y-2 rounded-[2rem] bg-[var(--sombre)] p-6 text-[var(--sur-sombre)]" role="status">
-        <p className="font-[family-name:var(--titres)] text-xl font-bold text-[var(--accent)]">{confirmation}</p>
+        <p className="font-[family-name:var(--titres)] text-xl font-normal text-[var(--accent)]">{confirmation}</p>
         <p>Démonstration : rien n&apos;est envoyé, rien n&apos;est enregistré.</p>
         <button type="button" onClick={() => setEnvoye(false)} className="pt-2 text-[15px] font-bold underline underline-offset-4">
           Revenir au formulaire
@@ -52,7 +52,7 @@ export default function Formulaire({
     <form onSubmit={soumettre} className="space-y-5 rounded-[2rem] border border-[var(--trait)] bg-[var(--fond)] p-6 sm:p-8">
       {champs.map((c) => (
         <label key={c.nom} className="block space-y-2">
-          <span className="block font-[family-name:var(--titres)] text-[15px] font-bold">
+          <span className="block font-[family-name:var(--titres)] text-[15px] font-normal">
             {c.libelle}
             {c.requis ? "" : " (facultatif)"}
           </span>
@@ -66,7 +66,7 @@ export default function Formulaire({
       ))}
       <button
         type="submit"
-        className="inline-flex min-h-13 w-full items-center justify-center rounded-full bg-[var(--sombre)] px-7 font-[family-name:var(--titres)] text-lg font-bold text-[var(--sur-sombre)] sm:w-auto"
+        className="inline-flex min-h-13 w-full items-center justify-center rounded-full bg-[var(--sombre)] px-7 font-[family-name:var(--titres)] text-lg font-normal text-[var(--sur-sombre)] sm:w-auto"
       >
         {bouton}
       </button>

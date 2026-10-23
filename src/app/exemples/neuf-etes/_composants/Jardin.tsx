@@ -71,7 +71,7 @@ function Choix<T extends string>({
 }) {
   return (
     <fieldset className="space-y-3">
-      <legend className="font-[family-name:var(--titres)] text-sm font-bold">{libelle}</legend>
+      <legend className="font-[family-name:var(--titres)] text-sm font-normal">{libelle}</legend>
       <div className="grid grid-cols-3 gap-2">
         {options.map((o) => (
           <button
@@ -146,8 +146,8 @@ export default function Jardin() {
       <div className="space-y-7 p-6 sm:p-8">
         <label className="block space-y-4">
           <span className="flex items-baseline justify-between gap-4">
-            <span className="font-[family-name:var(--titres)] text-sm font-bold">Surface du jardin</span>
-            <span className="font-[family-name:var(--titres)] text-3xl font-bold tabular-nums">{surface}{" "}m²</span>
+            <span className="font-[family-name:var(--titres)] text-sm font-normal">Surface du jardin</span>
+            <span className="font-[family-name:var(--titres)] text-3xl font-normal tabular-nums">{surface}{" "}m²</span>
           </span>
           <input
             type="range"
@@ -166,7 +166,7 @@ export default function Jardin() {
         <Choix libelle="La maison" options={COTES} valeur={maison} onChange={setMaison} />
 
         <label className="flex cursor-pointer items-center justify-between gap-4">
-          <span className="font-[family-name:var(--titres)] text-sm font-bold">Une terrasse contre la maison</span>
+          <span className="font-[family-name:var(--titres)] text-sm font-normal">Une terrasse contre la maison</span>
           <input
             type="checkbox"
             checked={terrasse}
@@ -179,13 +179,13 @@ export default function Jardin() {
           {coque ? (
             <div className="space-y-1.5">
               <p className="text-[15px]">La piscine qui rentre · gamme {coque.nom}</p>
-              <p className="font-[family-name:var(--titres)] text-[1.7rem] font-bold leading-tight sm:text-[2rem]">Coque {coque.coque}{" "}m</p>
-              <p className="font-[family-name:var(--titres)] text-2xl font-bold tabular-nums text-[var(--accent)]">{coque.prix} TTC</p>
+              <p className="font-[family-name:var(--titres)] text-[1.7rem] font-normal leading-tight sm:text-[2rem]">Coque {coque.coque}{" "}m</p>
+              <p className="font-[family-name:var(--titres)] text-2xl font-normal tabular-nums text-[var(--accent)]">{coque.prix} TTC</p>
               <p className="text-[14px]">Pose comprise · prix d&apos;exemple</p>
             </div>
           ) : (
             <div className="space-y-1.5">
-              <p className="font-[family-name:var(--titres)] text-xl font-bold text-[var(--accent)]">Trop juste pour une coque</p>
+              <p className="font-[family-name:var(--titres)] text-xl font-normal text-[var(--accent)]">Trop juste pour une coque</p>
               <p>
                 À {metres(RECUL)}{" "}m des limites{terrasse ? " et de la terrasse" : ""}, aucune coque ne
                 tient. {terrasse ? "Sans la terrasse, une 5 × 2,5 rentre peut-être : " : ""}la visite technique le

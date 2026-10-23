@@ -164,8 +164,8 @@
 
 /* ---------- les libellés ---------- */
 .libelle {
-  font-family: var(--titres), var(--texte), serif;
-  font-weight: 700;
+  font-family: var(--texte), sans-serif;
+  font-weight: 500;
   font-size: calc(10 * var(--t));
   line-height: 1;
   white-space: nowrap;
@@ -195,8 +195,8 @@
   position: relative;
 }
 .chapitres button {
-  font-family: var(--titres), var(--texte), serif;
-  font-weight: 700;
+  font-family: var(--texte), sans-serif;
+  font-weight: 500;
   font-size: calc(10 * var(--t));
   line-height: 1;
   letter-spacing: calc(1.3 * var(--t));
@@ -239,8 +239,8 @@
   /* écrit en toutes lettres : la feuille globale du site impose sa police à
      empattements à tous les titres, et une règle posée sur l'élément l'emporte
      sur l'héritage */
-  font-family: var(--titres), Rockwell, serif;
-  font-weight: 700;
+  font-family: var(--titres), serif;
+  font-weight: 400;
   font-size: calc(74 * var(--t));
   line-height: calc(80 * var(--t));
   letter-spacing: -0.015em;

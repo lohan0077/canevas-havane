@@ -48,7 +48,7 @@ export default function Entreprise() {
               <div aria-hidden="true" className="grid aspect-square place-items-center rounded-[2rem] border border-[var(--trait)]" style={{ background: fond }}>
                 {i === 0 && <Monogramme className="h-16 w-16 text-3xl" />}
               </div>
-              <figcaption className="font-[family-name:var(--titres)] text-lg font-bold">
+              <figcaption className="font-[family-name:var(--titres)] text-lg font-normal">
                 {nom} <span className="font-normal text-[var(--doux)]">{fond}</span>
               </figcaption>
             </figure>
@@ -72,7 +72,7 @@ export default function Entreprise() {
                 <Apparition as="li" key={e.titre} delai={i * 110} className="h-full">
                   <CarteLueur className="h-full rounded-[2rem] border border-white/15 bg-[#0A2A39]">
                     <div className="space-y-3 p-7">
-                      <span className="font-[family-name:var(--titres)] text-4xl font-bold text-[var(--accent)]">{String(i + 1).padStart(2, "0")}</span>
+                      <span className="font-[family-name:var(--titres)] text-4xl font-normal text-[var(--accent)]">{String(i + 1).padStart(2, "0")}</span>
                       <h3 className="text-2xl font-bold">{e.titre}</h3>
                       <p className="leading-relaxed">{e.texte}</p>
                     </div>
@@ -96,9 +96,9 @@ export default function Entreprise() {
         <ul className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
           {equipe.map((p, i) => (
             <Apparition as="li" key={p.nom} delai={i * 120} className="grid gap-5 py-7 sm:grid-cols-[auto_1fr] sm:items-center sm:gap-8">
-              <span aria-hidden="true" className="grid h-16 w-16 place-items-center rounded-full bg-[var(--sombre)] font-[family-name:var(--titres)] text-xl font-bold text-[var(--accent)]">{p.initiales}</span>
+              <span aria-hidden="true" className="grid h-16 w-16 place-items-center rounded-full bg-[var(--sombre)] font-[family-name:var(--titres)] text-xl font-normal text-[var(--accent)]">{p.initiales}</span>
               <span className="space-y-1">
-                <span className="block font-[family-name:var(--titres)] text-2xl font-bold">{p.nom}</span>
+                <span className="block font-[family-name:var(--titres)] text-2xl font-normal">{p.nom}</span>
                 <span className="block font-bold text-[var(--accent-texte)]">{p.role}</span>
                 <span className="block text-[var(--doux)]">{p.phrase}</span>
               </span>
@@ -110,7 +110,7 @@ export default function Entreprise() {
       <section className="bg-[var(--accent)] text-[var(--sur-accent)]">
         <div className="mx-auto max-w-7xl space-y-12 px-5 py-24 sm:px-8 md:py-28">
           <div className="max-w-3xl space-y-5">
-            <p className="font-[family-name:var(--titres)] text-sm font-bold uppercase tracking-[0.16em]">Garanties</p>
+            <p className="font-[family-name:var(--titres)] text-sm font-normal uppercase tracking-[0.16em]">Garanties</p>
             <h2 className="text-[clamp(2.5rem,6vw,5rem)] font-bold leading-[1] tracking-[-0.03em]">Ce qui te protège après le chantier.</h2>
             <p className="text-xl leading-relaxed">
               Les garanties que la loi impose à tout constructeur, et l&apos;assurance qui va avec :

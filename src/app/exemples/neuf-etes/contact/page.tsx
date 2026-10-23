@@ -27,14 +27,14 @@ export default function Contact() {
               <div>
                 <dt className="text-[15px]">Téléphone</dt>
                 <dd>
-                  <a href={`tel:${entreprise.telephoneLien}`} className="font-[family-name:var(--titres)] text-[clamp(2rem,4.5vw,3rem)] font-bold tabular-nums text-[var(--accent)] underline-offset-4 hover:underline">
+                  <a href={`tel:${entreprise.telephoneLien}`} className="font-[family-name:var(--titres)] text-[clamp(2rem,4.5vw,3rem)] font-normal tabular-nums text-[var(--accent)] underline-offset-4 hover:underline">
                     {entreprise.telephone}
                   </a>
                 </dd>
               </div>
               <div>
                 <dt className="text-[15px]">Adresse</dt>
-                <dd className="font-[family-name:var(--titres)] text-xl font-bold">{entreprise.adresse.join(", ")}</dd>
+                <dd className="font-[family-name:var(--titres)] text-xl font-normal">{entreprise.adresse.join(", ")}</dd>
               </div>
               <div>
                 <dt className="text-[15px]">Horaires</dt>

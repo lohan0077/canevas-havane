@@ -16,13 +16,13 @@ export default function BarreMobile() {
         <a
           href={`tel:${entreprise.telephoneLien}`}
           aria-label={`Appeler ${entreprise.nom} au ${entreprise.telephone}`}
-          className="inline-flex min-h-12 flex-1 items-center justify-center rounded-full border-2 border-white/30 px-3 font-[family-name:var(--titres)] text-[15px] font-bold"
+          className="inline-flex min-h-12 flex-1 items-center justify-center rounded-full border-2 border-white/30 px-3 font-[family-name:var(--titres)] text-[15px] font-normal"
         >
           Appeler
         </a>
         <Link
           href={`${DOSSIER}/ma-date`}
-          className="inline-flex min-h-12 flex-[2] items-center justify-center rounded-full bg-[var(--accent)] px-3 font-[family-name:var(--titres)] text-[15px] font-bold text-[var(--sur-accent)]"
+          className="inline-flex min-h-12 flex-[2] items-center justify-center rounded-full bg-[var(--accent)] px-3 font-[family-name:var(--titres)] text-[15px] font-normal text-[var(--sur-accent)]"
         >
           Choisir ma semaine
         </Link>

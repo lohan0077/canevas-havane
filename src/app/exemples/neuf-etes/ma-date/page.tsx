@@ -50,7 +50,7 @@ export default function MaDate() {
         <ol className="grid gap-5 md:grid-cols-3">
           {ENSUITE.map((e, i) => (
             <Apparition as="li" key={e.titre} delai={i * 120} className="rounded-[2rem] border border-[var(--trait)] bg-[var(--carte)] p-7">
-              <span className="font-[family-name:var(--titres)] text-5xl font-bold text-[var(--accent-texte)]">{String(i + 1).padStart(2, "0")}</span>
+              <span className="font-[family-name:var(--titres)] text-5xl font-normal text-[var(--accent-texte)]">{String(i + 1).padStart(2, "0")}</span>
               <h2 className="mt-4 text-2xl font-bold">{e.titre}</h2>
               <p className="mt-3 leading-relaxed text-[var(--doux)]">{e.texte}</p>
             </Apparition>

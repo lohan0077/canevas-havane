@@ -6,9 +6,9 @@ import Pied from "./_composants/Pied";
 import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 
 // Le gabarit du site Neuf Étés, la marque de piscines imaginée dans les deux vidéos
-// des piscinistes. Polices : Arvo (l'égyptienne franche qui tient le rôle du Rockwell
-// de la marque) pour les titres, DM Sans pour lire. Couleurs de la marque : le bleu
-// profond, le bleu d'eau, le jaune soleil et la crème.
+// des piscinistes. Polices : Fraunces (un romain doux, en graisse normale) pour les
+// titres, Inter pour lire. Couleurs de la marque : le bleu profond, le bleu d'eau, le
+// jaune soleil — réservé aux boutons — et la crème.
 //
 // Chaque page s'ouvre sur un écran sombre (la vidéo de l'accueil, la photo des pages
 // intérieures) : l'en-tête flottant y est clair. Sur téléphone, la barre d'action du
@@ -19,8 +19,8 @@ export default function NeufEtesLayout({ children }: { children: React.ReactNode
     <div className="bg-[#0D3446] pb-[76px] lg:pb-0">
       <Cadre
         entreprise="Neuf Étés"
-        titres="arvo"
-        texte="dmSans"
+        titres="fraunces"
+        texte="inter"
         couleurs={{
           fond: "#FFF8EC",
           encre: "#12445A",

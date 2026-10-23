@@ -44,7 +44,7 @@ export default function Piscines() {
             <div className="mx-auto grid max-w-7xl gap-12 px-5 py-20 sm:px-8 md:py-28 lg:grid-cols-2 lg:items-center">
               <Apparition de={i % 2 ? "droite" : "gauche"} className={`relative aspect-[4/3] overflow-hidden rounded-[2.5rem] ${i % 2 ? "lg:order-last" : ""}`}>
                 <Image src={g.photo.src} alt={g.photo.alt} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
-                <span className="absolute left-5 top-5 rounded-full bg-[var(--sombre)] px-4 py-2 font-[family-name:var(--titres)] text-sm font-bold text-[var(--sur-sombre)]">
+                <span className="absolute left-5 top-5 rounded-full bg-[var(--sombre)] px-4 py-2 font-[family-name:var(--titres)] text-sm font-normal text-[var(--sur-sombre)]">
                   Coque {g.coque}{" "}m
                 </span>
               </Apparition>
@@ -62,16 +62,16 @@ export default function Piscines() {
                   ].map(([d, v]) => (
                     <div key={d} className="rounded-[1.4rem] border border-[var(--trait)] bg-[var(--fond)] px-4 py-3">
                       <dt className="text-[14px] text-[var(--doux)]">{d}</dt>
-                      <dd className="font-[family-name:var(--titres)] text-lg font-bold">{v}</dd>
+                      <dd className="font-[family-name:var(--titres)] text-lg font-normal">{v}</dd>
                     </div>
                   ))}
                   </dl>
                 </Apparition>
                 <Apparition delai={300} className="flex flex-wrap items-center gap-x-6 gap-y-4 rounded-[1.75rem] bg-[var(--sombre)] px-6 py-5 text-[var(--sur-sombre)]">
-                  <span className="font-[family-name:var(--titres)] text-3xl font-bold text-[var(--accent)]">{g.prix}</span>
+                  <span className="font-[family-name:var(--titres)] text-3xl font-normal text-[var(--accent)]">{g.prix}</span>
                   <span className="text-[15px]">TTC, pose comprise · prix d&apos;exemple</span>
                 </Apparition>
-                <div className="flex flex-wrap gap-x-8 gap-y-3 font-[family-name:var(--titres)] font-bold">
+                <div className="flex flex-wrap gap-x-8 gap-y-3 font-[family-name:var(--titres)] font-normal">
                   <Link href={`${DOSSIER}/prix`} className="text-[var(--accent-texte)] underline underline-offset-4">Calculer pour mon jardin</Link>
                   {chantier && (
                     <Link href={`${DOSSIER}/chantiers/${chantier.slug}`} className="text-[var(--accent-texte)] underline underline-offset-4">
@@ -99,7 +99,7 @@ export default function Piscines() {
                     <div className="flex h-full flex-col gap-3 p-7">
                       <h3 className="text-2xl font-bold">{o.nom}</h3>
                       <p className="flex-1 leading-relaxed">{o.detail}</p>
-                      <p className="font-[family-name:var(--titres)] font-bold text-[var(--accent)]">{o.prix}</p>
+                      <p className="font-[family-name:var(--titres)] font-normal text-[var(--accent)]">{o.prix}</p>
                     </div>
                   </CarteLueur>
                 </Apparition>

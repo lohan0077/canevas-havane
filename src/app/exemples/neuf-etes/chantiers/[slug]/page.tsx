@@ -57,17 +57,17 @@ export default async function PageChantier({ params }: Props) {
         <Apparition>
           <dl data-film="fiche" className="grid gap-4 md:grid-cols-[1.3fr_1fr_1fr]">
             <div className="rounded-[2rem] bg-[var(--accent)] p-7 text-[var(--sur-accent)] sm:p-9">
-              <dt className="font-[family-name:var(--titres)] text-sm font-bold uppercase tracking-[0.14em]">Prix payé</dt>
-              <dd className="mt-2 font-[family-name:var(--titres)] text-[clamp(2.8rem,6vw,4.5rem)] font-bold leading-none tracking-[-0.03em] tabular-nums">{chantier.prix}</dd>
+              <dt className="font-[family-name:var(--titres)] text-sm font-normal uppercase tracking-[0.14em]">Prix payé</dt>
+              <dd className="mt-2 font-[family-name:var(--titres)] text-[clamp(2.8rem,6vw,4.5rem)] font-normal leading-none tracking-[-0.03em] tabular-nums">{chantier.prix}</dd>
               <dd className="mt-3 text-[15px]">Exemple : l&apos;entreprise est fictive.</dd>
             </div>
             <div className="rounded-[2rem] bg-[var(--sombre)] p-7 text-[var(--sur-sombre)] sm:p-9">
-              <dt className="font-[family-name:var(--titres)] text-sm font-bold uppercase tracking-[0.14em] text-[var(--accent)]">Durée des travaux</dt>
-              <dd className="mt-2 font-[family-name:var(--titres)] text-[clamp(2.4rem,5vw,3.75rem)] font-bold leading-none tracking-[-0.03em]">{chantier.duree}</dd>
+              <dt className="font-[family-name:var(--titres)] text-sm font-normal uppercase tracking-[0.14em] text-[var(--accent)]">Durée des travaux</dt>
+              <dd className="mt-2 font-[family-name:var(--titres)] text-[clamp(2.4rem,5vw,3.75rem)] font-normal leading-none tracking-[-0.03em]">{chantier.duree}</dd>
             </div>
             <div className="rounded-[2rem] border border-[var(--trait)] bg-[var(--carte)] p-7 sm:p-9">
-              <dt className="font-[family-name:var(--titres)] text-sm font-bold uppercase tracking-[0.14em] text-[var(--doux)]">Coque</dt>
-              <dd className="mt-2 font-[family-name:var(--titres)] text-[clamp(2.4rem,5vw,3.75rem)] font-bold leading-none tracking-[-0.03em]">{dimensions}{" "}m</dd>
+              <dt className="font-[family-name:var(--titres)] text-sm font-normal uppercase tracking-[0.14em] text-[var(--doux)]">Coque</dt>
+              <dd className="mt-2 font-[family-name:var(--titres)] text-[clamp(2.4rem,5vw,3.75rem)] font-normal leading-none tracking-[-0.03em]">{dimensions}{" "}m</dd>
               {gamme && (
                 <dd className="mt-3">
                   <Link href={`${DOSSIER}/piscines#${gamme.id}`} className="font-bold text-[var(--accent-texte)] underline underline-offset-4">

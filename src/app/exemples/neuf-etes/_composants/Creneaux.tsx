@@ -38,7 +38,7 @@ export default function Creneaux() {
               }`}
             >
               <span className="block text-[12px] font-bold uppercase tracking-[0.1em]">Semaine</span>
-              <span className="block font-[family-name:var(--titres)] text-3xl font-bold leading-tight tabular-nums">{sem}</span>
+              <span className="block font-[family-name:var(--titres)] text-3xl font-normal leading-tight tabular-nums">{sem}</span>
               <span className="block text-[13px]">{jourMois(lundi(ANNEE, sem))}</span>
               <span className={`mt-2 block text-[12px] font-bold uppercase tracking-[0.08em] ${prise && !active ? "line-through" : ""}`}>
                 {active ? "Choisie" : prise ? "Réservée" : "Libre"}
@@ -55,15 +55,15 @@ export default function Creneaux() {
 
       {choisie !== null && (
         <div data-film="ma-semaine" className="space-y-5 rounded-[2rem] bg-[var(--carte)] p-6 text-[var(--encre)] sm:p-8">
-          <p className="font-[family-name:var(--titres)] text-sm font-bold uppercase tracking-[0.14em] text-[var(--doux)]">Saison {ANNEE}</p>
-          <p className="font-[family-name:var(--titres)] text-3xl font-bold sm:text-4xl">Ta date de chantier</p>
+          <p className="font-[family-name:var(--titres)] text-sm font-normal uppercase tracking-[0.14em] text-[var(--doux)]">Saison {ANNEE}</p>
+          <p className="font-[family-name:var(--titres)] text-3xl font-normal sm:text-4xl">Ta date de chantier</p>
           <p className="text-lg text-[var(--doux)]">
             Semaine {choisie} · à partir du{" "}
             {lundi(ANNEE, choisie).toLocaleDateString("fr-FR", { day: "numeric", month: "long", timeZone: "UTC" })}
           </p>
           {bloquee ? (
             <div className="space-y-1 rounded-[1.4rem] bg-[var(--sombre)] p-4 text-[var(--sur-sombre)]" role="status">
-              <p className="font-[family-name:var(--titres)] font-bold text-[var(--accent)]">Pré-réservée · après visite technique</p>
+              <p className="font-[family-name:var(--titres)] font-normal text-[var(--accent)]">Pré-réservée · après visite technique</p>
               <p className="text-[15px]">Démonstration : rien n&apos;est envoyé, rien n&apos;est enregistré.</p>
             </div>
           ) : (
@@ -71,7 +71,7 @@ export default function Creneaux() {
               type="button"
               data-film="bloquer"
               onClick={() => setBloquee(true)}
-              className="inline-flex min-h-13 w-full items-center justify-center rounded-full bg-[var(--accent)] px-7 font-[family-name:var(--titres)] text-lg font-bold text-[var(--sur-accent)] sm:w-auto"
+              className="inline-flex min-h-13 w-full items-center justify-center rounded-full bg-[var(--accent)] px-7 font-[family-name:var(--titres)] text-lg font-normal text-[var(--sur-accent)] sm:w-auto"
             >
               Bloquer ma date
             </button>

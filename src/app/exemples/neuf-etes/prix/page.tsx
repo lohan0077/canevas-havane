@@ -72,10 +72,10 @@ export default function Prix() {
                 <Apparition as="li" key={g.id} delai={i * 90}>
                   <Link href={`${DOSSIER}/piscines#${g.id}`} className="group grid gap-2 py-7 sm:grid-cols-[1fr_auto] sm:items-baseline">
                     <span>
-                      <span className="block font-[family-name:var(--titres)] text-3xl font-bold group-hover:underline">{g.nom}</span>
+                      <span className="block font-[family-name:var(--titres)] text-3xl font-normal group-hover:underline">{g.nom}</span>
                       <span className="block text-[15px]">Coque {g.coque}{" "}m · jardin de {g.jardin}</span>
                     </span>
-                    <span className="font-[family-name:var(--titres)] text-[clamp(1.9rem,4vw,3rem)] font-bold tabular-nums text-[var(--accent)]">{g.prix}</span>
+                    <span className="font-[family-name:var(--titres)] text-[clamp(1.9rem,4vw,3rem)] font-normal tabular-nums text-[var(--accent)]">{g.prix}</span>
                   </Link>
                 </Apparition>
               ))}
@@ -99,7 +99,7 @@ export default function Prix() {
         <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {VARIATIONS.map((v, i) => (
             <Apparition as="li" key={v.titre} delai={i * 110} className="rounded-[2rem] border border-[var(--trait)] bg-[var(--carte)] p-7">
-              <span className="font-[family-name:var(--titres)] text-4xl font-bold text-[var(--accent-texte)]">{String(i + 1).padStart(2, "0")}</span>
+              <span className="font-[family-name:var(--titres)] text-4xl font-normal text-[var(--accent-texte)]">{String(i + 1).padStart(2, "0")}</span>
               <h3 className="mt-4 text-2xl font-bold">{v.titre}</h3>
               <p className="mt-3 leading-relaxed text-[var(--doux)]">{v.texte}</p>
             </Apparition>
@@ -110,7 +110,7 @@ export default function Prix() {
       <section className="bg-[var(--accent)] text-[var(--sur-accent)]">
         <div className="mx-auto grid max-w-7xl gap-14 px-5 py-24 sm:px-8 md:py-28 lg:grid-cols-2">
           <div className="space-y-7">
-            <p className="font-[family-name:var(--titres)] text-sm font-bold uppercase tracking-[0.16em]">Dans le prix</p>
+            <p className="font-[family-name:var(--titres)] text-sm font-normal uppercase tracking-[0.16em]">Dans le prix</p>
             <Titre texte="Tout ce qui est *compris.*" className="[&_.italic]:text-[var(--sur-accent)]" />
             <ul className="grid gap-3 sm:grid-cols-2">
               {COMPRIS.map((c) => (
@@ -122,11 +122,11 @@ export default function Prix() {
             </ul>
           </div>
           <div className="space-y-7">
-            <p className="font-[family-name:var(--titres)] text-sm font-bold uppercase tracking-[0.16em]">En option</p>
+            <p className="font-[family-name:var(--titres)] text-sm font-normal uppercase tracking-[0.16em]">En option</p>
             <ul className="space-y-3">
               {options.map((o) => (
                 <li key={o.nom} className="flex flex-wrap items-baseline justify-between gap-3 rounded-[1.4rem] bg-[var(--sombre)] px-5 py-4 text-[var(--sur-sombre)]">
-                  <span className="font-[family-name:var(--titres)] text-lg font-bold">{o.nom}</span>
+                  <span className="font-[family-name:var(--titres)] text-lg font-normal">{o.nom}</span>
                   <span className="font-bold text-[var(--accent)]">{o.prix}</span>
                 </li>
               ))}
