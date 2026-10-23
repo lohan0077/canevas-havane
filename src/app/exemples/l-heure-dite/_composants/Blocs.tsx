@@ -1,11 +1,14 @@
+import Image from "next/image";
 import Link from "next/link";
 import Apparition from "../../_kit/Apparition";
-import FondVivant from "../../_kit/FondVivant";
-import PhotoCinema from "../../_kit/PhotoCinema";
 import TitreRevele from "../../_kit/TitreRevele";
 import { DOSSIER, FRANCE_RENOV, entreprise } from "./donnees";
 
-/** L'accent des titres : l'italique de la didone, couleur de soleil sur fond sombre. */
+// Les pièces communes de L'Heure Dite, version « carrée » (24/10/2026) : une seule
+// échelle de texte, une grille, deux fonds qui alternent (le papier crème, le vert
+// profond), l'orange du soleil réservé au bouton principal et aux mots en relief.
+
+/** Le mot en relief dans un titre : l'italique de la didone, couleur de soleil. */
 export const ACCENT_SOMBRE = "italic text-[#F2B27A]";
 export const ACCENT_CLAIR = "italic text-[var(--accent-texte)]";
 
@@ -38,8 +41,8 @@ export function Marque() {
 export function BandeauRenov() {
   return (
     <div id="france-renov" className="border-b border-[#9CC3D5] bg-[#E3EEF3] text-[#14324A]">
-      <a href={FRANCE_RENOV.lien} rel="noopener noreferrer" className="mx-auto block max-w-6xl px-4 py-3 text-[14px] leading-snug sm:text-center">
-        <span className="font-semibold">France Rénov&apos;</span>
+      <a href={FRANCE_RENOV.lien} rel="noopener noreferrer" className="mx-auto block max-w-6xl px-6 py-3 text-[14px] leading-snug sm:text-center">
+        <span className="font-medium">France Rénov&apos;</span>
         <span aria-hidden="true"> · </span>
         <span className="underline underline-offset-2">{FRANCE_RENOV.message}</span>
       </a>
@@ -47,39 +50,63 @@ export function BandeauRenov() {
   );
 }
 
-/** Le petit intitulé : une heure de cadran (un trait), puis les capitales espacées. */
+/** Le petit intitulé au-dessus d'un titre : une ligne discrète, en capitales espacées. */
 export function Surtitre({ children, clair = false }: { children: React.ReactNode; clair?: boolean }) {
   return (
-    <p className={`flex items-center gap-3 text-[13px] font-semibold uppercase tracking-[0.24em] ${clair ? "text-[var(--sur-sombre)]" : "text-[var(--accent-texte)]"}`}>
-      <span aria-hidden="true" className="relative inline-block h-4 w-4 rounded-full border border-current">
-        <span className="absolute left-1/2 top-[2px] h-[6px] w-px -translate-x-1/2 bg-current" />
-        <span className="absolute left-1/2 top-1/2 h-px w-[5px] -translate-y-1/2 bg-current" />
-      </span>
+    <p className={`text-[12px] font-medium uppercase tracking-[0.2em] ${clair ? "text-[var(--sur-sombre)]" : "text-[var(--doux)]"}`}>
       {children}
     </p>
   );
 }
 
-/** Un bouton-lien en pilule ; la flèche avance au survol. */
-export function Bouton({ href, children, variante = "plein" }: { href: string; children: React.ReactNode; variante?: "plein" | "contour" | "clair" | "nuit" }) {
+/** Le titre d'un écran, révélé mot à mot ; `*mot*` passe en italique, couleur de soleil. */
+export function Titre({
+  texte,
+  clair = false,
+  taille = "grand",
+  as = "h2",
+  className = "",
+}: {
+  texte: string;
+  clair?: boolean;
+  taille?: "geant" | "grand" | "moyen";
+  as?: "h1" | "h2" | "h3" | "p";
+  className?: string;
+}) {
+  const tailles = {
+    geant: "text-[clamp(2.75rem,6vw,5.25rem)] leading-[1]",
+    grand: "text-[clamp(2.25rem,4.4vw,3.75rem)] leading-[1.05]",
+    moyen: "text-[clamp(1.9rem,3.2vw,2.75rem)] leading-[1.1]",
+  }[taille];
+  return (
+    <TitreRevele
+      as={as}
+      texte={texte}
+      className={`font-[family-name:var(--titres)] font-normal tracking-[-0.02em] text-balance ${tailles} ${className}`}
+      classeAccent={clair ? ACCENT_SOMBRE : ACCENT_CLAIR}
+    />
+  );
+}
+
+/** Un bouton-lien en pilule : plein (l'orange) ou en contour fin ; la flèche avance au survol. */
+export function Bouton({ href, children, variante = "plein" }: { href: string; children: React.ReactNode; variante?: "plein" | "contour" | "clair" }) {
   const styles = {
     plein: "bg-[var(--accent)] text-[var(--sur-accent)]",
-    contour: "border border-current/35 hover:bg-[color-mix(in_oklab,currentColor_8%,transparent)]",
+    contour: "border border-current/30 hover:bg-[color-mix(in_oklab,currentColor_8%,transparent)]",
     clair: "bg-[var(--fond)] text-[var(--encre)]",
-    nuit: "bg-[var(--sombre)] text-[var(--sur-sombre)]",
   }[variante];
   return (
-    <Link href={href} className={`group inline-flex min-h-13 items-center gap-3 rounded-full px-7 py-3 text-[16px] font-semibold transition-transform hover:scale-[1.02] ${styles}`}>
+    <Link href={href} className={`group inline-flex h-12 items-center gap-3 rounded-full px-6 text-[15px] font-medium transition-colors ${styles}`}>
       {children}
       <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">→</span>
     </Link>
   );
 }
 
-/** Le cadre d'un outil : une barre fine, un cadran qui tourne, et le nom de l'écran. */
+/** Le cadre d'un outil : une barre fine, le cadran, le nom de l'écran. */
 export function Appli({ titre, note, children, className = "" }: { titre: string; note: string; children: React.ReactNode; className?: string }) {
   return (
-    <div className={`overflow-hidden rounded-[2rem] border border-[var(--trait)] bg-[var(--carte)] text-[var(--encre)] shadow-[0_40px_90px_-45px_rgba(24,48,31,0.6)] ${className}`}>
+    <div className={`overflow-hidden rounded-2xl border border-[var(--trait)] bg-[var(--carte)] text-[var(--encre)] shadow-[0_40px_90px_-50px_rgba(24,48,31,0.55)] ${className}`}>
       <div className="flex items-center justify-between gap-3 border-b border-[var(--trait)] px-5 py-3.5">
         <span className="flex items-center gap-2.5 font-[family-name:var(--titres)] text-lg">
           <Monogramme className="h-6 w-6" />
@@ -92,13 +119,17 @@ export function Appli({ titre, note, children, className = "" }: { titre: string
   );
 }
 
-/** Le haut de chaque page intérieure : sombre, une photo qui respire, le titre très grand. */
+/**
+ * Le haut de chaque page intérieure : sombre, un titre fin, et derrière lui une photo
+ * assez large pour le plein cadre (jamais agrandie) sous un voile vert ; sans photo, le
+ * fond sombre seul.
+ */
 export function EnTetePage({
   surtitre,
   titre,
   children,
   photo,
-  origine,
+  origine = "50% 50%",
 }: {
   surtitre: React.ReactNode;
   titre: string;
@@ -107,29 +138,18 @@ export function EnTetePage({
   origine?: string;
 }) {
   return (
-    <section className="kit-grain relative isolate overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
-      {photo ? (
+    <section className="relative isolate flex min-h-[64svh] flex-col overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
+      {photo && (
         <>
-          <PhotoCinema src={photo.src} alt="" priority origine={origine} className="opacity-50" />
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(24,48,31,0.6)_0%,rgba(24,48,31,0.74)_55%,rgba(24,48,31,0.96)_100%)]" />
-        </>
-      ) : (
-        <>
-          <FondVivant couleurs={["#18301F", "#2D5A3A", "#B5652E"]} vitesse={0.6} />
-          <div className="absolute inset-0 bg-[var(--sombre)]/50" />
+          <Image src={photo.src} alt="" fill priority sizes="100vw" className="object-cover opacity-60" style={{ objectPosition: origine }} />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(24,48,31,0.6)_0%,rgba(24,48,31,0.45)_40%,rgba(24,48,31,0.95)_100%)]" />
         </>
       )}
-      <div className="relative mx-auto max-w-7xl space-y-7 px-5 pb-20 pt-36 sm:px-8 md:pb-28 md:pt-48">
+      <div className="relative mx-auto flex w-full max-w-6xl flex-1 flex-col justify-end gap-7 px-6 pb-14 pt-36 md:pb-20">
         <Apparition><Surtitre clair>{surtitre}</Surtitre></Apparition>
-        <TitreRevele
-          as="h1"
-          auChargement
-          texte={titre}
-          className="max-w-5xl font-[family-name:var(--titres)] text-[clamp(3.2rem,8vw,7.6rem)] leading-[0.95] tracking-[-0.03em]"
-          classeAccent={ACCENT_SOMBRE}
-        />
+        <Titre as="h1" texte={titre} clair taille="geant" className="max-w-4xl" />
         {children && (
-          <Apparition delai={400} className="max-w-2xl text-xl leading-relaxed text-[var(--sur-sombre)]/90">
+          <Apparition delai={400} className="max-w-xl text-lg leading-relaxed text-[var(--sur-sombre)]">
             {children}
           </Apparition>
         )}
@@ -144,32 +164,26 @@ export function EnTetePage({
  */
 export function LaRegle() {
   return (
-    <section className="px-3 sm:px-5">
-      <div className="kit-grain relative overflow-hidden rounded-[2.5rem] bg-[var(--sombre)] text-[var(--sur-sombre)]">
-        <div className="mx-auto grid max-w-6xl gap-12 px-6 py-24 sm:px-10 md:py-32 lg:grid-cols-2 lg:items-end">
-          <div className="space-y-6">
-            <Apparition><Surtitre clair>La règle, pour tous</Surtitre></Apparition>
-            <TitreRevele
-              texte="Pour ces travaux, personne n'a le droit de *te démarcher.*"
-              className="font-[family-name:var(--titres)] text-[clamp(2.6rem,5.4vw,4.8rem)] leading-[1] tracking-[-0.025em]"
-              classeAccent={ACCENT_SOMBRE}
-            />
-            <Apparition as="p" delai={150} className="text-lg leading-relaxed text-[var(--sur-sombre)]/90">
-              Téléphone, SMS, e-mail, réseaux sociaux : la prospection d&apos;un particulier pour une pompe à
-              chaleur ou des panneaux solaires est interdite à tous les professionnels, sauf contrat en cours
-              (C. consom., art. L223-1 et L223-8). Ce n&apos;est pas notre mérite, c&apos;est la loi.
-            </Apparition>
-          </div>
-          <Apparition delai={250} className="space-y-5 border-t border-white/20 pt-8 lg:border-l lg:border-t-0 lg:pl-12 lg:pt-0">
-            <p className="font-[family-name:var(--titres)] text-[clamp(2rem,3.6vw,3.2rem)] leading-[1.08]">
-              Tout le monde subit cette règle. Nous, on va <em className="text-[#F2B27A]">plus loin qu&apos;elle.</em>
-            </p>
-            <p className="text-lg leading-relaxed text-[var(--sur-sombre)]/90">
-              La loi permet de rappeler celui qui l&apos;a demandé, dans les cinq jours ouvrables. Nous, on te laisse
-              choisir le jour et l&apos;heure. Et on appelle à cette heure-là.
-            </p>
+    <section className="bg-[var(--sombre)] text-[var(--sur-sombre)]">
+      <div className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:py-40 lg:grid-cols-2 lg:items-end">
+        <div className="space-y-6">
+          <Apparition><Surtitre clair>La règle, pour tous</Surtitre></Apparition>
+          <Titre texte="Pour ces travaux, personne n'a le droit de *te démarcher.*" clair />
+          <Apparition as="p" delai={150} className="max-w-[26rem] text-lg leading-relaxed text-[var(--sur-sombre)]">
+            Téléphone, SMS, e-mail, réseaux sociaux : la prospection d&apos;un particulier pour une pompe à chaleur ou des
+            panneaux solaires est interdite à tous les professionnels, sauf contrat en cours (C. consom., art. L223-1 et
+            L223-8). Ce n&apos;est pas notre mérite, c&apos;est la loi.
           </Apparition>
         </div>
+        <Apparition delai={250} className="space-y-5 border-t border-white/20 pt-8 lg:border-l lg:border-t-0 lg:pl-12 lg:pt-0">
+          <p className="font-[family-name:var(--titres)] text-[clamp(1.9rem,3.2vw,2.75rem)] leading-[1.1]">
+            Tout le monde subit cette règle. Nous, on va <em className="text-[#F2B27A]">plus loin qu&apos;elle.</em>
+          </p>
+          <p className="max-w-[26rem] text-lg leading-relaxed text-[var(--sur-sombre)]">
+            La loi permet de rappeler celui qui l&apos;a demandé, dans les cinq jours ouvrables. Nous, on te laisse choisir
+            le jour et l&apos;heure. Et on appelle à cette heure-là.
+          </p>
+        </Apparition>
       </div>
     </section>
   );
@@ -178,51 +192,40 @@ export function LaRegle() {
 /** L'affiche du lancement, avec, en bas, le message France Rénov' que toute publicité porte depuis le 1er octobre 2026. */
 export function Affiche() {
   return (
-    <figure className="mx-auto max-w-md rotate-[-2deg] rounded-[6px] border border-[var(--trait)] bg-[var(--carte)] p-7 text-left shadow-[0_30px_50px_-30px_rgba(31,61,43,.55)] sm:p-9">
-      <p className="font-[family-name:var(--titres)] text-[46px] leading-[1.02] tracking-[-0.02em]">
-        Vous choisissez <em className="text-[var(--accent-texte)]">l&apos;heure.</em>
-      </p>
-      <p className="mt-4 text-xl">On appelle à cette heure-là.</p>
-      <p className="mt-6 text-sm leading-relaxed text-[var(--doux)]">
-        Pour ces travaux, le démarchage est interdit à tous les professionnels (C. consom., art. L223-1 et L223-8).
-      </p>
-      <p className="mt-6 flex items-center gap-2 text-sm font-semibold">
-        <Monogramme className="h-7 w-7" /> L&apos;Heure Dite · pompes à chaleur et solaire
-      </p>
-      <p className="-mx-7 -mb-7 mt-5 rounded-b-[6px] bg-[#E3EEF3] px-7 py-4 text-[13px] leading-snug text-[#14324A] sm:-mx-9 sm:-mb-9 sm:px-9">
-        {FRANCE_RENOV.message}
-      </p>
+    <figure className="mx-auto max-w-md overflow-hidden rounded-2xl border border-[var(--trait)] bg-[var(--carte)] text-left shadow-[0_30px_60px_-40px_rgba(31,61,43,.55)]">
+      <div className="p-7 sm:p-9">
+        <p className="font-[family-name:var(--titres)] text-[44px] leading-[1.02] tracking-[-0.02em]">
+          Vous choisissez <em className="text-[var(--accent-texte)]">l&apos;heure.</em>
+        </p>
+        <p className="mt-4 text-xl">On appelle à cette heure-là.</p>
+        <p className="mt-6 text-sm leading-relaxed text-[var(--doux)]">
+          Pour ces travaux, le démarchage est interdit à tous les professionnels (C. consom., art. L223-1 et L223-8).
+        </p>
+        <p className="mt-6 flex items-center gap-2 text-sm font-medium">
+          <Monogramme className="h-7 w-7" /> L&apos;Heure Dite · pompes à chaleur et solaire
+        </p>
+      </div>
+      <p className="bg-[#E3EEF3] px-7 py-4 text-[13px] leading-snug text-[#14324A] sm:px-9">{FRANCE_RENOV.message}</p>
     </figure>
   );
 }
 
-/** Le dernier écran de chaque page : sur le fond vivant, l'heure qu'on choisit. */
+/** Le dernier écran de chaque page : clair, centré, un bouton. */
 export function AppelFinal() {
   return (
-    <section className="px-3 pb-3 sm:px-5 sm:pb-5">
-      <div className="relative isolate overflow-hidden rounded-[2.5rem] bg-[var(--sombre)] text-[var(--sur-sombre)]">
-        <FondVivant couleurs={["#18301F", "#2F5B3B", "#C2703D"]} />
-        <div className="absolute inset-0 bg-[var(--sombre)]/50" />
-        <div className="relative mx-auto grid max-w-6xl gap-10 px-6 py-24 sm:px-10 md:py-32 lg:grid-cols-[1.3fr_0.7fr] lg:items-end">
-          <div className="space-y-6">
-            <Surtitre clair>Comme chez le coiffeur</Surtitre>
-            <TitreRevele
-              texte={"À quelle *heure ?*"}
-              className="font-[family-name:var(--titres)] text-[clamp(3.4rem,9vw,8rem)] leading-[0.92] tracking-[-0.03em]"
-              classeAccent={ACCENT_SOMBRE}
-            />
-            <p className="max-w-xl text-lg leading-relaxed text-[var(--sur-sombre)]/90">
-              Choisis le jour et l&apos;heure de ton appel. On appelle à ce moment-là, pas avant, et seulement pour
-              ton devis.
-            </p>
-          </div>
-          <Apparition className="flex flex-col items-start gap-4 lg:items-end" delai={200}>
-            <Bouton href={`${DOSSIER}/rendez-vous`}>Choisir mon heure</Bouton>
-            <p className="text-[15px] text-[var(--sur-sombre)]/90">
-              Ou appelle-nous : <span className="whitespace-nowrap font-semibold tabular-nums">{entreprise.telephone}</span>
-            </p>
-          </Apparition>
-        </div>
+    <section className="border-t border-[var(--trait)]">
+      <div className="mx-auto max-w-3xl space-y-8 px-6 py-28 text-center md:py-40">
+        <Apparition><Surtitre>Comme chez le coiffeur</Surtitre></Apparition>
+        <Titre texte={"À quelle *heure ?*"} />
+        <Apparition as="p" delai={150} className="mx-auto max-w-lg text-lg leading-relaxed text-[var(--doux)]">
+          Choisis le jour et l&apos;heure de ton appel. On appelle à ce moment-là, pas avant, et seulement pour ton devis.
+        </Apparition>
+        <Apparition delai={250} className="flex flex-col items-center gap-4">
+          <Bouton href={`${DOSSIER}/rendez-vous`}>Choisir mon heure</Bouton>
+          <p className="text-[15px] text-[var(--doux)]">
+            Ou appelle-nous : <span className="whitespace-nowrap font-medium tabular-nums text-[var(--encre)]">{entreprise.telephone}</span>
+          </p>
+        </Apparition>
       </div>
     </section>
   );

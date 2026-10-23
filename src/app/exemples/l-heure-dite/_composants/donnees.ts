@@ -63,14 +63,6 @@ export const photos = {
   gris: { src: "/exemples/l-heure-dite/toits-ciel-gris.webp", alt: "Des toits d'immeubles et leurs cheminées sous un ciel gris" },
 };
 
-/* ---------- L'appel, à l'heure dite ---------- */
-
-export const ETAPES_APPEL = [
-  { titre: "Tu choisis ton créneau", texte: "Un jour parmi les cinq prochains jours ouvrables, une heure parmi celles qu'on tient. Comme chez le coiffeur." },
-  { titre: "On appelle à cette heure-là", texte: "Mardi, 18 h ? Mardi, 18 h. Pas une minute avant, pas un autre jour." },
-  { titre: "On ne parle que de ton devis", texte: "L'appel porte sur ta demande et sur rien d'autre. Si ta maison s'y prête, on fixe une visite." },
-];
-
 /* ---------- Ce qu'on installe ---------- */
 
 export const POMPES = [
@@ -121,17 +113,6 @@ export const ETAPES = [
   { moment: "Chez toi, une heure", titre: "La visite", texte: "Ton toit, tes radiateurs, ton tableau électrique. On mesure, on ne devine pas." },
   { moment: "Avant de signer", titre: "Le devis écrit", texte: "Le prix ferme, la date de pose, et notre qualification RGE dite par écrit, avec ce qu'elle change pour les aides." },
   { moment: "Après la pose", titre: "Ton premier midi", texte: "On règle avec toi l'heure de départ de la machine, du lave-vaisselle, du chauffe-eau. Et le soir, la maison est au chaud." },
-];
-
-export const DEFILE = [
-  "Mardi, 18 h",
-  "Pas une minute avant",
-  "Plein sud, vers 13 h 30",
-  "Lance la machine à 12 h 30",
-  "Rappel seulement sur demande",
-  "Dans les cinq jours ouvrables",
-  "Et quand il fait gris ?",
-  "France Rénov', tout en haut",
 ];
 
 export const QUESTIONS = [

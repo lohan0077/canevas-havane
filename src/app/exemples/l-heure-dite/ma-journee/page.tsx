@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../_kit/Apparition";
-import TitreRevele from "../../_kit/TitreRevele";
-import { ACCENT_CLAIR, AppelFinal, Appli, EnTetePage, Surtitre } from "../_composants/Blocs";
+import { AppelFinal, Appli, EnTetePage, Surtitre, Titre } from "../_composants/Blocs";
 import Journee from "../_composants/Journee";
 import { photos } from "../_composants/donnees";
 
@@ -30,76 +29,61 @@ const DECALER = [
 export default function MaJournee() {
   return (
     <main>
-      <EnTetePage surtitre="Ta journée" titre="Ton toit, *heure par heure.*" photo={photos.ciel} origine="55% 40%">
-        Dis où regarde ton toit. La courbe te montre quand il produit, et le conseil te dit quand lancer la
-        machine. C&apos;est une forme indicative : la vraie, on la mesure chez toi.
+      <EnTetePage surtitre="Ta journée" titre="Ton toit, *heure par heure.*">
+        Dis où regarde ton toit. La courbe te montre quand il produit, et le conseil te dit quand lancer la machine.
+        C&apos;est une forme indicative : la vraie, on la mesure chez toi.
       </EnTetePage>
 
-      <section className="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-8 md:py-24 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
-        <Apparition de="zoom">
+      <section className="mx-auto grid max-w-6xl gap-14 px-6 py-20 md:py-28 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
+        <Apparition>
           <Appli titre="Ta journée" note="forme indicative">
             <Journee titre={false} />
           </Appli>
         </Apparition>
         <div className="space-y-8 lg:sticky lg:top-28">
-          <TitreRevele
-            texte="Comment lire *la courbe.*"
-            className="font-[family-name:var(--titres)] text-[clamp(2.2rem,4vw,3.6rem)] leading-[1] tracking-[-0.03em]"
-            classeAccent={ACCENT_CLAIR}
-          />
-          <ol className="space-y-6">
+          <Titre texte="Comment lire *la courbe.*" taille="moyen" />
+          <ol className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
             {LIRE.map((l, i) => (
-              <Apparition as="li" key={l.titre} delai={i * 120} className="grid grid-cols-[auto_1fr] gap-4">
-                <span aria-hidden="true" className="grid h-11 w-11 place-items-center rounded-full border border-[var(--encre)] font-[family-name:var(--titres)] text-xl">{i + 1}</span>
-                <div className="space-y-1">
-                  <h2 className="font-[family-name:var(--titres)] text-2xl">{l.titre}</h2>
-                  <p className="leading-relaxed text-[var(--doux)]">{l.texte}</p>
-                </div>
+              <Apparition as="li" key={l.titre} delai={i * 120} className="space-y-1 py-5">
+                <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">{String(i + 1).padStart(2, "0")}</p>
+                <h2 className="font-[family-name:var(--titres)] text-2xl font-normal">{l.titre}</h2>
+                <p className="leading-relaxed text-[var(--doux)]">{l.texte}</p>
               </Apparition>
             ))}
           </ol>
         </div>
       </section>
 
-      <section className="px-3 sm:px-5">
-        <div className="mx-auto grid max-w-7xl overflow-hidden rounded-[2.5rem] bg-[var(--sombre)] text-[var(--sur-sombre)] md:grid-cols-2">
-          <div className="space-y-6 p-8 sm:p-12 md:py-20">
+      <section className="bg-[var(--sombre)] text-[var(--sur-sombre)]">
+        <div className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:grid-cols-2 md:items-center md:py-40">
+          <div className="space-y-6">
             <Apparition><Surtitre clair>Ce que tu peux décaler</Surtitre></Apparition>
-            <TitreRevele
-              texte="Fais tourner la maison *pendant ton pic.*"
-              className="font-[family-name:var(--titres)] text-[clamp(2.4rem,4.6vw,4.2rem)] leading-[0.98] tracking-[-0.03em]"
-              classeAccent="italic text-[#F2B27A]"
-            />
-            <ul className="space-y-3">
+            <Titre texte="Fais tourner la maison *pendant ton pic.*" clair />
+            <ul className="divide-y divide-white/15 border-y border-white/15">
               {DECALER.map((d, i) => (
-                <Apparition as="li" key={d} delai={i * 100} className="flex gap-3 text-lg">
-                  <span aria-hidden="true" className="mt-2.5 h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--accent)]" />
+                <Apparition as="li" key={d} delai={i * 100} className="py-3.5 text-lg">
                   {d}
                 </Apparition>
               ))}
             </ul>
           </div>
-          <div className="relative min-h-[320px] bg-[var(--sombre)]">
+          <Apparition className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-[var(--sombre)]">
             <Image src={photos.linge.src} alt={photos.linge.alt} fill sizes="(min-width: 768px) 50vw, 100vw" className="object-cover" />
-          </div>
+          </Apparition>
         </div>
       </section>
 
-      <section className="mx-auto max-w-3xl space-y-6 px-5 py-24 sm:px-8 md:py-32">
+      <section className="mx-auto max-w-3xl space-y-6 px-6 py-28 md:py-40">
         <Apparition><Surtitre>D&apos;où vient cette forme</Surtitre></Apparition>
-        <TitreRevele
-          texte="Une cloche, *pas une promesse.*"
-          className="font-[family-name:var(--titres)] text-[clamp(2.4rem,4.6vw,4.2rem)] leading-[0.98] tracking-[-0.03em]"
-          classeAccent={ACCENT_CLAIR}
-        />
-        <Apparition as="p" delai={150} className="text-lg leading-relaxed">
-          Un panneau donne le plus quand le soleil lui fait face. Plein sud, c&apos;est vers le midi solaire : entre
-          12 h et 14 h à l&apos;heure légale en France, selon la saison et la longitude. La courbe de cette page est une
-          cloche centrée sur ce moment, décalée selon l&apos;orientation, coupée au lever et au coucher du soleil.
+        <Titre texte="Une cloche, *pas une promesse.*" />
+        <Apparition as="p" delai={150} className="text-lg leading-relaxed text-[var(--doux)]">
+          Un panneau donne le plus quand le soleil lui fait face. Plein sud, c&apos;est vers le midi solaire : entre 12 h et
+          14 h à l&apos;heure légale en France, selon la saison et la longitude. La courbe de cette page est une cloche centrée
+          sur ce moment, décalée selon l&apos;orientation, coupée au lever et au coucher du soleil.
         </Apparition>
         <Apparition as="p" delai={250} className="text-lg leading-relaxed text-[var(--doux)]">
-          Elle ne tient compte ni de la pente de ton toit, ni des ombres, ni de ta région. C&apos;est pour ça qu&apos;on
-          vient voir, et qu&apos;après la pose, le suivi te montre ta vraie journée.
+          Elle ne tient compte ni de la pente de ton toit, ni des ombres, ni de ta région. C&apos;est pour ça qu&apos;on vient
+          voir, et qu&apos;après la pose, le suivi te montre ta vraie journée.
         </Apparition>
       </section>
 

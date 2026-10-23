@@ -5,16 +5,18 @@ import Pied from "./_composants/Pied";
 import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 
 // Le gabarit de L'Heure Dite, installateur de pompes à chaleur et de panneaux solaires
-// imaginaire, filmé dans les deux vidéos du métier « solaire-pac ». Bodoni Moda, la
-// didone de la marque (le Didot de la vidéo), et Work Sans pour lire. Papier crème,
-// vert profond, et l'orange du soleil de midi. Le lien France Rénov' passe avant tout le
-// reste, sur chaque page. Le `noindex` vient du layout de /exemples.
+// imaginaire, filmé dans les deux vidéos du métier « solaire-pac ». Version « carrée »
+// (24/10/2026) : Bodoni Moda, la didone de la marque (le Didot de la vidéo), en graisse
+// normale, et Inter pour lire. Papier crème et vert profond qui alternent ; l'orange du
+// soleil de midi seulement pour le bouton principal et les mots en relief. Le lien France
+// Rénov' passe avant tout le reste, sur chaque page. Le `noindex` vient du layout de
+// /exemples.
 export default function LHeureDiteLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
       entreprise="L'Heure Dite"
       titres="bodoni"
-      texte="workSans"
+      texte="inter"
       couleurs={{
         fond: "#F2E8D5",
         encre: "#1F3D2B",
@@ -35,7 +37,6 @@ export default function LHeureDiteLayout({ children }: { children: React.ReactNo
         liens={NAVIGATION.filter((l) => !l.href.endsWith("/rendez-vous"))}
         action={{ href: `${DOSSIER}/rendez-vous`, libelle: "Choisir mon heure" }}
       />
-      {/* L'en-tête flottant garde sa marge de 12 px dans le flux : on la rattrape. */}
       <div className="lining-nums">{children}</div>
       <Pied />
     </Cadre>

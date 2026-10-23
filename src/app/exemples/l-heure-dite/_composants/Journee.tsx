@@ -43,7 +43,7 @@ function Choix<T extends { id: string }>({
 }) {
   return (
     <fieldset className="space-y-2 min-w-0">
-      <legend className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--doux)] mb-2">{legende}</legend>
+      <legend className="text-xs font-medium uppercase tracking-[0.16em] text-[var(--doux)] mb-2">{legende}</legend>
       <div className={`grid ${colonnes} gap-1.5 rounded-2xl bg-[var(--fond)] p-1.5`}>
         {options.map((o) => {
           const actif = o.id === valeur;
@@ -54,7 +54,7 @@ function Choix<T extends { id: string }>({
               type="button"
               aria-pressed={actif}
               onClick={() => surChoix(o.id)}
-              className={`h-11 rounded-xl px-1 text-[15px] font-semibold transition-colors ${actif ? "bg-[var(--sombre)] text-[var(--sur-sombre)] shadow-sm" : "text-[var(--encre)] hover:bg-[var(--carte)]"}`}
+              className={`h-11 rounded-xl px-1 text-[15px] font-medium transition-colors ${actif ? "bg-[var(--sombre)] text-[var(--sur-sombre)] shadow-sm" : "text-[var(--encre)] hover:bg-[var(--carte)]"}`}
             >
               {libelle(o)}
             </button>
@@ -131,7 +131,7 @@ export default function Journee({ titre = true }: { titre?: boolean }) {
     <div data-film="journee" className="space-y-6">
       {titre && (
         <div className="flex items-baseline justify-between gap-3">
-          <p className="font-[family-name:var(--titres)] text-xl font-semibold">Ta journée</p>
+          <p className="font-[family-name:var(--titres)] text-xl">Ta journée</p>
           <p className="text-sm text-[var(--doux)]">forme indicative</p>
         </div>
       )}
@@ -182,8 +182,8 @@ export default function Journee({ titre = true }: { titre?: boolean }) {
 
       <label className="block space-y-2.5">
         <span className="flex items-baseline justify-between gap-3">
-          <span className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--doux)]">Glisse l'heure</span>
-          <span className="text-lg font-bold tabular-nums">{heure(h)}</span>
+          <span className="text-xs font-medium uppercase tracking-[0.16em] text-[var(--doux)]">Glisse l'heure</span>
+          <span className="text-lg font-medium tabular-nums">{heure(h)}</span>
         </span>
         <input
           id="heure"
@@ -200,8 +200,8 @@ export default function Journee({ titre = true }: { titre?: boolean }) {
         </span>
       </label>
 
-      <div id="conseil" role="status" className="rounded-[22px] bg-[var(--sombre)] text-[var(--sur-sombre)] p-5 space-y-1.5">
-        <p className="text-xs font-bold uppercase tracking-[0.16em]">Le conseil du jour</p>
+      <div id="conseil" role="status" className="rounded-2xl bg-[var(--sombre)] text-[var(--sur-sombre)] p-5 space-y-1.5">
+        <p className="text-xs font-medium uppercase tracking-[0.16em]">Le conseil du jour</p>
         <p className="font-[family-name:var(--titres)] text-[28px] leading-tight">
           Lance la machine vers <span className="text-[var(--accent)] whitespace-nowrap">{heure(conseil)}</span>
         </p>
