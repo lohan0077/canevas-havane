@@ -6,6 +6,6 @@ export const fiche: Fiche = {
   secteur: "osteopathes",
   groupe: "rendez-vous",
   idee: "Un cabinet qui explique tout : chaque geste a sa page, ce que l'ostéopathe ne fait pas est écrit, le prix est affiché, et l'on réserve dès 7 h.",
-  image: "/exemples/le-pourquoi/colonne.webp",
+  image: "/exemples/le-pourquoi/table.webp",
   ancien: "sans-detour",
 };

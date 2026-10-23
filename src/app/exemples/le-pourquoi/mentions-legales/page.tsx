@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { adressesDeLaPage } from "@/lib/seo";
 import MentionsDemonstration from "../../_kit/MentionsDemonstration";
+import { EnTetePage } from "../_composants/Blocs";
 import { cabinet } from "../_composants/donnees";
 
 export const metadata: Metadata = {
@@ -11,10 +12,16 @@ export const metadata: Metadata = {
 
 export default function MentionsLegales() {
   return (
-    <MentionsDemonstration
+    <main>
+      {/* Le haut sombre que l'en-tête attend ; le titre de la page est plus bas. */}
+      <EnTetePage surtitre="Mentions légales" titre="Un cabinet *fictif.*" titreBalise="p">
+        {cabinet.nom} n&apos;existe pas : la praticienne, l&apos;adresse, les prix et les créneaux
+        sont inventés pour les vidéos de Canevas Havane.
+      </EnTetePage>
+      <MentionsDemonstration
       site="le-pourquoi"
       entreprise="Le Pourquoi"
-      polices="Outfit et Newsreader"
+      polices="Newsreader, Inter et Outfit"
       enPlus={
         <>
           <p>
@@ -42,5 +49,6 @@ export default function MentionsLegales() {
         </>
       }
     />
+    </main>
   );
 }

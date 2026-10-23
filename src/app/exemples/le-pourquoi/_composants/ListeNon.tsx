@@ -14,21 +14,21 @@ export default function ListeNon({ detail = false }: { detail?: boolean }) {
           {detail ? (
             <details className="kit-accordeon group">
               <summary className="flex items-start gap-5 py-7">
-                <span aria-hidden="true" className="mt-2 grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[var(--accent)] text-lg font-bold text-[var(--sur-accent)]">✕</span>
-                <span className="flex-1 font-[family-name:var(--titres)] text-[clamp(1.6rem,3.6vw,2.6rem)] font-medium leading-[1.1] tracking-[-0.02em]">
+                <span aria-hidden="true" className="mt-3 w-6 shrink-0 text-[13px] font-medium tabular-nums text-[#F0A07A]">0{i + 1}</span>
+                <span className="flex-1 font-[family-name:var(--titres)] text-[clamp(1.6rem,3.4vw,2.5rem)] font-normal leading-[1.15] tracking-[-0.01em]">
                   <span className="kit-barre">{n.titre}</span>
                 </span>
-                <span aria-hidden="true" className="kit-plus mt-2 grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/25 text-xl">+</span>
+                <span aria-hidden="true" className="kit-plus mt-2 grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/25 text-xl">+</span>
               </summary>
-              <div className="space-y-3 pb-8 pl-15 pr-4 text-lg leading-relaxed text-[var(--sur-sombre)]/90">
+              <div className="space-y-3 pb-8 pl-11 pr-4 text-lg leading-relaxed text-[var(--sur-sombre)]">
                 <p>{n.texte}</p>
-                <p className="font-[family-name:var(--titres)] text-sm uppercase tracking-[0.14em] text-[#F0A07A]">{n.source}</p>
+                <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[#F0A07A]">{n.source}</p>
               </div>
             </details>
           ) : (
-            <p className="flex items-start gap-5 py-7">
-              <span aria-hidden="true" className="mt-1.5 grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[var(--accent)] text-lg font-bold text-[var(--sur-accent)]">✕</span>
-              <span className="font-[family-name:var(--titres)] text-[clamp(1.6rem,3.6vw,2.6rem)] font-medium leading-[1.1] tracking-[-0.02em]">
+            <p className="flex items-start gap-5 py-6">
+              <span aria-hidden="true" className="mt-3 w-6 shrink-0 text-[13px] font-medium tabular-nums text-[#F0A07A]">0{i + 1}</span>
+              <span className="font-[family-name:var(--titres)] text-[clamp(1.6rem,3.4vw,2.5rem)] font-normal leading-[1.15] tracking-[-0.01em]">
                 <span className="kit-barre">{n.titre}</span>
               </span>
             </p>
