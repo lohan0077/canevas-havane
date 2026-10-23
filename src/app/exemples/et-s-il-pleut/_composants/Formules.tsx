@@ -15,7 +15,7 @@ export default function Formules() {
         {FORMULES.map((f, i) => {
           const o = ouverte === f.id;
           return (
-            <li key={f.id} className={`rounded-[26px] border transition-colors ${o ? "bg-[var(--sombre)] text-[var(--sur-sombre)] border-[var(--sombre)]" : "bg-[var(--carte)] border-[var(--trait)]"}`}>
+            <li key={f.id} className={`rounded-2xl border transition-colors ${o ? "bg-[var(--sombre)] text-[var(--sur-sombre)] border-[var(--sombre)]" : "bg-[var(--carte)] border-[var(--trait)]"}`}>
               <button
                 type="button"
                 data-formule={f.id}
@@ -23,7 +23,7 @@ export default function Formules() {
                 onClick={() => setOuverte(o ? null : f.id)}
                 className="w-full px-5 py-5 sm:px-7 grid grid-cols-[1fr_auto] items-center gap-x-4 gap-y-1 text-left"
               >
-                <span className={`text-xs font-semibold uppercase tracking-[0.18em] ${o ? "text-[#F2C230]" : "text-[var(--accent-texte)]"}`}>0{i + 1} · {f.sous}</span>
+                <span className={`text-xs font-medium uppercase tracking-[0.18em] ${o ? "text-[#F2C230]" : "text-[var(--accent-texte)]"}`}>0{i + 1} · {f.sous}</span>
                 <span aria-hidden="true" className={`row-span-2 grid h-10 w-10 place-items-center rounded-full border text-xl transition-transform ${o ? "rotate-45 border-[#F2C230]" : "border-[var(--encre)]"}`}>+</span>
                 <span className="flex flex-wrap items-baseline justify-between gap-x-4">
                   <span className="font-[family-name:var(--titres)] text-[32px] leading-tight">{f.titre}</span>

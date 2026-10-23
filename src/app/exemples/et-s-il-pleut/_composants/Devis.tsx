@@ -9,8 +9,8 @@ const somme = (l: { prix: number }[]) => l.reduce((t, x) => t + x.prix, 0);
 export default function Devis() {
   const total = somme(DEVIS.commun) + somme(DEVIS.soleil) + somme(DEVIS.pluie);
   const bloc = (titre: string, lignes: { poste: string; prix: number }[], teinte: string, icone: string) => (
-    <div className="rounded-[22px] p-5 space-y-3" style={{ background: teinte }}>
-      <p className="flex items-center justify-between text-xs font-semibold uppercase tracking-[0.16em]">
+    <div className="rounded-xl p-5 space-y-3" style={{ background: teinte }}>
+      <p className="flex items-center justify-between text-xs font-medium uppercase tracking-[0.16em]">
         <span>{titre}</span>
         <span aria-hidden="true" className="text-base">{icone}</span>
       </p>
@@ -29,7 +29,7 @@ export default function Devis() {
     </div>
   );
   return (
-    <div id="devis" data-film="devis" className="scroll-mt-20 rounded-[32px] bg-[var(--carte)] border border-[var(--trait)] p-5 sm:p-8 space-y-4">
+    <div id="devis" data-film="devis" className="scroll-mt-20 rounded-2xl bg-[var(--carte)] border border-[var(--trait)] p-5 sm:p-8 space-y-4">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <p className="font-[family-name:var(--titres)] text-3xl italic">Devis d&apos;exemple</p>
         <p className="text-sm text-[var(--doux)]">Mariage du 11 septembre 2027 · prix TTC d&apos;exemple</p>
@@ -39,7 +39,7 @@ export default function Devis() {
         {bloc("Plan A · soleil", DEVIS.soleil, "#FFF4CF", "☀")}
         {bloc("Plan B · pluie", DEVIS.pluie, "#E4EAF1", "☂")}
       </div>
-      <div className="flex flex-wrap items-baseline justify-between gap-3 rounded-[22px] bg-[var(--sombre)] px-5 py-4 text-[var(--sur-sombre)]">
+      <div className="flex flex-wrap items-baseline justify-between gap-3 rounded-xl bg-[var(--sombre)] px-5 py-4 text-[var(--sur-sombre)]">
         <span className="font-[family-name:var(--titres)] text-2xl italic">Les deux, dans le même devis</span>
         <span className="font-[family-name:var(--titres)] text-3xl tabular-nums">{euros(total)}</span>
       </div>

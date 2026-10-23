@@ -58,7 +58,7 @@ export default function Retroplanning() {
   }, [jourJ]);
 
   return (
-    <div data-film="retroplanning" className="rounded-[30px] bg-[var(--carte)] border border-[var(--trait)] p-5 sm:p-8 space-y-5">
+    <div data-film="retroplanning" className="rounded-2xl bg-[var(--carte)] border border-[var(--trait)] p-5 sm:p-8 space-y-5">
       <label htmlFor="esp-date" className="block space-y-2">
         <span className="block text-sm font-medium uppercase tracking-[0.16em] text-[var(--doux)]">Date du mariage</span>
         <input

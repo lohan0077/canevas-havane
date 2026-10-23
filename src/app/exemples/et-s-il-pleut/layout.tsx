@@ -6,14 +6,14 @@ import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 
 // Le gabarit d'« Et s'il pleut », la wedding planner des deux vidéos des wedding
 // planners : l'ivoire, l'ardoise d'un ciel couvert et le jaune d'un parapluie. Bodoni
-// Moda pour les titres (le Didot de la marque, dans la vidéo), Outfit pour le texte.
+// Moda en graisse normale pour les titres (le Didot de la marque, dans la vidéo), Inter pour lire.
 // Chaque page s'ouvre sur le ciel d'ardoise : l'en-tête flottant l'attend sombre.
 export default function EtSilPleutLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
       entreprise="Et s'il pleut"
       titres="bodoni"
-      texte="outfit"
+      texte="inter"
       couleurs={{
         fond: "#FBF6EC",
         encre: "#2F3B4C",

@@ -16,7 +16,7 @@ export default function Parapluie() {
   const [date, setDate] = useState("");
   const noms = [un.trim(), deux.trim()].filter(Boolean).join(" & ");
   return (
-    <div data-film="parapluie" className="grid gap-6 rounded-[32px] bg-[var(--carte)] border border-[var(--trait)] p-5 sm:p-8 md:grid-cols-[1fr_1fr] md:items-center">
+    <div data-film="parapluie" className="grid gap-6 rounded-2xl bg-[var(--carte)] border border-[var(--trait)] p-5 sm:p-8 md:grid-cols-[1fr_1fr] md:items-center">
       <figure className="relative mx-auto w-full max-w-[320px]" aria-label="Aperçu du parapluie et de son étiquette">
         <svg viewBox="0 0 320 300" className="w-full" aria-hidden="true">
           <path d="M20 132C20 60 84 14 160 14s140 46 140 118c-12-12-30-12-38 0-8-12-27-12-35 0-8-12-27-12-35 0-8-12-27-12-35 0-8-12-27-12-35 0-8-12-27-12-35 0-8-12-26-12-38 0z" fill="#F2C230" />

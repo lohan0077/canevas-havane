@@ -28,7 +28,7 @@ export default function Coulisses() {
         <span aria-hidden="true" className="absolute inset-x-4 top-4 flex gap-1.5">
           {PLANS.map((_, i) => <span key={i} className={`h-1 flex-1 rounded-full ${i <= plan ? "bg-[#F2C230]" : "bg-[#56657A]"}`} />)}
         </span>
-        <span className="absolute left-5 top-10 text-xs font-semibold uppercase tracking-[0.18em] text-[#CDBDB5]">Épisode d&apos;exemple</span>
+        <span className="absolute left-5 top-10 text-xs font-medium uppercase tracking-[0.18em] text-[#CDBDB5]">Épisode d&apos;exemple</span>
         {/* L'arche, dessinée : absente, puis montée moitié par moitié, puis fleurie. */}
         <svg aria-hidden="true" viewBox="0 0 200 170" className="absolute left-1/2 top-[68px] w-[62%] -translate-x-1/2">
           <path d="M40 165 V80 A60 60 0 0 1 160 80 V165" fill="none" stroke="#56657A" strokeWidth="3" strokeDasharray="6 7" />
@@ -50,7 +50,7 @@ export default function Coulisses() {
           <span className="block font-[family-name:var(--titres)] text-[34px] leading-[1.05]">{p.texte}</span>
           <span className="block text-[15px] text-[#CDBDB5]">{p.note}</span>
         </span>
-        <span className="absolute inset-x-5 bottom-5 flex items-center justify-between text-sm">
+        <span className="absolute inset-x-5 bottom-5 flex items-center justify-between gap-3 text-[13px]">
           <span className="font-semibold">Et s’il pleut · coulisses</span>
           <span className="text-[#CDBDB5]">touche pour la suite →</span>
         </span>

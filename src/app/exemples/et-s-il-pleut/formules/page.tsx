@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { adressesDeLaPage } from "@/lib/seo";
+import Accordeon from "../../_kit/Accordeon";
 import Apparition from "../../_kit/Apparition";
-import TitreRevele from "../../_kit/TitreRevele";
-import { AppelFinal, EnTetePage } from "../_composants/Blocs";
-import { FORMULES, euros, photos } from "../_composants/donnees";
+import { AppelFinal, EnTetePage, Surtitre, Titre } from "../_composants/Blocs";
+import { FORMULES, QUESTIONS, euros, photos } from "../_composants/donnees";
 
 export const metadata: Metadata = {
   title: "Les prix — Et s'il pleut, site de démonstration",
@@ -18,6 +18,8 @@ const PAS_COMPRIS = [
   "Aucune commission reçue d'un prestataire : on n'est payés que par toi.",
 ];
 
+const PRESTATAIRES = QUESTIONS.filter((q) => q.question.startsWith("Vous travaillez"));
+
 export default function PageFormules() {
   return (
     <main>
@@ -26,18 +28,18 @@ export default function PageFormules() {
         chacune. Le devis précis suit le premier rendez-vous, gratuit.
       </EnTetePage>
 
-      <section className="mx-auto grid max-w-6xl gap-5 px-5 py-24 sm:px-8 lg:grid-cols-3">
+      <section className="mx-auto grid max-w-6xl gap-5 px-6 py-28 md:py-40 lg:grid-cols-3">
         {FORMULES.map((f, i) => {
           const fort = i === 1;
           return (
-            <Apparition as="article" key={f.id} id={`formule-${f.id}`} delai={i * 120} de="zoom" className={`space-y-5 rounded-[2.2rem] p-7 sm:p-9 ${fort ? "bg-[var(--sombre)] text-[var(--sur-sombre)]" : "border border-[var(--trait)] bg-[var(--carte)]"}`}>
-              <p className={`text-xs font-medium uppercase tracking-[0.2em] ${fort ? "text-[var(--accent)]" : "text-[var(--accent-texte)]"}`}>0{i + 1} · {f.sous}</p>
-              <h2 className="text-[38px] font-normal leading-tight">{f.titre}</h2>
-              <p className="font-[family-name:var(--titres)] text-5xl italic">dès {euros(f.prix)}</p>
-              <p className={`text-sm ${fort ? "" : "text-[var(--doux)]"}`}>TTC · prix d&apos;exemple · plan B compris</p>
+            <Apparition as="article" key={f.id} id={`formule-${f.id}`} delai={i * 120} className={`space-y-5 rounded-2xl p-7 sm:p-9 ${fort ? "bg-[var(--sombre)] text-[var(--sur-sombre)]" : "border border-[var(--trait)] bg-[var(--carte)]"}`}>
+              <p className={`text-[12px] font-medium uppercase tracking-[0.2em] ${fort ? "" : "text-[var(--doux)]"}`}>0{i + 1} — {f.sous}</p>
+              <h2 className="font-[family-name:var(--titres)] text-[2rem] font-normal leading-tight">{f.titre}</h2>
+              <p className="font-[family-name:var(--titres)] text-4xl italic">dès {euros(f.prix)}</p>
+              <p className={`text-[15px] ${fort ? "" : "text-[var(--doux)]"}`}>TTC · prix d&apos;exemple · plan B compris</p>
               <ul className={`space-y-2.5 border-t pt-5 ${fort ? "border-white/20" : "border-[var(--trait)]"}`}>
                 {f.compris.map((c) => (
-                  <li key={c} className="flex gap-3"><span aria-hidden="true" className={fort ? "text-[var(--accent)]" : "text-[var(--accent-texte)]"}>☂</span>{c}</li>
+                  <li key={c} className="leading-relaxed">{c}</li>
                 ))}
               </ul>
             </Apparition>
@@ -45,18 +47,20 @@ export default function PageFormules() {
         })}
       </section>
 
-      <section className="bg-[#E4EAF1]">
-        <div className="mx-auto grid max-w-6xl gap-12 px-5 py-24 sm:px-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+      <section className="bg-[var(--carte)]">
+        <div className="mx-auto grid max-w-6xl gap-16 px-6 py-28 md:py-40 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div className="space-y-6">
-            <TitreRevele texte="Ce qui n'est *pas dedans.*" className="text-[clamp(2.6rem,5.4vw,4.6rem)] font-normal leading-[0.98]" classeAccent="italic text-[var(--accent-texte)]" />
-            <ul className="space-y-4">
+            <Apparition><Surtitre>Ce qui n&apos;est pas dedans</Surtitre></Apparition>
+            <Titre texte="Pas de marge, *pas de commission.*" />
+            <ul className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
               {PAS_COMPRIS.map((p) => (
-                <li key={p} className="border-t border-[var(--encre)] pt-4 text-lg leading-relaxed">{p}</li>
+                <li key={p} className="py-4 text-lg leading-relaxed text-[var(--doux)]">{p}</li>
               ))}
             </ul>
+            <Accordeon questions={PRESTATAIRES} />
           </div>
-          <Apparition de="rideau" className="relative aspect-[4/5] overflow-hidden rounded-t-full">
-            <Image src={photos.chaises.src} alt={photos.chaises.alt} fill sizes="(min-width: 1024px) 460px, 100vw" className="kit-cinema-img object-cover" />
+          <Apparition className="relative aspect-[4/5] overflow-hidden rounded-2xl">
+            <Image src={photos.chaises.src} alt={photos.chaises.alt} fill sizes="(min-width: 1024px) 460px, 100vw" className="object-cover" />
           </Apparition>
         </div>
       </section>

@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../_kit/Apparition";
-import TitreRevele from "../../_kit/TitreRevele";
-import { AppelFinal, EnTetePage } from "../_composants/Blocs";
+import { AppelFinal, EnTetePage, Surtitre, Titre } from "../_composants/Blocs";
 import Coulisses from "../_composants/Coulisses";
 import { photos } from "../_composants/donnees";
 
@@ -24,39 +23,48 @@ const REGLES = [
 export default function PageCoulisses() {
   return (
     <main>
-      <EnTetePage
-        surtitre="Sur nos réseaux"
-        titre="Pas de couchers de soleil. *Les coulisses.*"
-        aside={
-          <Apparition de="zoom" delai={250} data-film="coulisses" className="w-full [&_button]:shadow-[0_40px_80px_-30px_rgba(0,0,0,.7)] [&_button]:ring-1 [&_button]:ring-white/25 [&_figcaption]:text-[var(--sur-sombre)]">
-            <Coulisses />
-          </Apparition>
-        }
-      >
+      <EnTetePage surtitre="Sur nos réseaux" titre="Pas de couchers de soleil. *Les coulisses.*" photo={photos.chaises} origine="50% 55%">
         Ce qu&apos;une wedding planner fait vraiment, c&apos;est ce que personne ne voit. Alors on le
         montre — après coup, et avec l&apos;accord des mariés.
       </EnTetePage>
 
-      <section className="mx-auto max-w-6xl space-y-12 px-5 py-24 sm:px-8">
-        <TitreRevele texte="Nos trois règles *pour filmer.*" className="text-[clamp(2.8rem,6vw,5rem)] font-normal leading-[0.96]" classeAccent="italic text-[var(--accent-texte)]" />
-        <ol className="grid gap-6 md:grid-cols-3">
-          {REGLES.map((r, i) => (
-            <Apparition as="li" key={r.titre} delai={i * 120} className="space-y-3 border-t border-[var(--encre)] pt-5">
-              <p className="font-[family-name:var(--titres)] text-5xl italic text-[var(--accent-texte)]">{i + 1}</p>
-              <h2 className="text-2xl font-normal">{r.titre}</h2>
-              <p className="leading-relaxed text-[var(--doux)]">{r.texte}</p>
-            </Apparition>
-          ))}
-        </ol>
+      <section className="mx-auto grid max-w-6xl gap-16 px-6 py-28 md:py-40 lg:grid-cols-2 lg:items-center">
+        <div className="space-y-6">
+          <Apparition><Surtitre>Un épisode d&apos;exemple</Surtitre></Apparition>
+          <Titre texte={"14 h 10 : *l'arche n'est pas là.*"} />
+          <p className="max-w-[26rem] text-lg leading-relaxed text-[var(--doux)]">
+            14 h 40 : montée. Les mariés n&apos;ont rien vu. Touche le téléphone pour passer d&apos;un plan à
+            l&apos;autre.
+          </p>
+        </div>
+        <Apparition data-film="coulisses"><Coulisses /></Apparition>
       </section>
 
-      <section className="mx-auto grid max-w-6xl gap-12 px-5 pb-24 sm:px-8 lg:grid-cols-2 lg:items-center">
-        <Apparition de="rideau" className="relative aspect-[3/4] max-h-[560px] overflow-hidden rounded-t-full">
-          <Image src={photos.arche.src} alt={photos.arche.alt} fill sizes="(min-width: 1024px) 460px, 100vw" className="kit-cinema-img object-cover" />
+      <section className="bg-[var(--sombre)] text-[var(--sur-sombre)]">
+        <div className="mx-auto max-w-6xl space-y-14 px-6 py-28 md:py-40">
+          <div className="space-y-5">
+            <Apparition><Surtitre clair>Pour filmer</Surtitre></Apparition>
+            <Titre texte="Nos trois *règles.*" clair />
+          </div>
+          <ol className="grid gap-10 md:grid-cols-3">
+            {REGLES.map((r, i) => (
+              <Apparition as="li" key={r.titre} delai={i * 120} className="space-y-3 border-t border-white/20 pt-5">
+                <p className="text-[12px] font-medium uppercase tracking-[0.2em]">0{i + 1}</p>
+                <h2 className="font-[family-name:var(--titres)] text-2xl font-normal">{r.titre}</h2>
+                <p className="leading-relaxed">{r.texte}</p>
+              </Apparition>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section className="mx-auto grid max-w-6xl gap-16 px-6 py-28 md:py-40 lg:grid-cols-2 lg:items-center">
+        <Apparition className="relative aspect-[4/5] max-h-[560px] overflow-hidden rounded-2xl">
+          <Image src={photos.arche.src} alt={photos.arche.alt} fill sizes="(min-width: 1024px) 460px, 100vw" className="object-cover" />
         </Apparition>
-        <div className="space-y-5">
-          <TitreRevele texte="À 15 h, *tout est en place.*" className="text-[clamp(2.6rem,5vw,4.4rem)] font-normal leading-[0.98]" classeAccent="italic text-[var(--accent-texte)]" />
-          <p className="text-lg leading-relaxed text-[var(--doux)]">L&apos;arche, les chaises, les fleurs. Ce que les invités voient en arrivant, c&apos;est la fin de notre journée — et le début de la leur.</p>
+        <div className="space-y-6">
+          <Titre texte="À 15 h, *tout est en place.*" />
+          <p className="max-w-[26rem] text-lg leading-relaxed text-[var(--doux)]">L&apos;arche, les chaises, les fleurs. Ce que les invités voient en arrivant, c&apos;est la fin de notre journée — et le début de la leur.</p>
         </div>
       </section>
 

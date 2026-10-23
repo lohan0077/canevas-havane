@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { adressesDeLaPage } from "@/lib/seo";
 import MentionsDemonstration from "../../_kit/MentionsDemonstration";
 import { EnTetePage } from "../_composants/Blocs";
-import { entreprise } from "../_composants/donnees";
+import { entreprise, photos } from "../_composants/donnees";
 
 export const metadata: Metadata = {
   title: "Mentions légales et crédits — Et s'il pleut, site de démonstration",
@@ -13,11 +13,11 @@ export const metadata: Metadata = {
 export default function MentionsLegales() {
   return (
     <main>
-      <EnTetePage surtitre="À savoir" titre="Une wedding planner *qui n'existe pas.*" />
+      <EnTetePage surtitre="À savoir" titre="Une wedding planner *qui n'existe pas.*" photo={photos.fenetre} />
       <MentionsDemonstration
         site="et-s-il-pleut"
         entreprise="Et s'il pleut"
-        polices="Bodoni Moda et Outfit"
+        polices="Bodoni Moda et Inter"
         enPlus={
           <>
             <p>
