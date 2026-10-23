@@ -2,222 +2,319 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { adressesDeLaPage } from "@/lib/seo";
-import { COURS, DOSSIER, FICHES, GOUTER, QUESTIONS, entreprise, euros, photos } from "./_composants/donnees";
+import Accordeon from "../_kit/Accordeon";
+import Apparition from "../_kit/Apparition";
+import CarteLueur from "../_kit/CarteLueur";
+import Defilant from "../_kit/Defilant";
+import TitreRevele from "../_kit/TitreRevele";
+import { AppelFinal, Bouton, Surtitre } from "./_composants/Blocs";
+import DeuxPortes from "./_composants/DeuxPortes";
 import Eligible from "./_composants/Eligible";
+import TarifDepannage from "./_composants/TarifDepannage";
 import TroisFois from "./_composants/TroisFois";
+import { COURS, DOSSIER, FICHES, GOUTER, QUESTIONS, entreprise, euros, photos } from "./_composants/donnees";
 
-// Le site de la marque imaginée dans la vidéo « Si je devais créer une entreprise de
-// dépannage informatique de zéro » : pas de l'urgence, de la patience. L'informaticien
-// qui t'explique trois fois, la fiche sur le frigo, toutes les fiches gratuites à
-// imprimer, le crédit d'impôt dit honnêtement, et le goûter numérique du lancement.
-// Mise en page inspirée du modèle « Mindora » de MotionSites (une grande carte claire
-// et arrondie, un titre en deux temps, de petites cartes en dessous), transposée.
+// L'accueil de Sans Soupir, l'informaticien à domicile des deux vidéos du dépannage
+// informatique. De « Créer une marque » : on répète, sans soupirer ; les fiches du
+// frigo ; le goûter numérique. De « Remplir l'agenda » : les deux portes (filmées,
+// [data-film=portes]) ; le dimanche où ton père ne t'appelle plus pour l'imprimante ;
+// des cours qui donnent envie ; la vraie réponse sur le crédit d'impôt.
 export const metadata: Metadata = {
-  title: "Sans Soupir — site de démonstration",
-  description: "Site de démonstration d'une marque d'assistance informatique imaginaire, réalisé par Canevas Havane : on répète, sans soupirer — et toutes les fiches sont gratuites.",
+  title: "Sans Soupir — informatique à domicile, site de démonstration",
+  description:
+    "Le site d'un informaticien à domicile imaginaire qui répète sans soupirer : deux portes (c'est cassé, je veux apprendre), des prix clairs, la vraie réponse sur le crédit d'impôt et des fiches gratuites à imprimer.",
   ...adressesDeLaPage("/exemples/sans-soupir"),
 };
 
-const PETITES = [
-  { titre: "Trois fois, s'il le faut", texte: "Et une quatrième, si tu veux." },
-  { titre: "Une fiche sur le frigo", texte: "En gros caractères, après chaque visite." },
-  { titre: "Les fiches, gratuites", texte: "Toutes, à imprimer, sans compte." },
-];
-
 export default function SansSoupir() {
-  const apercu = FICHES.slice(0, 4);
   return (
-    <div>
-      {/* La grande carte d'accueil. */}
-      <section className="px-3 pt-3 sm:px-6 sm:pt-6">
-        <div className="max-w-6xl mx-auto grid gap-3 lg:grid-cols-[1.25fr_0.75fr]">
-          <div className="rounded-[36px] bg-[var(--carte)] border border-[var(--trait)] px-4 pt-12 pb-5 sm:px-12 sm:pt-16 text-center space-y-7">
-            <p className="mx-auto inline-flex items-center gap-2 rounded-full bg-[var(--fond)] px-4 py-2 text-[15px] font-semibold">
-              <span aria-hidden="true" className="h-2.5 w-2.5 rounded-full bg-[#86BBD8]" />
-              Informatique à domicile · {entreprise.ville}
-            </p>
-            <h1 className="text-[38px] min-[400px]:text-[44px] sm:text-7xl font-bold leading-[1.02] tracking-[-0.035em]">
-              On répète.
-              <span className="block">
-                Sans{" "}
-                <span className="relative inline-block">
-                  soupirer.
-                  <svg aria-hidden="true" viewBox="0 0 200 16" preserveAspectRatio="none" className="absolute -bottom-3 left-0 h-4 w-full">
-                    <path d="M2 10 C 25 2, 45 16, 68 8 S 110 2, 134 9 S 175 15, 198 6" fill="none" stroke="#F6AE2D" strokeWidth="5" strokeLinecap="round" />
-                  </svg>
-                </span>
-              </span>
-            </h1>
-            <p className="mx-auto max-w-md text-xl leading-relaxed text-[var(--doux)]">
-              Des cours d&apos;informatique chez toi, avec quelqu&apos;un qui explique trois fois s&apos;il le faut. Pas de l&apos;urgence&nbsp;: de la patience.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <Link href={`${DOSSIER}/fiches`} className="inline-flex w-full sm:w-auto items-center justify-center gap-3 rounded-full bg-[var(--sombre)] text-[var(--sur-sombre)] pl-7 pr-2 py-2 text-lg font-bold">
-                Les fiches gratuites
-                <span aria-hidden="true" className="grid h-11 w-11 place-items-center rounded-full bg-[var(--accent)] text-[var(--sur-accent)]">→</span>
-              </Link>
-              <a href={`tel:${entreprise.telephoneLien}`} className="w-full sm:w-auto rounded-full border-2 border-[var(--sombre)] px-7 py-[14px] text-lg font-bold">{entreprise.telephone}</a>
-            </div>
-            <ul className="grid gap-2 sm:grid-cols-3 pt-4 text-left">
-              {PETITES.map((p) => (
-                <li key={p.titre} className="rounded-[22px] bg-[var(--fond)] p-4">
-                  <p className="font-bold leading-snug">{p.titre}</p>
-                  <p className="text-[15px] text-[var(--doux)]">{p.texte}</p>
-                </li>
-              ))}
-            </ul>
+    <main>
+      {/* ---------- Premier écran, partagé en deux : la promesse, et la tablette ---------- */}
+      <section className="relative overflow-hidden bg-[var(--fond)]">
+        <div className="mx-auto grid min-h-[100svh] max-w-7xl items-center gap-12 px-5 pb-14 pt-28 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:pt-24">
+          <div className="space-y-8">
+            <Apparition><Surtitre>Informatique à domicile · {entreprise.ville}</Surtitre></Apparition>
+            <TitreRevele
+              as="h1"
+              auChargement
+              texte="On répète. *Sans soupirer.*"
+              className="text-[clamp(3.6rem,10vw,8.6rem)] font-extrabold leading-[0.9] tracking-[-0.05em]"
+              classeAccent="text-[var(--sombre)] underline decoration-[var(--accent)] decoration-[0.1em] underline-offset-[0.1em]"
+            />
+            <Apparition as="p" delai={600} className="max-w-xl text-[22px] leading-relaxed">
+              Chez toi, sur ton ordinateur, ta tablette ou ton téléphone. On t&apos;explique trois fois
+              s&apos;il le faut, et on te laisse la fiche, pour le frigo.
+            </Apparition>
+            <Apparition delai={800} className="flex flex-wrap gap-3">
+              <Bouton href={`${DOSSIER}#portes`}>Je veux apprendre</Bouton>
+              <Bouton href={`${DOSSIER}/c-est-casse`} variante="sombre">C&apos;est cassé</Bouton>
+            </Apparition>
           </div>
-          <div className="relative min-h-[300px] overflow-hidden rounded-[36px]">
-            <Image src={photos.pelote.src} alt={photos.pelote.alt} fill preload loading="eager" sizes="(min-width: 1024px) 420px, 100vw" className="object-cover object-[50%_45%]" />
+
+          <div className="relative mx-auto w-full max-w-[560px]">
+            <Apparition de="rideau" delai={200} className="relative aspect-[4/5] overflow-hidden rounded-[3rem] rounded-tl-[12rem] shadow-[0_50px_90px_-50px_rgba(34,50,61,.7)]">
+              <Image src={photos.tablette.src} alt={photos.tablette.alt} fill priority sizes="(min-width: 1024px) 560px, 90vw" className="kit-cinema-img object-cover" />
+            </Apparition>
+            {/* La conversation : la question qu'on n'ose plus poser, et la réponse. */}
+            <Apparition de="gauche" delai={900} className="absolute -left-2 top-[12%] max-w-[250px] rounded-[1.6rem] rounded-bl-md bg-[var(--carte)] px-5 py-4 shadow-[0_20px_40px_-20px_rgba(34,50,61,.5)] sm:-left-8">
+              <p className="text-[17px] font-semibold leading-snug">Tu peux répéter ? C&apos;est la troisième fois…</p>
+            </Apparition>
+            <Apparition de="droite" delai={1400} className="absolute -right-2 top-[34%] max-w-[230px] rounded-[1.6rem] rounded-br-md bg-[var(--accent)] px-5 py-4 text-[var(--sur-accent)] shadow-[0_20px_40px_-20px_rgba(34,50,61,.5)] sm:-right-6">
+              <p className="text-[17px] font-bold leading-snug">Bien sûr. On le refait ensemble ?</p>
+            </Apparition>
+            {/* La fiche n° 12, aimantée. */}
+            <Apparition de="bas" delai={1100} className="absolute -bottom-6 left-4 w-[210px] rotate-[-5deg] rounded-[10px] bg-[var(--carte)] p-4 shadow-[0_24px_40px_-20px_rgba(34,50,61,.6)] sm:left-10">
+              <span aria-hidden="true" className="absolute -top-2 left-1/2 h-5 w-5 -translate-x-1/2 rounded-full bg-[#FF9A80] shadow" />
+              <p className="text-[12px] font-bold text-[var(--accent-texte)]">Fiche n° 12 · à imprimer</p>
+              <p className="mt-1 font-[family-name:var(--titres)] text-[19px] font-extrabold leading-tight">Appeler Léa en vidéo</p>
+              <ol className="mt-2 space-y-1 text-[13px] font-semibold">
+                <li>1. La bulle verte</li>
+                <li>2. « Léa »</li>
+                <li>3. La caméra. Souris !</li>
+              </ol>
+            </Apparition>
           </div>
         </div>
       </section>
 
-      {/* Le contre-pied. */}
-      <section className="max-w-5xl mx-auto px-5 sm:px-6 py-20 sm:py-28 space-y-8">
-        <ul className="flex flex-wrap gap-3" aria-label="Ce qu'on ne vend pas">
-          {["« SOS »", "« Urgence »", "« 24 h sur 24 »"].map((m) => (
-            <li key={m} className="rounded-full border-2 border-[var(--trait)] px-4 py-2 text-lg font-bold text-[var(--doux)] line-through decoration-[#B42318] decoration-[3px]">{m}</li>
+      {/* ---------- Les fiches, qui défilent ---------- */}
+      <div className="bg-[var(--sombre)] py-5 text-[var(--sur-sombre)]">
+        <Defilant
+          duree={50}
+          elements={FICHES.map((f) => `n° ${f.numero} · ${f.titre}`)}
+          separateur="✺"
+          classeElement="font-[family-name:var(--titres)] text-2xl font-bold whitespace-nowrap md:text-3xl"
+        />
+      </div>
+
+      {/* ---------- Les deux portes ---------- */}
+      <section id="portes" className="scroll-mt-24 mx-auto grid max-w-7xl gap-14 px-5 py-24 sm:px-8 md:py-32 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+        <div className="space-y-7">
+          <Apparition><Surtitre>Sur l&apos;accueil, deux portes</Surtitre></Apparition>
+          <TitreRevele
+            texte="Choisis *ta porte.*"
+            className="text-[clamp(3.2rem,7.5vw,6.6rem)] font-extrabold leading-[0.92] tracking-[-0.045em]"
+            classeAccent="text-[var(--accent-texte)]"
+          />
+          <Apparition as="p" delai={150} className="max-w-md text-[21px] leading-relaxed text-[var(--doux)]">
+            C&apos;est cassé : un dépannage, à prix clair. Tu veux apprendre : un cours chez toi, et le
+            crédit d&apos;impôt possible. Deux métiers, deux portes, deux réponses franches.
+          </Apparition>
+        </div>
+        <Apparition de="zoom" data-film="portes" className="rounded-[2.6rem] bg-[var(--carte)] p-5 shadow-[0_50px_90px_-60px_rgba(34,50,61,.8)] ring-1 ring-[var(--trait)] sm:p-8">
+          <DeuxPortes />
+        </Apparition>
+      </section>
+
+      {/* ---------- Le dimanche, libre ---------- */}
+      <section className="px-3 sm:px-5">
+        <div className="relative overflow-hidden rounded-[3rem] bg-[var(--sombre)] text-[var(--sur-sombre)]">
+          <div className="mx-auto grid max-w-6xl gap-14 px-6 py-24 sm:px-10 md:py-32 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
+            <div className="space-y-7">
+              <Apparition><Surtitre clair>Ce qu&apos;on vend vraiment</Surtitre></Apparition>
+              <TitreRevele
+                texte="Le dimanche où ton père ne t'appelle plus *pour son imprimante.*"
+                className="text-[clamp(2.8rem,6vw,5.4rem)] font-extrabold leading-[0.98] tracking-[-0.04em]"
+                classeAccent="text-[var(--accent)]"
+              />
+              <Apparition as="p" delai={150} className="max-w-xl text-[21px] leading-relaxed">
+                On ne vend pas du dépannage. On vend l&apos;heure où il refait seul, la fiche sous les
+                yeux. Et ton dimanche, rendu.
+              </Apparition>
+            </div>
+            <Apparition de="droite" delai={150} aria-hidden="true" className="mx-auto w-full max-w-[320px] rounded-[2.6rem] border-[10px] border-[#1C2D38] bg-[var(--fond)] p-5 text-[var(--encre)] shadow-[0_50px_90px_-40px_rgba(0,0,0,.6)]">
+              <p className="text-center text-sm font-bold">Dimanche</p>
+              <p className="text-center font-[family-name:var(--titres)] text-5xl font-extrabold">10:12</p>
+              <ul className="mt-6 space-y-3">
+                {["Papa · « L'imprimante… »", "Papa · « Elle clignote »", "Papa · « Tu peux venir ? »"].map((a, i) => (
+                  <li key={a} className="rounded-2xl bg-[var(--carte)] px-4 py-3 text-[15px] font-semibold" style={{ "--kit-delai": `${300 + i * 250}ms` } as React.CSSProperties}>
+                    <span className="kit-barre">{a}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-5 rounded-2xl bg-[var(--accent)] px-4 py-3 text-center font-bold text-[var(--sur-accent)]">Aucun appel. Il a la fiche.</p>
+            </Apparition>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- Trois fois, sans soupirer : l'outil ---------- */}
+      <section className="mx-auto grid max-w-7xl gap-14 px-5 py-24 sm:px-8 md:py-32 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+        <Apparition de="zoom" className="order-2 lg:order-1">
+          <div className="rounded-[2.8rem] bg-[var(--accent)] p-4 sm:p-6">
+            <TroisFois />
+          </div>
+        </Apparition>
+        <div className="order-1 space-y-7 lg:order-2">
+          <Apparition><Surtitre>La marque</Surtitre></Apparition>
+          <TitreRevele
+            texte="Trois fois. *Sans soupirer.*"
+            className="text-[clamp(3.2rem,7.5vw,6.6rem)] font-extrabold leading-[0.92] tracking-[-0.045em]"
+            classeAccent="text-[var(--accent-texte)]"
+          />
+          <Apparition as="p" delai={150} className="max-w-md text-[21px] leading-relaxed text-[var(--doux)]">
+            Touche « Tu peux répéter ? » : trois façons d&apos;expliquer la même chose. Et pas un soupir.
+            C&apos;est une promesse qu&apos;on peut tenir.
+          </Apparition>
+        </div>
+      </section>
+
+      {/* ---------- Les fiches du frigo ---------- */}
+      <section className="border-y border-[var(--trait)] bg-[#DCEBF3]">
+        <div className="mx-auto max-w-7xl px-5 py-24 sm:px-8 md:py-32">
+          <div className="mb-14 grid gap-6 lg:grid-cols-[1fr_0.8fr] lg:items-end">
+            <div className="space-y-7">
+              <Apparition><Surtitre>Après chaque visite</Surtitre></Apparition>
+              <TitreRevele
+                texte="Une fiche *sur le frigo.*"
+                className="text-[clamp(3.2rem,7.5vw,6.6rem)] font-extrabold leading-[0.92] tracking-[-0.045em]"
+                classeAccent="text-[var(--sombre)] underline decoration-[var(--accent)] decoration-[0.1em] underline-offset-[0.1em]"
+              />
+            </div>
+            <Apparition as="p" delai={150} className="text-[21px] leading-relaxed">
+              En gros caractères, trois étapes. Et sur le site, toutes les fiches, gratuites, à
+              imprimer : sans compte, sans adresse e-mail.
+            </Apparition>
+          </div>
+          <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {FICHES.slice(0, 4).map((f, i) => (
+              <Apparition as="li" key={f.numero} delai={i * 110} de="bas" className={i % 2 ? "lg:translate-y-8" : ""}>
+                <CarteLueur className="h-full rounded-[12px]">
+                  <Link href={`${DOSSIER}/fiches`} className="relative block h-full rounded-[12px] bg-[var(--carte)] p-6 pt-8 shadow-[0_24px_40px_-26px_rgba(34,50,61,.7)] transition-transform hover:-rotate-1" style={{ rotate: `${[-2, 1.5, -1, 2][i]}deg` }}>
+                    <span aria-hidden="true" className="absolute -top-2.5 left-1/2 h-6 w-6 -translate-x-1/2 rounded-full shadow" style={{ background: ["#FF9A80", "#7FD8BE", "#F6AE2D", "#2F4858"][i] }} />
+                    <span className="block text-[13px] font-bold text-[var(--accent-texte)]">Fiche n° {f.numero}</span>
+                    <span className="mt-2 block font-[family-name:var(--titres)] text-[24px] font-extrabold leading-tight">{f.titre}</span>
+                    <span className="mt-4 block space-y-1.5 text-[15px] font-semibold">
+                      {f.etapes.map((e, k) => (
+                        <span key={e} className="block">{k + 1}. {e}</span>
+                      ))}
+                    </span>
+                  </Link>
+                </CarteLueur>
+              </Apparition>
+            ))}
+          </ul>
+          <Apparition delai={200} className="mt-16 flex justify-center">
+            <Bouton href={`${DOSSIER}/fiches`} variante="sombre">Toutes les fiches, gratuites</Bouton>
+          </Apparition>
+        </div>
+      </section>
+
+      {/* ---------- Des cours qui donnent envie ---------- */}
+      <section className="mx-auto max-w-7xl px-5 py-24 sm:px-8 md:py-32">
+        <div className="mb-14 space-y-7">
+          <Apparition><Surtitre>Porte 2 · Je veux apprendre</Surtitre></Apparition>
+          <TitreRevele
+            texte="Des cours qui *donnent envie.*"
+            className="text-[clamp(3.2rem,7.5vw,6.6rem)] font-extrabold leading-[0.92] tracking-[-0.045em]"
+            classeAccent="text-[var(--accent-texte)]"
+          />
+        </div>
+        <ul className="grid gap-5 md:grid-cols-6">
+          {COURS.map((c, i) => (
+            <Apparition as="li" key={c.id} delai={i * 110} de="zoom" className={i === 0 || i === 3 ? "md:col-span-4" : "md:col-span-2"}>
+              <Link href={`${DOSSIER}/cours-a-domicile#cours-${c.id}`} className="flex h-full flex-col justify-between gap-8 rounded-[2.4rem] p-7 transition-transform hover:-translate-y-1 sm:p-9" style={{ background: c.teinte }}>
+                <span className="flex items-center justify-between text-[15px] font-bold">
+                  <span>Cours {i + 1}</span>
+                  <span className="rounded-full bg-[var(--carte)] px-3 py-1">{c.duree} chez toi</span>
+                </span>
+                <span className="space-y-3">
+                  <span className="block font-[family-name:var(--titres)] text-[clamp(1.9rem,3.4vw,2.8rem)] font-extrabold leading-[1.0] tracking-[-0.03em]">{c.titre}</span>
+                  <span className="block text-[17px] leading-relaxed">{c.texte}</span>
+                </span>
+                <span className="flex flex-wrap items-baseline gap-x-3 border-t border-[var(--encre)]/15 pt-4">
+                  <span className="font-[family-name:var(--titres)] text-3xl font-extrabold">{euros(c.ht * 1.2)} TTC</span>
+                  <span className="text-[15px]">{euros(c.ht)} HT · exemple</span>
+                </span>
+              </Link>
+            </Apparition>
           ))}
         </ul>
-        <h2 className="text-[42px] sm:text-6xl font-bold leading-[1.02] tracking-[-0.03em]">
-          On ne vend pas de l&apos;urgence. <span className="text-[var(--accent-texte)]">On vend de la patience.</span>
-        </h2>
-        <p className="max-w-2xl text-xl leading-relaxed text-[var(--doux)]">
-          Une panne, ça se répare. Mais ce qui fait peur, c&apos;est de ne pas comprendre — et
-          d&apos;avoir l&apos;impression de déranger en demandant encore. Ici, demander encore, c&apos;est
-          le métier.
-        </p>
       </section>
 
-      {/* Trois fois. */}
-      <section className="bg-[#DCEBF3]">
-        <div className="max-w-6xl mx-auto px-5 sm:px-6 py-20 sm:py-24 grid gap-10 lg:grid-cols-2 lg:items-center">
-          <div className="space-y-5">
-            <p className="text-sm font-bold uppercase tracking-[0.16em] text-[var(--encre)]">Essaie</p>
-            <h2 className="text-[40px] sm:text-6xl font-bold leading-[1.02] tracking-[-0.03em]">Trois fois. Sans soupirer.</h2>
-            <p className="text-xl leading-relaxed text-[var(--doux)]">Demande-nous de répéter. On l&apos;explique autrement, à chaque fois.</p>
-          </div>
-          <TroisFois />
-        </div>
-      </section>
-
-      {/* La fiche sur le frigo. */}
-      <section className="max-w-6xl mx-auto px-5 sm:px-6 py-20 sm:py-28 grid gap-12 lg:grid-cols-2 lg:items-center">
-        <div aria-hidden="true" className="relative mx-auto w-full max-w-[340px] rounded-[28px] bg-[#E9EEF1] px-6 pt-10 pb-16 shadow-[inset_0_0_0_2px_#D5DEE4]">
-          <span className="absolute right-4 top-24 h-28 w-2.5 rounded-full bg-[#C2CDD4]" />
-          <span className="absolute left-8 top-6 h-8 w-8 rounded-full bg-[#86BBD8]" />
-          <span className="absolute right-12 top-5 h-7 w-10 rounded-lg bg-[#F6AE2D]" />
-          <div className="relative rotate-[-2deg] rounded-md bg-white px-5 pt-7 pb-5 shadow-[0_14px_26px_-14px_rgba(34,50,61,0.5)] space-y-3">
-            <span className="absolute left-1/2 -top-3 h-7 w-7 -translate-x-1/2 rounded-full bg-[#B42318] shadow" />
-            <p className="text-sm font-bold text-[var(--accent-texte)]">Sans Soupir · fiche n° 12</p>
-            <p className="font-[family-name:var(--titres)] text-[26px] font-bold leading-tight">Appeler Léa en vidéo</p>
-            <ol className="space-y-1.5 text-xl font-semibold">
-              <li>1. Touche la bulle verte.</li>
-              <li>2. Touche « Léa ».</li>
-              <li>3. Touche la caméra. Souris&nbsp;!</li>
-            </ol>
-            <p className="border-t border-dashed border-[var(--trait)] pt-2 text-[15px] italic">Bloqué&nbsp;? Appelle-nous. On répète.</p>
-          </div>
-        </div>
-        <div className="space-y-5">
-          <p className="text-sm font-bold uppercase tracking-[0.16em] text-[var(--accent-texte)]">Après chaque visite</p>
-          <h2 className="text-[40px] sm:text-6xl font-bold leading-[1.02] tracking-[-0.03em]">Une fiche sur le frigo.</h2>
-          <p className="text-xl leading-relaxed text-[var(--doux)]">En gros caractères, trois étapes, pas une de plus. Pour refaire seul, demain, sans personne à côté.</p>
-        </div>
-      </section>
-
-      {/* Les fiches gratuites. */}
-      <section className="bg-[var(--sombre)] text-[var(--sur-sombre)]">
-        <div className="max-w-6xl mx-auto px-5 sm:px-6 py-20 sm:py-24 space-y-10">
-          <div className="flex flex-wrap items-end justify-between gap-6">
-            <div className="space-y-4 max-w-2xl">
-              <p className="text-sm font-bold uppercase tracking-[0.16em] text-[var(--accent)]">Sur le site</p>
-              <h2 className="text-[40px] sm:text-6xl font-bold leading-[1.02] tracking-[-0.03em]">Toutes les fiches. Gratuites, à imprimer.</h2>
+      {/* ---------- Le crédit d'impôt, la vraie réponse ---------- */}
+      <section className="px-3 sm:px-5">
+        <div className="rounded-[3rem] bg-[#DDF6EC]">
+          <div className="mx-auto grid max-w-6xl gap-14 px-6 py-24 sm:px-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+            <div className="space-y-7">
+              <Apparition><Surtitre>Crédit d&apos;impôt</Surtitre></Apparition>
+              <TitreRevele
+                texte="La vraie réponse, *même si elle ne nous arrange pas.*"
+                className="text-[clamp(2.6rem,5.6vw,4.8rem)] font-extrabold leading-[0.96] tracking-[-0.04em]"
+                classeAccent="text-[#14614E]"
+              />
+              <Apparition as="p" delai={150} className="text-[20px] leading-relaxed">
+                Le dépannage n&apos;ouvre pas droit au crédit d&apos;impôt. Les cours et l&apos;installation
+                chez toi, oui, sous conditions. On te le dit avant, pas sur la facture.
+              </Apparition>
+              <Bouton href={`${DOSSIER}/credit-d-impot`} variante="sombre">Ta situation, ma réponse</Bouton>
             </div>
-            <Link href={`${DOSSIER}/fiches`} className="rounded-full bg-[var(--accent)] text-[var(--sur-accent)] px-6 py-3.5 font-bold">Voir les {FICHES.length} fiches</Link>
-          </div>
-          <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {apercu.map((f) => (
-              <li key={f.numero} className="rounded-[24px] bg-[#3A5667] p-5 space-y-2">
-                <p className="text-[15px] font-bold text-[#C8D6DF]">Fiche n° {f.numero} · {f.theme}</p>
-                <p className="font-[family-name:var(--titres)] text-[22px] font-bold leading-tight">{f.titre}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      {/* Cours à domicile et crédit d'impôt. */}
-      <section className="max-w-6xl mx-auto px-5 sm:px-6 py-20 sm:py-28 grid gap-12 lg:grid-cols-2">
-        <div className="space-y-6">
-          <p className="text-sm font-bold uppercase tracking-[0.16em] text-[var(--accent-texte)]">Cours à domicile</p>
-          <h2 className="text-[40px] sm:text-5xl font-bold leading-[1.02] tracking-[-0.03em]">Chez toi, sur ton appareil.</h2>
-          <ul className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
-            {COURS.map((c) => (
-              <li key={c.titre} className="py-4 grid grid-cols-[1fr_auto] gap-x-4 gap-y-1">
-                <span className="font-bold">{c.titre}</span>
-                <span className="font-bold tabular-nums text-right">{euros(c.ht * 1.2)} TTC</span>
-                <span className="text-[15px] text-[var(--doux)]">{c.detail}</span>
-                <span className="text-[15px] tabular-nums text-right text-[var(--doux)]">{euros(c.ht)} HT</span>
-              </li>
-            ))}
-          </ul>
-          <p className="text-[15px] text-[var(--doux)]">Prix d&apos;exemple. <Link href={`${DOSSIER}/cours-a-domicile`} className="font-bold text-[var(--encre)] underline underline-offset-4">Le détail des cours</Link></p>
-        </div>
-        <div className="space-y-6">
-          <p className="text-sm font-bold uppercase tracking-[0.16em] text-[var(--accent-texte)]">Le crédit d&apos;impôt, honnêtement</p>
-          <h2 className="text-[40px] sm:text-5xl font-bold leading-[1.02] tracking-[-0.03em]">Apprendre, oui. Dépanner, non.</h2>
-          <Eligible />
-        </div>
-      </section>
-
-      {/* Le goûter numérique. */}
-      <section className="px-3 sm:px-6">
-        <div className="max-w-6xl mx-auto rounded-[36px] bg-[#FCE7BF] overflow-hidden grid lg:grid-cols-2">
-          <div className="relative min-h-[260px]">
-            <Image src={photos.gouter.src} alt={photos.gouter.alt} fill sizes="(min-width: 1024px) 560px, 100vw" className="object-cover" />
-          </div>
-          <div className="px-6 py-12 sm:px-12 space-y-5">
-            <p className="text-sm font-bold uppercase tracking-[0.16em] text-[var(--encre)]">Pour commencer</p>
-            <h2 className="text-[40px] sm:text-5xl font-bold leading-[1.02] tracking-[-0.03em]">Le goûter numérique.</h2>
-            <p className="text-xl leading-relaxed">Tu viens avec ta tablette, tu poses toutes tes questions. Gratuit, et rien à vendre.</p>
-            <p className="rounded-2xl bg-[var(--carte)] px-5 py-4 text-lg font-bold">
-              {GOUTER.date.charAt(0).toUpperCase() + GOUTER.date.slice(1)}, {GOUTER.heure}
-              <span className="block text-base font-semibold text-[var(--doux)]">à {GOUTER.lieu}</span>
-            </p>
-            <Link href={`${DOSSIER}/gouter-numerique`} className="inline-flex rounded-full bg-[var(--sombre)] text-[var(--sur-sombre)] px-6 py-3.5 font-bold">Je viens</Link>
+            <Apparition de="zoom" delai={150}><Eligible /></Apparition>
           </div>
         </div>
       </section>
 
-      {/* Questions. */}
-      <section className="max-w-4xl mx-auto px-5 sm:px-6 py-20 sm:py-28 space-y-8">
-        <h2 className="text-[40px] sm:text-6xl font-bold leading-[1.02] tracking-[-0.03em]">Tu peux demander.</h2>
-        <div className="space-y-3">
-          {QUESTIONS.map((q) => (
-            <details key={q.question} className="group rounded-[24px] bg-[var(--carte)] border border-[var(--trait)] px-5 sm:px-6">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-xl font-bold leading-snug [&::-webkit-details-marker]:hidden">
-                {q.question}
-                <span aria-hidden="true" className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[var(--accent)] text-2xl transition-transform group-open:rotate-45">+</span>
-              </summary>
-              <p className="pb-6 text-lg leading-relaxed text-[var(--doux)]">{q.reponse}</p>
-            </details>
-          ))}
+      {/* ---------- Porte 1 : le dépannage, prix clair ---------- */}
+      <section className="mx-auto grid max-w-7xl gap-14 px-5 py-24 sm:px-8 md:py-32 lg:grid-cols-[1fr_1fr] lg:items-center">
+        <div className="space-y-7">
+          <Apparition><Surtitre>Porte 1 · C&apos;est cassé</Surtitre></Apparition>
+          <TitreRevele
+            texte="Dépannage, *prix clair.*"
+            className="text-[clamp(3.2rem,7.5vw,6.6rem)] font-extrabold leading-[0.92] tracking-[-0.045em]"
+            classeAccent="text-[#A8391B]"
+          />
+          <Apparition as="p" delai={150} className="max-w-md text-[21px] leading-relaxed text-[var(--doux)]">
+            Un déplacement, puis le temps passé, à la demi-heure. Tu sais combien avant qu&apos;on sonne.
+          </Apparition>
+          <Apparition de="rideau" delai={250} className="relative aspect-[3/2] overflow-hidden rounded-[2.4rem]">
+            <Image src={photos.imprimante.src} alt={photos.imprimante.alt} fill sizes="(min-width: 1024px) 560px, 100vw" className="kit-cinema-img object-cover" />
+          </Apparition>
+        </div>
+        <Apparition de="zoom" delai={150}>
+          <div className="rounded-[2.8rem] bg-[#FF9A80] p-4 sm:p-6">
+            <TarifDepannage />
+          </div>
+        </Apparition>
+      </section>
+
+      {/* ---------- Le goûter numérique ---------- */}
+      <section className="px-3 sm:px-5">
+        <div className="relative overflow-hidden rounded-[3rem] bg-[var(--accent)] text-[var(--sur-accent)]">
+          <div className="mx-auto grid max-w-6xl gap-12 px-6 py-24 sm:px-10 lg:grid-cols-[1fr_1fr] lg:items-center">
+            <div className="space-y-7">
+              <p className="text-[15px] font-bold uppercase tracking-[0.16em]">Gratuit · à la médiathèque</p>
+              <TitreRevele
+                texte="Le goûter *numérique.*"
+                className="text-[clamp(3.2rem,7.5vw,6.6rem)] font-extrabold leading-[0.92] tracking-[-0.045em]"
+              />
+              <Apparition as="p" delai={150} className="max-w-md text-[21px] leading-relaxed">
+                Tu viens avec ta tablette, tu poses toutes tes questions. {GOUTER.date.charAt(0).toUpperCase() + GOUTER.date.slice(1)}, {GOUTER.heure}.
+              </Apparition>
+              <Bouton href={`${DOSSIER}/gouter-numerique`} variante="sombre">Je viens</Bouton>
+            </div>
+            <Apparition de="rideau" delai={200} className="relative aspect-[4/3] overflow-hidden rounded-[2.4rem] rounded-br-[8rem]">
+              <Image src={photos.gouter.src} alt={photos.gouter.alt} fill sizes="(min-width: 1024px) 520px, 100vw" className="kit-cinema-img object-cover" />
+            </Apparition>
+          </div>
         </div>
       </section>
 
-      {/* L'appel. */}
-      <section className="max-w-6xl mx-auto px-5 sm:px-6 pb-20 sm:pb-28 grid gap-6 lg:grid-cols-[0.7fr_1.3fr] lg:items-center">
-        <div className="relative aspect-[4/5] max-h-[460px] overflow-hidden rounded-[32px]">
-          <Image src={photos.lunettes.src} alt={photos.lunettes.alt} fill sizes="(min-width: 1024px) 380px, 100vw" className="object-cover" />
+      {/* ---------- Questions ---------- */}
+      <section id="questions" className="scroll-mt-24 mx-auto grid max-w-7xl gap-12 px-5 py-24 sm:px-8 md:py-32 lg:grid-cols-[0.75fr_1.25fr]">
+        <div className="space-y-7">
+          <Apparition><Surtitre>Tes questions</Surtitre></Apparition>
+          <TitreRevele
+            texte="Pose-les. *Toutes.*"
+            className="text-[clamp(2.8rem,6vw,5rem)] font-extrabold leading-[0.94] tracking-[-0.045em]"
+            classeAccent="text-[var(--accent-texte)]"
+          />
         </div>
-        <div className="space-y-6">
-          <h2 className="text-[46px] sm:text-7xl font-bold leading-[0.98] tracking-[-0.035em]">Appelle. <span className="text-[var(--accent-texte)]">On répète.</span></h2>
-          <p className="text-xl leading-relaxed text-[var(--doux)]">Du lundi au samedi, de 9 h à 18 h. Une vraie personne, qui a le temps.</p>
-          <a href={`tel:${entreprise.telephoneLien}`} className="inline-flex rounded-full bg-[var(--sombre)] text-[var(--sur-sombre)] px-8 py-4 text-xl font-bold">{entreprise.telephone}</a>
-        </div>
+        <Apparition delai={150}>
+          <Accordeon questions={QUESTIONS} />
+        </Apparition>
       </section>
-    </div>
+
+      <AppelFinal />
+    </main>
   );
 }

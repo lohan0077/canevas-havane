@@ -12,7 +12,7 @@ export default function Equipe() {
   const [soir, setSoir] = useState(false);
 
   return (
-    <div data-film="equipe" className="rounded-[30px] border border-[var(--trait)] bg-[var(--carte)] overflow-hidden">
+    <div data-film="equipe" className="rounded-[14px] border border-[var(--trait)] bg-[var(--carte)] overflow-hidden">
       <div className="relative h-36 bg-[var(--sombre)]">
         {/* Deux silhouettes, dessinées : l'équipe, pas des personnes reconnaissables. */}
         <svg viewBox="0 0 320 144" className="absolute inset-0 h-full w-full" aria-hidden="true">
@@ -33,7 +33,7 @@ export default function Equipe() {
           <p className="mt-1 text-[var(--doux)]">Toujours la même, chez vous. Jamais une équipe de remplacement sans vous prévenir.</p>
         </div>
 
-        <div id="depuis" className="rounded-2xl border border-[var(--trait)] p-4">
+        <div id="depuis" className="rounded-[10px] border border-[var(--trait)] p-4">
           {depuis ? (
             <p className="flex items-baseline gap-3" role="status">
               <span className="font-[family-name:var(--titres)] text-6xl leading-none text-[var(--accent-texte)] tabular-nums">{entreprise.ensemble}</span>

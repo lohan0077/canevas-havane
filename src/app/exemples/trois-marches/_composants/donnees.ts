@@ -1,5 +1,12 @@
-// Tout ce qu'affiche le site de Trois Marches, agence immobilière fictive imaginée dans
-// la vidéo « Si je devais créer une agence immobilière de zéro ».
+// Tout ce qu'affiche Trois Marches, agence immobilière fictive filmée dans les deux vidéos
+// des agents immobiliers :
+//   - « Créer une marque » : le nom, chaque annonce qui commence par l'histoire de la
+//     maison, la loi juste en dessous, la dernière photo de famille sur le perron ;
+//   - « Remplir l'agenda » (ancien site Le Soir Même, fondu ici) : le barème en page
+//     d'accueil (on glisse son prix, le site dit ce que l'agence prend au maximum), le prix
+//     honoraires inclus en plus gros sur chaque annonce, la page du vendeur où le compte
+//     rendu de chaque visite tombe le soir même, et un seul bouton sur l'accueil : faire
+//     estimer sa maison, au créneau choisi.
 //
 // L'idée : chaque annonce commence par l'histoire de la maison, racontée par ceux qui
 // y ont vécu — des souvenirs seulement, jamais une affirmation sur l'état du bien. Et
@@ -28,9 +35,9 @@ export const agence = {
 
 export const NAVIGATION = [
   { href: `${DOSSIER}#maisons`, libelle: "Les maisons" },
+  { href: `${DOSSIER}/bareme`, libelle: "Le barème" },
+  { href: `${DOSSIER}/suivi`, libelle: "Le suivi du soir" },
   { href: `${DOSSIER}/la-derniere-photo`, libelle: "La dernière photo" },
-  { href: `${DOSSIER}#raconter`, libelle: "Vendre" },
-  { href: `${DOSSIER}/bareme`, libelle: "Barème" },
 ];
 
 export const euros = (n: number) => `${Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} €`;
@@ -48,8 +55,12 @@ export const TRANCHES = [
 
 /** Le taux maximum du barème pour un prix de vente hors honoraires. */
 export const tauxMax = (prix: number) => (TRANCHES.find((t) => prix <= t.jusqua) ?? TRANCHES[TRANCHES.length - 1]).taux;
+/** Les honoraires maximum, TTC, pour un prix de vente hors honoraires : le taux de sa tranche. */
+export const honorairesMax = (prix: number) => (prix * tauxMax(prix)) / 100;
+export const PAYEUR = "à la charge de l'acquéreur";
 
 export const AUTRES_PRESTATIONS = [
+  { prestation: "Vente d'un terrain à bâtir", prix: "6 % TTC du prix hors honoraires, au maximum", payeur: "Acquéreur" },
   { prestation: "Avis de valeur écrit, sans mandat", prix: "0 €", payeur: "Personne" },
   { prestation: "La dernière photo, sur le perron, tirée sur papier", prix: "0 €, comprise dans nos honoraires", payeur: "Personne" },
 ];
@@ -66,6 +77,12 @@ export const photos = {
   mas: photo("mas-volets-rouges", 900, 1350, "Un mas de pierre aux volets rouges, une grande voûte au rez-de-chaussée, dans la lumière du soir"),
   pierre: photo("maison-pierre-fleurs", 1100, 768, "Une maison de pierre aux volets bleus, sa façade couverte de pots de fleurs, au soleil"),
   velo: photo("velo-lierre", 1100, 766, "Un vélo vert appuyé contre un mur blanc où grimpe de la vigne vierge"),
+  crepuscule: photo("maison-au-crepuscule", 1300, 1146, "Une maison blanche au pied d'une montagne, ses fenêtres allumées, à la tombée du soir"),
+  voletsRouges: photo("maison-volets-rouges", 860, 1290, "Une maison de pierre blanche aux volets rouges, au fond d'une grande pelouse, un arbre en fleurs au premier plan"),
+  salon: photo("salon-blanc", 1200, 800, "Un salon blanc et lumineux, une cheminée de marbre entre deux hautes fenêtres"),
+  lampe: photo("lampe-du-soir", 1100, 733, "Un canapé dans la lumière chaude d'un lampadaire, le soir"),
+  creme: photo("maison-creme", 1000, 666, "Une maison crème au toit d'ardoise, trois lucarnes et une porte noire"),
+  arbres: photo("maison-arbres", 1000, 667, "Une grande maison blanche à cheminées, derrière un jardin planté d'arbres"),
 };
 
 /* ---------- Les maisons (exemples) ---------- */
@@ -112,7 +129,7 @@ export const MAISONS: Maison[] = [
       ],
     },
     description: [
-      "Au rez-de-chaussée surélevé, une entrée, un séjour de 36 m² ouvert sur le jardin, une cuisine séparée et un bureau. À l'étage, trois chambres et une salle de bains.",
+      "Au rez-de-chaussée surélevé, une entrée, un séjour de 36 m² ouvert sur le jardin, une cuisine séparée et un bureau. À l'étage, trois chambres et une salle de bains. La cuisine est d'origine : elle est à refaire, et l'annonce le dit.",
       "Un sous-sol complet avec garage et buanderie. Chauffage au gaz, fenêtres en double vitrage. 600 m² de jardin clos.",
     ],
   },
@@ -180,6 +197,53 @@ export const MOMENTS_PHOTO = [
   { id: "matin", libelle: "Le matin des clés", detail: "La maison vide, la porte ouverte" },
 ];
 
+/* ---------- Le suivi du soir : la page du vendeur (exemple) ----------
+   Claire vend la maison 5 pièces. Chaque visite a son compte rendu, envoyé le soir même ;
+   les visiteurs ne sont jamais nommés. */
+
+export type Visite = { jour: string; date: string; heure: string; envoi: string; phrase: string; plu: string; freine: string; suite: string };
+
+export const VISITES: Visite[] = [
+  {
+    jour: "Mardi",
+    date: "13 octobre",
+    heure: "18\u00A0h",
+    envoi: "19\u00A0h\u00A040",
+    phrase: "«\u00A0La cuisine est à refaire.\u00A0»",
+    plu: "La lumière du séjour, le jardin, le calme de la rue.",
+    freine: "La cuisine d'origine : ils la referaient entièrement.",
+    suite: "Pas de deuxième visite pour l'instant. Ils comparent avec une maison plus récente.",
+  },
+  {
+    jour: "Jeudi",
+    date: "15 octobre",
+    heure: "17\u00A0h\u00A030",
+    envoi: "19\u00A0h\u00A005",
+    phrase: "«\u00A0Coup de cœur pour le jardin.\u00A0»",
+    plu: "Le jardin, le figuier, le sous-sol pour l'atelier.",
+    freine: "Le bureau, un peu petit pour deux.",
+    suite: "Ils reviennent samedi pour revoir l'étage.",
+  },
+  {
+    jour: "Samedi",
+    date: "17 octobre",
+    heure: "16\u00A0h",
+    envoi: "19\u00A0h\u00A030",
+    phrase: "Une deuxième visite demandée.",
+    plu: "Les mêmes que jeudi : l'étage les a rassurés.",
+    freine: "Le prix de la cuisine, encore. Ils demandent le diagnostic de performance énergétique complet.",
+    suite: "Le diagnostic leur est envoyé ce soir. Une offre est possible la semaine prochaine : on t'appelle dès qu'elle arrive.",
+  },
+];
+
+/* ---------- L'estimation : les créneaux (exemple) ---------- */
+
+export const JOURS_ESTIMATION = [
+  { id: "jeudi", libelle: "Jeudi", date: "22 octobre", heures: [{ h: "9\u00A0h", pris: true }, { h: "14\u00A0h", pris: false }, { h: "17\u00A0h\u00A030", pris: true }] },
+  { id: "vendredi", libelle: "Vendredi", date: "23 octobre", heures: [{ h: "9\u00A0h", pris: false }, { h: "11\u00A0h", pris: true }, { h: "16\u00A0h", pris: false }] },
+  { id: "samedi", libelle: "Samedi", date: "24 octobre", heures: [{ h: "9\u00A0h", pris: true }, { h: "10\u00A0h", pris: false }, { h: "11\u00A0h\u00A030", pris: false }] },
+];
+
 /* ---------- Questions ---------- */
 
 export const QUESTIONS = [
@@ -198,6 +262,22 @@ export const QUESTIONS = [
   {
     q: "Pourquoi l'adresse n'est-elle pas sur l'annonce\u00A0?",
     r: "Parce que l'annonce porte le prénom de ceux qui vendent. Avec l'adresse, elle dirait à tout le monde où ils vivent, et quand la maison sera vide. On la donne à ceux qui visitent.",
+  },
+  {
+    q: "Combien prenez-vous, exactement\u00A0?",
+    r: "Au plus ce que dit le barème : 7 %, 5 % ou 4 % TTC du prix hors honoraires, selon la tranche. Le montant exact est écrit dans le mandat, avant la première visite, et il ne peut pas dépasser le barème.",
+  },
+  {
+    q: "Pourquoi les agences ne répondent pas\u00A0?",
+    r: "Souvent parce qu'il n'y a rien de neuf, et qu'on n'ose pas le dire. Chez nous, chaque visite donne un compte rendu écrit, sur la page du vendeur, le soir même, même quand il n'y a rien à espérer.",
+  },
+  {
+    q: "Les visiteurs sont-ils nommés dans le compte rendu\u00A0?",
+    r: "Jamais. Le compte rendu dit ce qui a plu, ce qui freine et la suite : ni nom, ni situation personnelle. Les visiteurs savent qu'un compte rendu anonyme est fait.",
+  },
+  {
+    q: "L'estimation est payante\u00A0?",
+    r: "Non : l'avis de valeur écrit est à 0 €, et il est dans le barème comme le reste. Il ne vous engage à rien, et il dit sur quoi repose le prix : les ventes comparables, l'état, ce qui est à refaire.",
   },
   {
     q: "Qui paie vos honoraires\u00A0?",

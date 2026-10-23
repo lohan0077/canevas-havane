@@ -1,51 +1,83 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { adressesDeLaPage } from "@/lib/seo";
-import { DOSSIER, ESSENCES, LIVRAISON, euros, hauteur, metres } from "../_composants/donnees";
-import { Surtitre } from "../_composants/Elements";
+import Apparition from "../../_kit/Apparition";
+import TitreRevele from "../../_kit/TitreRevele";
+import { AppelFinal, EnTetePage, Surtitre } from "../_composants/Blocs";
+import { Fruit } from "../_composants/Dessins";
+import { DOSSIER, ESSENCES, FRUITIERS, LIVRAISON, PHOTOS, euros, metres, recolteDe } from "../_composants/donnees";
 
 export const metadata: Metadata = {
-  title: "Ombre Lente — site de démonstration",
-  description: "Les quatre arbres d'ombrage d'une pépinière imaginaire, avec leur hauteur indicative à cinq, dix et vingt ans.",
+  title: "Nos arbres — Ombre Lente, site de démonstration",
+  description: "Le catalogue d'une pépinière imaginaire : quatre arbres d'ombre, et leur hauteur dans vingt ans ; six fruitiers, et l'été de leur première récolte. Prix TTC d'exemple.",
   ...adressesDeLaPage("/exemples/ombre-lente/arbres"),
 };
 
-export default function Arbres() {
+const PHOTOS_OMBRE = [PHOTOS.feuilles, PHOTOS.fleursTilleul, PHOTOS.arbreSeul, PHOTOS.tableOmbre];
+
+export default function NosArbres() {
   return (
-    <main className="mx-auto max-w-5xl px-5 py-16 sm:px-8">
-      <div className="max-w-2xl space-y-5">
-        <Surtitre>Nos arbres · saison 2026 – 2027</Surtitre>
-        <h1 className="text-[56px] font-normal sm:text-7xl">Quatre arbres, <span className="italic">quatre ombres.</span></h1>
-        <p className="text-[17px] leading-relaxed text-[var(--doux)]">
-          Des baliveaux à racines nues, livrés en novembre avec leur passeport phytosanitaire. Pour chacun, sa hauteur
-          indicative dans cinq, dix et vingt ans.
-        </p>
-      </div>
-      <ul className="mt-12 space-y-5">
-        {ESSENCES.map((e) => (
-          <li key={e.slug}>
-            <Link href={`${DOSSIER}/arbres/${e.slug}`} className="block rounded-[30px] border border-[var(--trait)] bg-[var(--carte)] p-6 sm:p-8">
-              <span className="flex flex-wrap items-baseline justify-between gap-3">
-                <span className="font-[family-name:var(--titres)] text-[34px] leading-tight sm:text-[42px]">{e.nom}</span>
-                <span className="text-xl font-bold tabular-nums">{euros(e.prix)} TTC</span>
-              </span>
-              <span className="mt-1 block text-[15px] italic text-[var(--doux)]">{e.latin} · {e.sol}</span>
-              <span className="mt-6 grid grid-cols-4 gap-2 border-t border-[var(--trait)] pt-5 text-center">
-                {[0, 5, 10, 20].map((n) => (
-                  <span key={n}>
-                    <span className="block text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--doux)]">{n === 0 ? "Livré" : `${n} ans`}</span>
-                    <span className="block text-[20px] font-bold tabular-nums">{metres(hauteur(e, n))}</span>
+    <main>
+      <EnTetePage surtitre="Le catalogue" titre="Dix arbres. *Tous lents.*" photo={PHOTOS.vergerRangs} origine="50% 45%">
+        Quatre arbres pour l&apos;ombre, six pour les fruits. Tous livrés le {LIVRAISON.date},
+        racines nues, avec leur passeport phytosanitaire.
+      </EnTetePage>
+
+      <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 md:py-28">
+        <div className="mb-10 space-y-5">
+          <Apparition><Surtitre annee="dans 20 ans">Pour l&apos;ombre</Surtitre></Apparition>
+          <TitreRevele texte="L'ombre, *sur la terrasse.*" className="text-[clamp(2.6rem,5.5vw,4.8rem)] leading-[0.95]" classeAccent="italic text-[var(--accent-texte)]" />
+        </div>
+        <ul className="grid gap-5 sm:grid-cols-2">
+          {ESSENCES.map((e, i) => (
+            <Apparition as="li" key={e.slug} delai={(i % 2) * 120}>
+              <Link href={`${DOSSIER}/arbres/${e.slug}`} className="group grid overflow-hidden rounded-[2rem] border border-[var(--trait)] bg-[var(--carte)] sm:grid-cols-[0.9fr_1.1fr]">
+                <span className="relative block h-56 bg-[var(--sombre)] sm:h-full">
+                  <Image src={PHOTOS_OMBRE[i].src} alt={PHOTOS_OMBRE[i].alt} fill sizes="(min-width: 640px) 22vw, 100vw" className="object-cover transition-transform duration-[1.4s] group-hover:scale-[1.06]" />
+                </span>
+                <span className="space-y-3 p-6">
+                  <span className="block text-[13px] italic text-[var(--doux)]">{e.latin}</span>
+                  <span className="block font-[family-name:var(--titres)] text-[32px] leading-tight">{e.nom}</span>
+                  <span className="block leading-relaxed text-[var(--doux)]">{e.phrase}</span>
+                  <span className="flex items-baseline justify-between border-t border-[var(--trait)] pt-3">
+                    <span className="text-[15px]">{metres(e.depart)} → {metres(e.vingt)} <span className="text-[var(--doux)]">en 20 ans</span></span>
+                    <span className="font-semibold tabular-nums">{euros(e.prix)}</span>
                   </span>
-                ))}
-              </span>
-            </Link>
-          </li>
-        ))}
-      </ul>
-      <p className="mt-8 text-[14px] leading-relaxed text-[var(--doux)]">
-        Prix TTC d&apos;exemple, livraison {euros(LIVRAISON)}. Hauteurs indicatives d&apos;exemple : une croissance moyenne en bon
-        sol, selon l&apos;essence, l&apos;eau et la taille.
-      </p>
+                </span>
+              </Link>
+            </Apparition>
+          ))}
+        </ul>
+      </section>
+
+      <section className="bg-[#E9DDBF]">
+        <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 md:py-28">
+          <div className="mb-10 space-y-5">
+            <Apparition><Surtitre annee="dès 2028">Pour les fruits</Surtitre></Apparition>
+            <TitreRevele texte="Ta première récolte, *variété par variété.*" className="text-[clamp(2.6rem,5.5vw,4.8rem)] leading-[0.95]" classeAccent="italic text-[var(--accent-texte)]" />
+          </div>
+          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {FRUITIERS.map((a, i) => (
+              <Apparition as="li" key={a.slug} delai={(i % 3) * 100}>
+                <Link href={`${DOSSIER}/arbres/${a.slug}`} className="group flex h-full flex-col justify-between gap-6 rounded-[2rem] bg-[var(--carte)] p-6 transition-transform hover:-translate-y-1">
+                  <span className="flex items-start justify-between gap-4">
+                    <Fruit fruit={a.fruit} className="h-24 w-24 transition-transform duration-500 group-hover:-rotate-6" />
+                    <span className="rounded-full bg-[var(--sombre)] px-3 py-1 text-[13px] font-semibold text-[var(--sur-sombre)]">{recolteDe(a, "demi-tige")}</span>
+                  </span>
+                  <span className="space-y-2">
+                    <span className="block font-[family-name:var(--titres)] text-[30px] leading-tight">{a.espece} {a.variete}</span>
+                    <span className="block leading-relaxed text-[var(--doux)]">{a.phrase}</span>
+                    <span className="block text-[15px] font-semibold">dès {euros(a.prix.scion)} TTC</span>
+                  </span>
+                </Link>
+              </Apparition>
+            ))}
+          </ul>
+          <p className="mt-6 text-[13px]">Prix TTC et années de récolte d&apos;exemple : la pépinière est fictive.</p>
+        </div>
+      </section>
+      <AppelFinal />
     </main>
   );
 }

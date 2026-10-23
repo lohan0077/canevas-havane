@@ -1,9 +1,11 @@
-import type { FicheAncienne as Fiche } from "../_kit/fiche";
+import type { Fiche } from "../_kit/fiche";
 
 export const fiche: Fiche = {
   nom: "Lundi d'Après",
   metier: "Agence événementielle",
-  serie: "Créer une marque",
-  idee: "Une seule question, « Lundi, vos équipes diront quoi ? », et la soirée construite à l'envers à partir de cette phrase : lundi d'abord, puis 23 h, 21 h, 19 h.",
-  video: "marque-evenementiel",
+  secteur: "evenementiel",
+  groupe: "devis",
+  idee: "Ce dont vous parlerez lundi : une seule question — ce que vos équipes diront lundi, et la soirée se construit à l'envers ; ou la chanson interdite à votre mariage — puis la page honnête « DJ ou playlist ? » et les samedis libres, bloqués en ligne.",
+  image: "/exemples/lundi-d-apres/boule-or.webp",
+  ancien: "deux-heures",
 };

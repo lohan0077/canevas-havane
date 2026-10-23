@@ -1,9 +1,11 @@
-import type { FicheAncienne as Fiche } from "../_kit/fiche";
+import type { Fiche } from "../_kit/fiche";
 
 export const fiche: Fiche = {
   nom: "Tiers Regard",
   metier: "Diagnostiqueur immobilier",
-  serie: "Créer une marque",
-  idee: "Dans une vente, tout le monde a un intérêt ; le diagnostiqueur, aucun — c'est la loi, pour tous. La marque en fait son ton : « Je dis ce que je vois », et le rapport traduit en une seule page, ce qui va et ce qui cloche.",
-  video: "marque-diagnostiqueurs",
+  secteur: "diagnostiqueurs",
+  groupe: "rendez-vous",
+  idee: "Un diagnostiqueur qui dit ce qu'il voit, et qui parle au propriétaire : trois questions donnent la liste des diagnostics et leur prix, chaque lettre du DPE a sa page, le rapport se lit en une page, et le rendez-vous se prend en ligne, la certification en vue.",
+  image: "/exemples/tiers-regard/salon-cheminee.webp",
+  ancien: "de-a-a-g",
 };

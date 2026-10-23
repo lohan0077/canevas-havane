@@ -23,9 +23,9 @@ export default function MonAlarme({ complet = false }: { complet?: boolean }) {
 
   return (
     <div className="space-y-4">
-      <div className="rounded-[26px] bg-[var(--carte)] border border-[var(--trait)] p-5 space-y-4" data-film="chat">
+      <div className="space-y-4 rounded-[1.25rem] border border-[var(--trait)] bg-[var(--fond)] p-5" data-film="chat">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-texte)]">Avant tout</p>
-        <p className="font-[family-name:var(--titres)] text-3xl font-bold tracking-[-0.02em]">T&apos;as un animal&nbsp;?</p>
+        <p className="font-[family-name:var(--titres)] text-[2rem] font-semibold leading-tight tracking-[-0.04em]">T&apos;as un animal&nbsp;?</p>
         <div className="grid grid-cols-3 gap-2">
           {ANIMAUX.map((a) => (
             <button
@@ -73,7 +73,7 @@ export default function MonAlarme({ complet = false }: { complet?: boolean }) {
       </div>
 
       {complet && animal && (
-        <div className={`${s.reponse} rounded-[26px] bg-[var(--carte)] border border-[var(--trait)] p-5 space-y-4`}>
+        <div className={`${s.reponse} space-y-4 rounded-[1.25rem] border border-[var(--trait)] bg-[var(--fond)] p-5`}>
           <p className="font-[family-name:var(--titres)] text-2xl font-bold tracking-[-0.02em]">Ensuite : maison ou appartement&nbsp;?</p>
           <div className="grid grid-cols-2 gap-2">
             {(Object.keys(KITS) as (keyof typeof KITS)[]).map((k) => (

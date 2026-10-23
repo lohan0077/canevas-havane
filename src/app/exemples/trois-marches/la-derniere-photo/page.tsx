@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { adressesDeLaPage } from "@/lib/seo";
-import { Intitule } from "../_composants/Blocs";
+import Apparition from "../../_kit/Apparition";
+import TitreRevele from "../../_kit/TitreRevele";
+import { ACCENT, AppelFinal, EnTetePage, Surtitre, TITRE } from "../_composants/Blocs";
 import DernierePhoto from "../_composants/DernierePhoto";
 import Gravure from "../_composants/Gravure";
 import { photos } from "../_composants/donnees";
@@ -23,34 +25,29 @@ const ETAPES = [
 
 export default function PageDernierePhoto() {
   return (
-    <>
-      <section className="border-b border-[var(--trait)]">
-        <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:px-8 lg:grid-cols-2 lg:items-center">
-          <div className="space-y-6">
-            <Intitule gauche niveau={1} surtitre="Offerte à chaque vente" titre={<>La dernière photo, <span className="italic">devant la maison.</span></>}>
-              Celle qu&apos;on oublie de prendre, parce qu&apos;on a la tête dans les cartons. On la prend pour
-              vous, sur le perron, et on vous la donne tirée sur papier.
-            </Intitule>
-            <ul className="space-y-2 text-[16px]">
-              <li>· Comprise dans nos honoraires : 0 € de plus, inscrite au barème.</li>
-              <li>· Seulement avec l&apos;accord écrit de chacun.</li>
-              <li>· Jamais publiée, ni sur ce site, ni ailleurs.</li>
-            </ul>
-          </div>
-          <div className="relative mx-auto w-full max-w-[400px] rotate-[2deg] bg-[var(--carte)] p-4 pb-16 shadow-[0_24px_50px_rgba(62,58,54,0.18)]">
+    <main>
+      <EnTetePage
+        surtitre="Offerte à chaque vente"
+        titre="La dernière photo, *devant la maison.*"
+        aCote={
+          <div className="relative mx-auto w-full max-w-[360px] rotate-[2deg] bg-white p-4 pb-16 shadow-[0_30px_60px_-20px_rgba(62,58,54,0.35)]">
             <div className="relative aspect-[3/4]">
-              <Image src={photos.perron.src} alt={photos.perron.alt} fill priority sizes="400px" className="object-cover" />
+              <Image src={photos.perron.src} alt={photos.perron.alt} fill priority sizes="360px" className="object-cover" />
             </div>
-            <p className="absolute bottom-4 left-0 right-0 text-center font-[family-name:var(--f-caveat)] text-[26px]">En attendant la vôtre</p>
+            <p className="absolute bottom-4 left-0 right-0 text-center font-[family-name:var(--f-caveat)] text-[28px]">En attendant la vôtre</p>
           </div>
-        </div>
-      </section>
+        }
+      >
+        Celle qu&apos;on oublie de prendre, parce qu&apos;on a la tête dans les cartons. On la prend pour
+        vous, sur le perron, et on vous la donne tirée sur papier. Comprise dans nos honoraires,
+        inscrite au barème à 0 € ; seulement avec l&apos;accord écrit de chacun ; jamais publiée.
+      </EnTetePage>
 
-      <section className="mx-auto max-w-6xl px-5 py-16 sm:px-8">
-        <ol className="grid gap-8 md:grid-cols-3">
+      <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 md:py-28">
+        <ol className="grid grid-cols-1 gap-5 md:grid-cols-3">
           {ETAPES.map((e, i) => (
-            <li key={e.titre} className="space-y-3 border-t border-[var(--encre)] pt-5">
-              <p className="font-[family-name:var(--titres)] text-[44px] leading-none">{i + 1}</p>
+            <li key={e.titre} className="space-y-3 rounded-t-[999px] border border-[var(--trait)] bg-[var(--carte)] px-7 pb-8 pt-16">
+              <p className="text-center font-[family-name:var(--titres)] text-[54px] italic leading-none text-[var(--accent-texte)]">{i + 1}</p>
               <h2 className="text-[26px] font-normal">{e.titre}</h2>
               <p className="leading-relaxed text-[var(--doux)]">{e.texte}</p>
             </li>
@@ -59,16 +56,17 @@ export default function PageDernierePhoto() {
       </section>
 
       <section className="bg-[#E9EFE6]">
-        <div className="mx-auto grid max-w-6xl gap-12 px-5 py-16 sm:px-8 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="mx-auto grid grid-cols-1 max-w-7xl gap-12 px-5 py-20 sm:px-8 md:py-28 lg:grid-cols-[0.9fr_1.1fr]">
           <div className="space-y-6">
-            <Intitule gauche surtitre="Vous vendez avec nous" titre={<>Choisir <span className="italic">le moment.</span></>}>
-              Le moment, puis l&apos;accord. Pour un enfant, il faut celui de ses deux parents.
-            </Intitule>
+            <Apparition><Surtitre>Vous vendez avec nous</Surtitre></Apparition>
+            <TitreRevele texte="Choisir *le moment.*" className={`text-[clamp(2.8rem,5.6vw,5rem)] ${TITRE}`} classeAccent={ACCENT} />
+            <p className="text-[18px] leading-relaxed text-[var(--doux)]">Le moment, puis l&apos;accord. Pour un enfant, il faut celui de ses deux parents.</p>
             <Gravure id="tm-photo" className="w-full max-w-[380px] text-[var(--encre)]" />
           </div>
           <DernierePhoto />
         </div>
       </section>
-    </>
+      <AppelFinal />
+    </main>
   );
 }

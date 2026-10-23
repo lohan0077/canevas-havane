@@ -2,193 +2,246 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { adressesDeLaPage } from "@/lib/seo";
-import { DOSSIER, ETAPES, QUESTIONS, RECETTES, entreprise, photos } from "./_composants/donnees";
-import { Eventail, Faq, Note } from "./_composants/Blocs";
+import Accordeon from "../_kit/Accordeon";
+import Apparition from "../_kit/Apparition";
+import CarteLueur from "../_kit/CarteLueur";
+import Defilant from "../_kit/Defilant";
+import PhotoCinema from "../_kit/PhotoCinema";
+import RecitColle from "../_kit/RecitColle";
+import TitreRevele from "../_kit/TitreRevele";
+import { AppelFinal, Bouton, CartesMenu, Eventail, MOUTARDE, Note, SAUCE, Tirage } from "./_composants/Blocs";
 import EnvoiRecette from "./_composants/EnvoiRecette";
+import Invites from "./_composants/Invites";
+import { COMPRIS, DEGUSTATIONS, DOSSIER, ETAPES, MARIAGES, MENU_EXEMPLE, QUESTIONS, RECETTES, euros, photos, prixParPersonne } from "./_composants/donnees";
 
-// L'accueil de Transmis. La vidéo : « Sur le site, un seul bouton : envoie ta recette
-// de famille. En photo. La page du cahier, tachée de sauce. » Autour : ce qu'on vend
-// (de la mémoire), le chemin de la page à la table, la carte de table, le prix par
-// personne, les allergies, la vidéo du mois (avec l'accord de la personne filmée).
+// L'accueil de Transmis. « Créer une marque » : « Sur le site, un seul bouton : envoie ta
+// recette de famille. En photo. » (#recette). « Remplir l'agenda » : « Sur l'accueil, une
+// seule question : combien d'invités ? Tu glisses, et le prix par personne s'affiche.
+// Avec un menu complet, en exemple. » (#outil-invites, #menu-exemple).
 export const metadata: Metadata = {
-  title: "Transmis — site de démonstration",
-  description: "Site de démonstration d'une maison de traiteur imaginaire, réalisé par Canevas Havane : envoie la page du cahier, on sert la recette de ta famille à 120.",
+  title: "Transmis — traiteur, site de démonstration",
+  description:
+    "Le site d'une maison de traiteur imaginaire qui sert la recette de ta famille à cent vingt : envoie la page du cahier, viens goûter, et vois le prix par personne selon tes invités.",
   ...adressesDeLaPage("/exemples/transmis"),
 };
 
+const TITRE = "font-[family-name:var(--titres)] font-normal leading-[0.95] tracking-[-0.02em]";
+
 export default function Transmis() {
   return (
-    <div>
-      {/* 1 · Le nom, et les recettes de famille en éventail. */}
-      <section className="overflow-hidden px-5 pt-10 pb-12 sm:pt-16 text-center">
-        <p className="text-[12px] font-semibold uppercase tracking-[0.28em] text-[var(--doux)]">Maison de traiteur</p>
-        <h1 className="mt-3 text-[84px] sm:text-[160px] italic font-normal tracking-[-0.02em] leading-[0.9]">Transmis</h1>
-        <p className="mx-auto mt-4 max-w-md font-[family-name:var(--titres)] text-[24px] sm:text-[30px] leading-snug">
-          La recette de ta famille, <em className="text-[var(--accent-texte)]">servie à 120.</em>
-        </p>
-        <div className="mt-8">
-          <Eventail />
+    <main>
+      {/* ---------- Premier écran : le papier, le titre, les fiches en éventail ---------- */}
+      <section className="relative flex min-h-[100svh] flex-col overflow-hidden bg-[var(--fond)] [background-image:repeating-linear-gradient(180deg,transparent_0_39px,rgba(201,214,227,.45)_39px_40px)]">
+        <div aria-hidden="true" className="absolute inset-y-0 left-[8%] hidden w-px bg-[#E3A39A] md:block" />
+        <Apparition de="gauche" delai={700} className="absolute left-[3%] top-[22%] hidden w-[220px] [clip-path:none] xl:block">
+          <Tirage photo={photos.mains} angle={-6} sizes="220px" />
+        </Apparition>
+        <Apparition de="droite" delai={850} className="absolute right-[3%] top-[18%] hidden w-[230px] [clip-path:none] xl:block">
+          <Tirage photo={photos.ragout} angle={5} sizes="230px" />
+        </Apparition>
+        <div className="relative mx-auto flex w-full max-w-5xl flex-1 flex-col items-center px-5 pt-32 text-center sm:px-8 md:pt-40">
+          <Apparition><Note className="mx-auto w-fit">maison de traiteur · depuis la recette</Note></Apparition>
+          <TitreRevele
+            as="h1"
+            auChargement
+            texte="Le plat de ta grand-mère, *servi à 120.*"
+            className={`mt-6 text-[clamp(3.6rem,9.5vw,8.6rem)] ${TITRE}`}
+            classeAccent={SAUCE}
+          />
+          <Apparition as="p" delai={500} className="mt-7 max-w-2xl text-lg leading-relaxed text-[var(--doux)] md:text-xl">
+            Une recette, ça ne s&apos;achète pas&nbsp;: ça se transmet. Envoie la page du cahier, on la refait en cuisine, tu viens
+            goûter — et le jour J, on la sert à tous tes invités.
+          </Apparition>
+          <Apparition delai={700} className="mt-8 flex flex-wrap justify-center gap-3">
+            <Bouton href={`${DOSSIER}#recette`}>Envoyer ma recette</Bouton>
+            <Bouton href={`${DOSSIER}#invites`} variante="trait">Combien d&apos;invités&nbsp;?</Bouton>
+          </Apparition>
+          <div className="mt-auto w-full pt-10">
+            <Eventail />
+          </div>
         </div>
-        <ul className="mx-auto mt-6 flex max-w-2xl flex-wrap justify-center gap-2">
-          {RECETTES.map((r) => (
-            <li key={r.plat} className="rounded-full border border-[var(--trait)] bg-[var(--carte)] px-4 py-1.5 text-[14px]">
-              {r.plat} <span className="text-[var(--doux)]">· {r.de}</span>
-            </li>
+      </section>
+
+      {/* ---------- Les recettes, en défilé ---------- */}
+      <div className="bg-[var(--sombre)] py-5 text-[var(--sur-sombre)]">
+        <Defilant
+          duree={50}
+          separateur="✻"
+          elements={RECETTES.map((r) => `${r.plat} de ${r.de}, ${r.annee}`)}
+          classeElement="whitespace-nowrap font-[family-name:var(--titres)] text-2xl italic md:text-3xl"
+        />
+      </div>
+
+      {/* ---------- Un seul bouton : envoie ta recette ---------- */}
+      <section id="recette" className="scroll-mt-24 mx-auto grid max-w-7xl gap-12 px-5 py-24 sm:px-8 md:py-32 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+        <div className="space-y-6 lg:sticky lg:top-28">
+          <Apparition><Note>un seul bouton.</Note></Apparition>
+          <TitreRevele texte="Envoie ta recette *de famille.*" className={`text-[clamp(3rem,6.5vw,5.8rem)] ${TITRE}`} classeAccent={SAUCE} />
+          <Apparition as="p" delai={150} className="max-w-md text-lg leading-relaxed text-[var(--doux)]">
+            En photo. La page du cahier, telle qu&apos;elle est&nbsp;: tachée de sauce, raturée, avec «&nbsp;une bonne poignée&nbsp;» en
+            guise de mesure. C&apos;est elle qu&apos;on veut.
+          </Apparition>
+        </div>
+        <Apparition de="zoom" className="rounded-[28px] border border-[var(--trait)] bg-[#F3EAD7] p-4 shadow-[0_40px_80px_-50px_rgba(31,59,45,.8)] sm:p-7">
+          <EnvoiRecette />
+        </Apparition>
+      </section>
+
+      {/* ---------- Combien d'invités ? : la bande sombre aux coins arrondis ---------- */}
+      <section id="invites" className="scroll-mt-20 px-3 sm:px-5">
+        <div className="kit-grain relative overflow-hidden rounded-[2.5rem] bg-[var(--sombre)] text-[var(--sur-sombre)]">
+          <div aria-hidden="true" className="pointer-events-none absolute -right-40 -top-40 h-[520px] w-[520px] rounded-full bg-[radial-gradient(closest-side,rgba(233,196,106,0.2),transparent)]" />
+          <div className="relative mx-auto grid max-w-6xl gap-12 px-6 py-20 sm:px-10 md:py-28 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+            <div className="space-y-6">
+              <Apparition><Note clair>une seule question</Note></Apparition>
+              <TitreRevele texte={"Combien *d'invités ?*"} className={`text-[clamp(3.4rem,7vw,6.4rem)] ${TITRE}`} classeAccent={MOUTARDE} />
+              <Apparition as="p" delai={150} className="max-w-md text-lg leading-relaxed text-[var(--sur-sombre)]/90">
+                Tu glisses, et le prix par personne s&apos;affiche. Toutes taxes comprises, pour un menu complet. Pas de «&nbsp;sur
+                devis&nbsp;» pour savoir si tu peux te le permettre.
+              </Apparition>
+            </div>
+            <Apparition de="droite"><Invites /></Apparition>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- Le menu complet, en exemple ---------- */}
+      <section id="menu-exemple" className="scroll-mt-20 mx-auto max-w-7xl space-y-10 px-5 py-24 sm:px-8 md:py-32">
+        <div className="grid gap-6 md:grid-cols-2 md:items-end">
+          <div className="space-y-5">
+            <Apparition><Note>un menu complet, en exemple</Note></Apparition>
+            <TitreRevele texte="Le menu *de juin.*" className={`text-[clamp(3rem,6.5vw,5.8rem)] ${TITRE}`} classeAccent={SAUCE} />
+          </div>
+          <Apparition as="p" delai={150} className="text-lg leading-relaxed text-[var(--doux)]">
+            Une entrée et un dessert de saison, et au milieu, le plat de ta famille. Chaque plat dit ce qu&apos;il contient&nbsp;:
+            les quatorze allergènes, plat par plat.
+          </Apparition>
+        </div>
+        <CartesMenu menu={MENU_EXEMPLE} />
+        <Apparition className="grid gap-6 rounded-[28px] border border-[var(--trait)] bg-[var(--carte)] p-6 sm:p-8 md:grid-cols-[1.2fr_1fr] md:items-center">
+          <ul className="grid gap-2.5 sm:grid-cols-2">
+            {COMPRIS.map((c) => (
+              <li key={c} className="flex gap-3"><span aria-hidden="true" className="text-[var(--accent-texte)]">✓</span>{c}</li>
+            ))}
+          </ul>
+          <div className="space-y-3">
+            <p className="font-[family-name:var(--titres)] text-[52px] leading-none tabular-nums">
+              {euros(prixParPersonne(100))} <span className="font-[family-name:var(--texte)] text-[16px]">TTC par personne</span>
+            </p>
+            <p className="text-[14px] text-[var(--doux)]">Pour 100 invités · prix d&apos;exemple</p>
+            <Bouton href={`${DOSSIER}/degustation`}>Viens goûter ce menu</Bouton>
+          </div>
+        </Apparition>
+      </section>
+
+      {/* ---------- De la recette à la table, raconté ---------- */}
+      <section className="border-y border-[var(--trait)] bg-[#F3EAD7]">
+        <div className="mx-auto max-w-7xl px-5 py-24 sm:px-8 md:py-32">
+          <div className="mb-6 space-y-5 md:mb-0">
+            <Apparition><Note>de la page à la table</Note></Apparition>
+            <TitreRevele texte="Et c'est ta grand-mère *qui valide.*" className={`max-w-4xl text-[clamp(3rem,6.5vw,5.8rem)] ${TITRE}`} classeAccent={SAUCE} />
+          </div>
+          <RecitColle
+            etapes={ETAPES.map((e, i) => ({
+              surtitre: `Étape ${i + 1}`,
+              titre: e.titre,
+              texte: <p>{e.texte}</p>,
+              visuel: <Image src={photos[e.photo].src} alt={photos[e.photo].alt} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />,
+            }))}
+          />
+          <Apparition className="mt-6"><Bouton href={`${DOSSIER}/de-la-recette-a-la-table`}>Ouvrir le carnet d&apos;essais</Bouton></Apparition>
+        </div>
+      </section>
+
+      {/* ---------- Dix secondes de silence ---------- */}
+      <section className="kit-grain relative isolate overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
+        <PhotoCinema src={photos.sauce.src} alt="" origine="50% 50%" className="opacity-45" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(22,41,31,0.55)_0%,rgba(22,41,31,0.92)_75%)]" />
+        <div className="relative mx-auto max-w-5xl space-y-6 px-5 py-32 text-center sm:px-8 md:py-44">
+          <Apparition><Note clair className="mx-auto w-fit">le jour J</Note></Apparition>
+          <TitreRevele
+            texte={"Les assiettes arrivent. *Dix secondes de silence.*"}
+            className={`mx-auto text-[clamp(3rem,7.5vw,6.8rem)] ${TITRE}`}
+            classeAccent={MOUTARDE}
+          />
+          <Apparition as="p" delai={200} className="mx-auto max-w-2xl text-lg leading-relaxed text-[var(--sur-sombre)]/90">
+            Toutes ensemble, au signal du chef. Et sur chaque table, une carte&nbsp;: d&apos;où vient le plat, et qui l&apos;a
+            transmis. Ça ne vend pas un repas&nbsp;: ça vend de la mémoire.
+          </Apparition>
+          <Apparition delai={300} className="flex justify-center"><Bouton href={`${DOSSIER}/carte-de-table`} variante="creme">Écrire ma carte de table</Bouton></Apparition>
+        </div>
+      </section>
+
+      {/* ---------- Une page par mariage : le bento ---------- */}
+      <section className="mx-auto max-w-7xl px-5 py-24 sm:px-8 md:py-32">
+        <div className="mb-12 grid gap-6 md:grid-cols-[1fr_0.8fr] md:items-end">
+          <div className="space-y-5">
+            <Apparition><Note>ce que les gens tapent</Note></Apparition>
+            <TitreRevele texte="Chaque mariage *devient une page.*" className={`text-[clamp(3rem,6.5vw,5.8rem)] ${TITRE}`} classeAccent={SAUCE} />
+          </div>
+          <Apparition as="p" delai={150} className="text-lg leading-relaxed text-[var(--doux)]">
+            «&nbsp;Combien coûte un traiteur de mariage pour 100 personnes&nbsp;?&nbsp;» Voilà la réponse&nbsp;: le nombre d&apos;invités, le menu,
+            le plat de famille, le prix par personne. Des exemples&nbsp;: aucun nom, aucune photo d&apos;invités.
+          </Apparition>
+        </div>
+        <ul className="grid gap-4 md:grid-cols-6">
+          {MARIAGES.map((m, i) => (
+            <Apparition as="li" key={m.slug} delai={i * 120} de="zoom" className={i === 0 ? "md:col-span-3 md:row-span-2" : "md:col-span-3"}>
+              <CarteLueur className="h-full rounded-[26px]">
+                <Link href={`${DOSSIER}/mariages/${m.slug}`} className="group relative flex h-full min-h-[260px] flex-col justify-end overflow-hidden rounded-[26px] bg-[var(--sombre)] p-6 text-[var(--sur-sombre)] md:min-h-[300px]">
+                  <Image src={m.photo.src} alt="" fill sizes="(min-width: 768px) 50vw, 100vw" className="object-cover opacity-55 transition-transform duration-[1.4s] ease-out group-hover:scale-[1.06]" />
+                  <span className="absolute inset-0 bg-[linear-gradient(180deg,rgba(22,41,31,0.15)_20%,rgba(22,41,31,0.95)_100%)]" />
+                  <span className="relative space-y-2">
+                    <span className="block text-[12px] uppercase tracking-[0.22em] text-[#E9C46A]">Mariage n° {m.numero} · exemple</span>
+                    <span className="block font-[family-name:var(--titres)] text-[clamp(2rem,3.4vw,3rem)] leading-[1.02]">{m.titre}</span>
+                    <span className="block text-[15px] text-[var(--sur-sombre)]/90">{m.menu.plat.nom} · {euros(prixParPersonne(m.invites))} TTC par personne</span>
+                  </span>
+                </Link>
+              </CarteLueur>
+            </Apparition>
           ))}
         </ul>
-        <p className="mt-3 text-[13px] text-[var(--doux)]">Des exemples : les prénoms sont inventés.</p>
       </section>
 
-      {/* 2 · Un seul bouton : envoie ta recette. */}
-      <section id="recette" className="scroll-mt-16 border-y border-[var(--trait)] bg-[#F3EAD7]">
-        <div className="max-w-6xl mx-auto px-5 py-14 sm:py-20 grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-          <div className="space-y-4 lg:pt-4">
-            <Note>Un seul bouton.</Note>
-            <h2 className="text-[42px] sm:text-6xl font-normal">Envoie ta recette <em className="text-[var(--accent-texte)]">de famille.</em></h2>
-            <p className="text-lg leading-relaxed">
-              En photo. La page du cahier, telle qu&apos;elle est : tachée de sauce, raturée, avec « une bonne poignée » en
-              guise de mesure. C&apos;est elle qu&apos;on veut.
-            </p>
+      {/* ---------- La dégustation ---------- */}
+      <section className="border-t border-[var(--trait)] bg-[var(--carte)]">
+        <div className="mx-auto grid max-w-7xl gap-12 px-5 py-24 sm:px-8 md:py-32 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+          <div className="space-y-6">
+            <Apparition><Note>pour remplir le carnet</Note></Apparition>
+            <TitreRevele texte="Tu viens *goûter.*" className={`text-[clamp(3.2rem,7vw,6.2rem)] ${TITRE}`} classeAccent={SAUCE} />
+            <Apparition as="p" delai={150} className="max-w-md text-lg leading-relaxed text-[var(--doux)]">
+              La dégustation se réserve en ligne, comme une table au restaurant&nbsp;: un samedi, une heure, pour deux. Tu
+              goûtes ton menu et le dernier essai de ta recette.
+            </Apparition>
+            <Apparition delai={250}><Bouton href={`${DOSSIER}/degustation`}>Réserver ma dégustation</Bouton></Apparition>
           </div>
-          <EnvoiRecette />
-        </div>
-      </section>
-
-      {/* 3 · Pas un repas : de la mémoire. */}
-      <section className="max-w-6xl mx-auto px-5 py-16 sm:py-24 grid gap-10 md:grid-cols-[0.9fr_1.1fr] md:items-center">
-        <div className="relative mx-auto aspect-[2/3] w-full max-w-sm overflow-hidden rounded-[6px] rotate-[-1.5deg] shadow-[0_30px_60px_-34px_rgba(31,59,45,.7)]">
-          <Image src={photos.mains.src} alt={photos.mains.alt} fill sizes="(min-width: 768px) 380px, 90vw" className="object-cover" />
-        </div>
-        <div className="space-y-5">
-          <Note>Ce qu&apos;on sert vraiment</Note>
-          <p className="font-[family-name:var(--titres)] text-[44px] sm:text-6xl leading-[1.05]">
-            Pas un repas. <em className="text-[var(--accent-texte)]">De la mémoire.</em>
-          </p>
-          <p className="text-lg leading-relaxed text-[var(--doux)]">
-            Une recette, ça ne s&apos;achète pas : ça se transmet. Tout le monde a mangé des verrines à un mariage. Personne
-            n&apos;a mangé la blanquette de ta grand-mère, à cent vingt, le jour où tu te maries.
-          </p>
-        </div>
-      </section>
-
-      {/* 4 · De la page à la table. */}
-      <section className="bg-[var(--sombre)] text-[var(--sur-sombre)] [--doux:#C8D3CB] [--accent-texte:#E9C46A]">
-        <div className="max-w-6xl mx-auto px-5 py-16 sm:py-24 space-y-10">
-          <h2 className="text-[42px] sm:text-6xl font-normal">De la page <em className="text-[var(--accent-texte)]">à la table.</em></h2>
-          <ol className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {ETAPES.map((e, i) => (
-              <li key={e.titre} className="space-y-2 border-t border-[var(--sur-sombre)]/40 pt-4">
-                <p className="font-[family-name:var(--f-caveat)] text-[34px] leading-none text-[var(--accent-texte)]">{i + 1}.</p>
-                <h3 className="text-[26px] italic leading-tight">{e.titre}</h3>
-                <p className="leading-relaxed text-[var(--doux)]">{e.texte}</p>
-              </li>
+          <Apparition de="droite" className="grid grid-cols-2 gap-2.5">
+            {DEGUSTATIONS.map((c) => (
+              <div key={c.id} className={`rounded-[18px] border px-4 py-3 ${c.pris ? "border-[var(--trait)] text-[var(--doux)]" : "border-[var(--encre)]/30 bg-[var(--fond)]"}`}>
+                <p className="font-[family-name:var(--titres)] text-[22px] leading-tight">{c.jour}</p>
+                <p className="text-[14px]">{c.heure} · pour deux · {c.pris ? "complet" : "libre"}</p>
+              </div>
             ))}
-          </ol>
-          <Link href={`${DOSSIER}/de-la-recette-a-la-table`} className="inline-flex h-12 items-center rounded-full bg-[var(--sur-sombre)] px-6 font-semibold text-[var(--sombre)]">
-            Le carnet d&apos;essais
-          </Link>
+            <p className="col-span-2 text-[13px] text-[var(--doux)]">Créneaux d&apos;exemple : l&apos;entreprise est fictive.</p>
+          </Apparition>
         </div>
       </section>
 
-      {/* 5 · La carte de table. */}
-      <section className="max-w-6xl mx-auto px-5 py-16 sm:py-24 grid gap-10 md:grid-cols-[1fr_1fr] md:items-center">
-        <div className="space-y-5">
-          <Note>Le jour J</Note>
-          <h2 className="text-[42px] sm:text-6xl font-normal">Sur chaque table, <em className="text-[var(--accent-texte)]">une carte.</em></h2>
-          <p className="text-lg leading-relaxed text-[var(--doux)]">
-            D&apos;où vient le plat, et qui l&apos;a transmis. Écrite avec toi, avec ton histoire vraie : on n&apos;invente ni une
-            date, ni une ville.
-          </p>
-          <Link href={`${DOSSIER}/carte-de-table`} className="inline-flex h-12 items-center rounded-full bg-[var(--accent)] px-6 font-semibold text-[var(--sur-accent)]">
-            Écrire ma carte
-          </Link>
+      {/* ---------- Questions ---------- */}
+      <section id="questions" className="scroll-mt-24 mx-auto grid max-w-7xl gap-12 px-5 py-24 sm:px-8 md:py-32 lg:grid-cols-[0.75fr_1.25fr]">
+        <div className="space-y-6">
+          <Apparition><Note>tes questions</Note></Apparition>
+          <TitreRevele texte="Avant de *nous écrire.*" className={`text-[clamp(3rem,5.5vw,4.8rem)] ${TITRE}`} classeAccent={SAUCE} />
+          <Apparition de="droite" className="mt-6 hidden max-w-[260px] [clip-path:none] lg:block">
+            <Tirage photo={photos.papier} angle={-3} sizes="260px" />
+          </Apparition>
         </div>
-        <div className="mx-auto w-full max-w-sm rotate-[2deg] rounded-[6px] border border-[var(--trait)] bg-[var(--carte)] px-7 py-9 text-center shadow-[0_26px_50px_-30px_rgba(31,59,45,.6)]">
-          <p className="text-[12px] font-semibold uppercase tracking-[0.24em] text-[var(--doux)]">Plat principal</p>
-          <p className="mt-3 font-[family-name:var(--titres)] text-[30px] italic leading-tight">La blanquette de Mamie Jo</p>
-          <span aria-hidden="true" className="mx-auto my-5 block h-px w-16 bg-[var(--accent)]" />
-          <p className="leading-relaxed">Recette écrite en 1962, à Roanne.</p>
-          <p className="mt-2 leading-relaxed">Transmise à Léa, sa petite-fille, qui se marie ce soir.</p>
-          <p className="mt-6 font-[family-name:var(--titres)] text-[20px] italic text-[var(--accent-texte)]">Transmis</p>
-          <p className="mt-4 text-[12px] text-[var(--doux)]">Carte d&apos;exemple</p>
-        </div>
+        <Apparition delai={150}>
+          <Accordeon questions={QUESTIONS.map((q) => ({ question: q.q, reponse: q.r }))} />
+        </Apparition>
       </section>
 
-      {/* 6 · Le prix et les allergies. */}
-      <section className="border-y border-[var(--trait)] bg-[var(--carte)]">
-        <div className="max-w-6xl mx-auto px-5 py-16 sm:py-24 grid gap-10 md:grid-cols-[1fr_1fr]">
-          <div className="space-y-4">
-            <Note>Le prix, sans détour</Note>
-            <h2 className="text-[42px] sm:text-6xl font-normal">
-              <span className="[font-variant-numeric:lining-nums]">68 €</span> par personne, <em className="text-[var(--accent-texte)]">pour 120.</em>
-            </h2>
-            <p className="text-lg leading-relaxed text-[var(--doux)]">
-              Toutes taxes comprises, prix d&apos;exemple : entrée, le plat de ta famille, dessert, service, vaisselle, eaux et
-              café. Les essais et la dégustation sont compris.
-            </p>
-            <Link href={`${DOSSIER}/prix`} className="inline-flex font-semibold underline decoration-[var(--accent)] decoration-2 underline-offset-[6px]">
-              Le prix selon le nombre d&apos;invités →
-            </Link>
-          </div>
-          <div className="space-y-4">
-            <Note>Avant de commander</Note>
-            <h2 className="text-[42px] sm:text-5xl font-normal">Les allergies, <em className="text-[var(--accent-texte)]">d&apos;abord.</em></h2>
-            <p className="text-lg leading-relaxed text-[var(--doux)]">
-              Dès le premier essai, on note les allergènes de ta recette. Avant la commande, on te demande les allergies et
-              les régimes de tes invités. Et chaque plat servi dit ce qu&apos;il contient.
-            </p>
-            <p className="rounded-[12px] bg-[#F3EAD7] p-4 text-[15px] leading-relaxed">
-              Blanquette de Mamie Jo : <strong>lait, œufs, céleri</strong> (exemple).
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* 7 · La vidéo du mois. */}
-      <section className="max-w-6xl mx-auto px-5 py-16 sm:py-24 grid gap-10 md:grid-cols-[1.1fr_0.9fr] md:items-center">
-        <div className="space-y-5">
-          <Note>Chaque mois</Note>
-          <h2 className="text-[42px] sm:text-6xl font-normal">Une grand-mère, sa recette, <em className="text-[var(--accent-texte)]">120 assiettes.</em></h2>
-          <p className="text-lg leading-relaxed text-[var(--doux)]">
-            Une vidéo par mois : la page du cahier, les essais, la validation, le jour J. Filmée avec l&apos;accord écrit de la
-            personne, et seulement si elle le veut.
-          </p>
-        </div>
-        <div className="relative aspect-[3/2] overflow-hidden rounded-[6px] shadow-[0_26px_50px_-30px_rgba(31,59,45,.6)]">
-          <Image src={photos.papier.src} alt={photos.papier.alt} fill sizes="(min-width: 768px) 460px, 100vw" className="object-cover" />
-        </div>
-      </section>
-
-      {/* 8 · Les questions. */}
-      <section className="max-w-6xl mx-auto px-5 pb-16 sm:pb-24 grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
-        <div className="space-y-4">
-          <Note>Les questions</Note>
-          <h2 className="text-[42px] sm:text-6xl font-normal">Avant d&apos;ouvrir <em className="text-[var(--accent-texte)]">le cahier.</em></h2>
-          <div className="relative hidden lg:block aspect-[2/3] overflow-hidden rounded-[6px]">
-            <Image src={photos.ragout.src} alt={photos.ragout.alt} fill sizes="380px" className="object-cover" />
-          </div>
-        </div>
-        <Faq questions={QUESTIONS} />
-      </section>
-
-      {/* 9 · L'affiche. */}
-      <section className="bg-[var(--sombre)] text-[var(--sur-sombre)]">
-        <div className="max-w-4xl mx-auto px-5 py-16 sm:py-24 text-center space-y-6">
-          <p className="font-[family-name:var(--titres)] text-[44px] sm:text-7xl leading-[1.05]">
-            Ta grand-mère a une <em className="text-[#E9C46A]">recette&nbsp;?</em>
-          </p>
-          <p className="text-lg">On la sert à 120.</p>
-          <div className="flex flex-wrap justify-center gap-3">
-            <Link href={`${DOSSIER}#recette`} className="inline-flex h-14 items-center rounded-full bg-[var(--accent)] px-7 text-[17px] font-semibold text-[var(--sur-accent)]">
-              Envoyer ma recette
-            </Link>
-            <a href={`tel:${entreprise.telephoneLien}`} className="inline-flex h-14 items-center rounded-full border border-[var(--sur-sombre)] px-6 text-[17px] tabular-nums">
-              {entreprise.telephone}
-            </a>
-          </div>
-          <p className="text-sm text-[#C8D3CB]">Numéro fictif, réservé par l&apos;ARCEP aux œuvres de fiction.</p>
-        </div>
-      </section>
-    </div>
+      <AppelFinal />
+    </main>
   );
 }

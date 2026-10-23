@@ -1,9 +1,11 @@
-import type { FicheAncienne as Fiche } from "../_kit/fiche";
+import type { Fiche } from "../_kit/fiche";
 
 export const fiche: Fiche = {
   nom: "Veilleuse",
   metier: "Sécurité privée",
-  serie: "Créer une marque",
-  idee: "Une société de sécurité qui ne joue pas au policier : on veille, tu dors — et chaque soir, ton espace client te dit qui vient, avec sa carte professionnelle.",
-  video: "marque-securite",
+  secteur: "securite",
+  groupe: "devis",
+  idee: "Une société de sécurité qui vend le sommeil, pas la peur : tu sais qui vient ce soir et les références de sa carte, tu reçois le rapport de la nuit à 7 h, et le devis tient en trois questions.",
+  image: "/exemples/veilleuse/lune-sapins.webp",
+  ancien: "sans-histoire",
 };

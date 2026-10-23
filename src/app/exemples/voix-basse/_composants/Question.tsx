@@ -18,7 +18,7 @@ export default function Question({ titre = "h2" }: { titre?: "h1" | "h2" }) {
     <div className="space-y-8">
       <div data-film="question" className="space-y-6">
         <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--accent-texte)]">Avant de réserver, une seule question</p>
-        <Titre className="text-[52px] sm:text-7xl">
+        <Titre className="text-[clamp(3.2rem,8vw,6.6rem)] leading-[0.95] tracking-[-0.02em]">
           Ton animal est <em>stressé&nbsp;?</em>
         </Titre>
         <div role="radiogroup" aria-label="Ton animal est stressé ?" className="grid grid-cols-3 gap-2.5">

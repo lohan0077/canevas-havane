@@ -1,26 +1,26 @@
 import Cadre from "../_kit/Cadre";
-import EnTete from "./_composants/EnTete";
-import { PiedDeSite } from "./_composants/Blocs";
+import NavVerre from "../_kit/NavVerre";
+import { BarreStatut, Marque } from "./_composants/Blocs";
+import Pied from "./_composants/Pied";
+import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 
-// Dimanche Midi, cabinet de gestion de patrimoine fictif de la vidéo « Si je devais créer un
-// cabinet de gestion de patrimoine de zéro ». Les couleurs de la marque (vert, terre cuite,
-// moutarde, crème) ; l'esprit transposé du modèle « Heritage Grove » de MotionSites (fond
-// crème, grande gravure monochrome façon toile de Jouy, logo à emblème rond, encre d'une
-// seule couleur), sans texte ni code repris : ici, la gravure est une table de famille, et
-// l'emblème un cadran qui marque midi. Caveat sert à l'écriture du carnet. Le `noindex`
-// vient du layout de /exemples.
+// Dimanche Midi, cabinet de gestion de patrimoine fictif filmé dans les deux vidéos des
+// CGP (« Créer une marque » et « Remplir l'agenda », dont le site Ligne par Ligne est
+// fondu ici). Les couleurs de la marque : vert, terre cuite, moutarde, crème. Instrument
+// Serif pour les titres, Figtree pour lire, Caveat pour l'écriture du carnet. En haut de
+// chaque page, avant la navigation : le statut, écrit juste.
 export default function DimancheMidiLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
       entreprise="Dimanche Midi"
-      titres="lora"
-      texte="outfit"
+      titres="instrument"
+      texte="figtree"
       autres={["caveat"]}
       couleurs={{
         fond: "#FBF5EA",
         encre: "#22382C",
         doux: "#55604F",
-        accent: "#2F4A3A",
+        accent: "#A94A33",
         surAccent: "#FBF5EA",
         accentTexte: "#A3442E",
         carte: "#FFFDF8",
@@ -29,9 +29,16 @@ export default function DimancheMidiLayout({ children }: { children: React.React
         surSombre: "#FBF5EA",
       }}
     >
-      <EnTete />
-      {children}
-      <PiedDeSite />
+      <BarreStatut />
+      <NavVerre
+        accueil={DOSSIER}
+        marque={<Marque />}
+        liens={NAVIGATION}
+        action={{ href: `${DOSSIER}#rendez-vous`, libelle: "Rendez-vous" }}
+      />
+      {/* La marge du menu flottant (kit) laisse une bande de 12 px : le contenu remonte d'autant. */}
+      <div className="-mt-3">{children}</div>
+      <Pied />
     </Cadre>
   );
 }

@@ -1,9 +1,11 @@
-import type { FicheAncienne as Fiche } from "../_kit/fiche";
+import type { Fiche } from "../_kit/fiche";
 
 export const fiche: Fiche = {
   nom: "Dimanche Midi",
-  metier: "Conseiller en gestion de patrimoine",
-  serie: "Créer une marque",
-  idee: "Pas un placement : le dimanche où l'on parle d'argent en famille. Un carnet de famille qui reste sur le téléphone, et un dimanche par mois où le cabinet ouvre à midi.",
-  video: "marque-cgp",
+  metier: "Cabinet de gestion de patrimoine",
+  secteur: "cgp",
+  groupe: "rendez-vous",
+  idee: "Un cabinet qui fait parler d'argent en famille et dit ce qu'il gagne : le carnet de famille qui reste chez soi, le ticket des honoraires et des rétrocessions, des moments de vie plutôt que des produits.",
+  image: "/exemples/dimanche-midi/table-dressee.webp",
+  ancien: "ligne-par-ligne",
 };

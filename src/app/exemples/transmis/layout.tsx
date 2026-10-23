@@ -1,11 +1,13 @@
 import Cadre from "../_kit/Cadre";
-import EnTete from "./_composants/EnTete";
-import { PiedDeSite } from "./_composants/Blocs";
+import NavVerre from "../_kit/NavVerre";
+import { Marque } from "./_composants/Blocs";
+import Pied from "./_composants/Pied";
+import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 
-// Le site imaginé dans la vidéo « Si je devais créer une maison de traiteur de zéro ».
-// Mise en page inspirée du modèle « Book Hero » de MotionSites (un nom immense au
-// centre, des volumes en éventail dessous, des pastilles de catégories), transposée à
-// des fiches de recettes de famille, sur un papier de cahier. Le `noindex` vient du
+// Le site de Transmis, maison de traiteur imaginaire, filmé dans les deux vidéos des
+// traiteurs. Le papier du cahier de recettes, l'encre bleue des notes (Caveat), le vert
+// de la marque, la sauce tomate et la moutarde ; Playfair Display pour les titres (la
+// cousine libre du Big Caslon de la marque), Work Sans pour lire. Le `noindex` vient du
 // layout de /exemples.
 export default function TransmisLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -18,7 +20,7 @@ export default function TransmisLayout({ children }: { children: React.ReactNode
         fond: "#FBF6EC",
         encre: "#1F3B2D",
         doux: "#4E5F54",
-        accent: "#C8452F",
+        accent: "#B23B26",
         surAccent: "#FFFFFF",
         accentTexte: "#B23B26",
         carte: "#FFFFFF",
@@ -29,9 +31,14 @@ export default function TransmisLayout({ children }: { children: React.ReactNode
     >
       {/* Playfair a des chiffres « bas de casse » : partout ici, on les veut alignés. */}
       <div className="[font-variant-numeric:lining-nums]">
-        <EnTete />
+        <NavVerre
+          accueil={DOSSIER}
+          marque={<Marque />}
+          liens={NAVIGATION}
+          action={{ href: `${DOSSIER}/degustation`, libelle: "Dégustation" }}
+        />
         {children}
-        <PiedDeSite />
+        <Pied />
       </div>
     </Cadre>
   );

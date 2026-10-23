@@ -26,7 +26,10 @@
   .kit-apparait[data-de="flou"] { transform: none; filter: blur(18px); }
   /* Le rideau découvre une image de haut en bas, sans fondu. */
   .kit-apparait[data-de="rideau"] { opacity: 1; filter: none; transform: none; clip-path: inset(0 0 100% 0); }
-  .kit-apparait[data-vu] { opacity: 1; transform: none; filter: none; clip-path: inset(0 0 0 0); }
+  /* Seul le rideau passe par clip-path : sur les autres, un clip-path final rognerait
+     les ombres et les enfants pivotés (tirages photo, cartes en éventail). */
+  .kit-apparait[data-vu] { opacity: 1; transform: none; filter: none; }
+  .kit-apparait[data-de="rideau"][data-vu] { clip-path: inset(0 0 0 0); }
 
   /* Titre révélé mot à mot (composant TitreRevele). */
   .kit-mot {

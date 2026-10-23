@@ -18,7 +18,7 @@ export default function Depart() {
   const rempli = ((depart - 17 * 60) / (21 * 60 - 17 * 60)) * 100;
 
   return (
-    <div data-film="depart" className="rounded-[28px] border border-[var(--trait)] bg-[var(--carte)] p-5 sm:p-8 space-y-6">
+    <div data-film="depart" className="rounded-[14px] border border-[var(--trait)] bg-[var(--carte)] p-5 sm:p-8 space-y-6">
       <label className="block space-y-3">
         <span className="flex items-baseline justify-between gap-4">
           <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--doux)]">Vous partez à</span>

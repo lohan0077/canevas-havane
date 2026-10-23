@@ -1,13 +1,13 @@
 import type { FicheRecette } from "./donnees";
 
 /**
- * Une fiche de grand-mère, dessinée : papier ligné, écriture à la main, taches de
- * beurre. Aucune vraie fiche n'est montrée : les recettes sont inventées.
+ * Une fiche de grand-mère, dessinée : papier ligné, marge rouge, écriture à la main,
+ * taches de beurre. Aucune vraie fiche n'est montrée : les recettes sont inventées.
  */
 export default function Fiche({ fiche, angle = -2, punaise = false, className = "" }: { fiche: FicheRecette; angle?: number; punaise?: boolean; className?: string }) {
   return (
     <div
-      className={`relative rounded-[3px] bg-[#FFFDF2] px-5 pb-6 pt-5 text-[#2E2A4A] shadow-[0_18px_30px_-20px_rgba(61,29,19,0.7)] [background-image:linear-gradient(90deg,transparent_34px,#E8B4B4_34px_35px,transparent_35px),repeating-linear-gradient(transparent_0_29px,#D7DCEB_29px_30px)] ${className}`}
+      className={`relative rounded-[3px] bg-[#FFFDF2] px-5 pb-6 pt-5 text-[#2E2A4A] shadow-[0_22px_40px_-22px_rgba(61,29,19,0.75)] [background-image:linear-gradient(90deg,transparent_34px,#E8B4B4_34px_35px,transparent_35px),repeating-linear-gradient(transparent_0_29px,#D7DCEB_29px_30px)] ${className}`}
       style={{ transform: `rotate(${angle}deg)` }}
     >
       <i aria-hidden="true" className="absolute right-6 top-8 h-16 w-20 rounded-[50%] bg-[radial-gradient(closest-side,rgba(214,170,90,0.35),rgba(214,170,90,0.12)_70%,transparent)]" />

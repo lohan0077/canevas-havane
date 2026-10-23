@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { adressesDeLaPage } from "@/lib/seo";
+import Apparition from "../../_kit/Apparition";
+import TitreRevele from "../../_kit/TitreRevele";
+import { AppelFinal, Bouton, EnTetePage, Surtitre, TERRE } from "../_composants/Blocs";
 import { DOSSIER, photos } from "../_composants/donnees";
-import { Surtitre } from "../_composants/Blocs";
 
 // Le coup de lancement de la vidéo : « un bal, avec la mairie. Une tente sur la place du
 // village, un samedi soir. Ouverte à tout le monde. » Une tente qui reçoit du public ne
@@ -11,7 +12,7 @@ import { Surtitre } from "../_composants/Blocs";
 // Videos/marque-loueurs/SOURCES.md — CGPPP, art. L2122-1 ; ERP de type CTS). Date : un
 // exemple (le 4 septembre 2027 est bien un samedi). Aucune buvette n'est annoncée.
 export const metadata: Metadata = {
-  title: "Le bal · Pignon sur Pré — site de démonstration",
+  title: "Le bal — Pignon sur Pré, site de démonstration",
   description: "Un bal sous la tente, sur la place du village, avec la mairie, entrée libre. Site de démonstration : l'événement est un exemple.",
   ...adressesDeLaPage("/exemples/pignon-sur-pre/le-bal"),
 };
@@ -23,75 +24,71 @@ const ETAPES = [
   { titre: "Le lendemain", texte: "On démonte dans la matinée, la place est rendue propre avant midi." },
 ];
 
+const FICHE = [
+  ["Quand", "Samedi 4 septembre 2027"],
+  ["Où", "Place du village"],
+  ["Entrée", "Libre"],
+  ["Avec", "La mairie"],
+];
+
 export default function LeBal() {
   return (
-    <div>
-      <section className="bg-[var(--sombre)] text-[var(--sur-sombre)]">
-        <div className="max-w-6xl mx-auto px-5 pt-10 pb-14 sm:py-20 grid gap-10 md:grid-cols-[1fr_1fr] md:items-center">
-          <div className="space-y-5">
-            <Surtitre clair>Le lancement</Surtitre>
-            <h1 className="text-[52px] sm:text-7xl font-normal">Bal ce <em className="text-[#F2C98A]">samedi.</em></h1>
-            <p className="text-lg leading-relaxed text-[#E4EBDA]">
-              Une tente sur la place du village, un samedi soir. Ouverte à tout le monde, avec la mairie.
-            </p>
-            <dl className="grid grid-cols-2 gap-4 border-t border-[#E4EBDA]/40 pt-5">
-              <div>
-                <dt className="text-[13px] uppercase tracking-[0.16em] text-[#F2C98A]">Quand</dt>
-                <dd className="font-[family-name:var(--titres)] text-2xl">Samedi 4 septembre 2027</dd>
-              </div>
-              <div>
-                <dt className="text-[13px] uppercase tracking-[0.16em] text-[#F2C98A]">Où</dt>
-                <dd className="font-[family-name:var(--titres)] text-2xl">Place du village</dd>
-              </div>
-              <div>
-                <dt className="text-[13px] uppercase tracking-[0.16em] text-[#F2C98A]">Entrée</dt>
-                <dd className="font-[family-name:var(--titres)] text-2xl">Libre</dd>
-              </div>
-              <div>
-                <dt className="text-[13px] uppercase tracking-[0.16em] text-[#F2C98A]">Avec</dt>
-                <dd className="font-[family-name:var(--titres)] text-2xl">La mairie</dd>
-              </div>
-            </dl>
-            <p className="text-[13px] text-[#E4EBDA]">Événement d&apos;exemple : l&apos;entreprise est fictive.</p>
-          </div>
-          <div className="relative aspect-[3/2] overflow-hidden rounded-[28px]">
-            <Image src={photos.village.src} alt={photos.village.alt} fill priority sizes="(min-width: 768px) 540px, 100vw" className="object-cover" />
-          </div>
-        </div>
+    <main>
+      <EnTetePage surtitre="Le lancement" titre="Bal ce *samedi.*" photo={photos.village} origine="60% 55%">
+        Une tente sur la place du village, un samedi soir. Ouverte à tout le monde, avec la mairie. Événement d&apos;exemple&nbsp;:
+        l&apos;entreprise est fictive.
+      </EnTetePage>
+
+      <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 md:py-28">
+        <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-[26px] border border-[var(--trait)] bg-[var(--trait)] md:grid-cols-4">
+          {FICHE.map(([t, d], i) => (
+            <Apparition key={t} delai={i * 90} className="space-y-1 bg-[var(--carte)] p-6">
+              <dt className="text-[13px] uppercase tracking-[0.16em] text-[var(--accent-texte)]">{t}</dt>
+              <dd className="font-[family-name:var(--titres)] text-[26px] leading-tight">{d}</dd>
+            </Apparition>
+          ))}
+        </dl>
       </section>
 
-      <section className="max-w-6xl mx-auto px-5 py-16 sm:py-24 space-y-10">
-        <div className="space-y-4">
-          <Surtitre>Comment on l&apos;organise</Surtitre>
-          <h2 className="text-[40px] sm:text-6xl font-normal">Une fête ouverte à tous, <em className="text-[var(--accent-texte)]">ça s&apos;autorise.</em></h2>
-          <p className="max-w-2xl text-lg leading-relaxed text-[var(--doux)]">
-            Une tente qui reçoit du public ne se monte pas sans l&apos;autorisation de la mairie. Pour ce bal, c&apos;est la mairie
-            qui nous accueille sur sa place.
-          </p>
+      <section className="mx-auto max-w-7xl space-y-12 px-5 pb-24 sm:px-8 md:pb-32">
+        <div className="space-y-6">
+          <Apparition><Surtitre>Comment on l&apos;organise</Surtitre></Apparition>
+          <TitreRevele texte="Une fête ouverte à tous, *ça s'autorise.*" className="max-w-4xl font-[family-name:var(--titres)] text-[clamp(3rem,6vw,5.4rem)] font-normal leading-[0.92] tracking-[-0.03em]" classeAccent={TERRE} />
+          <Apparition as="p" delai={150} className="max-w-2xl text-lg leading-relaxed text-[var(--doux)]">
+            Une tente qui reçoit du public ne se monte pas sans l&apos;autorisation de la mairie. Pour ce bal, c&apos;est la mairie qui
+            nous accueille sur sa place.
+          </Apparition>
         </div>
         <ol className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {ETAPES.map((e, i) => (
-            <li key={e.titre} className="space-y-2 border-t-2 border-[var(--encre)] pt-4">
-              <p className="font-[family-name:var(--titres)] text-4xl text-[var(--accent-texte)]">{i + 1}</p>
-              <h3 className="text-[26px] leading-tight">{e.titre}</h3>
+            <Apparition as="li" key={e.titre} delai={i * 110} className="space-y-2 border-t-2 border-[var(--encre)] pt-4">
+              <p className="font-[family-name:var(--titres)] text-5xl italic text-[var(--accent-texte)]">{i + 1}</p>
+              <h3 className="font-[family-name:var(--titres)] text-[26px] font-normal leading-tight">{e.titre}</h3>
               <p className="leading-relaxed text-[var(--doux)]">{e.texte}</p>
-            </li>
+            </Apparition>
           ))}
         </ol>
       </section>
 
-      <section className="bg-[var(--carte)] border-y border-[var(--trait)]">
-        <div className="max-w-4xl mx-auto px-5 py-16 sm:py-24 text-center space-y-6">
-          <p className="font-[family-name:var(--titres)] text-[44px] sm:text-6xl leading-[1.05]">Et si on la faisait <em className="text-[var(--accent-texte)]">chez nous&nbsp;?</em></p>
-          <p className="text-lg leading-relaxed text-[var(--doux)]">
-            Un comité des fêtes, une association, une commune : on monte le dossier avec la mairie. Un mariage dans le pré :
-            on vient voir le terrain.
-          </p>
-          <Link href={`${DOSSIER}#pre`} className="inline-flex h-14 items-center rounded-full bg-[var(--accent)] px-6 text-[17px] font-semibold text-[var(--sur-accent)]">
-            Voir ma tente sur mon pré
-          </Link>
+      <section className="px-3 sm:px-5">
+        <div className="grid overflow-hidden rounded-[2.5rem] bg-[var(--accent)] text-[var(--sur-accent)] lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="space-y-6 px-6 py-16 sm:px-12 md:py-24">
+            <TitreRevele texte={"Et si on la faisait *chez nous ?*"} className="font-[family-name:var(--titres)] text-[clamp(3rem,6vw,5.4rem)] font-normal leading-[0.92] tracking-[-0.03em]" classeAccent="italic font-light" />
+            <p className="max-w-lg text-lg leading-relaxed">
+              Un comité des fêtes, une association, une commune&nbsp;: on monte le dossier avec la mairie. Un mariage dans le
+              pré&nbsp;: on vient voir le terrain.
+            </p>
+            <Bouton href={`${DOSSIER}#pre`} variante="creme">Voir ma tente sur mon pré</Bouton>
+          </div>
+          <div className="relative min-h-[300px]">
+            <Image src={photos.tenteNuit.src} alt={photos.tenteNuit.alt} fill sizes="(min-width: 1024px) 45vw, 100vw" className="object-cover" />
+          </div>
         </div>
       </section>
-    </div>
+
+      <div className="pt-24 md:pt-32">
+        <AppelFinal />
+      </div>
+    </main>
   );
 }

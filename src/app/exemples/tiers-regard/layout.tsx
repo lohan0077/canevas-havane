@@ -1,17 +1,19 @@
 import Cadre from "../_kit/Cadre";
-import EnTete from "./_composants/EnTete";
-import { PiedDeSite } from "./_composants/Blocs";
+import NavVerre from "../_kit/NavVerre";
+import { Marque } from "./_composants/Blocs";
+import Pied from "./_composants/Pied";
+import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 
-// Tiers Regard, diagnostiqueur immobilier fictif de la vidéo « Si je devais créer une
-// entreprise de diagnostic immobilier de zéro ». La nuit, le jaune de la marque, des
-// étiquettes techniques posées sur une vraie pièce : transposé du modèle « Alethia » de
-// MotionSites (un objet annoté de petites étiquettes sur fond nuit, un grand titre),
-// sans texte ni code repris. Le `noindex` vient du layout de /exemples.
+// Tiers Regard, diagnostiqueur immobilier fictif : le site des deux vidéos des
+// diagnostiqueurs (« Créer une marque » et « Remplir l'agenda », qui imaginait « De A à
+// G », fondu ici). La nuit, le jaune de la marque, et l'échelle de A à G pour seule
+// autre couleur. Polices : Sora pour les titres, Space Grotesk pour lire — un ton de
+// rapport technique. Toutes les pages s'ouvrent sur un écran sombre : `surSombre`.
 export default function TiersRegardLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
       entreprise="Tiers Regard"
-      titres="outfit"
+      titres="sora"
       texte="spaceGrotesk"
       couleurs={{
         fond: "#0F141C",
@@ -20,15 +22,21 @@ export default function TiersRegardLayout({ children }: { children: React.ReactN
         accent: "#F5D90A",
         surAccent: "#111827",
         accentTexte: "#F5D90A",
-        carte: "#1A2130",
+        carte: "#171E2A",
         trait: "#2A3344",
         sombre: "#070A10",
         surSombre: "#F3F4F6",
       }}
     >
-      <EnTete />
+      <NavVerre
+        accueil={DOSSIER}
+        marque={<Marque />}
+        liens={NAVIGATION}
+        action={{ href: `${DOSSIER}/rendez-vous`, libelle: "Rendez-vous" }}
+        surSombre
+      />
       {children}
-      <PiedDeSite />
+      <Pied />
     </Cadre>
   );
 }

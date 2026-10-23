@@ -1,0 +1,648 @@
+/* L'ouverture de l'accueil de Neuf Étés, transposée du modèle « Monolith
+   Hero » de MotionSites (licence : sites livrés et vendus autorisés, revente du
+   modèle lui-même interdite).
+
+   Toutes les mesures sont celles du modèle, lues sur une toile de 1280 × 800 :
+   --u est le pixel de référence, --t l'unité du texte. Les écarts au modèle sont
+   voulus et signalés là où ils sont faits :
+     - l'ouverture est un premier écran, pas une page fixe : la page défile ensuite
+       jusqu'au calculateur ;
+     - les chapitres inactifs passent de 30 % à 62 % d'opacité : à 30 %, le texte
+       donnait 2,3:1 sur la nuit du décor, loin des 4,5:1 exigés ;
+     - trois voiles sombres — en bas sous le texte, en haut sous les liens, à
+       gauche sous les chapitres — et une plaque de verre sous les chapitres sur
+       téléphone : mesurés image par image, les plans où la caméra survole la
+       pierre claire descendaient jusqu'à 1,1:1 sans eux ;
+     - le faux bouton « audio » du modèle (la page n'a pas de son) devient un vrai
+       bouton pause : une vidéo qui tourne en boucle doit pouvoir s'arrêter ;
+     - aux couleurs de Neuf Étés : la nuit bleue de la marque, le jaune soleil pour
+       seul accent, Arvo (la cousine libre du Rockwell de la marque) pour le titre et
+       les libellés, un titre en grand et en bas de casse ;
+     - pas de navigation dans le cadre : l'en-tête flottant du site passe dessus, et
+       le cadre commence sous lui. */
+
+.ouverture {
+  --u: clamp(0.68px, min(100vw / 1280, 100vh / 800), 1.72px);
+  --u: clamp(0.68px, min(100vw / 1280, 100dvh / 800), 1.72px);
+  --t: var(--u);
+  --line: rgba(255, 255, 255, 0.13);
+  --cream: #f6c445;
+  --ink: #12445a;
+  --hair: max(1px, calc(1 * var(--u)));
+  --nudge: calc(1 * var(--t));
+  --e-mask: cubic-bezier(0.16, 1, 0.3, 1);
+  --e-line: cubic-bezier(0.65, 0, 0.35, 1);
+  --e-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 480px;
+  overflow: hidden;
+  background: #0d3446;
+  color: #fff;
+  font-family: var(--texte), -apple-system, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: geometricPrecision;
+}
+.ouverture *,
+.ouverture *::before,
+.ouverture *::after {
+  box-sizing: border-box;
+}
+
+/* ---------- le décor : l'image fixe sous les vidéos, et la dérive au pointeur ---------- */
+.scene {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+  transform-origin: 50% 50%;
+  backface-visibility: hidden;
+}
+.fond {
+  position: absolute;
+  inset: 0;
+  background-image: url("/exemples/neuf-etes/ete.webp");
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+/* La boîte vidéo couvre l'écran en 16:9 sans recadrage, centrée. */
+.video {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: block;
+  width: max(100vw, 177.78vh);
+  height: max(100vh, 56.25vw);
+  /* la feuille de base de Tailwind borne toute vidéo à la largeur de son
+     conteneur : sans ceci, l'image se réduit à un bandeau sur téléphone */
+  max-width: none;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+.visible {
+  opacity: 1;
+}
+.voileFond,
+.voile,
+.voileHaut,
+.voileGauche {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+/* Les vidéos sont tournées en plein jour : un voile uniforme les assombrit d'un
+   tiers, puis trois dégradés protègent le texte en bas, en haut et à gauche. */
+.voileFond {
+  background: linear-gradient(rgba(8, 33, 45, 0.32) 0%, rgba(8, 33, 45, 0.32) 100%);
+}
+.voile {
+  background: linear-gradient(to top, rgba(8, 33, 45, 0.82) 0%, rgba(8, 33, 45, 0.7) 30%, rgba(8, 33, 45, 0.46) 50%, rgba(8, 33, 45, 0) 68%);
+}
+.voileHaut {
+  background: linear-gradient(to bottom, rgba(8, 33, 45, 0.62) 0%, rgba(8, 33, 45, 0.46) 16%, rgba(8, 33, 45, 0) 34%);
+}
+.voileGauche {
+  background: linear-gradient(to right, rgba(8, 33, 45, 0.66) 0%, rgba(8, 33, 45, 0.5) 14%, rgba(8, 33, 45, 0) 28%);
+}
+
+/* ---------- le cadre : filet de 1 px, retrait de 30u, coins coupés de 26u ---------- */
+.cadre {
+  position: absolute;
+  left: calc(30 * var(--u));
+  top: max(84px, calc(84 * var(--u)));
+  right: calc(30 * var(--u));
+  bottom: calc(31 * var(--u));
+}
+.trait {
+  position: absolute;
+  background: var(--line);
+}
+.traitHaut {
+  left: calc(26 * var(--u));
+  right: calc(26 * var(--u));
+  top: 0;
+  height: var(--hair);
+}
+.traitBas {
+  left: calc(26 * var(--u));
+  right: calc(26 * var(--u));
+  bottom: 0;
+  height: var(--hair);
+}
+.traitGauche {
+  top: calc(26 * var(--u));
+  bottom: calc(26 * var(--u));
+  left: 0;
+  width: var(--hair);
+}
+.traitDroit {
+  top: calc(26 * var(--u));
+  bottom: calc(26 * var(--u));
+  right: 0;
+  width: var(--hair);
+}
+.coin {
+  position: absolute;
+  width: calc(26 * var(--u));
+  height: calc(26 * var(--u));
+}
+.coinHG,
+.coinBD {
+  background: linear-gradient(to bottom right, transparent calc(50% - 0.65px), var(--line) calc(50% - 0.65px), var(--line) calc(50% + 0.65px), transparent calc(50% + 0.65px));
+}
+.coinHD,
+.coinBG {
+  background: linear-gradient(to bottom left, transparent calc(50% - 0.65px), var(--line) calc(50% - 0.65px), var(--line) calc(50% + 0.65px), transparent calc(50% + 0.65px));
+}
+.coinHG { left: 0; top: 0; }
+.coinBD { right: 0; bottom: 0; }
+.coinHD { right: 0; top: 0; }
+.coinBG { left: 0; bottom: 0; }
+
+/* ---------- les libellés ---------- */
+.libelle {
+  font-family: var(--titres), var(--texte), serif;
+  font-weight: 700;
+  font-size: calc(10 * var(--t));
+  line-height: 1;
+  white-space: nowrap;
+}
+.t {
+  position: relative;
+  top: var(--nudge);
+  display: inline-block;
+  text-align: left;
+  white-space: pre;
+}
+
+/* ---------- les chapitres ---------- */
+.chapitres {
+  position: absolute;
+  left: calc(10.5 * var(--t));
+  top: 50%;
+  transform: translateY(calc(-50% + 1.5 * var(--t)));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.chapitres li {
+  height: calc(26.6 * var(--t));
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.chapitres button {
+  font-family: var(--titres), var(--texte), serif;
+  font-weight: 700;
+  font-size: calc(10 * var(--t));
+  line-height: 1;
+  letter-spacing: calc(1.3 * var(--t));
+  white-space: nowrap;
+  color: rgba(232, 238, 250, 0.62);
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+.chapitres button:hover,
+.actif button {
+  color: #e6eaf5;
+}
+.actif::before {
+  content: "";
+  position: absolute;
+  left: calc(-13.5 * var(--t));
+  top: 50%;
+  width: calc(6 * var(--t));
+  height: calc(7 * var(--t));
+  transform: translateY(-50%);
+  background: #fff;
+}
+
+/* ---------- le titre, le paragraphe, l'appel ---------- */
+.heros {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: max(7.98%, calc(59 * var(--t)));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.titre {
+  margin: 0;
+  /* écrit en toutes lettres : la feuille globale du site impose sa police à
+     empattements à tous les titres, et une règle posée sur l'élément l'emporte
+     sur l'héritage */
+  font-family: var(--titres), Rockwell, serif;
+  font-weight: 700;
+  font-size: calc(74 * var(--t));
+  line-height: calc(80 * var(--t));
+  letter-spacing: -0.015em;
+  color: #fff8ec;
+}
+.ligne {
+  display: block;
+  overflow: hidden;
+  /* les jambages d'Arvo (le « p », la cédille) dépassent de la ligne : le masque
+     s'agrandit d'autant, sans changer l'interligne */
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+.ligne + .ligne .monte {
+  color: var(--cream);
+}
+.monte {
+  display: block;
+  transition: transform 0.5s var(--e-mask);
+}
+.chapeau {
+  margin: calc(18 * var(--t)) 0 0;
+  font-weight: 400;
+  font-size: calc(13 * var(--t));
+  line-height: calc(21 * var(--t));
+  color: #fff8ec;
+  max-width: calc(560 * var(--t));
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+/* Changement de chapitre : le titre redescend dans son masque, le paragraphe
+   s'efface, le texte est remplacé, puis tout revient comme à l'entrée. */
+.bascule .monte {
+  transform: translateY(112%);
+}
+.bascule .chapeau {
+  opacity: 0;
+  transform: translateY(calc(7 * var(--t)));
+}
+
+.appel {
+  margin-top: calc(26 * var(--t));
+  position: relative;
+  height: calc(46 * var(--t));
+  padding: 0 calc(24 * var(--t));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  /* le jaune est porté par le bouton lui-même, pas seulement par la plaque posée
+     dessous : c'est le fond que lit la mesure de contraste */
+  background: var(--cream);
+  clip-path: polygon(calc(3 * var(--t)) 0, calc(100% - 10 * var(--t)) 0, 100% calc(10 * var(--t)), 100% calc(100% - 3 * var(--t)), calc(100% - 3 * var(--t)) 100%, calc(10 * var(--t)) 100%, 0 calc(100% - 10 * var(--t)), 0 calc(3 * var(--t)));
+}
+.verre {
+  position: absolute;
+  inset: 0;
+  background: var(--cream);
+  -webkit-backdrop-filter: blur(calc(12 * var(--t)));
+  backdrop-filter: blur(calc(12 * var(--t)));
+  clip-path: polygon(calc(3 * var(--t)) 0, calc(100% - 10 * var(--t)) 0, 100% calc(10 * var(--t)), 100% calc(100% - 3 * var(--t)), calc(100% - 3 * var(--t)) 100%, calc(10 * var(--t)) 100%, 0 calc(100% - 10 * var(--t)), 0 calc(3 * var(--t)));
+  transition: background 0.3s ease;
+}
+.appel:hover .verre {
+  background: #ffd768;
+}
+.bord {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.bord path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.085);
+  stroke-width: 1;
+  transition: stroke 0.3s ease;
+}
+.appel:hover .bord path {
+  stroke: rgba(255, 255, 255, 0.2);
+}
+.dedans {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.dedans svg {
+  width: calc(7 * var(--t));
+  height: calc(11 * var(--t));
+  fill: var(--ink);
+  flex: none;
+}
+.dedans .t {
+  margin-left: calc(6 * var(--t));
+  color: var(--ink);
+  letter-spacing: calc(0.55 * var(--t));
+}
+
+/* ---------- le socle ---------- */
+.socle {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(47 * var(--t));
+  --nudge: calc(1.6 * var(--t));
+}
+.filet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: var(--hair);
+  background: var(--line);
+}
+.separation {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: var(--hair);
+  background: rgba(255, 255, 255, 0.21);
+}
+.separationG { left: calc(116 * var(--t)); }
+.separationD { right: calc(162 * var(--t)); }
+.socle a,
+.socle button {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.82);
+  transition: color 0.3s ease;
+}
+.socle a:hover,
+.socle button:hover {
+  color: #fff;
+}
+.pause {
+  position: absolute;
+  left: calc(26 * var(--t));
+  top: 0;
+  bottom: 0;
+}
+.pause svg {
+  width: calc(11 * var(--t));
+  height: calc(11 * var(--t));
+  flex: none;
+  fill: currentColor;
+}
+.pause .barres,
+.pause .triangle {
+  transition: opacity 0.25s ease;
+}
+.pause .triangle { opacity: 0; }
+.enPause .barres { opacity: 0; }
+.enPause .triangle { opacity: 1; }
+.pause span {
+  margin-left: calc(10 * var(--t));
+  letter-spacing: calc(0.02 * var(--t));
+}
+.descendre {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  bottom: 0;
+}
+.descendre svg {
+  width: calc(5 * var(--t));
+  height: calc(7 * var(--t));
+  flex: none;
+  fill: currentColor;
+  position: relative;
+  top: calc(-1 * var(--t));
+}
+.descendre span {
+  margin-left: calc(10 * var(--t));
+  letter-spacing: calc(-0.23 * var(--t));
+}
+.chantier {
+  position: absolute;
+  right: calc(24 * var(--t));
+  top: 0;
+  bottom: 0;
+}
+.chantier span {
+  letter-spacing: calc(0.12 * var(--t));
+}
+.chantier svg {
+  width: calc(13 * var(--t));
+  height: calc(13 * var(--t));
+  margin-left: calc(11 * var(--t));
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+}
+
+/* ================= L'ENTRÉE =================
+   Une seule séquence, au chargement. Le décor ne bouge pas pendant l'entrée.
+   Les filets se tracent, le nom et le titre montent hors d'un masque, les
+   libellés se décodent (côté script), le reste se pose de 7 unités. */
+@keyframes traceX { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes traceY { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes apparait { from { opacity: 0; } to { opacity: 1; } }
+@keyframes sortDuMasque { from { transform: translateY(112%); } to { transform: translateY(0); } }
+@keyframes sePose { from { opacity: 0; transform: translateY(calc(7 * var(--t))); } to { opacity: 1; transform: none; } }
+@keyframes marqueur { from { transform: translateY(-50%) scaleX(0); } to { transform: translateY(-50%) scaleX(1); } }
+@keyframes sePoseCentre { from { opacity: 0; transform: translate(-50%, calc(7 * var(--t))); } to { opacity: 1; transform: translateX(-50%); } }
+
+.entree .traitHaut { transform-origin: left center; animation: traceX 0.5s var(--e-line) 0.04s both; }
+.entree .traitGauche { transform-origin: center top; animation: traceY 0.5s var(--e-line) 0.04s both; }
+.entree .traitBas { transform-origin: right center; animation: traceX 0.5s var(--e-line) 0.2s both; }
+.entree .traitDroit { transform-origin: center bottom; animation: traceY 0.5s var(--e-line) 0.2s both; }
+.entree .coin { animation: apparait 0.3s linear 0.55s both; }
+
+.entree .monte { animation: sortDuMasque 0.9s var(--e-mask) both; }
+.entree .ligne:first-child .monte { animation-delay: 0.42s; }
+.entree .ligne + .ligne .monte { animation-delay: 0.52s; }
+
+.entree .chapitres { animation: apparait 0.45s linear 0.6s both; }
+.entree .actif::before { animation: marqueur 0.42s var(--e-soft) 0.64s both; }
+
+.entree .chapeau { animation: sePose 0.72s var(--e-soft) 0.7s both; }
+.entree .appel { animation: sePose 0.62s var(--e-soft) 0.86s both; }
+
+.entree .filet { transform-origin: left center; animation: traceX 0.52s var(--e-line) 0.92s both; }
+.entree .separation { transform-origin: center top; animation: traceY 0.36s var(--e-line) 1.06s both; }
+.entree .pause { animation: sePose 0.52s var(--e-soft) 0.96s both; }
+.entree .descendre { animation: sePoseCentre 0.52s var(--e-soft) 1.02s both; }
+.entree .chantier { animation: sePose 0.52s var(--e-soft) 1.08s both; }
+
+/* ---------- accessibilité ---------- */
+.ouverture a:focus-visible,
+.ouverture button:focus-visible {
+  outline: calc(1.5 * var(--t)) solid var(--cream);
+  outline-offset: calc(3 * var(--t));
+}
+@media (prefers-reduced-motion: reduce) {
+  .ouverture *,
+  .ouverture *::before {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* ---------- tablette ----------
+   En dessous de 1152 px, l'unité du texte cesse de rétrécir avec l'écran et les
+   boîtes qui portent du texte prennent la taille de leur contenu. */
+@media (max-width: 1152px) {
+  .ouverture {
+    --u: clamp(0.8px, min(100vw / 1280, 100vh / 800), 1.1px);
+    --u: clamp(0.8px, min(100vw / 1280, 100dvh / 800), 1.1px);
+    --t: max(var(--u), clamp(0.9px, calc(0.9px + (1152px - 100vw) * 0.00042), 1.12px));
+  }
+  .socle {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+  }
+  .separation {
+    display: none;
+  }
+  .pause,
+  .chantier {
+    position: static;
+    height: auto;
+  }
+  .pause {
+    padding: 0 min(calc(20 * var(--t)), 5vw) 0 min(calc(26 * var(--t)), 6vw);
+    border-right: var(--hair) solid rgba(255, 255, 255, 0.21);
+  }
+  .chantier {
+    padding: 0 min(calc(24 * var(--t)), 6vw) 0 min(calc(20 * var(--t)), 5vw);
+    border-left: var(--hair) solid rgba(255, 255, 255, 0.21);
+  }
+  .chapitres button {
+    padding: calc(7 * var(--t)) 0;
+  }
+}
+@media (max-width: 1152px) and (min-aspect-ratio: 6/5) {
+  .heros { padding-inline: calc(150 * var(--t)); }
+}
+@media (max-width: 1152px) and (max-aspect-ratio: 6/5) {
+  .chapitres { top: 32%; }
+  .heros { padding-inline: calc(22 * var(--t)); }
+}
+
+/* ---------- téléphone ---------- */
+@media (max-width: 548px) {
+  .ouverture {
+    --u: clamp(0.62px, min(100vw / 500, 100vh / 820), 1.1px);
+    --u: clamp(0.62px, min(100vw / 500, 100dvh / 820), 1.1px);
+    --t: clamp(1.06px, calc(100vw / 489), 1.12px);
+  }
+  .cadre {
+    left: calc(22 * var(--u));
+    right: calc(22 * var(--u));
+    top: 80px;
+    bottom: calc(22 * var(--u));
+  }
+  /* sur téléphone, le cadre recadre au plus près du cube : les chapitres passent
+     sur une plaque de verre sombre, aux coins coupés comme le reste */
+  .chapitres {
+    top: calc(14 * var(--t));
+    left: 0;
+    transform: none;
+    padding: calc(6 * var(--t)) calc(16 * var(--t)) calc(6 * var(--t)) calc(24 * var(--t));
+    background: rgba(8, 33, 45, 0.76);
+    -webkit-backdrop-filter: blur(calc(10 * var(--t)));
+    backdrop-filter: blur(calc(10 * var(--t)));
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12 * var(--t)), calc(100% - 12 * var(--t)) 100%, 0 100%);
+  }
+  /* le dernier chapitre touche le haut du cube : 3,8:1 mesuré à 62 % */
+  .chapitres button {
+    color: rgba(232, 238, 250, 0.78);
+  }
+  .chapitres button:hover,
+  .chapitres .actif button {
+    color: #e6eaf5;
+  }
+  .voileGauche {
+    display: none;
+  }
+  .chapitres li {
+    height: calc(24 * var(--t));
+  }
+  .heros {
+    bottom: max(9%, calc(59 * var(--t)));
+    padding-inline: calc(18 * var(--t));
+  }
+  /* les titres français sont plus longs que ceux du modèle : un cran plus
+     petit, ils tiennent en trois lignes au lieu de quatre */
+  .titre {
+    font-size: calc(40 * var(--t));
+    line-height: calc(44 * var(--t));
+    text-wrap: balance;
+    transition: opacity 0.4s ease;
+  }
+  .chapeau {
+    max-width: calc(400 * var(--t));
+    font-size: calc(12.5 * var(--t));
+    line-height: calc(20 * var(--t));
+  }
+  .chapeau br {
+    display: none;
+  }
+  /* le titre se replie librement ici : il monte d'un bloc, pas ligne par ligne */
+  .ligne,
+  .monte {
+    display: inline;
+    overflow: visible;
+  }
+  .entree .monte {
+    animation: none;
+  }
+  .entree .titre {
+    animation: sePose 0.8s var(--e-mask) 0.42s both;
+  }
+  .bascule .monte {
+    transform: none;
+  }
+  .bascule .titre {
+    opacity: 0;
+  }
+}
+/* « Voir un chantier » est plus long que le libellé du modèle : le socle passe
+   sur deux rangs dès 430 px, pas seulement sous 370 px. */
+@media (max-width: 430px) {
+  .socle {
+    height: auto;
+    flex-wrap: wrap;
+  }
+  .pause,
+  .chantier {
+    flex: 1 1 0;
+    justify-content: center;
+    height: calc(44 * var(--t));
+  }
+  .descendre {
+    position: static;
+    transform: none;
+    order: 1;
+    flex: 1 0 100%;
+    justify-content: center;
+    height: calc(40 * var(--t));
+    border-top: var(--hair) solid rgba(255, 255, 255, 0.13);
+  }
+  .entree .descendre {
+    animation-name: sePose;
+  }
+  .heros {
+    bottom: calc(96 * var(--t));
+  }
+}
+/* dernier recours : sur un écran trop bas, le paragraphe s'efface plutôt que la
+   composition ne se chevauche */
+@media (max-height: 560px), (max-width: 370px) and (max-height: 640px) {
+  .chapeau {
+    display: none;
+  }
+}

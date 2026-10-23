@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { adressesDeLaPage } from "@/lib/seo";
 import MentionsDemonstration from "../../_kit/MentionsDemonstration";
+import Gravure from "../_composants/Gravure";
 
 export const metadata: Metadata = {
   title: "Mentions légales et crédits — Trois Marches, site de démonstration",
@@ -10,10 +11,13 @@ export const metadata: Metadata = {
 
 export default function MentionsLegales() {
   return (
+    <main className="pt-24">
+      <Gravure id="tm-mentions" className="mx-auto mt-6 w-full max-w-[520px] px-5 text-[var(--encre)]" />
+      <div className="mx-4 mb-4 rounded-t-[3rem] rounded-b-[2rem] border border-[var(--trait)] bg-[var(--carte)] sm:mx-auto sm:max-w-4xl">
     <MentionsDemonstration
       site="trois-marches"
       entreprise="Trois Marches"
-      polices="Bodoni Moda, Manrope et Caveat"
+      polices="Playfair Display, Manrope et Caveat"
       enPlus={
         <>
           <p>
@@ -37,12 +41,25 @@ export default function MentionsLegales() {
             appartient à la tranche que l&apos;ARCEP réserve aux œuvres de fiction.
           </p>
           <p>
-            Inspiration : le modèle « Heritage Grove » de MotionSites (papier crème, gravure au trait,
-            serif classique), transposé sans texte ni code repris. La gravure de la maison est
-            dessinée pour ce site.
+            Le barème d&apos;accueil, le suivi du vendeur et les créneaux d&apos;estimation fonctionnent
+            dans votre navigateur : rien n&apos;est envoyé ni enregistré. Les comptes rendus de visite
+            sont des exemples ; les visiteurs n&apos;y sont jamais nommés.
+          </p>
+          <p>
+            Ce site réunit les deux vidéos des agents immobiliers : « Créer une marque » (le nom,
+            l&apos;histoire de chaque maison, la loi juste en dessous, la dernière photo sur le perron) et
+            « Remplir l&apos;agenda » (le barème en page d&apos;accueil, le prix honoraires inclus en plus
+            gros, le compte rendu de chaque visite le soir même, le bouton « Faire estimer ma maison »).
+          </p>
+          <p>
+            Inspiration : les modèles « Heritage Grove » (papier crème, gravure au trait) et « Coastal
+            Estate » de MotionSites (un très grand nom, des photos de maisons), transposés sans texte ni
+            code repris. La gravure de la maison est dessinée pour ce site.
           </p>
         </>
       }
     />
+      </div>
+    </main>
   );
 }

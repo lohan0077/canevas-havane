@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 import { adressesDeLaPage } from "@/lib/seo";
-import { Intitule } from "../_composants/Blocs";
+import Apparition from "../../_kit/Apparition";
+import { EnTetePage } from "../_composants/Blocs";
 import Suivi from "../_composants/Suivi";
 
+// L'outil de la vidéo « Créer une marque » : « ton dossier se suit comme un colis. Reçu,
+// envoyé aux banques, accord, fonds versés. » L'étape s'appelle « Réponse des banques » :
+// rien ne présume l'accord (C. consom. L313-5, 2°). Filmé : le doigt touche « Suivre », puis
+// chaque étape.
 export const metadata: Metadata = {
   title: "Suivre un dossier — Bonne Nouvelle, site de démonstration",
   description:
@@ -18,23 +23,22 @@ const QUAND = [
 
 export default function MonDossier() {
   return (
-    <div className="mx-auto max-w-6xl px-4 pt-10 pb-20 sm:px-6 sm:pt-16">
-      <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-        <div className="space-y-8 px-1">
-          <Intitule niveau={1} libelle="Suivre un dossier" titre={<>Ton dossier, <em>comme un colis.</em></>}>
-            <p>Entre ton numéro de dossier. Chaque étape s&apos;affiche avec sa date. Plus besoin d&apos;appeler pour savoir.</p>
-          </Intitule>
-          <ul className="space-y-4">
-            {QUAND.map((q) => (
-              <li key={q.titre} className="border-l-4 border-[#3FA36B] pl-4">
-                <p className="text-[17px] font-semibold">{q.titre}</p>
-                <p className="text-[15px] leading-relaxed text-[var(--doux)]">{q.texte}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <Suivi />
-      </div>
-    </div>
+    <main>
+      <EnTetePage surtitre="Suivre un dossier" titre="Ton dossier, *comme un colis.*" aCote={<Suivi />}>
+        Entre ton numéro de dossier. Chaque étape s&apos;affiche avec sa date. Plus besoin d&apos;appeler
+        pour savoir : c&apos;est nous qui appelons.
+      </EnTetePage>
+      <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 md:py-24">
+        <ul className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          {QUAND.map((q, i) => (
+            <Apparition as="li" key={q.titre} delai={i * 120} de="zoom" className="space-y-3 rounded-[1.75rem] border border-[var(--trait)] bg-white p-7">
+              <span aria-hidden="true" className="block h-1.5 w-12 rounded-full bg-[#3FA36B]" />
+              <p className="font-[family-name:var(--titres)] text-[28px] font-semibold leading-tight tracking-[-0.02em]">{q.titre}</p>
+              <p className="text-[16px] leading-relaxed text-[var(--doux)]">{q.texte}</p>
+            </Apparition>
+          ))}
+        </ul>
+      </section>
+    </main>
   );
 }

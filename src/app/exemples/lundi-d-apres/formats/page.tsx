@@ -1,79 +1,102 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { adressesDeLaPage } from "@/lib/seo";
+import Accordeon from "../../_kit/Accordeon";
+import Apparition from "../../_kit/Apparition";
 import CalculPalier from "../../_kit/CalculPalier";
-import { DOSSIER, FORMATS, QUESTIONS, photos } from "../_composants/donnees";
-import { Coin, Faq } from "../_composants/Blocs";
+import TitreRevele from "../../_kit/TitreRevele";
+import { AppelFinal, Bouton, Coin, CORAIL, CORAIL_CLAIR, EnTetePage, TITRE } from "../_composants/Blocs";
+import { DOSSIER, FORMATS, FORMULES, PALIERS_ENTREPRISE, QUESTIONS, euros, photos } from "../_composants/donnees";
 
-// Les trois formats et leurs prix, hors taxes (les clients sont des entreprises, et le
-// site le dit), un calcul d'ordre de grandeur selon le nombre de participants, et les
-// questions. Prix d'exemple.
+// Les formats et les prix : pour les entreprises, hors taxes (nos clients professionnels),
+// avec l'ordre de grandeur selon l'effectif ; pour les mariages, le DJ, TTC. Exemples.
 export const metadata: Metadata = {
-  title: "Formats et prix · Lundi d'Après — site de démonstration",
-  description: "Soirée d'entreprise, séminaire, fête de fin d'année : les formats et leurs prix hors taxes, par personne. Site de démonstration, prix d'exemple.",
+  title: "Formats et prix — Lundi d'Après, site de démonstration",
+  description: "Soirées d'entreprise, séminaires, fêtes de fin d'année (prix HT) et mariages (prix TTC) : les formats et un ordre de grandeur tout de suite. Site de démonstration, prix d'exemple.",
   ...adressesDeLaPage("/exemples/lundi-d-apres/formats"),
 };
 
-const PALIERS = [
-  { jusqua: 50, titre: "Une équipe", prix: "110 € HT par personne · exemple", detail: "Soirée d'entreprise jusqu'à 50 personnes : lieu, dîner, le moment de 23 h, et nous." },
-  { jusqua: 150, titre: "Un étage entier", prix: "95 € HT par personne · exemple", detail: "Soirée d'entreprise de 60 à 150 personnes : lieu, dîner, le moment de 23 h, et nous." },
-  { jusqua: 400, titre: "Toute l'entreprise", prix: "85 € HT par personne · exemple", detail: "Soirée d'entreprise de 160 à 400 personnes : lieu, dîner, le moment de 23 h, et nous." },
-];
-
 export default function Formats() {
   return (
-    <div>
-      <section className="max-w-6xl mx-auto px-5 pt-8 pb-14 sm:pt-14 grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-start">
-        <div className="space-y-5">
-          <Coin>hors taxes : nos clients sont des entreprises</Coin>
-          <h1 className="text-[48px] sm:text-[84px] font-bold lowercase leading-[0.95] tracking-[-0.04em]">formats et prix</h1>
-          <p className="text-lg leading-relaxed text-[var(--doux)]">
-            Un ordre de grandeur tout de suite, le devis détaillé ensuite. Glissez le nombre de participants pour une soirée
-            d&apos;entreprise.
-          </p>
+    <main>
+      <EnTetePage coin="entreprises : HT · mariages : TTC" titre="Formats *et prix.*">
+        Un ordre de grandeur tout de suite, le devis détaillé ensuite. Pour une entreprise, glissez le nombre de participants&nbsp;;
+        pour un mariage, la soirée du DJ est affichée.
+      </EnTetePage>
+
+      <section className="mx-auto grid max-w-7xl gap-12 px-5 py-20 sm:px-8 md:py-28 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+        <div className="space-y-6">
+          <Apparition><Coin>les entreprises · hors taxes</Coin></Apparition>
+          <TitreRevele texte="Combien *de personnes ?*" className={`text-[clamp(3rem,6vw,5.2rem)] ${TITRE}`} classeAccent={CORAIL} />
+          <Apparition as="p" delai={150} className="max-w-md text-lg leading-relaxed text-[var(--doux)]">
+            Nos clients sont des entreprises&nbsp;: les prix sont hors taxes, par personne. Lieu, dîner, le moment de 23 h, le DJ, et
+            nous.
+          </Apparition>
         </div>
-        <CalculPalier
-          etiquette="Effectif"
-          unite="personnes"
-          min={20}
-          max={400}
-          pas={10}
-          depart={140}
-          paliers={PALIERS}
-          titreResultat="Ordre de grandeur · exemple"
-          legende="Prix hors taxes, par personne. Le devis dit tout, ligne par ligne."
-        />
+        <Apparition de="zoom">
+          <CalculPalier
+            etiquette="Effectif"
+            unite="personnes"
+            min={20}
+            max={400}
+            pas={10}
+            depart={140}
+            paliers={PALIERS_ENTREPRISE}
+            titreResultat="Ordre de grandeur · exemple"
+            legende="Prix hors taxes, par personne. Le devis dit tout, ligne par ligne."
+          />
+        </Apparition>
       </section>
 
-      <section className="bg-[var(--carte)]">
-        <div className="max-w-6xl mx-auto px-5 py-16 sm:py-20 space-y-8">
-          <h2 className="text-[36px] sm:text-5xl font-bold lowercase leading-[1] tracking-[-0.03em]">trois formats</h2>
-          <ul className="grid gap-3 md:grid-cols-3">
-            {FORMATS.map((f) => (
-              <li key={f.nom} className="rounded-[28px] bg-[var(--fond)] p-6 space-y-2">
-                <h3 className="text-[22px] font-bold lowercase">{f.nom}</h3>
-                <p className="font-[family-name:var(--titres)] text-[20px] font-semibold text-[var(--accent-texte)]">{f.prix}</p>
-                <p className="text-[13px] font-semibold uppercase tracking-[0.1em] text-[var(--doux)]">exemple</p>
-                <p className="leading-relaxed text-[var(--doux)]">{f.detail}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <section className="mx-auto max-w-7xl px-5 pb-24 sm:px-8 md:pb-32">
+        <ul className="grid gap-4 md:grid-cols-3">
+          {FORMATS.map((f, i) => (
+            <Apparition as="li" key={f.nom} delai={i * 110} de="zoom" className="space-y-3 rounded-[2rem] bg-[var(--carte)] p-7 ring-1 ring-[var(--trait)]">
+              <h2 className="font-[family-name:var(--titres)] text-[30px] font-extrabold lowercase leading-[0.95] tracking-[-0.04em]">{f.nom}</h2>
+              <p className="font-[family-name:var(--titres)] text-[19px] font-bold text-[var(--accent-texte)]">{f.prix}</p>
+              <p className="text-[13px] font-bold uppercase tracking-[0.1em] text-[var(--doux)]">exemple</p>
+              <p className="leading-relaxed text-[var(--doux)]">{f.detail}</p>
+            </Apparition>
+          ))}
+        </ul>
       </section>
 
-      <section className="max-w-6xl mx-auto px-5 py-16 sm:py-24 grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
-        <div className="space-y-4">
-          <h2 className="text-[36px] sm:text-5xl font-bold lowercase leading-[1] tracking-[-0.03em]">vos questions</h2>
-          <div className="relative aspect-[3/2] overflow-hidden rounded-[32px]">
-            <Image src={photos.croissants.src} alt={photos.croissants.alt} fill sizes="(min-width: 1024px) 380px, 100vw" className="object-cover" />
+      <section className="px-3 sm:px-5">
+        <div className="kit-grain relative isolate grid overflow-hidden rounded-[2.5rem] bg-[var(--sombre)] text-[var(--sur-sombre)] lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="space-y-8 px-6 py-16 sm:px-12 md:py-24">
+            <Coin clair>les mariages · TTC</Coin>
+            <TitreRevele texte="Le DJ, *jusqu'à la dernière.*" className={`text-[clamp(2.8rem,5.5vw,4.8rem)] ${TITRE}`} classeAccent={CORAIL_CLAIR} />
+            <ul className="divide-y divide-white/15 border-y border-white/15">
+              {FORMULES.map((f, i) => (
+                <Apparition as="li" key={f.nom} delai={i * 110} className="flex items-baseline justify-between gap-5 py-5">
+                  <span>
+                    <span className="block font-[family-name:var(--titres)] text-[26px] font-extrabold lowercase tracking-[-0.03em]">{f.nom}</span>
+                    <span className="block text-[15px] text-[var(--sur-sombre)]/90">{f.detail}</span>
+                  </span>
+                  <span className="shrink-0 text-right">
+                    <span className="block font-[family-name:var(--titres)] text-[30px] font-extrabold tabular-nums text-[#FF8A6E]">{euros(f.prix)}</span>
+                    <span className="block text-[12px] font-bold uppercase tracking-[0.1em]">TTC · exemple</span>
+                  </span>
+                </Apparition>
+              ))}
+            </ul>
+            <Bouton href={`${DOSSIER}/samedis-libres`} variante="creme">voir les samedis libres</Bouton>
           </div>
-          <Link href={`${DOSSIER}#question`} className="inline-flex h-12 items-center rounded-full bg-[var(--accent)] px-6 font-semibold text-[var(--sur-accent)]">
-            Écrire notre phrase
-          </Link>
+          <div className="relative min-h-[320px]">
+            <Image src={photos.bouleRose.src} alt={photos.bouleRose.alt} fill sizes="(min-width: 1024px) 45vw, 100vw" className="object-cover" />
+          </div>
         </div>
-        <Faq questions={QUESTIONS} />
       </section>
-    </div>
+
+      <section className="mx-auto grid max-w-7xl gap-12 px-5 py-24 sm:px-8 md:py-32 lg:grid-cols-[0.75fr_1.25fr]">
+        <div className="space-y-6">
+          <Apparition><Coin>vos questions</Coin></Apparition>
+          <TitreRevele texte="Avant *le devis.*" className={`text-[clamp(3rem,5.5vw,4.8rem)] ${TITRE}`} classeAccent={CORAIL} />
+        </div>
+        <Apparition delai={150}><Accordeon questions={QUESTIONS.map((q) => ({ question: q.q, reponse: q.r }))} /></Apparition>
+      </section>
+
+      <AppelFinal />
+    </main>
   );
 }

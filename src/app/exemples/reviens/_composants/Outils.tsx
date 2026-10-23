@@ -123,10 +123,10 @@ export function OutilGrave({ id, corps, gravure, prenom, titre, laser = false, c
       {d.corps(corps)}
       {prenom ? (
         <>
-          <text x={x} y={y + 3} textAnchor="middle" fontSize={t} fontWeight={800} letterSpacing="0.08em" fill="#000" opacity=".35" className="font-[family-name:var(--titres)]">
+          <text aria-hidden="true" x={x} y={y + 3} textAnchor="middle" fontSize={t} fontWeight={800} letterSpacing="0.08em" fill="#000" opacity=".35" className="font-[family-name:var(--titres)]">
             {prenom}
           </text>
-          <text x={x} y={y} textAnchor="middle" fontSize={t} fontWeight={800} letterSpacing="0.08em" fill={gravure} className="font-[family-name:var(--titres)]" data-film="grave">
+          <text aria-hidden="true" x={x} y={y} textAnchor="middle" fontSize={t} fontWeight={800} letterSpacing="0.08em" fill={gravure} className="font-[family-name:var(--titres)]" data-film="grave">
             {prenom}
           </text>
           {laser && <circle key={prenom} cx={fin + 8} cy={y - t * 0.35} r="9" fill="#FFF3C4" className={styles.laser} />}

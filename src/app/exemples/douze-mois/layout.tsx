@@ -1,31 +1,42 @@
 import Cadre from "../_kit/Cadre";
-import EnTete from "./_composants/EnTete";
+import NavVerre from "../_kit/NavVerre";
+import { Marque } from "./_composants/Blocs";
+import Pied from "./_composants/Pied";
+import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 
-// Le site de la boutique imaginée dans la vidéo « Si je devais créer une boutique de
-// fleurs » : le calendrier des fleurs, mois par mois. Ambiance transposée du modèle
-// « Neo Museum » de MotionSites : un nom immense en travers de la page, des légendes
-// en petites capitales, des planches de spécimens et leurs repères.
+// Le gabarit de Douze Mois, la boutique de fleurs imaginaire des deux vidéos des
+// fleuristes. Polices : Bodoni Moda (la cousine libre du Didot de la marque) pour les
+// titres et leur italique, Manrope pour lire, Caveat pour la carte écrite à la main.
+// Couleurs de la marque : prune, mimosa, rose. Chaque page s'ouvre sur un écran sombre.
 export default function DouzeMoisLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
       entreprise="Douze Mois"
       titres="bodoni"
-      texte="spaceGrotesk"
+      texte="manrope"
+      autres={["caveat"]}
       couleurs={{
-        fond: "#F4EFE8",
-        encre: "#2E1620",
+        fond: "#FBF5EE",
+        encre: "#2A1520",
         doux: "#6B4A55",
-        accent: "#5A2A3A",
-        surAccent: "#FBF5EE",
-        accentTexte: "#5A2A3A",
+        accent: "#F2C94C",
+        surAccent: "#2A1520",
+        accentTexte: "#9B2C4B",
         carte: "#FFFFFF",
-        trait: "#DDD0C6",
-        sombre: "#2E1620",
+        trait: "#E6D7CC",
+        sombre: "#2A1520",
         surSombre: "#FBF5EE",
       }}
     >
-      <EnTete />
+      <NavVerre
+        accueil={DOSSIER}
+        marque={<Marque />}
+        liens={NAVIGATION}
+        action={{ href: `${DOSSIER}#choix`, libelle: "Commander" }}
+        surSombre
+      />
       {children}
+      <Pied />
     </Cadre>
   );
 }

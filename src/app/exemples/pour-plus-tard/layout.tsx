@@ -1,17 +1,23 @@
 import Cadre from "../_kit/Cadre";
-import EnTete from "./_composants/EnTete";
-import { PiedDeSite } from "./_composants/Blocs";
+import NavVerre from "../_kit/NavVerre";
+import { Marque } from "./_composants/Blocs";
+import Pied from "./_composants/Pied";
+import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 
-// Le site de la marque imaginée dans la vidéo « Si je devais créer un studio photo ».
-// Mise en page inspirée du modèle « Neo Museum » de MotionSites (grand titre, cartels
-// numérotés, annotations fines autour de l'objet), transposée à un studio qui vend des
-// tirages plutôt que des fichiers. Le `noindex` vient du layout de /exemples.
+// Pour Plus Tard, studio photo de famille imaginaire filmé dans les deux vidéos des
+// photographes : pas des fichiers, une boîte de vingt tirages (« Créer une marque ») ;
+// pas de portfolio, la minute 1 et la minute 40, comment s'habiller, le prix affiché
+// (« Remplir l'agenda », ancien site Minute Quarante). Une chambre noire et du papier :
+// brun, brique, kraft ; Playfair Display, cousine libre du Baskerville de la marque,
+// DM Sans pour lire, et Caveat pour ce qu'on écrit au dos des tirages. Toutes les pages
+// s'ouvrent sur un écran brun.
 export default function PourPlusTardLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
       entreprise="Pour Plus Tard"
-      titres="newsreader"
-      texte="spaceGrotesk"
+      titres="playfair"
+      texte="dmSans"
+      autres={["caveat"]}
       couleurs={{
         fond: "#F3EBDD",
         encre: "#3B2F2A",
@@ -21,13 +27,19 @@ export default function PourPlusTardLayout({ children }: { children: React.React
         accentTexte: "#8C3B2E",
         carte: "#FAF5EC",
         trait: "#D8C8AE",
-        sombre: "#3B2F2A",
+        sombre: "#2A211D",
         surSombre: "#F3EBDD",
       }}
     >
-      <EnTete />
+      <NavVerre
+        accueil={DOSSIER}
+        marque={<Marque />}
+        liens={NAVIGATION}
+        action={{ href: `${DOSSIER}/reserver`, libelle: "Réserver" }}
+        surSombre
+      />
       {children}
-      <PiedDeSite />
+      <Pied />
     </Cadre>
   );
 }

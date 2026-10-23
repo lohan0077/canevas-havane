@@ -37,7 +37,7 @@ export default function Creneau() {
     `rounded-2xl border-2 transition-colors ${actif ? "border-[var(--sombre)] bg-[var(--sombre)] text-[var(--sur-sombre)]" : "border-[var(--trait)] bg-[var(--carte)] text-[var(--encre)] hover:border-[var(--encre)]"}`;
 
   return (
-    <form onSubmit={reserver} noValidate data-film="creneau" className="rounded-[32px] bg-[var(--carte)] border border-[var(--trait)] p-5 sm:p-8 space-y-7">
+    <form onSubmit={reserver} noValidate data-film="creneau" className="space-y-7">
       <fieldset className="space-y-3" disabled={pret}>
         <legend className="font-[family-name:var(--titres)] text-2xl mb-3">1. Ton numéro</legend>
         <input

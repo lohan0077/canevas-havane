@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { rayons, samedis, seanceRayon } from "./donnees";
+import { creneauxRayon as samedis, rayons, seanceRayon } from "./donnees";
 
 /**
  * « Quel rayon ? » — on choisit le rayon qu'on veut faire ensemble, puis un créneau.
@@ -27,12 +27,15 @@ export default function ChoixRayon() {
               aria-pressed={actif}
               disabled={reserve}
               onClick={() => { setRayonId(r.id); setCreneau(null); }}
-              className={`flex items-center gap-4 rounded-[22px] border-2 px-5 py-4 text-left transition-colors ${
-                actif ? "border-[var(--encre)] bg-[#F2C94C]" : "border-[var(--trait)] bg-[var(--carte)] hover:border-[var(--encre)]"
+              className={`flex items-center gap-4 rounded-[22px] border-2 px-5 py-4 text-left transition-all duration-300 ${
+                actif ? "scale-[1.02] border-[var(--encre)] bg-[#F2C94C] text-[#1F3B24] shadow-[6px_6px_0_0_var(--encre)]" : "border-[var(--trait)] bg-[var(--carte)] hover:border-[var(--encre)]"
               }`}
             >
               <span aria-hidden="true" className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-[var(--fond)] text-3xl">{r.emoji}</span>
-              <span className="flex-1 font-[family-name:var(--titres)] text-2xl font-semibold">{r.nom}</span>
+              <span className="flex-1">
+                <span className="block font-[family-name:var(--titres)] text-2xl font-bold">{r.nom}</span>
+                <span className="block text-sm">{r.moment}</span>
+              </span>
               <span aria-hidden="true" className="text-2xl">›</span>
             </button>
           );
@@ -42,7 +45,7 @@ export default function ChoixRayon() {
       {rayon && (
         <div className="rounded-[26px] bg-[var(--sombre)] text-[var(--sur-sombre)] p-5 sm:p-7 space-y-4" data-film="detail-rayon">
           <p className="text-sm font-semibold text-[#F2C94C]">Séance au rayon · en individuel</p>
-          <p className="font-[family-name:var(--titres)] text-3xl font-semibold">{rayon.emoji} {rayon.nom}</p>
+          <p className="font-[family-name:var(--titres)] text-3xl font-bold">{rayon.emoji} {rayon.nom}</p>
           <p className="leading-relaxed text-[#D7E6D2]">{rayon.texte}</p>
           <p className="text-sm text-[#D7E6D2] [font-variant-numeric:lining-nums]">{seanceRayon.duree} · {seanceRayon.prix} (prix d&apos;exemple) · {seanceRayon.lieu}.</p>
           <div role="group" aria-label="Créneau" className="grid grid-cols-3 gap-2">

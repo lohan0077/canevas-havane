@@ -5,7 +5,12 @@
 export default function Carnet() {
   const lignes = ["A reniflé la salle.", "A eu une friandise.", "Est reparti tranquille."];
   return (
-    <figure data-film="carnet" className="mx-auto w-full max-w-md rotate-[-1.5deg] rounded-[18px] border border-[var(--trait)] bg-[var(--carte)] p-7 shadow-[0_30px_60px_-40px_rgba(47,74,62,0.6)]">
+    // Un carnet de papier : les mêmes couleurs de jour, de nuit et dans une bande sombre.
+    <figure
+      data-film="carnet"
+      style={{ "--carte": "#FFFFFF", "--encre": "#2F4A3E", "--doux": "#56695F", "--trait": "#E4DDD0" } as React.CSSProperties}
+      className="mx-auto w-full max-w-md rotate-[-1.5deg] rounded-[18px] border border-[var(--trait)] bg-[var(--carte)] p-7 text-[var(--encre)] shadow-[0_30px_60px_-40px_rgba(47,74,62,0.6)]"
+    >
       <figcaption className="flex flex-wrap items-baseline justify-between gap-x-4 border-b border-[var(--trait)] pb-3">
         <span className="font-[family-name:var(--titres)] text-3xl">Carnet de Biscotte</span>
         <span className="whitespace-nowrap text-sm text-[var(--doux)]">Visite du 12 mars</span>

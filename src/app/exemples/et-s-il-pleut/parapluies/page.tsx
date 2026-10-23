@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { adressesDeLaPage } from "@/lib/seo";
+import Apparition from "../../_kit/Apparition";
+import TitreRevele from "../../_kit/TitreRevele";
+import { AppelFinal, EnTetePage } from "../_composants/Blocs";
 import Parapluie from "../_composants/Parapluie";
 import { photos } from "../_composants/donnees";
 
 export const metadata: Metadata = {
-  title: "Les parapluies · Et s'il pleut — site de démonstration",
+  title: "Les parapluies — Et s'il pleut, site de démonstration",
   description: "Cent parapluies jaunes aux prénoms des mariés, à chaque mariage : les invités repartent avec. Démonstration de Canevas Havane, rien n'est commandé.",
   ...adressesDeLaPage("/exemples/et-s-il-pleut/parapluies"),
 };
@@ -18,43 +21,39 @@ const ETAPES = [
 
 export default function Parapluies() {
   return (
-    <div>
-      <section className="relative isolate overflow-hidden bg-[#1E2733] text-[var(--sur-sombre)]">
-        <Image src={photos.lac.src} alt={photos.lac.alt} fill preload loading="eager" sizes="100vw" className="-z-10 object-cover object-[50%_62%] opacity-50" />
-        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[linear-gradient(to_bottom,#1E2733cc_0%,#1E273340_40%,#1E2733e6_100%)]" />
-        <div className="max-w-6xl mx-auto px-5 sm:px-6 min-h-[520px] flex flex-col justify-end pb-12 space-y-4">
-          <p className="font-[family-name:var(--titres)] text-7xl italic text-[var(--accent)]">× 100</p>
-          <h1 className="text-[48px] sm:text-8xl font-normal leading-[0.94] tracking-[-0.02em]">Cent parapluies jaunes.</h1>
-          <p className="max-w-md text-lg text-[#D4DCE6]">À chaque mariage, aux prénoms des mariés. Les invités repartent avec.</p>
-        </div>
-      </section>
+    <main>
+      <EnTetePage surtitre="À chaque mariage" titre="Cent parapluies *jaunes.*" photo={photos.lac} origine="50% 62%">
+        Aux prénoms des mariés. Les invités repartent avec.
+      </EnTetePage>
 
-      <section className="max-w-5xl mx-auto px-4 sm:px-6 py-16 sm:py-20 space-y-8">
-        <h2 className="text-[42px] sm:text-6xl font-normal leading-[0.98]">Mettez <span className="italic">vos prénoms dessus.</span></h2>
-        <Parapluie />
+      <section className="mx-auto max-w-5xl space-y-10 px-5 py-20 sm:px-8">
+        <TitreRevele texte="Mettez *vos prénoms dessus.*" className="text-[clamp(2.8rem,6vw,5rem)] font-normal leading-[0.96]" classeAccent="italic text-[var(--accent-texte)]" />
+        <Apparition de="zoom"><Parapluie /></Apparition>
       </section>
 
       <section className="bg-[#FFF4CF]">
-        <div className="max-w-6xl mx-auto px-5 sm:px-6 py-16 sm:py-20 grid gap-8 md:grid-cols-3">
+        <div className="mx-auto grid max-w-6xl gap-8 px-5 py-20 sm:px-8 md:grid-cols-3">
           {ETAPES.map((e, i) => (
-            <div key={e.titre} className="space-y-3 border-t border-[var(--encre)] pt-5">
-              <p className="font-[family-name:var(--titres)] text-4xl italic">{i + 1}</p>
-              <h3 className="text-2xl font-normal">{e.titre}</h3>
+            <Apparition key={e.titre} delai={i * 120} className="space-y-3 border-t border-[var(--encre)] pt-5">
+              <p className="font-[family-name:var(--titres)] text-5xl italic">{i + 1}</p>
+              <h2 className="text-2xl font-normal">{e.titre}</h2>
               <p className="leading-relaxed text-[var(--doux)]">{e.texte}</p>
-            </div>
+            </Apparition>
           ))}
         </div>
       </section>
 
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-20 grid gap-8 md:grid-cols-2 md:items-center">
-        <div className="relative aspect-square overflow-hidden rounded-[32px]">
-          <Image src={photos.parapluies.src} alt={photos.parapluies.alt} fill sizes="(min-width: 768px) 520px, 100vw" className="object-cover" />
-        </div>
+      <section className="mx-auto grid max-w-6xl gap-12 px-5 py-24 sm:px-8 md:grid-cols-2 md:items-center">
+        <Apparition de="rideau" className="relative aspect-square overflow-hidden rounded-full">
+          <Image src={photos.parapluies.src} alt={photos.parapluies.alt} fill sizes="(min-width: 768px) 520px, 100vw" className="kit-cinema-img object-cover" />
+        </Apparition>
         <div className="space-y-5">
-          <h2 className="text-[42px] sm:text-6xl font-normal leading-[0.98]">Les invités d&apos;aujourd&apos;hui, <span className="italic">les mariés de demain.</span></h2>
-          <p className="text-lg leading-relaxed text-[var(--doux)]">Un parapluie jaune dans une entrée, c&apos;est une question qu&apos;on vous posera longtemps : « Il vient d&apos;où&nbsp;? »</p>
+          <TitreRevele texte="Les invités d'aujourd'hui, *les mariés de demain.*" className="text-[clamp(2.6rem,5vw,4.4rem)] font-normal leading-[0.98]" classeAccent="italic text-[var(--accent-texte)]" />
+          <p className="text-lg leading-relaxed text-[var(--doux)]">Un parapluie jaune dans une entrée, c&apos;est une question qu&apos;on vous posera longtemps : « Il vient d&apos;où&nbsp;? »</p>
         </div>
       </section>
-    </div>
+
+      <AppelFinal />
+    </main>
   );
 }

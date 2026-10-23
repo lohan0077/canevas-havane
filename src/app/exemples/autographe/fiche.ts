@@ -1,9 +1,11 @@
-import type { FicheAncienne as Fiche } from "../_kit/fiche";
+import type { Fiche } from "../_kit/fiche";
 
 export const fiche: Fiche = {
   nom: "Autographe",
   metier: "Épicerie fine",
-  serie: "Créer une marque",
-  idee: "Une épicerie qui vend des auteurs : chaque pot porte la signature de celui qui l'a fait, et l'on cherche quelqu'un, pas un produit.",
-  video: "marque-epiceries-fines",
+  secteur: "epiceries-fines",
+  groupe: "vente",
+  idee: "Une épicerie qui vend des auteurs : chaque pot porte la signature de celui qui l'a fait, on cherche quelqu'un plutôt qu'un produit, et trois questions composent le coffret à apporter, prêt le soir même.",
+  image: "/exemples/autographe/miel.webp",
+  ancien: "on-apporte-quoi",
 };

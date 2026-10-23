@@ -1,18 +1,19 @@
 import Cadre from "../_kit/Cadre";
-import EnTete from "./_composants/EnTete";
-import { PiedDeSite } from "./_composants/Blocs";
+import NavVerre from "../_kit/NavVerre";
+import { Marque } from "./_composants/Blocs";
+import Pied from "./_composants/Pied";
+import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 
-// Le site imaginé dans la vidéo « Si je devais créer une entreprise de location de
-// tentes de zéro ». Mise en page inspirée du modèle « Camper Overnight » de MotionSites
-// (un paysage en plein écran, un grand titre à empattements, un bouton chaud), transposée
-// à un pré au soleil couchant et à un loueur de tentes. Le `noindex` vient du layout de
-// /exemples.
+// Le site de Pignon sur Pré, loueur imaginaire de tentes de réception et d'engins de
+// jardin, filmé dans les deux vidéos des loueurs. Le pré au couchant, le vert de l'herbe,
+// la terre cuite et le blé ; Fraunces (son italique douce, cousine libre du Baskerville de
+// la marque) et Figtree pour lire. Le `noindex` vient du layout de /exemples.
 export default function PignonSurPreLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
       entreprise="Pignon sur Pré"
-      titres="newsreader"
-      texte="dmSans"
+      titres="fraunces"
+      texte="figtree"
       couleurs={{
         fond: "#FBF7EE",
         encre: "#22311B",
@@ -22,13 +23,19 @@ export default function PignonSurPreLayout({ children }: { children: React.React
         accentTexte: "#A4442A",
         carte: "#FFFFFF",
         trait: "#DCD6C4",
-        sombre: "#2F4A22",
+        sombre: "#1E3015",
         surSombre: "#FBF7EE",
       }}
     >
-      <EnTete />
+      <NavVerre
+        accueil={DOSSIER}
+        marque={<Marque />}
+        liens={NAVIGATION}
+        action={{ href: `${DOSSIER}/disponibilites`, libelle: "Réserver" }}
+        surSombre
+      />
       {children}
-      <PiedDeSite />
+      <Pied />
     </Cadre>
   );
 }

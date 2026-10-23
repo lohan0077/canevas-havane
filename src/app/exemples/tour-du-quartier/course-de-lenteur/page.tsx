@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import { adressesDeLaPage } from "@/lib/seo";
+import Apparition from "../../_kit/Apparition";
+import TitreRevele from "../../_kit/TitreRevele";
+import { AppelFinal, EnTetePage, Pastille } from "../_composants/Blocs";
+import Course from "../_composants/Course";
 import { Inscription } from "../_composants/Formulaires";
-import { Pastille } from "../_composants/Blocs";
 import { COURSE } from "../_composants/donnees";
 
 export const metadata: Metadata = {
-  title: "Tour du Quartier — site de démonstration",
+  title: "La course de lenteur — Tour du Quartier, site de démonstration",
   description: "La course de lenteur d'un magasin de vélos imaginaire, sur son parking : le dernier arrivé gagne, et il n'y a rien à gagner.",
   ...adressesDeLaPage("/exemples/tour-du-quartier/course-de-lenteur"),
 };
@@ -20,29 +23,38 @@ const REGLES = [
 
 export default function PageCourse() {
   return (
-    <div>
-      <section className="bg-[#F2C14E]">
-        <div className="mx-auto max-w-6xl px-5 py-14 lg:py-20">
-          <p className="text-[14px] font-bold uppercase tracking-[0.1em]">{COURSE.date} · {COURSE.heure} · {COURSE.lieu}</p>
-          <h1 className="mt-3 text-[56px] font-extrabold leading-[0.92] tracking-tight sm:text-[96px]">La course de lenteur.</h1>
-          <p className="mt-4 max-w-xl text-lg leading-relaxed">Le premier dimanche du magasin. Le dernier arrivé gagne.</p>
-        </div>
-      </section>
-      <section className="mx-auto grid max-w-6xl gap-10 px-5 py-14 lg:grid-cols-2">
-        <div className="space-y-4">
-          <Pastille couleur="#E3EFD9">Le règlement, en entier</Pastille>
-          <ul className="space-y-3">
-            {REGLES.map((r) => (
-              <li key={r.t} className="rounded-[24px] bg-[var(--carte)] p-5">
-                <p className="text-[21px] font-extrabold">{r.t}</p>
-                <p className="mt-1 leading-relaxed text-[var(--doux)]">{r.d}</p>
-              </li>
+    <main>
+      <EnTetePage pastille={`${COURSE.date} · ${COURSE.heure} · ${COURSE.lieu}`} titre="La course *de lenteur.*">
+        Le premier dimanche du magasin. Le dernier arrivé gagne.
+      </EnTetePage>
+
+      <section className="mx-auto grid max-w-7xl gap-14 px-5 py-20 sm:px-8 md:py-28 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+        <div className="space-y-8">
+          <Apparition><Pastille>Le règlement, en entier</Pastille></Apparition>
+          <TitreRevele
+            texte="Cinq règles. *Aucune pression.*"
+            className="font-[family-name:var(--titres)] text-[clamp(2.2rem,4.4vw,3.8rem)] font-bold leading-[0.98] tracking-[-0.05em]"
+            classeAccent="text-[var(--accent-texte)]"
+          />
+          <ul className="grid gap-3 sm:grid-cols-2">
+            {REGLES.map((r, i) => (
+              <Apparition as="li" key={r.t} delai={i * 100} de="zoom" className="rounded-[28px] bg-[var(--carte)] p-6 shadow-[0_20px_40px_-32px_rgba(31,58,44,0.6)]">
+                <p className="font-[family-name:var(--titres)] text-lg font-bold leading-tight">{r.t}</p>
+                <p className="mt-2 leading-relaxed text-[var(--doux)]">{r.d}</p>
+              </Apparition>
             ))}
           </ul>
           <p className="text-[13px] text-[var(--doux)]">Date d&apos;exemple, entrée libre : le magasin est fictif.</p>
         </div>
-        <Inscription />
+        <div className="space-y-6 lg:sticky lg:top-28">
+          <div className="rounded-[40px] bg-[var(--sombre)] p-5 text-[var(--sur-sombre)] sm:p-6">
+            <Course />
+          </div>
+          <Inscription />
+        </div>
       </section>
-    </div>
+
+      <AppelFinal />
+    </main>
   );
 }

@@ -1,9 +1,11 @@
-import type { FicheAncienne as Fiche } from "../_kit/fiche";
+import type { Fiche } from "../_kit/fiche";
 
 export const fiche: Fiche = {
   nom: "Sans Soupir",
   metier: "Dépannage et cours d'informatique",
-  serie: "Créer une marque",
-  idee: "Pas de l'urgence : de la patience. L'informaticien qui t'explique trois fois, une fiche en gros caractères sur le frigo, et toutes les fiches gratuites à imprimer.",
-  video: "marque-depannage-info",
+  secteur: "depannage-info",
+  groupe: "rendez-vous",
+  idee: "L'informaticien qui répète sans soupirer : deux portes sur l'accueil (c'est cassé, prix clair ; je veux apprendre, crédit d'impôt possible), la vraie réponse sur le crédit d'impôt, et des fiches gratuites à imprimer pour le frigo.",
+  image: "/exemples/sans-soupir/tablette-main.webp",
+  ancien: "dimanche-libre",
 };

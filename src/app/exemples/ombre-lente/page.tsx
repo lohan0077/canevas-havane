@@ -2,257 +2,287 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { adressesDeLaPage } from "@/lib/seo";
-import { CONTACT, DOSSIER, ESSENCES, PHOTOS, euros, metres } from "./_composants/donnees";
-import { Branche, Faq, Passeport, Surtitre } from "./_composants/Elements";
+import Accordeon from "../_kit/Accordeon";
+import Apparition from "../_kit/Apparition";
+import CarteLueur from "../_kit/CarteLueur";
+import Defilant from "../_kit/Defilant";
+import FondVivant from "../_kit/FondVivant";
+import PhotoCinema from "../_kit/PhotoCinema";
+import RecitColle from "../_kit/RecitColle";
+import TitreRevele from "../_kit/TitreRevele";
+import ArbreQuiPousse from "./_composants/ArbreQuiPousse";
+import { AppelFinal, Bouton, Surtitre } from "./_composants/Blocs";
+import { Fruit } from "./_composants/Dessins";
 import Ombre from "./_composants/Ombre";
+import Passeport from "./_composants/Passeport";
+import Recolte from "./_composants/Recolte";
+import { CALENDRIER, DOSSIER, ESSENCES, FRUITIERS, PHOTOS, QUESTIONS, euros, recolteDe } from "./_composants/donnees";
 
-// Le site de la marque imaginée dans la vidéo « Si je devais créer une pépinière de
-// zéro » : on glisse les années, l'arbre grandit et son ombre arrive sur la terrasse.
-// Premier écran inspiré du modèle « Evergreen Finance » de MotionSites : un grand
-// titre centré, des arbres au trait de part et d'autre, des cartes posées sur l'image.
 export const metadata: Metadata = {
-  title: "Ombre Lente — site de démonstration",
+  title: "Ombre Lente — pépinière, site de démonstration",
   description:
-    "Site de démonstration d'une pépinière imaginaire, réalisé par Canevas Havane : glisse les années, ton arbre grandit, et son ombre arrive sur ta terrasse.",
+    "Le site d'une pépinière imaginaire : glisse les années et l'ombre de ton arbre arrive sur ta terrasse ; choisis ton fruitier et le site t'annonce l'été de ta première récolte. Le passeport phytosanitaire sur chaque fiche, et tout le monde plante le 25 novembre.",
   ...adressesDeLaPage("/exemples/ombre-lente"),
 };
 
-const ETAPES = [
-  ["Novembre", "On arrache ton arbre pendant son repos. Racines nues, enveloppées, étiquetées."],
-  ["La semaine suivante", "Il arrive avec son passeport phytosanitaire, son tuteur et une fiche de plantation."],
-  ["Les deux premiers étés", "Un arrosoir par semaine quand il fait sec. Ensuite, il se débrouille."],
-  ["Vingt ans plus tard", "Tu déjeunes dessous. Et tu nous envoies la photo."],
-];
+const PHOTOS_CALENDRIER = [PHOTOS.vergerNovembre, PHOTOS.arrosage, PHOTOS.mainsPlantation, PHOTOS.jeuneArbre];
+const PHOTOS_OMBRE = [PHOTOS.feuilles, PHOTOS.fleursTilleul, PHOTOS.arbreSeul, PHOTOS.tableOmbre];
 
 export default function OmbreLente() {
   return (
     <main>
-      {/* Ouverture : le titre centré, les branches au trait, l'image et ses cartes. */}
-      <section className="relative overflow-hidden">
-        <Branche className="pointer-events-none absolute -left-10 top-10 hidden w-56 md:block" />
-        <Branche className="pointer-events-none absolute -right-10 top-10 hidden w-56 md:block" miroir />
-        <div className="mx-auto max-w-3xl px-5 pb-10 pt-12 text-center sm:pt-20">
-          <Surtitre>Pépinière d&apos;arbres d&apos;ombrage</Surtitre>
-          <h1 className="mt-5 text-[58px] font-normal leading-[0.98] tracking-[-0.01em] sm:text-[88px]">
-            L&apos;ombre de dans <span className="italic text-[var(--accent-texte)]">vingt&nbsp;ans.</span>
-          </h1>
-          <p className="mx-auto mt-6 max-w-md text-[18px] leading-relaxed text-[var(--doux)]">
-            On ne vend pas des arbres. On vend l&apos;ombre que tu auras sur ta terrasse, un été de 2046.
-          </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <a href="#ombre" className="rounded-full bg-[var(--accent)] px-6 py-3.5 font-semibold text-[var(--sur-accent)]">Glisse les années</a>
-            <Link href={`${DOSSIER}/arbres`} className="rounded-full border border-[var(--encre)] px-6 py-3.5 font-semibold">Nos quatre arbres</Link>
-          </div>
-        </div>
-        <div className="relative mx-auto max-w-5xl px-5 sm:px-8">
-          <div className="overflow-hidden rounded-[36px]">
-            <Image src={PHOTOS.arbreSeul.src} alt={PHOTOS.arbreSeul.alt} width={PHOTOS.arbreSeul.largeur} height={PHOTOS.arbreSeul.hauteur} priority sizes="(min-width: 1024px) 960px, 92vw" className="h-[340px] w-full object-cover object-[50%_40%] sm:h-[480px]" />
-          </div>
-          <div className="relative -mt-16 grid grid-cols-2 gap-3 px-3 sm:-mt-20 sm:px-10">
-            <div className="rounded-[22px] border border-[var(--trait)] bg-[var(--carte)] p-4 shadow-[0_20px_40px_-28px_rgba(31,58,43,0.5)] sm:p-6">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--doux)]">An 1</p>
-              <p className="mt-1 font-[family-name:var(--titres)] text-[30px] leading-none">un bâton</p>
-              <p className="mt-2 text-[13px] text-[var(--doux)]">1,5 m · exemple</p>
-            </div>
-            <div className="rounded-[22px] bg-[var(--sombre)] p-4 text-[var(--sur-sombre)] shadow-[0_20px_40px_-28px_rgba(31,58,43,0.5)] sm:p-6">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#D9A441]">An 20</p>
-              <p className="mt-1 font-[family-name:var(--titres)] text-[30px] leading-none">tu déjeunes dessous</p>
-              <p className="mt-2 text-[13px] text-[#C9D3B8]">9 m · exemple</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* L'outil de la vidéo. */}
-      <section id="ombre" className="scroll-mt-20">
-        <div className="mx-auto grid max-w-5xl gap-10 px-5 py-20 sm:px-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
-          <div className="space-y-5 lg:sticky lg:top-28 lg:self-start">
-            <Surtitre>Ton arbre, dans le temps</Surtitre>
-            <h2 className="text-[48px] font-normal sm:text-6xl">Glisse <span className="italic">les années.</span></h2>
-            <p className="text-[17px] leading-relaxed text-[var(--doux)]">
-              Ton arbre grandit. Et son ombre de fin d&apos;après-midi avance, été après été, jusqu&apos;à ta terrasse.
-            </p>
-            <p className="hidden text-[14px] leading-relaxed text-[var(--doux)] lg:block">
-              Une simulation d&apos;exemple : une croissance moyenne, en bon sol. Ton arbre fera peut-être mieux,
-              peut-être moins bien. On préfère te le dire.
-            </p>
-          </div>
-          <Ombre />
+      {/* ---------- Premier écran : le nom seul, sur le sous-bois, et un arbre qui pousse ---------- */}
+      <section className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
+        <FondVivant couleurs={["#16291F", "#2A4A33", "#8C6A22"]} vitesse={0.5} />
+        <div className="absolute inset-0 bg-[var(--sombre)]/40" />
+        <ArbreQuiPousse className="pointer-events-none absolute bottom-0 left-1/2 h-[78%] max-h-[760px] -translate-x-1/2" />
+        <div className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-center gap-8 px-5 pb-12 pt-36 text-center sm:px-8">
+          <Apparition><Surtitre clair annee="Val de Loire">Pépinière</Surtitre></Apparition>
+          <TitreRevele
+            as="h1"
+            auChargement
+            texte="Ombre *Lente*"
+            className="text-[clamp(5.6rem,21vw,17rem)] leading-[0.82] tracking-[-0.03em]"
+            classeAccent="italic text-[#D9A441]"
+          />
+          <TitreRevele
+            as="p"
+            auChargement
+            delai={400}
+            texte="On plante. *Le temps fait le reste.*"
+            className="font-[family-name:var(--titres)] text-[clamp(1.7rem,3.4vw,2.8rem)] leading-tight"
+            classeAccent="italic"
+          />
+          <Apparition delai={800} className="grid w-full max-w-3xl gap-3 sm:grid-cols-2">
+            {[
+              { href: `${DOSSIER}#ombre`, fort: "L'ombre de dans vingt ans", doux: "Glisse les années" },
+              { href: `${DOSSIER}#recolte`, fort: "La première cerise dans trois", doux: "Tu cueilles quand ?" },
+            ].map((x) => (
+              <Link key={x.href} href={x.href} className="group flex items-center justify-between gap-4 rounded-full border border-white/20 bg-[var(--sombre)]/70 px-6 py-4 text-left backdrop-blur-md transition-colors hover:border-[#D9A441]">
+                <span>
+                  <span className="block font-[family-name:var(--titres)] text-[22px] leading-tight">{x.fort}</span>
+                  <span className="block text-[14px]">{x.doux}</span>
+                </span>
+                <span aria-hidden="true" className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#D9A441] text-[#16291F] transition-transform group-hover:translate-x-1">→</span>
+              </Link>
+            ))}
+          </Apparition>
         </div>
       </section>
 
-      {/* Le manifeste. */}
-      <section className="bg-[var(--carte)]">
-        <div className="mx-auto grid max-w-5xl gap-10 px-5 py-20 sm:px-8 md:grid-cols-[1.1fr_0.9fr] md:items-center">
+      {/* ---------- Les années qui passent ---------- */}
+      <div className="bg-[var(--accent)] py-5 text-[var(--sur-accent)]">
+        <Defilant
+          duree={52}
+          separateur="✦"
+          elements={["An 1 · un bâton", "An 3 · la première cerise", "An 7 · l'ombre sur l'herbe", "An 12 · la balançoire", "An 20 · tu déjeunes dessous", "Le 25 novembre · tout le monde plante"]}
+          classeElement="font-[family-name:var(--titres)] text-3xl md:text-5xl italic whitespace-nowrap"
+        />
+      </div>
+
+      {/* ---------- Glisse les années ---------- */}
+      <section id="ombre" className="scroll-mt-20 mx-auto max-w-7xl px-5 py-24 sm:px-8 md:py-32">
+        <div className="mb-12 grid gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-end">
           <div className="space-y-6">
-            <Surtitre>Pourquoi « lente »</Surtitre>
-            <p className="font-[family-name:var(--titres)] text-[40px] leading-[1.08] sm:text-5xl">
-              Un arbre, ça prend son temps. On ne fait pas semblant du contraire.
-            </p>
-            <p className="text-[17px] leading-relaxed text-[var(--doux)]">
-              Pas de promesse de croissance express, pas d&apos;arbre de 4 mètres livré en camion-grue. Un jeune arbre,
-              planté en novembre, qui s&apos;installe. Un arbre planté jeune reprend mieux, et rattrape souvent les grands.
-            </p>
+            <Apparition><Surtitre annee="2026 → 2046">L&apos;ombre</Surtitre></Apparition>
+            <TitreRevele
+              texte="Glisse *les années.*"
+              className="text-[clamp(3.4rem,8.5vw,8rem)] leading-[0.88] tracking-[-0.02em]"
+              classeAccent="italic text-[var(--accent-texte)]"
+            />
           </div>
-          <div className="overflow-hidden rounded-[36px]">
-            <Image src={PHOTOS.feuilles.src} alt={PHOTOS.feuilles.alt} width={PHOTOS.feuilles.largeur} height={PHOTOS.feuilles.hauteur} sizes="(min-width: 768px) 420px, 92vw" className="h-auto w-full" />
-          </div>
+          <Apparition as="p" delai={200} className="text-xl leading-relaxed text-[var(--doux)]">
+            Ton arbre grandit sous tes yeux. Et son ombre de fin d&apos;après-midi avance, année
+            après année, jusqu&apos;à ta terrasse. Simulation d&apos;exemple, calculée chez toi.
+          </Apparition>
         </div>
+        <Apparition de="zoom">
+          <Ombre />
+        </Apparition>
       </section>
 
-      {/* An 1, an 20. */}
-      <section>
-        <div className="mx-auto grid max-w-5xl gap-10 px-5 py-20 sm:px-8 md:grid-cols-2 md:items-center">
-          <div className="order-2 space-y-8 md:order-1">
-            <div className="space-y-2 border-b border-[var(--trait)] pb-8">
-              <p className="font-[family-name:var(--titres)] text-[72px] leading-none text-[var(--accent-texte)]">An 1</p>
-              <p className="text-[22px]">Un bâton, et un tuteur.</p>
-            </div>
-            <div className="space-y-2">
-              <p className="font-[family-name:var(--titres)] text-[72px] leading-none text-[var(--accent-texte)]">An 20</p>
-              <p className="text-[22px]">Tu déjeunes dessous.</p>
-              <p className="text-[14px] text-[var(--doux)]">La hauteur à vingt ans dépend de l&apos;essence, du sol et de la taille.</p>
-            </div>
-          </div>
-          <div className="order-1 mx-auto w-full max-w-[380px] overflow-hidden rounded-[200px_200px_36px_36px] md:order-2">
-            <Image src={PHOTOS.tableOmbre.src} alt={PHOTOS.tableOmbre.alt} width={PHOTOS.tableOmbre.largeur} height={PHOTOS.tableOmbre.hauteur} sizes="(min-width: 768px) 380px, 90vw" className="h-auto w-full" />
-          </div>
-        </div>
-      </section>
-
-      {/* Les essences. */}
-      <section className="border-y border-[var(--trait)] bg-[#EAE2CF]">
-        <div className="mx-auto max-w-5xl space-y-10 px-5 py-20 sm:px-8">
-          <div className="flex flex-wrap items-end justify-between gap-5">
-            <div className="space-y-4">
-              <Surtitre>Nos arbres</Surtitre>
-              <h2 className="text-[44px] font-normal sm:text-5xl">Quatre ombres <span className="italic">différentes.</span></h2>
-            </div>
-            <Link href={`${DOSSIER}/arbres`} className="font-semibold underline underline-offset-4">Voir les quatre</Link>
-          </div>
-          <ul className="grid gap-4 sm:grid-cols-2">
-            {ESSENCES.map((e) => (
-              <li key={e.slug}>
-                <Link href={`${DOSSIER}/arbres/${e.slug}`} className="flex h-full items-start justify-between gap-4 rounded-[26px] bg-[var(--carte)] p-6">
-                  <span className="space-y-1.5">
-                    <span className="block font-[family-name:var(--titres)] text-[30px] leading-tight">{e.nom}</span>
-                    <span className="block text-[14px] italic text-[var(--doux)]">{e.latin}</span>
-                    <span className="block pt-2 text-[15px] leading-relaxed">{e.phrase}</span>
-                  </span>
-                  <span className="shrink-0 text-right">
-                    <span className="block text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--doux)]">À 20 ans</span>
-                    <span className="block text-2xl font-bold tabular-nums">~{metres(e.vingt)}</span>
-                    <span className="block text-[12px] text-[var(--doux)]">exemple</span>
-                    <span className="mt-3 block text-[15px] font-semibold tabular-nums">{euros(e.prix)} TTC</span>
+      {/* ---------- Ce qu'on vend : un bento de deux promesses ---------- */}
+      <section className="mx-auto max-w-7xl px-5 pb-24 sm:px-8 md:pb-32">
+        <div className="grid gap-5 lg:grid-cols-2">
+          {[
+            { photo: PHOTOS.terrasseOmbre, barre: "Des arbres.", fort: "De l'ombre. Celle que t'auras dans vingt ans.", lien: `${DOSSIER}/arbres/tilleul`, libelle: "Le tilleul" },
+            { photo: PHOTOS.cerises, barre: "Un arbre.", fort: "La première cerise. L'été de ta première récolte, variété par variété.", lien: `${DOSSIER}/arbres/cerisier-burlat`, libelle: "Le cerisier Burlat" },
+          ].map((c, i) => (
+            <Apparition key={c.lien} delai={i * 150} de="zoom">
+              <CarteLueur className="group h-full rounded-[2.5rem]">
+                <Link href={c.lien} className="relative flex h-[560px] flex-col justify-end overflow-hidden rounded-[2.5rem] bg-[var(--sombre)] p-8 text-[var(--sur-sombre)] sm:p-10 md:h-[640px]">
+                  <Image src={c.photo.src} alt={c.photo.alt} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover opacity-75 transition-transform duration-[1.6s] group-hover:scale-[1.05]" />
+                  <span className="absolute inset-0 bg-[linear-gradient(180deg,rgba(22,41,31,0.05)_30%,rgba(22,41,31,0.95)_100%)]" />
+                  <span className="relative space-y-4">
+                    <span className="block font-[family-name:var(--titres)] text-[clamp(1.8rem,3vw,2.4rem)]">
+                      On ne vend pas <span className="kit-barre italic">{c.barre}</span>
+                    </span>
+                    <span className="block font-[family-name:var(--titres)] text-[clamp(2.4rem,4.4vw,3.8rem)] leading-[0.98]">{c.fort}</span>
+                    <span className="inline-flex items-center gap-3 text-[15px] font-semibold">
+                      {c.libelle} <span aria-hidden="true" className="grid h-9 w-9 place-items-center rounded-full bg-[#D9A441] text-[#16291F] transition-transform group-hover:translate-x-1">→</span>
+                    </span>
                   </span>
                 </Link>
-              </li>
-            ))}
-          </ul>
+              </CarteLueur>
+            </Apparition>
+          ))}
         </div>
       </section>
 
-      {/* Le passeport : la loi, montrée sur chaque fiche. */}
-      <section id="passeport" className="scroll-mt-20">
-        <div className="mx-auto max-w-5xl space-y-10 px-5 py-20 sm:px-8">
-          <div className="max-w-2xl space-y-5">
-            <Surtitre>Le passeport</Surtitre>
-            <h2 className="text-[44px] font-normal sm:text-5xl">Chaque arbre expédié part avec son passeport.</h2>
-            <p className="text-[17px] leading-relaxed text-[var(--doux)]">
-              C&apos;est la loi : tout arbre vendu à distance voyage avec son passeport phytosanitaire, et toutes les
-              pépinières qui expédient y sont tenues. On le montre sur chaque fiche, tel que tu le recevras.
-            </p>
-            <p className="text-[14px] text-[var(--doux)]">Règlement (UE) 2016/2031, articles 79, 81 et 83 · valeurs d&apos;exemple</p>
+      {/* ---------- Tu cueilles quand ? : la bande sombre ---------- */}
+      <section id="recolte" className="scroll-mt-16 px-3 sm:px-5">
+        <div className="kit-grain relative overflow-hidden rounded-[2.5rem] bg-[var(--sombre)] text-[var(--sur-sombre)]">
+          <div className="mx-auto grid max-w-6xl gap-12 px-5 py-20 sm:px-10 md:py-28 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+            <div className="space-y-6 lg:sticky lg:top-28">
+              <Apparition><Surtitre clair annee="2029">La première récolte</Surtitre></Apparition>
+              <TitreRevele
+                texte={"Tu cueilles *quand ?*"}
+                className="text-[clamp(3.2rem,7.5vw,6.8rem)] leading-[0.9] tracking-[-0.02em]"
+                classeAccent="italic text-[#D9A441]"
+              />
+              <Apparition as="p" delai={200} className="max-w-md text-lg leading-relaxed">
+                Choisis ton arbre : il grandit, et le site t&apos;annonce l&apos;été de ta première
+                récolte. Estimé, variété par variété — pas promis.
+              </Apparition>
+            </div>
+            <Apparition de="droite" delai={150} className="rounded-[2rem] bg-[var(--fond)] p-4 text-[var(--encre)] sm:p-6">
+              <Recolte />
+            </Apparition>
           </div>
-          <Passeport latin="Tilia cordata" lot="2026-12" />
         </div>
       </section>
 
-      {/* L'affiche du lancement. */}
-      <section className="bg-[var(--sombre)] text-[var(--sur-sombre)]">
-        <div className="mx-auto max-w-4xl px-5 py-24 text-center sm:px-8">
-          <p className="font-[family-name:var(--titres)] text-[44px] leading-[1.05] sm:text-7xl">
-            Le meilleur moment pour planter un arbre, c&apos;était il y a <span className="italic text-[#D9A441]">vingt ans.</span>
-          </p>
-          <p className="mt-8 text-[20px]">Le deuxième, c&apos;est maintenant.</p>
-          <p className="mt-3 text-[13px] text-[#C9D3B8]">Proverbe, souvent dit chinois, d&apos;origine incertaine.</p>
-        </div>
-      </section>
-
-      {/* Le film de vingt ans. */}
-      <section>
-        <div className="mx-auto grid max-w-5xl gap-8 px-5 py-20 sm:px-8 md:grid-cols-2 md:items-center">
-          <div className="space-y-5">
-            <Surtitre>Une photo par an</Surtitre>
-            <h2 className="text-[44px] font-normal sm:text-5xl">Dans vingt ans, ça fait <span className="italic">un film.</span></h2>
-            <p className="text-[17px] leading-relaxed text-[var(--doux)]">
-              Chaque année, à la date anniversaire de ta plantation, tu prends ton arbre en photo, du même endroit. On te
-              rappelle la date. Au bout de vingt ans, on monte le film.
-            </p>
-            <Link href={`${DOSSIER}/vingt-ans`} className="inline-block rounded-full border border-[var(--encre)] px-6 py-3.5 font-semibold">Voir comment ça marche</Link>
+      {/* ---------- Nos arbres ---------- */}
+      <section className="mx-auto max-w-7xl px-5 py-24 sm:px-8 md:py-32">
+        <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
+          <div className="space-y-6">
+            <Apparition><Surtitre>Nos arbres</Surtitre></Apparition>
+            <TitreRevele
+              texte="Dix arbres. *Tous lents.*"
+              className="text-[clamp(3rem,7vw,6.5rem)] leading-[0.9] tracking-[-0.02em]"
+              classeAccent="italic text-[var(--accent-texte)]"
+            />
           </div>
-          <ol className="grid grid-cols-4 gap-2" aria-label="Quatre photos du même arbre, en dessin">
-            {[0, 5, 10, 20].map((k, i) => (
-              <li key={k} className="space-y-2 text-center">
-                <div className="flex aspect-[3/4] items-end justify-center rounded-[14px] bg-[#EAF0E2] pb-3">
-                  <span aria-hidden="true" className="block rounded-full bg-[#4E6E3A]" style={{ width: `${12 + i * 14}px`, height: `${12 + i * 14}px`, marginBottom: `${6 + i * 6}px` }} />
-                </div>
-                <p className="text-[13px] font-semibold tabular-nums">{2026 + k}</p>
-              </li>
-            ))}
-          </ol>
+          <Apparition><Bouton href={`${DOSSIER}/arbres`} variante="vert">Tout le catalogue</Bouton></Apparition>
         </div>
+        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {ESSENCES.map((e, i) => (
+            <Apparition as="li" key={e.slug} delai={i * 90}>
+              <Link href={`${DOSSIER}/arbres/${e.slug}`} className="group relative flex h-72 flex-col justify-end overflow-hidden rounded-[2rem] bg-[var(--sombre)] p-6 text-[var(--sur-sombre)]">
+                <Image src={PHOTOS_OMBRE[i].src} alt={PHOTOS_OMBRE[i].alt} fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover opacity-60 transition-transform duration-[1.4s] group-hover:scale-[1.06]" />
+                <span className="absolute inset-0 bg-[linear-gradient(180deg,rgba(22,41,31,0)_30%,rgba(22,41,31,0.95)_100%)]" />
+                <span className="relative">
+                  <span className="block text-[12px] font-semibold uppercase tracking-[0.18em] text-[#D9A441]">Ombre · {euros(e.prix)}</span>
+                  <span className="mt-1 block font-[family-name:var(--titres)] text-[30px] leading-tight">{e.nom}</span>
+                </span>
+              </Link>
+            </Apparition>
+          ))}
+          {FRUITIERS.map((a, i) => (
+            <Apparition as="li" key={a.slug} delai={(i % 4) * 90}>
+              <Link href={`${DOSSIER}/arbres/${a.slug}`} className="group flex h-full min-h-56 flex-col justify-between rounded-[2rem] border border-[var(--trait)] bg-[var(--carte)] p-6 transition-colors hover:border-[var(--encre)]">
+                <Fruit fruit={a.fruit} className="h-20 w-20 transition-transform duration-500 group-hover:-rotate-6" />
+                <span>
+                  <span className="block text-[12px] font-semibold uppercase tracking-[0.18em] text-[var(--accent-texte)]">Fruit · {recolteDe(a, "demi-tige").toLowerCase()}</span>
+                  <span className="mt-1 block font-[family-name:var(--titres)] text-[28px] leading-tight">{a.espece} {a.variete}</span>
+                </span>
+              </Link>
+            </Apparition>
+          ))}
+        </ul>
+        <p className="mt-5 text-[13px] text-[var(--doux)]">Prix TTC et années de récolte d&apos;exemple.</p>
       </section>
 
-      {/* La méthode. */}
-      <section className="bg-[var(--carte)] border-y border-[var(--trait)]">
-        <div className="mx-auto max-w-5xl space-y-10 px-5 py-20 sm:px-8">
-          <div className="max-w-xl space-y-4">
-            <Surtitre>Comment ça se passe</Surtitre>
-            <h2 className="text-[44px] font-normal sm:text-5xl">Lentement, et dans l&apos;ordre.</h2>
+      {/* ---------- Le passeport, montré ---------- */}
+      <section id="passeport" className="scroll-mt-16 bg-[#E9DDBF]">
+        <div className="mx-auto grid max-w-7xl gap-12 px-5 py-24 sm:px-8 md:py-32 lg:grid-cols-2 lg:items-center">
+          <div className="space-y-6">
+            <Apparition><Surtitre>C&apos;est la loi</Surtitre></Apparition>
+            <TitreRevele
+              texte="Son passeport, *montré sur chaque fiche.*"
+              className="text-[clamp(2.8rem,6vw,5.4rem)] leading-[0.92] tracking-[-0.02em]"
+              classeAccent="italic text-[var(--accent-texte)]"
+            />
+            <Apparition as="p" delai={200} className="max-w-lg text-lg leading-relaxed">
+              Chaque arbre expédié voyage avec son passeport phytosanitaire, attaché à l&apos;arbre.
+              C&apos;est obligatoire, pour toutes les pépinières. Nous, on le montre en photo avant
+              l&apos;achat : tu sais ce que tu recevras.
+            </Apparition>
+            <Apparition as="p" delai={250} className="text-[14px]">Règl. (UE) 2016/2031, art. 79, 81 et 83 · valeurs d&apos;exemple</Apparition>
           </div>
-          <ol className="grid gap-px overflow-hidden rounded-[26px] border border-[var(--trait)] bg-[var(--trait)] sm:grid-cols-2">
-            {ETAPES.map(([t, d], i) => (
-              <li key={t} className="space-y-2 bg-[var(--carte)] p-7">
-                <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-[var(--accent-texte)]">Étape {i + 1}</p>
-                <h3 className="text-[30px] font-normal">{t}</h3>
-                <p className="leading-relaxed text-[var(--doux)]">{d}</p>
-              </li>
-            ))}
-          </ol>
+          <Apparition de="zoom">
+            <Passeport latin="Tilia cordata" lot="2026-12" />
+          </Apparition>
         </div>
       </section>
 
-      {/* Questions. */}
-      <section>
-        <div className="mx-auto grid max-w-5xl gap-10 px-5 py-20 sm:px-8 md:grid-cols-[0.8fr_1.2fr]">
-          <div className="space-y-4">
-            <Surtitre>Questions</Surtitre>
-            <h2 className="text-[44px] font-normal sm:text-5xl">Avant de planter.</h2>
+      {/* ---------- L'affiche ---------- */}
+      <section className="kit-grain relative isolate overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
+        <PhotoCinema src={PHOTOS.arbreSeul.src} alt="" origine="50% 40%" className="opacity-60" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(22,41,31,0.55)_0%,rgba(22,41,31,0.8)_100%)]" />
+        <div className="relative mx-auto max-w-6xl space-y-8 px-5 py-32 text-center sm:px-8 md:py-44">
+          <Apparition><Surtitre clair>L&apos;affiche du lancement</Surtitre></Apparition>
+          <TitreRevele
+            texte="Le meilleur moment pour planter un arbre, c'était il y a *vingt ans.*"
+            className="mx-auto max-w-5xl text-[clamp(2.8rem,6.6vw,6.2rem)] leading-[0.95] tracking-[-0.02em]"
+            classeAccent="italic text-[#D9A441]"
+          />
+          <TitreRevele
+            as="p"
+            delai={500}
+            texte={"Le deuxième, *c'est maintenant.*"}
+            className="font-[family-name:var(--titres)] text-[clamp(2rem,4vw,3.4rem)]"
+            classeAccent="italic"
+          />
+        </div>
+      </section>
+
+      {/* ---------- Le 25 novembre ---------- */}
+      <section className="mx-auto max-w-7xl px-5 py-24 sm:px-8 md:py-32">
+        <div className="mb-6 space-y-6 md:mb-0">
+          <Apparition><Surtitre annee="25 novembre">La Sainte-Catherine</Surtitre></Apparition>
+          <TitreRevele
+            texte="Tout bois *prend racine.*"
+            className="max-w-4xl text-[clamp(3rem,7vw,6.5rem)] leading-[0.9] tracking-[-0.02em]"
+            classeAccent="italic text-[var(--accent-texte)]"
+          />
+          <Apparition as="p" delai={150} className="max-w-xl text-lg leading-relaxed text-[var(--doux)]">
+            Ce jour-là, tous les clients plantent leur arbre en même temps. Et chaque année, à la
+            même date, ils nous envoient sa photo. Dans vingt ans, ça fait un film.
+          </Apparition>
+        </div>
+        <RecitColle
+          etapes={CALENDRIER.map(([d, t], i) => ({
+            surtitre: `Étape ${i + 1}`,
+            titre: d,
+            texte: <p>{t}</p>,
+            visuel: <Image src={PHOTOS_CALENDRIER[i].src} alt={PHOTOS_CALENDRIER[i].alt} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />,
+          }))}
+        />
+        <Apparition className="mt-6 flex flex-wrap gap-3">
+          <Bouton href={`${DOSSIER}/sainte-catherine`} variante="vert">Le rendez-vous du 25 novembre</Bouton>
+          <Bouton href={`${DOSSIER}/vingt-ans`} variante="contour">Le film de vingt ans</Bouton>
+        </Apparition>
+      </section>
+
+      {/* ---------- Questions ---------- */}
+      <section id="questions" className="scroll-mt-24 border-t border-[var(--trait)] bg-[var(--carte)]">
+        <div className="mx-auto grid max-w-7xl gap-12 px-5 py-24 sm:px-8 md:py-32 lg:grid-cols-[0.7fr_1.3fr]">
+          <div className="space-y-6">
+            <Apparition><Surtitre>Questions</Surtitre></Apparition>
+            <TitreRevele
+              texte="Avant de *planter.*"
+              className="text-[clamp(2.8rem,5.5vw,5rem)] leading-[0.95] tracking-[-0.02em]"
+              classeAccent="italic text-[var(--accent-texte)]"
+            />
           </div>
-          <Faq />
+          <Apparition delai={150}>
+            <Accordeon questions={QUESTIONS.map((q) => ({ question: q.q, reponse: q.r }))} />
+          </Apparition>
         </div>
       </section>
 
-      {/* Nous trouver. */}
-      <section id="contact" className="scroll-mt-20 bg-[#EAE2CF]">
-        <div className="mx-auto max-w-3xl space-y-6 px-5 py-20 text-center sm:px-8">
-          <Surtitre>Nous trouver</Surtitre>
-          <h2 className="text-[44px] font-normal sm:text-5xl">Viens voir les rangs.</h2>
-          <p className="text-[17px] leading-relaxed text-[var(--doux)]">
-            On te montre les arbres de la saison, et on t&apos;aide à choisir la place du tien : l&apos;ombre, le voisin,
-            les racines.
-          </p>
-          <dl className="mx-auto grid max-w-xl gap-4 text-left sm:grid-cols-3">
-            {[["Adresse", CONTACT.adresse], ["Ouvert", CONTACT.horaires], ["Téléphone", CONTACT.telephone]].map(([t, d]) => (
-              <div key={t} className="rounded-[20px] bg-[var(--carte)] p-5">
-                <dt className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--doux)]">{t}</dt>
-                <dd className="mt-1 font-semibold">{d}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-      </section>
+      <AppelFinal />
     </main>
   );
 }

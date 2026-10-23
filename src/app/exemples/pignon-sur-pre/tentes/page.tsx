@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { adressesDeLaPage } from "@/lib/seo";
+import Apparition from "../../_kit/Apparition";
+import CarteLueur from "../../_kit/CarteLueur";
+import TitreRevele from "../../_kit/TitreRevele";
+import { AppelFinal, Bouton, CarteTente, EnTetePage, Faq, PHOTO_TENTE, Surtitre, TERRE } from "../_composants/Blocs";
 import { DOSSIER, OPTIONS, TENTES, photos } from "../_composants/donnees";
-import { CarteTente, Faq, Surtitre } from "../_composants/Blocs";
 
 // Les trois tentes, leur capacité (celle du fabricant), leur prix TTC d'exemple pour le
 // week-end, ce qui est compris, et ce qu'on pose avec.
 export const metadata: Metadata = {
-  title: "Les tentes · Pignon sur Pré — site de démonstration",
+  title: "Les tentes — Pignon sur Pré, site de démonstration",
   description: "Trois tentes de réception, de 60 à 240 invités assis selon le fabricant, montées la veille. Site de démonstration, prix d'exemple.",
   ...adressesDeLaPage("/exemples/pignon-sur-pre/tentes"),
 };
@@ -29,66 +31,71 @@ const QUESTIONS_TENTES = [
 
 export default function Tentes() {
   return (
-    <div>
-      <section className="max-w-6xl mx-auto px-5 pt-10 pb-14 sm:pt-16 grid gap-8 md:grid-cols-[1.2fr_0.8fr] md:items-end">
-        <div className="space-y-4">
-          <Surtitre>Les tentes</Surtitre>
-          <h1 className="text-[48px] sm:text-7xl font-normal">Trois tentes, <em className="text-[var(--accent-texte)]">un week-end.</em></h1>
-          <p className="text-lg leading-relaxed text-[var(--doux)]">
-            Montées le vendredi, démontées le lundi. Les prix sont TTC, pour le week-end, montage et démontage compris.
-          </p>
-        </div>
-        <div className="relative hidden md:block aspect-[3/4] overflow-hidden rounded-t-full">
-          <Image src={photos.tenteJardin.src} alt={photos.tenteJardin.alt} fill sizes="380px" className="object-cover" />
-        </div>
-      </section>
+    <main>
+      <EnTetePage surtitre="Les tentes" titre="Trois tentes, *un week-end.*" photo={photos.tenteJardin} origine="50% 40%">
+        Montées le vendredi, démontées le lundi. Les prix sont TTC, pour le week-end, montage et démontage compris&nbsp;: des
+        exemples, l&apos;entreprise est fictive.
+      </EnTetePage>
 
-      <section className="max-w-6xl mx-auto px-5 pb-16 sm:pb-24">
+      <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 md:py-28">
         <ul className="grid gap-4 md:grid-cols-3">
-          {TENTES.map((t) => (
-            <li key={t.id}><CarteTente t={t} /></li>
+          {TENTES.map((t, i) => (
+            <Apparition as="li" key={t.id} delai={i * 120} de="zoom" className="group">
+              <CarteLueur className="h-full rounded-[26px]">
+                <CarteTente t={t} photo={PHOTO_TENTE[t.id]} />
+              </CarteLueur>
+            </Apparition>
           ))}
         </ul>
-        <p className="mt-4 text-[13px] text-[var(--doux)]">Prix TTC d&apos;exemple. Capacité : celle du fabricant de chaque modèle, en invités assis à des tables rondes de dix.</p>
+        <p className="mt-5 text-[13px] text-[var(--doux)]">Prix TTC d&apos;exemple. Capacité : celle du fabricant de chaque modèle, en invités assis à des tables rondes de dix.</p>
       </section>
 
-      <section className="bg-[var(--carte)] border-y border-[var(--trait)]">
-        <div className="max-w-6xl mx-auto px-5 py-16 sm:py-24 grid gap-10 md:grid-cols-2">
-          <div className="space-y-5">
-            <Surtitre>Compris</Surtitre>
-            <h2 className="text-[40px] sm:text-5xl font-normal">Dans le prix.</h2>
+      <section className="px-3 sm:px-5">
+        <div className="kit-grain grid overflow-hidden rounded-[2.5rem] bg-[var(--sombre)] text-[var(--sur-sombre)] lg:grid-cols-2">
+          <div className="space-y-6 px-6 py-16 sm:px-12 md:py-24">
+            <Surtitre clair>Compris</Surtitre>
+            <TitreRevele texte="Dans le *prix.*" className="font-[family-name:var(--titres)] text-[clamp(3rem,6vw,5rem)] font-normal leading-[0.92] tracking-[-0.03em]" classeAccent="italic font-light text-[#F2C98A]" />
             <ul className="space-y-3 text-lg">
-              {COMPRIS.map((c) => (
-                <li key={c} className="flex gap-3"><span aria-hidden="true" className="text-[var(--accent-texte)]">✓</span>{c}</li>
+              {COMPRIS.map((c, i) => (
+                <Apparition as="li" key={c} delai={i * 90} className="flex gap-3 border-b border-white/15 pb-3">
+                  <span aria-hidden="true" className="text-[#F2C98A]">✿</span>
+                  {c}
+                </Apparition>
               ))}
             </ul>
           </div>
-          <div className="space-y-5">
-            <Surtitre>En plus</Surtitre>
-            <h2 className="text-[40px] sm:text-5xl font-normal">Ce qu&apos;on pose avec.</h2>
-            <ul className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
-              {OPTIONS.map((o) => (
-                <li key={o.nom} className="flex items-baseline justify-between gap-4 py-3.5">
-                  <span>
-                    <span className="block font-semibold">{o.nom}</span>
-                    <span className="block text-[15px] text-[var(--doux)]">{o.detail}</span>
-                  </span>
-                  <span className="shrink-0 text-[15px] font-semibold">{o.prix}</span>
-                </li>
-              ))}
-            </ul>
-            <p className="text-[13px] text-[var(--doux)]">Prix TTC d&apos;exemple, pour le week-end.</p>
+          <div className="relative min-h-[320px]">
+            <Image src={photos.tenteNuit.src} alt={photos.tenteNuit.alt} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
           </div>
         </div>
       </section>
 
-      <section className="max-w-3xl mx-auto px-5 py-16 sm:py-24 space-y-8">
-        <h2 className="text-[40px] font-normal">Questions</h2>
-        <Faq questions={QUESTIONS_TENTES} />
-        <Link href={`${DOSSIER}#pre`} className="inline-flex h-14 items-center rounded-full bg-[var(--accent)] px-6 text-[17px] font-semibold text-[var(--sur-accent)]">
-          Voir ma tente sur mon pré
-        </Link>
+      <section className="mx-auto grid max-w-7xl gap-12 px-5 py-24 sm:px-8 md:py-32 lg:grid-cols-2">
+        <div className="space-y-6">
+          <Apparition><Surtitre>En plus</Surtitre></Apparition>
+          <TitreRevele texte="Ce qu'on *pose avec.*" className="font-[family-name:var(--titres)] text-[clamp(3rem,5.5vw,4.8rem)] font-normal leading-[0.92] tracking-[-0.03em]" classeAccent={TERRE} />
+          <ul className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
+            {OPTIONS.map((o, i) => (
+              <Apparition as="li" key={o.nom} delai={i * 90} className="flex items-baseline justify-between gap-4 py-4">
+                <span>
+                  <span className="block font-[family-name:var(--titres)] text-2xl">{o.nom}</span>
+                  <span className="block text-[15px] text-[var(--doux)]">{o.detail}</span>
+                </span>
+                <span className="shrink-0 font-semibold">{o.prix}</span>
+              </Apparition>
+            ))}
+          </ul>
+          <p className="text-[13px] text-[var(--doux)]">Prix TTC d&apos;exemple, pour le week-end.</p>
+        </div>
+        <div className="space-y-6">
+          <Apparition><Surtitre>Questions</Surtitre></Apparition>
+          <TitreRevele texte="Avant de *choisir.*" className="font-[family-name:var(--titres)] text-[clamp(3rem,5.5vw,4.8rem)] font-normal leading-[0.92] tracking-[-0.03em]" classeAccent={TERRE} />
+          <Faq questions={QUESTIONS_TENTES} />
+          <Bouton href={`${DOSSIER}#pre`}>Voir ma tente sur mon pré</Bouton>
+        </div>
       </section>
-    </div>
+
+      <AppelFinal />
+    </main>
   );
 }

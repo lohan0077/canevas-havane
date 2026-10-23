@@ -1,10 +1,322 @@
 [
   {
+    "source": "/exemples/facade-allumee",
+    "destination": "/exemples/a-garder"
+  },
+  {
+    "source": "/exemples/facade-allumee/:chemin*",
+    "destination": "/exemples/a-garder"
+  },
+  {
+    "source": "/exemples/jamais-deux",
+    "destination": "/exemples/a-la-prochaine"
+  },
+  {
+    "source": "/exemples/jamais-deux/:chemin*",
+    "destination": "/exemples/a-la-prochaine"
+  },
+  {
+    "source": "/exemples/sortie-de-four",
+    "destination": "/exemples/apres-nous"
+  },
+  {
+    "source": "/exemples/sortie-de-four/:chemin*",
+    "destination": "/exemples/apres-nous"
+  },
+  {
+    "source": "/exemples/lundi-propre",
+    "destination": "/exemples/apres-vous"
+  },
+  {
+    "source": "/exemples/lundi-propre/:chemin*",
+    "destination": "/exemples/apres-vous"
+  },
+  {
+    "source": "/exemples/on-apporte-quoi",
+    "destination": "/exemples/autographe"
+  },
+  {
+    "source": "/exemples/on-apporte-quoi/:chemin*",
+    "destination": "/exemples/autographe"
+  },
+  {
+    "source": "/exemples/la-bonne-limite",
+    "destination": "/exemples/belle-portee"
+  },
+  {
+    "source": "/exemples/la-bonne-limite/:chemin*",
+    "destination": "/exemples/belle-portee"
+  },
+  {
+    "source": "/exemples/mot-pour-mot",
+    "destination": "/exemples/bonne-nouvelle"
+  },
+  {
+    "source": "/exemples/mot-pour-mot/:chemin*",
+    "destination": "/exemples/bonne-nouvelle"
+  },
+  {
+    "source": "/exemples/sans-motif",
+    "destination": "/exemples/cinquante-minutes"
+  },
+  {
+    "source": "/exemples/sans-motif/:chemin*",
+    "destination": "/exemples/cinquante-minutes"
+  },
+  {
+    "source": "/exemples/le-bon-chapitre",
+    "destination": "/exemples/clair-de-salon"
+  },
+  {
+    "source": "/exemples/le-bon-chapitre/:chemin*",
+    "destination": "/exemples/clair-de-salon"
+  },
+  {
+    "source": "/exemples/ligne-par-ligne",
+    "destination": "/exemples/dimanche-midi"
+  },
+  {
+    "source": "/exemples/ligne-par-ligne/:chemin*",
+    "destination": "/exemples/dimanche-midi"
+  },
+  {
+    "source": "/exemples/deux-mots",
+    "destination": "/exemples/douze-mois"
+  },
+  {
+    "source": "/exemples/deux-mots/:chemin*",
+    "destination": "/exemples/douze-mois"
+  },
+  {
+    "source": "/exemples/le-grand-samedi",
+    "destination": "/exemples/et-s-il-pleut"
+  },
+  {
+    "source": "/exemples/le-grand-samedi/:chemin*",
+    "destination": "/exemples/et-s-il-pleut"
+  },
+  {
+    "source": "/exemples/avant-les-bougies",
+    "destination": "/exemples/gateaux-perdus"
+  },
+  {
+    "source": "/exemples/avant-les-bougies/:chemin*",
+    "destination": "/exemples/gateaux-perdus"
+  },
+  {
+    "source": "/exemples/midi-pile",
+    "destination": "/exemples/l-heure-dite"
+  },
+  {
+    "source": "/exemples/midi-pile/:chemin*",
+    "destination": "/exemples/l-heure-dite"
+  },
+  {
     "source": "/exemples/sans-detour",
     "destination": "/exemples/le-pourquoi"
   },
   {
     "source": "/exemples/sans-detour/:chemin*",
     "destination": "/exemples/le-pourquoi"
+  },
+  {
+    "source": "/exemples/deux-heures",
+    "destination": "/exemples/lundi-d-apres"
+  },
+  {
+    "source": "/exemples/deux-heures/:chemin*",
+    "destination": "/exemples/lundi-d-apres"
+  },
+  {
+    "source": "/exemples/pas-quinze",
+    "destination": "/exemples/moins-le-quart"
+  },
+  {
+    "source": "/exemples/pas-quinze/:chemin*",
+    "destination": "/exemples/moins-le-quart"
+  },
+  {
+    "source": "/exemples/premier-plongeon",
+    "destination": "/exemples/neuf-etes"
+  },
+  {
+    "source": "/exemples/premier-plongeon/:chemin*",
+    "destination": "/exemples/neuf-etes"
+  },
+  {
+    "source": "/exemples/premier-fruit",
+    "destination": "/exemples/ombre-lente"
+  },
+  {
+    "source": "/exemples/premier-fruit/:chemin*",
+    "destination": "/exemples/ombre-lente"
+  },
+  {
+    "source": "/exemples/un-seul-onglet",
+    "destination": "/exemples/parole-tenue"
+  },
+  {
+    "source": "/exemples/un-seul-onglet/:chemin*",
+    "destination": "/exemples/parole-tenue"
+  },
+  {
+    "source": "/exemples/celui-la",
+    "destination": "/exemples/patience"
+  },
+  {
+    "source": "/exemples/celui-la/:chemin*",
+    "destination": "/exemples/patience"
+  },
+  {
+    "source": "/exemples/atelier-samedi",
+    "destination": "/exemples/pavillon-bis"
+  },
+  {
+    "source": "/exemples/atelier-samedi/:chemin*",
+    "destination": "/exemples/pavillon-bis"
+  },
+  {
+    "source": "/exemples/samedi-chantier",
+    "destination": "/exemples/pignon-sur-pre"
+  },
+  {
+    "source": "/exemples/samedi-chantier/:chemin*",
+    "destination": "/exemples/pignon-sur-pre"
+  },
+  {
+    "source": "/exemples/minute-quarante",
+    "destination": "/exemples/pour-plus-tard"
+  },
+  {
+    "source": "/exemples/minute-quarante/:chemin*",
+    "destination": "/exemples/pour-plus-tard"
+  },
+  {
+    "source": "/exemples/heure-claire",
+    "destination": "/exemples/premier-billet"
+  },
+  {
+    "source": "/exemples/heure-claire/:chemin*",
+    "destination": "/exemples/premier-billet"
+  },
+  {
+    "source": "/exemples/chaise-pleine",
+    "destination": "/exemples/premiere-bougie"
+  },
+  {
+    "source": "/exemples/chaise-pleine/:chemin*",
+    "destination": "/exemples/premiere-bougie"
+  },
+  {
+    "source": "/exemples/mardi-soir",
+    "destination": "/exemples/rayon-frais"
+  },
+  {
+    "source": "/exemples/mardi-soir/:chemin*",
+    "destination": "/exemples/rayon-frais"
+  },
+  {
+    "source": "/exemples/vingt-deux-heures",
+    "destination": "/exemples/relue"
+  },
+  {
+    "source": "/exemples/vingt-deux-heures/:chemin*",
+    "destination": "/exemples/relue"
+  },
+  {
+    "source": "/exemples/ton-depot",
+    "destination": "/exemples/reviens"
+  },
+  {
+    "source": "/exemples/ton-depot/:chemin*",
+    "destination": "/exemples/reviens"
+  },
+  {
+    "source": "/exemples/nuit-d-aout",
+    "destination": "/exemples/rien-a-signaler"
+  },
+  {
+    "source": "/exemples/nuit-d-aout/:chemin*",
+    "destination": "/exemples/rien-a-signaler"
+  },
+  {
+    "source": "/exemples/dimanche-libre",
+    "destination": "/exemples/sans-soupir"
+  },
+  {
+    "source": "/exemples/dimanche-libre/:chemin*",
+    "destination": "/exemples/sans-soupir"
+  },
+  {
+    "source": "/exemples/jusqu-au-cafe",
+    "destination": "/exemples/sept-mille-diners"
+  },
+  {
+    "source": "/exemples/jusqu-au-cafe/:chemin*",
+    "destination": "/exemples/sept-mille-diners"
+  },
+  {
+    "source": "/exemples/la-coulee",
+    "destination": "/exemples/souvenance"
+  },
+  {
+    "source": "/exemples/la-coulee/:chemin*",
+    "destination": "/exemples/souvenance"
+  },
+  {
+    "source": "/exemples/de-a-a-g",
+    "destination": "/exemples/tiers-regard"
+  },
+  {
+    "source": "/exemples/de-a-a-g/:chemin*",
+    "destination": "/exemples/tiers-regard"
+  },
+  {
+    "source": "/exemples/ca-monte",
+    "destination": "/exemples/tour-du-quartier"
+  },
+  {
+    "source": "/exemples/ca-monte/:chemin*",
+    "destination": "/exemples/tour-du-quartier"
+  },
+  {
+    "source": "/exemples/silence-a-table",
+    "destination": "/exemples/transmis"
+  },
+  {
+    "source": "/exemples/silence-a-table/:chemin*",
+    "destination": "/exemples/transmis"
+  },
+  {
+    "source": "/exemples/le-soir-meme",
+    "destination": "/exemples/trois-marches"
+  },
+  {
+    "source": "/exemples/le-soir-meme/:chemin*",
+    "destination": "/exemples/trois-marches"
+  },
+  {
+    "source": "/exemples/sans-histoire",
+    "destination": "/exemples/veilleuse"
+  },
+  {
+    "source": "/exemples/sans-histoire/:chemin*",
+    "destination": "/exemples/veilleuse"
+  },
+  {
+    "source": "/exemples/vue-cadree",
+    "destination": "/exemples/vert-en-aout"
+  },
+  {
+    "source": "/exemples/vue-cadree/:chemin*",
+    "destination": "/exemples/vert-en-aout"
+  },
+  {
+    "source": "/exemples/douze-lunes",
+    "destination": "/exemples/voix-basse"
+  },
+  {
+    "source": "/exemples/douze-lunes/:chemin*",
+    "destination": "/exemples/voix-basse"
   }
 ]
