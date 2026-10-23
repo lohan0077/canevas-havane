@@ -62,7 +62,7 @@ export default async function PagePiece({ params }: { params: Promise<{ piece: s
               barre, ou lance la vidéo.
             </p>
           </div>
-          <Tour date={p.tourneLe.replace(" 2026", "")} legende={`Le tournage du ${p.nom.toLowerCase()}, le ${p.tourneLe}. Ici, une animation : l'atelier est fictif, la vraie vidéo serait celle de cette pièce.`} />
+          <Tour date={p.tourneLe.replace(" 2026", "")} legende={`Le tournage, le ${p.tourneLe} : ${p.nom}. Ici, une animation : l'atelier est fictif, la vraie vidéo serait celle de cette pièce.`} />
         </div>
       </section>
 

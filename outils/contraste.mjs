@@ -188,8 +188,15 @@ for (const schema of ["light", "dark"]) {
       await onglet.waitForTimeout(1400);
       await onglet.evaluate(() => window.scrollTo(0, 0));
       // Un en-tête qui change de couleur en haut de page (NavVerre) le fait en fondu :
-      // mesuré pendant le fondu, il donne une couleur qui n'existe qu'un instant.
-      await onglet.waitForTimeout(900);
+      // mesuré pendant le fondu, il donne une couleur qui n'existe qu'un instant. Une
+      // attente fixe ne suffit pas (en CI, la machine est plus lente) : on attend que
+      // plus aucune transition ne soit en cours, 5 s au plus.
+      await onglet.waitForTimeout(300);
+      await onglet.evaluate(async () => {
+        const limite = Date.now() + 5000;
+        const enCours = () => document.getAnimations().some((a) => a instanceof CSSTransition && a.playState === "running");
+        while (enCours() && Date.now() < limite) await new Promise((r) => setTimeout(r, 100));
+      });
 
       // Les sous-pages d'un site de démonstration, qu'aucune liste ne connaît d'avance.
       const site = siteDe(chemin);

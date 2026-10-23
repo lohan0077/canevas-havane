@@ -143,7 +143,7 @@ export default function Tour({ legende, date }: { legende: string; date: string 
         />
         <span className="shrink-0 text-sm font-semibold tabular-nums">{temps(t)} / 0:20</span>
       </div>
-      <figcaption className="text-sm text-[var(--doux)]">{legende}</figcaption>
+      <figcaption className="text-sm opacity-90">{legende}</figcaption>
     </figure>
   );
 }
