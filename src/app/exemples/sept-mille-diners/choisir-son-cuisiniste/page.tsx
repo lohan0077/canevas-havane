@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../_kit/Apparition";
-import FondVivant from "../../_kit/FondVivant";
-import TitreRevele from "../../_kit/TitreRevele";
-import { AppelFinal, Bouton, Surtitre } from "../_composants/Blocs";
+import { AppelFinal, Bouton, Surtitre, Titre } from "../_composants/Blocs";
 import { DOSSIER, QUESTIONS_GUIDE } from "../_composants/donnees";
 
 export const metadata: Metadata = {
@@ -15,79 +13,50 @@ export const metadata: Metadata = {
 
 // Le guide « comment choisir un bon cuisiniste » (vraie recherche, voir SOURCES.md de la
 // vidéo « Remplir l'agenda ») : des questions à poser à tous, nous compris. Il ne nomme,
-// ne compare et ne dénigre personne. Les `data-film` servent au tournage.
+// ne compare et ne dénigre personne. `data-film="guide"`, `#meme-si` et les `data-film`
+// des questions servent au tournage.
 export default function ChoisirSonCuisiniste() {
   return (
     <main>
-      <section className="kit-grain relative isolate overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]" data-film="guide">
-        <FondVivant couleurs={["#241F1B", "#3A2A22", "#7A3B28"]} vitesse={0.7} />
-        <div className="absolute inset-0 bg-[var(--sombre)]/40" />
-        <div className="relative mx-auto max-w-6xl space-y-8 px-5 pb-20 pt-40 sm:px-8 md:pb-28 md:pt-52">
+      <section data-film="guide" className="relative isolate flex min-h-[64svh] flex-col bg-[var(--sombre)] text-[var(--sur-sombre)]">
+        <div className="relative mx-auto flex w-full max-w-6xl flex-1 flex-col justify-end gap-7 px-6 pb-14 pt-36 md:pb-20">
           <Apparition><Surtitre clair>Le guide</Surtitre></Apparition>
-          <TitreRevele
-            as="h1"
-            auChargement
-            texte="Comment choisir un bon cuisiniste."
-            className="max-w-5xl font-[family-name:var(--titres)] text-[clamp(3.2rem,8vw,7.5rem)] leading-[0.92] tracking-[-0.035em]"
-          />
-          <TitreRevele
-            as="p"
-            auChargement
-            delai={500}
-            id="meme-si"
-            texte="*Même si ce n'est pas nous.*"
-            className="font-[family-name:var(--titres)] text-[clamp(2rem,4.5vw,3.6rem)] leading-tight"
-            classeAccent="italic text-[#F0B49B]"
-          />
-          <Apparition as="p" delai={800} className="max-w-2xl text-xl leading-relaxed text-[var(--sur-sombre)]/90">
-            Vous verrez peut-être trois magasins, et vous repartirez avec trois plans. Pour les comparer, posez
-            les mêmes questions à tous ceux que vous verrez. Nous compris. On ne dit rien des autres : on dit
-            seulement ce que, nous, on répond.
+          <Titre as="h1" texte="Comment choisir un bon cuisiniste." clair taille="geant" className="max-w-4xl" />
+          <Titre as="p" id="meme-si" texte="*Même si ce n'est pas nous.*" clair taille="moyen" />
+          <Apparition delai={500} className="max-w-xl text-lg leading-relaxed text-[var(--sur-sombre)]">
+            Vous verrez peut-être trois magasins, et vous repartirez avec trois plans. Pour les comparer, posez les mêmes
+            questions à tous ceux que vous verrez. Nous compris. On ne dit rien des autres : on dit seulement ce que, nous,
+            on répond.
           </Apparition>
         </div>
       </section>
 
-      <section className="mx-auto max-w-5xl px-4 py-16 sm:px-8 md:py-24">
-        <ol className="space-y-5">
+      <section className="mx-auto max-w-6xl px-6 py-20 md:py-28">
+        <ol className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
           {QUESTIONS_GUIDE.map((q, i) => (
-            <Apparition
-              as="li"
-              key={q.id}
-              id={q.id}
-              data-film={q.id}
-              de="zoom"
-              className="scroll-mt-24 overflow-hidden rounded-[2rem] border border-[var(--trait)] bg-[var(--carte)]"
-            >
-              <div className="grid gap-5 p-6 sm:grid-cols-[auto_1fr] sm:gap-8 sm:p-10">
-                <span aria-hidden="true" className="font-[family-name:var(--titres)] text-7xl italic leading-[0.8] text-[var(--accent-texte)] [font-variant-numeric:lining-nums]">{i + 1}</span>
-                <div className="space-y-4">
-                  <h2 className="font-[family-name:var(--titres)] text-[clamp(2rem,4vw,3rem)] leading-[1.05] tracking-[-0.02em]">{q.question}</h2>
-                  <p className="text-lg leading-relaxed text-[var(--doux)]">{q.pourquoi}</p>
-                </div>
+            <Apparition as="li" key={q.id} id={q.id} data-film={q.id} className="scroll-mt-24 grid gap-5 py-10 md:grid-cols-[4rem_1fr_minmax(0,22rem)] md:gap-10">
+              <span aria-hidden="true" className="font-[family-name:var(--titres)] text-4xl italic text-[var(--accent-texte)]">{i + 1}</span>
+              <div className="space-y-3">
+                <h2 className="font-[family-name:var(--titres)] text-[clamp(1.9rem,3.2vw,2.75rem)] font-normal leading-[1.1] tracking-[-0.02em]">{q.question}</h2>
+                <p className="text-lg leading-relaxed text-[var(--doux)]">{q.pourquoi}</p>
               </div>
-              <p className="border-t border-[var(--trait)] bg-[var(--fond)] px-6 py-4 text-lg sm:px-10">
-                <span className="font-semibold text-[var(--accent-texte)]">Notre réponse :</span> {q.nous}
+              <p className="self-end rounded-2xl bg-[var(--carte)] px-5 py-4 text-[17px] leading-relaxed">
+                <span className="font-medium text-[var(--accent-texte)]">Notre réponse :</span> {q.nous}
               </p>
             </Apparition>
           ))}
         </ol>
       </section>
 
-      <section className="px-3 pb-3 sm:px-5 sm:pb-5">
-        <div className="mx-auto max-w-6xl rounded-[2.5rem] border border-[var(--trait)] bg-[var(--carte)] px-6 py-16 sm:px-12 md:py-20">
-          <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
-            <TitreRevele
-              texte={"Ce qu'on ne fera pas\u00a0: *dire du mal des autres.*"}
-              className="font-[family-name:var(--titres)] text-[clamp(2.4rem,5vw,4.4rem)] leading-[0.98] tracking-[-0.03em]"
-              classeAccent="italic text-[var(--accent-texte)]"
-            />
-            <div className="space-y-5">
-              <p className="text-lg leading-relaxed text-[var(--doux)]">
-                Ce guide ne compare personne, et ne nomme aucune enseigne. Les questions sont bonnes partout ;
-                à vous de juger les réponses.
-              </p>
-              <Bouton href={`${DOSSIER}/tes-murs`}>Dessiner ma cuisine</Bouton>
-            </div>
+      <section className="bg-[var(--carte)]">
+        <div className="mx-auto grid max-w-6xl gap-10 px-6 py-28 md:py-40 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
+          <Titre texte={"Ce qu'on ne fera pas : *dire du mal des autres.*"} />
+          <div className="space-y-6">
+            <p className="max-w-[26rem] text-lg leading-relaxed text-[var(--doux)]">
+              Ce guide ne compare personne, et ne nomme aucune enseigne. Les questions sont bonnes partout ; à vous de juger
+              les réponses.
+            </p>
+            <Bouton href={`${DOSSIER}/tes-murs`}>Dessiner ma cuisine</Bouton>
           </div>
         </div>
       </section>

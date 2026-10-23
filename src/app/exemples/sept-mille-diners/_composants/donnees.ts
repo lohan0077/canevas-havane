@@ -160,24 +160,11 @@ export const DEROULE_DINER = [
   { quand: "Après le dessert", quoi: "Il range, et il s'en va. Les 7 299 dîners suivants sont à toi." },
 ];
 
-/** Ce qui finit sur le plan de travail, un soir ou l'autre (bandeau qui défile). */
-export const SOIREES = [
-  "Le dîner du mardi",
-  "Les devoirs sur le plan de travail",
-  "Le gâteau d'anniversaire",
-  "La soupe du dimanche soir",
-  "Les amis qui ne partent plus",
-  "Le dernier café",
-  "Les crêpes de la Chandeleur",
-  "La vaisselle à deux",
-];
-
 export const FAQ = [
   { q: "7 300 dîners, c'est la durée de vie d'une cuisine ?", r: "Non. C'est un calcul : si tu la gardes vingt ans, vingt fois 365 soirs font 7 300. On ne promet pas une durée : on dit ce qu'il y a au bout." },
   { q: "La fourchette, c'est un prix ?", r: "Non : c'est un ordre de grandeur honnête, TTC, pose comprise, pour une cuisine de cette longueur et de cette gamme. Le prix ferme est sur le devis, après la prise de cotes chez toi." },
   { q: "Le premier dîner est vraiment offert ?", r: "Oui, sans condition. Il n'est compté dans aucun prix : la cuisine coûte la même chose si tu n'en veux pas, et tu n'as rien d'autre à payer." },
   { q: "Qui cuisine le premier dîner ?", r: "Un chef à domicile, déclaré et assuré, avec qui on travaille (exemple). Le menu se décide avec toi, allergies comprises." },
-  { q: "Pourquoi un guide pour choisir un autre cuisiniste ?", r: "Parce que les bonnes questions sont les mêmes pour tout le monde. Pose-les à tous ceux que tu verras, nous compris. On ne dit rien des autres : on dit ce qu'on fait." },
   { q: "Qu'est-ce qui est filmé, pendant la pose ?", r: "Les meubles qui se montent, en accéléré : quatre jours en trente secondes. Seulement si tu es d'accord, par écrit, et sans rien montrer de chez toi : ni adresse, ni famille, ni objets personnels." },
 ];
 

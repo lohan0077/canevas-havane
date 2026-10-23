@@ -87,7 +87,7 @@ export default function TaVie() {
       <div className="space-y-4">
         <div className="space-y-3" data-film="questions">
           {QUESTIONS.map((q, i) => (
-            <fieldset key={q.id} className="rounded-[1.25rem] border border-[var(--trait)] bg-[var(--fond)] p-4">
+            <fieldset key={q.id} className="rounded-2xl border border-[var(--trait)] bg-[var(--fond)] p-4">
               <legend className="sr-only">{q.question}</legend>
               <p aria-hidden="true" className="flex items-baseline gap-3 font-[family-name:var(--titres)] text-[1.35rem] leading-tight">
                 <span className="italic text-[var(--accent-texte)] [font-variant-numeric:lining-nums]">{i + 1}.</span> {q.question}
@@ -119,7 +119,7 @@ export default function TaVie() {
           data-film="dessiner"
           disabled={!complet}
           onClick={() => setDessine(true)}
-          className="w-full min-h-14 rounded-full bg-[var(--accent)] px-6 text-lg font-semibold text-[var(--sur-accent)] transition-transform hover:scale-[1.01] disabled:cursor-not-allowed"
+          className="w-full min-h-12 rounded-full bg-[var(--accent)] px-6 text-[15px] font-medium text-[var(--sur-accent)] transition-colors disabled:cursor-not-allowed"
         >
           {complet ? (dessine ? "Redessiner le plan" : "Dessiner le plan de ma vie") : "Réponds aux trois questions"}
         </button>
@@ -128,7 +128,7 @@ export default function TaVie() {
       <div role="status" data-film="plan" className="space-y-3">
         {dessine && complet ? (
           <>
-            <div key={`${r.combien}${r.cuisine}${r.vaisselle}`} className={`${s.feuille} rounded-[1.25rem] p-3 sm:p-4 ${QUADRILLAGE}`}>
+            <div key={`${r.combien}${r.cuisine}${r.vaisselle}`} className={`${s.feuille} rounded-2xl p-3 sm:p-4 ${QUADRILLAGE}`}>
               <p className="px-1 pb-2 font-[family-name:var(--titres)] text-2xl">
                 Ton plan, <span className="italic">pour ta vie.</span>
               </p>
@@ -138,8 +138,8 @@ export default function TaVie() {
               {(["combien", "cuisine", "vaisselle"] as const).map((k, i) => {
                 const n = NOTES[k][r[k] as keyof (typeof NOTES)[typeof k]] as { titre: string; texte: string };
                 return (
-                  <li key={`${k}${r[k]}`} className={`${s.note} flex gap-3 rounded-[1rem] border border-[var(--trait)] bg-[var(--fond)] p-3`} style={{ animationDelay: `${0.35 + i * 0.35}s` }}>
-                    <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[var(--encre)] font-bold text-[var(--fond)] [font-variant-numeric:lining-nums]">{i + 1}</span>
+                  <li key={`${k}${r[k]}`} className={`${s.note} flex gap-3 rounded-xl border border-[var(--trait)] bg-[var(--fond)] p-3`} style={{ animationDelay: `${0.35 + i * 0.35}s` }}>
+                    <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[var(--encre)] font-medium text-[var(--fond)] [font-variant-numeric:lining-nums]">{i + 1}</span>
                     <span>
                       <span className="block font-semibold">{n.titre}</span>
                       <span className="block text-sm text-[var(--doux)]">{n.texte}</span>
@@ -151,7 +151,7 @@ export default function TaVie() {
             <p className="text-sm text-[var(--doux)]">Un premier plan, dessiné dans ton navigateur : rien n&apos;est envoyé. Le vrai se dessine chez toi, sur tes cotes.</p>
           </>
         ) : (
-          <div className={`grid min-h-[220px] place-items-center rounded-[1.25rem] border-2 border-dashed border-[var(--trait)] p-6 text-center lg:h-full ${QUADRILLAGE}`}>
+          <div className={`grid min-h-[220px] place-items-center rounded-2xl border-2 border-dashed border-[var(--trait)] p-6 text-center lg:h-full ${QUADRILLAGE}`}>
             <p className="max-w-[16rem] font-[family-name:var(--titres)] text-2xl italic leading-snug text-[var(--doux)]">
               Ton plan se dessinera ici, avec ses trois repères.
             </p>

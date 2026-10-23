@@ -55,8 +55,8 @@ export default function TesMurs() {
             { id: "mur-1", libelle: "Mur 1", valeur: mur1, changer: setMur1, aide: "ex. 3,20" },
             { id: "mur-2", libelle: "Mur 2", valeur: mur2, changer: setMur2, aide: "vide si droite" },
           ].map((c) => (
-            <label key={c.id} className="block rounded-[1.25rem] border border-[var(--trait)] bg-[var(--fond)] px-4 py-3 focus-within:border-[var(--encre)]">
-              <span className="block text-xs font-bold uppercase tracking-[0.16em] text-[var(--doux)]">{c.libelle}</span>
+            <label key={c.id} className="block rounded-2xl border border-[var(--trait)] bg-[var(--fond)] px-4 py-3 focus-within:border-[var(--encre)]">
+              <span className="block text-xs font-medium uppercase tracking-[0.16em] text-[var(--doux)]">{c.libelle}</span>
               <span className="flex items-baseline gap-1">
                 <input
                   id={c.id}
@@ -75,7 +75,7 @@ export default function TesMurs() {
         </div>
 
         <fieldset>
-          <legend className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[var(--doux)]">La gamme</legend>
+          <legend className="mb-2 text-xs font-medium uppercase tracking-[0.16em] text-[var(--doux)]">La gamme</legend>
           <div className="grid grid-cols-3 gap-2">
             {GAMMES.map((x) => (
               <button
@@ -98,19 +98,19 @@ export default function TesMurs() {
           type="button"
           data-film="dessiner-murs"
           onClick={() => setDessine(true)}
-          className="w-full min-h-14 rounded-full bg-[var(--accent)] px-6 text-lg font-semibold text-[var(--sur-accent)] transition-transform hover:scale-[1.01]"
+          className="w-full min-h-12 rounded-full bg-[var(--accent)] px-6 text-[15px] font-medium text-[var(--sur-accent)] transition-colors"
         >
           {dessine ? "Redessiner ma cuisine" : "Dessiner ma cuisine"}
         </button>
         {dessine && erreur && (
-          <p role="alert" className="rounded-[1rem] border border-[var(--accent)] bg-[var(--fond)] px-4 py-3 text-[var(--accent-texte)]">{erreur}</p>
+          <p role="alert" className="rounded-xl border border-[var(--accent)] bg-[var(--fond)] px-4 py-3 text-[var(--accent-texte)]">{erreur}</p>
         )}
       </div>
 
       <div role="status" className="space-y-3" data-film="plan-murs">
         {dessine && valide ? (
           <>
-            <div className={`rounded-[1.25rem] p-3 ${QUADRILLAGE}`}>
+            <div className={`rounded-2xl p-3 ${QUADRILLAGE}`}>
               <svg key={`${mur1}|${mur2}`} viewBox="0 0 320 230" className="w-full" role="img" aria-label={`Plan de la cuisine ${l2 > 0 ? "en L" : "droite"} : ${metres(l1!)}${l2 > 0 ? ` et ${metres(l2)}` : ""}, ${n1 + n2} meubles bas`}>
                 <path d={`M${X0 - 6} ${Y0 - 6} H${X0 + l1! * E + 6}`} stroke="#2E2A26" strokeWidth="5" strokeLinecap="round" />
                 {l2 > 0 && <path d={`M${X0 - 6} ${Y0 - 6} V${Y0 + l2 * E + 6}`} stroke="#2E2A26" strokeWidth="5" strokeLinecap="round" />}
@@ -132,8 +132,8 @@ export default function TesMurs() {
             <p className="text-lg">
               Une cuisine {l2 > 0 ? "en L" : "droite"} · {metres(lineaire)} linéaires · {n1 + n2} meubles bas
             </p>
-            <div className="space-y-1 rounded-[1.25rem] bg-[var(--sombre)] p-5 text-[var(--sur-sombre)]" data-film="fourchette">
-              <p className="text-xs font-bold uppercase tracking-[0.16em]">Fourchette TTC · pose comprise · exemple</p>
+            <div className="space-y-1 rounded-2xl bg-[var(--sombre)] p-5 text-[var(--sur-sombre)]" data-film="fourchette">
+              <p className="text-xs font-medium uppercase tracking-[0.16em]">Fourchette TTC · pose comprise · exemple</p>
               <p className="whitespace-nowrap font-[family-name:var(--titres)] text-[1.75rem] lining-nums tabular-nums sm:text-4xl">
                 {euros(arrondi(lineaire * g.min))} – {euros(arrondi(lineaire * g.max))}
               </p>
@@ -143,7 +143,7 @@ export default function TesMurs() {
             </div>
           </>
         ) : (
-          <div className={`grid min-h-[220px] place-items-center rounded-[1.25rem] border-2 border-dashed border-[var(--trait)] p-6 text-center lg:h-full ${QUADRILLAGE}`}>
+          <div className={`grid min-h-[220px] place-items-center rounded-2xl border-2 border-dashed border-[var(--trait)] p-6 text-center lg:h-full ${QUADRILLAGE}`}>
             <p className="max-w-[17rem] font-[family-name:var(--titres)] text-2xl italic leading-snug text-[var(--doux)]">
               Ta cuisine se dessinera ici, à l&apos;échelle de tes murs.
             </p>
