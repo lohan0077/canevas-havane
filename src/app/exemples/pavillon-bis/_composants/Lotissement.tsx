@@ -38,8 +38,8 @@ export default function Lotissement() {
 
   return (
     <div data-film="lotissement" className="space-y-5">
-      <div className="overflow-hidden rounded-[2rem] border-2 border-[var(--encre)] bg-[#CFDDBF]">
-        <p className="flex items-baseline justify-between gap-3 border-b-2 border-[var(--encre)] bg-[var(--carte)] px-4 py-3 text-[13px] font-semibold uppercase tracking-[0.12em]">
+      <div className="overflow-hidden rounded-2xl border-2 border-[var(--encre)] bg-[#CFDDBF]">
+        <p className="flex items-baseline justify-between gap-3 border-b-2 border-[var(--encre)] bg-[var(--carte)] px-4 py-3 text-[13px] font-medium uppercase tracking-[0.12em]">
           <span>{nom} · {annee}</span>
           <span>exemple</span>
         </p>
@@ -61,7 +61,7 @@ export default function Lotissement() {
                   className={`block w-full rounded-lg p-0.5 transition-transform duration-700 ${estCible && fait ? "relative z-10 scale-[1.4] bg-[var(--carte)] shadow-[0_10px_24px_-8px_rgba(38,50,44,0.6)]" : ""} ${choisie === n ? "outline outline-2 outline-[#A63F2A]" : ""}`}
                 >
                   <Petite transformee={estCible && fait} voit={voit} retard={voit ? 450 + distance(k) * 160 : 0} />
-                  <span className="block text-center text-[10px] font-semibold leading-tight text-[#26322C]">{n}</span>
+                  <span className="block text-center text-[10px] font-medium leading-tight text-[#26322C]">{n}</span>
                 </button>
               </li>
             );
@@ -84,7 +84,7 @@ export default function Lotissement() {
         type="button"
         data-film="transformer"
         onClick={() => setFait((f) => !f)}
-        className="inline-flex min-h-[56px] w-full items-center justify-center gap-3 rounded-full bg-[var(--encre)] px-7 font-[family-name:var(--texte)] text-[17px] font-semibold text-[var(--fond)] transition-transform hover:scale-[1.02] sm:w-auto"
+        className="inline-flex min-h-[56px] w-full items-center justify-center gap-3 rounded-full bg-[var(--encre)] px-7 font-[family-name:var(--texte)] text-[17px] font-medium text-[var(--fond)] transition-transform hover:scale-[1.02] sm:w-auto"
       >
         {fait ? "Revoir le lotissement d'origine" : `Transformer le n° ${transformee}`}
         <span aria-hidden="true">{fait ? "↺" : "→"}</span>

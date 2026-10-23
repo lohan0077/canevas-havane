@@ -11,7 +11,7 @@ export function Curseur({ etiquette, valeur, min, max, pas, changer, film }: { e
     <label className="block space-y-3">
       <span className="flex items-baseline justify-between gap-4">
         <span className="text-[16px] font-medium">{etiquette}</span>
-        <span className="font-[family-name:var(--titres)] text-[30px] font-semibold tabular-nums leading-none">{valeur}&nbsp;m²</span>
+        <span className="font-[family-name:var(--titres)] text-[30px] font-normal tabular-nums leading-none">{valeur}&nbsp;m²</span>
       </span>
       <input
         type="range"
@@ -66,18 +66,18 @@ export function Reponse({ maison, ajout }: { maison: number; ajout: number }) {
   return (
     <div data-film="verdict" aria-live="polite" className="space-y-3">
       {v === "obligatoire" && (
-        <div className="space-y-2 rounded-[1.5rem] bg-[#A63F2A] p-5 text-[#F4EFE6] sm:p-6">
+        <div className="space-y-2 rounded-2xl bg-[#A63F2A] p-5 text-[#F4EFE6] sm:p-6">
           <p className="text-[14px] font-medium">Au-delà de {SEUIL}&nbsp;m², avec permis de construire</p>
-          <p className="font-[family-name:var(--titres)] text-[clamp(2rem,4vw,2.6rem)] font-semibold leading-[1.02]">Architecte obligatoire</p>
+          <p className="font-[family-name:var(--titres)] text-[clamp(2rem,4vw,2.6rem)] font-normal leading-[1.02]">Architecte obligatoire</p>
           <p className="text-[13px]">Code de l&apos;urbanisme, art. R431-2 · pour un particulier qui construit pour lui-même</p>
         </div>
       )}
       {(v === "libre" || v === "declaration") && (
-        <div className="space-y-3 rounded-[1.5rem] bg-[var(--fond)] p-5 sm:p-6">
+        <div className="space-y-3 rounded-2xl bg-[var(--fond)] p-5 sm:p-6">
           <p className="text-[14px] font-medium text-[var(--doux)]">
             {v === "declaration" ? `Jusqu'à ${DECLARATION} m² créés : une déclaration préalable suffit` : `${total} m² au total`}
           </p>
-          <p className="font-[family-name:var(--titres)] text-[clamp(2rem,4vw,2.6rem)] font-semibold leading-[1.02]">Pas obligatoire.</p>
+          <p className="font-[family-name:var(--titres)] text-[clamp(2rem,4vw,2.6rem)] font-normal leading-[1.02]">Pas obligatoire.</p>
           {v === "declaration" && total > SEUIL && (
             <p className="text-[14px] text-[var(--doux)]">Sans permis de construire, pas d&apos;architecte imposé, même au-delà de {SEUIL}&nbsp;m² au total.</p>
           )}
@@ -90,14 +90,14 @@ export function Reponse({ maison, ajout }: { maison: number; ajout: number }) {
               </li>
             ))}
           </ul>
-          <Link href={`${DOSSIER}/rendez-vous`} className="mt-1 inline-flex min-h-[50px] items-center rounded-full bg-[var(--encre)] px-6 font-semibold text-[var(--fond)]">
+          <Link href={`${DOSSIER}/rendez-vous`} className="mt-1 inline-flex min-h-[50px] items-center rounded-full bg-[var(--encre)] px-6 font-medium text-[var(--fond)]">
             En parler 30 minutes, un samedi
           </Link>
         </div>
       )}
       {v === "aucune" && (
-        <div className="space-y-2 rounded-[1.5rem] bg-[var(--fond)] p-5 sm:p-6">
-          <p className="font-[family-name:var(--titres)] text-[26px] font-semibold leading-tight">Glisse jusqu&apos;à la surface que tu ajoutes.</p>
+        <div className="space-y-2 rounded-2xl bg-[var(--fond)] p-5 sm:p-6">
+          <p className="font-[family-name:var(--titres)] text-[26px] font-normal leading-tight">Glisse jusqu&apos;à la surface que tu ajoutes.</p>
           <p className="text-[14px] text-[var(--doux)]">Sans surface créée, l&apos;architecte n&apos;est pas imposé pour la surface. Une façade, un changement d&apos;usage : parlons-en le samedi.</p>
         </div>
       )}
