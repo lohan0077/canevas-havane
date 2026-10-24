@@ -1,171 +1,171 @@
 import Image from "next/image";
 import Link from "next/link";
 import Apparition from "../../_kit/Apparition";
-import FondVivant from "../../_kit/FondVivant";
 import TitreRevele from "../../_kit/TitreRevele";
-import { DOSSIER, RECETTES, entreprise, type Menu, type Plat, type Question } from "./donnees";
+import { DOSSIER, entreprise, type Menu, type Plat, type Photo, type Question } from "./donnees";
+
+/** Le mot en relief dans un titre : l'italique de Playfair, sauce tomate sur la crème, moutarde sur le vert. */
+export const ACCENT_CLAIR = "italic text-[var(--accent-texte)]";
+export const ACCENT_SOMBRE = "italic text-[#E9C46A]";
 
 /** Le nom : un « T » dans un rond de sauce tomate, et Transmis en italique. */
 export function Marque() {
   return (
     <span className="flex items-center gap-2.5">
       <span aria-hidden="true" className="grid h-9 w-9 place-items-center rounded-full bg-[var(--accent)] font-[family-name:var(--titres)] text-[20px] italic text-[var(--sur-accent)]">T</span>
-      <span className="whitespace-nowrap font-[family-name:var(--titres)] text-[24px] italic leading-none">Transmis</span>
+      <span className="whitespace-nowrap font-[family-name:var(--titres)] text-[22px] italic leading-none">Transmis</span>
     </span>
   );
 }
 
-/** Une note manuscrite, à l'encre bleue, dans la marge. */
-export function Note({ children, className = "", clair = false }: { children: React.ReactNode; className?: string; clair?: boolean }) {
+/** Le petit intitulé au-dessus d'un titre : une ligne discrète, en capitales espacées. */
+export function Surtitre({ children, clair = false }: { children: React.ReactNode; clair?: boolean }) {
   return (
-    <p className={`origin-left -rotate-2 font-[family-name:var(--f-caveat)] text-[28px] leading-tight ${clair ? "text-[#E9C46A]" : "text-[#1E3A6E]"} ${className}`}>
+    <p className={`text-[12px] font-medium uppercase tracking-[0.2em] ${clair ? "text-[var(--sur-sombre)]" : "text-[var(--doux)]"}`}>
       {children}
     </p>
   );
 }
 
-/** Un bouton-lien en pilule, sauce tomate, au trait ou crème. */
-export function Bouton({ href, children, variante = "plein" }: { href: string; children: React.ReactNode; variante?: "plein" | "trait" | "creme" }) {
+/** Un bouton-lien en pilule : plein (la sauce tomate) ou au trait fin. */
+export function Bouton({ href, children, variante = "plein" }: { href: string; children: React.ReactNode; variante?: "plein" | "contour" }) {
   const styles = {
     plein: "bg-[var(--accent)] text-[var(--sur-accent)]",
-    trait: "border border-current/40 hover:bg-[color-mix(in_oklab,currentColor_8%,transparent)]",
-    creme: "bg-[var(--fond)] text-[var(--encre)]",
+    contour: "border border-current/30 hover:bg-[color-mix(in_oklab,currentColor_8%,transparent)]",
   }[variante];
   return (
-    <Link href={href} className={`group inline-flex min-h-13 items-center gap-3 rounded-full px-6 py-3 text-[16px] font-semibold transition-transform hover:scale-[1.02] ${styles}`}>
+    <Link href={href} className={`group inline-flex h-12 items-center gap-3 rounded-full px-6 text-[15px] font-medium transition-colors ${styles}`}>
       {children}
       <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">→</span>
     </Link>
   );
 }
 
-/** L'italique de Playfair, sauce tomate sur la crème, moutarde sur le vert. */
-export const SAUCE = "italic text-[var(--accent-texte)]";
-export const MOUTARDE = "italic text-[#E9C46A]";
-
-/** Une photo posée comme un tirage : un bord blanc, de travers. */
-export function Tirage({ photo, angle = -2, className = "", sizes = "320px" }: { photo: { src: string; alt: string }; angle?: number; className?: string; sizes?: string }) {
+/** Le titre d'un écran, révélé mot à mot : toujours la même échelle, jamais en gras. */
+export function Titre({
+  texte,
+  clair = false,
+  taille = "grand",
+  as = "h2",
+  className = "",
+}: {
+  texte: string;
+  clair?: boolean;
+  taille?: "grand" | "moyen";
+  as?: "h1" | "h2" | "h3" | "p";
+  className?: string;
+}) {
+  const tailles = {
+    grand: "text-[clamp(2.25rem,4.4vw,3.75rem)] leading-[1.05]",
+    moyen: "text-[clamp(1.9rem,3.2vw,2.75rem)] leading-[1.1]",
+  }[taille];
   return (
-    <figure className={`bg-white p-2.5 pb-8 shadow-[0_30px_50px_-28px_rgba(31,59,45,.75)] ${className}`} style={{ rotate: `${angle}deg` }}>
-      <div className="relative aspect-[4/5] overflow-hidden">
-        <Image src={photo.src} alt={photo.alt} fill sizes={sizes} className="object-cover" />
+    <TitreRevele
+      as={as}
+      texte={texte}
+      className={`font-[family-name:var(--titres)] font-normal tracking-[-0.02em] text-balance ${tailles} ${className}`}
+      classeAccent={clair ? ACCENT_SOMBRE : ACCENT_CLAIR}
+    />
+  );
+}
+
+/** Le haut de chaque écran de l'accueil : un numéro, un titre, une phrase. Toujours le même gabarit. */
+export function Intitule({ numero, surtitre, titre, texte, clair = false }: { numero?: string; surtitre: string; titre: string; texte?: React.ReactNode; clair?: boolean }) {
+  return (
+    <div className="grid gap-8 lg:grid-cols-[1fr_minmax(0,26rem)] lg:items-end">
+      <div className="space-y-5">
+        <Apparition><Surtitre clair={clair}>{numero ? `${numero} — ${surtitre}` : surtitre}</Surtitre></Apparition>
+        <Titre texte={titre} clair={clair} />
       </div>
-    </figure>
+      {texte && (
+        <Apparition as="p" delai={150} className={`text-lg leading-relaxed ${clair ? "text-[var(--sur-sombre)]" : "text-[var(--doux)]"}`}>
+          {texte}
+        </Apparition>
+      )}
+    </div>
   );
 }
 
 /**
- * Les fiches de recettes en éventail : chacune un plat, un prénom, une année. Dessinées ;
- * les prénoms sont inventés. Décor : masqué aux lecteurs d'écran, la liste qui suit dit
- * la même chose en texte.
+ * Le haut de chaque page intérieure : sombre, comme l'accueil (l'en-tête flottant
+ * l'attend), une photo sous un voile vert, un titre fin en très grand.
  */
-export function Eventail() {
-  const n = RECETTES.length;
+export function EnTetePage({
+  surtitre,
+  titre,
+  children,
+  photo,
+  niveau = "h1",
+  origine = "50% 50%",
+}: {
+  surtitre: React.ReactNode;
+  titre: string;
+  children?: React.ReactNode;
+  photo?: Photo;
+  niveau?: "h1" | "p";
+  origine?: string;
+}) {
   return (
-    <div aria-hidden="true" className="relative mx-auto h-[220px] w-full max-w-4xl overflow-hidden sm:h-[300px]">
-      {RECETTES.map((r, i) => {
-        const k = i - (n - 1) / 2;
-        return (
-          <Apparition
-            key={r.plat}
-            de="flou"
-            delai={500 + Math.abs(k) * 120}
-            className="absolute bottom-0 left-1/2 w-[112px] origin-bottom rounded-[6px] border border-[var(--trait)] bg-[#FFFCF3] px-3 py-3 shadow-[0_16px_30px_-18px_rgba(31,59,45,.6)] [transform:translateX(-50%)_translateX(calc(var(--k)*22px))_rotate(calc(var(--k)*6deg))] sm:w-[180px] sm:[transform:translateX(-50%)_translateX(calc(var(--k)*44px))_rotate(calc(var(--k)*9deg))]"
-            style={{ "--k": k, zIndex: 10 - Math.abs(Math.round(k)) } as React.CSSProperties}
-          >
-            <p className="font-[family-name:var(--f-caveat)] text-[19px] leading-tight text-[#1E3A6E] sm:text-[26px]">{r.plat}</p>
-            <p className="font-[family-name:var(--f-caveat)] text-[15px] text-[#4E5F54] sm:text-[19px]">de {r.de}, {r.annee}</p>
-            <div className="mt-2 space-y-[7px]">
-              {[0, 1, 2, 3, 4].map((l) => <span key={l} className="block h-px bg-[#C9D6E3]" />)}
-            </div>
-            <div className="mt-2 h-[60px] sm:h-[120px]" />
+    <section className="relative isolate flex min-h-[64svh] flex-col overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
+      {photo && (
+        <>
+          <Image src={photo.src} alt="" fill priority sizes="100vw" className="object-cover opacity-60" style={{ objectPosition: origine }} />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(22,41,31,0.6)_0%,rgba(22,41,31,0.45)_40%,rgba(22,41,31,0.94)_100%)]" />
+        </>
+      )}
+      <div className="relative mx-auto flex w-full max-w-6xl flex-1 flex-col justify-end gap-7 px-6 pb-14 pt-36 md:pb-20">
+        <Apparition><Surtitre clair>{surtitre}</Surtitre></Apparition>
+        <TitreRevele
+          as={niveau}
+          auChargement
+          texte={titre}
+          className="max-w-4xl font-[family-name:var(--titres)] text-[clamp(2.75rem,6vw,5.25rem)] font-normal leading-[1] tracking-[-0.02em] text-balance"
+          classeAccent={ACCENT_SOMBRE}
+        />
+        {children && (
+          <Apparition delai={400} className="max-w-xl text-lg leading-relaxed text-[var(--sur-sombre)]">
+            {children}
           </Apparition>
-        );
-      })}
-    </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+/** Une section de page, bornée et aérée. */
+export function Section({ children, id, className = "", fond = "" }: { children: React.ReactNode; id?: string; className?: string; fond?: string }) {
+  return (
+    <section id={id} className={`scroll-mt-24 ${fond}`}>
+      <div className={`mx-auto max-w-6xl px-6 py-28 md:py-40 ${className}`}>{children}</div>
+    </section>
   );
 }
 
 export function Allergenes({ liste }: { liste: string[] }) {
   return (
     <p className="text-[13px] leading-relaxed text-[var(--doux)]">
-      <span className="font-semibold text-[var(--encre)]">Allergènes&nbsp;: </span>
+      <span className="font-medium text-[var(--encre)]">Allergènes&nbsp;: </span>
       {liste.length ? liste.join(", ") : "aucun des quatorze"}
     </p>
   );
 }
 
-/**
- * Le menu en trois cartes hautes, l'intitulé couché le long du bord (entrée, le plat de
- * ta famille, dessert), le plat, sa description, ses allergènes.
- */
-export function CartesMenu({ menu }: { menu: Menu }) {
-  const plats: [string, Plat, boolean][] = [["entrée", menu.entree, false], ["ta famille", menu.plat, true], ["dessert", menu.dessert, false]];
+/** Le menu en trois cartes : entrée, le plat de ta famille, dessert, et leurs allergènes. */
+export function CartesMenu({ menu, empile = false }: { menu: Menu; empile?: boolean }) {
+  const plats: [string, Plat, boolean][] = [["Entrée", menu.entree, false], ["Le plat de ta famille", menu.plat, true], ["Dessert", menu.dessert, false]];
   return (
-    <ol className="grid gap-3 md:grid-cols-3">
+    <ol className={`grid gap-3 ${empile ? "" : "md:grid-cols-3"}`}>
       {plats.map(([titre, p, famille], i) => (
-        <Apparition as="li" key={titre} delai={i * 120} de="zoom" className={`relative flex min-h-[230px] overflow-hidden rounded-[22px] border ${famille ? "border-[var(--accent)] bg-[#FFFCF3]" : "border-[var(--trait)] bg-[var(--carte)]"}`}>
-          <p aria-hidden="true" className="flex w-14 shrink-0 rotate-180 items-center justify-center border-r border-[var(--trait)] font-[family-name:var(--titres)] text-[26px] italic text-[var(--accent-texte)] [writing-mode:vertical-rl]">
-            {titre}
-          </p>
-          <div className="flex flex-col gap-2 p-5">
-            <p className="sr-only">{famille ? "Le plat de ta famille" : titre}</p>
-            {famille && <p className="font-[family-name:var(--f-caveat)] text-[22px] leading-none text-[#1E3A6E]">le plat de ta famille</p>}
-            <h3 className="font-[family-name:var(--titres)] text-[25px] font-normal leading-tight">{p.nom}</h3>
-            <p className="leading-relaxed text-[var(--doux)]">{p.detail}</p>
-            <div className="mt-auto pt-2">
-              <Allergenes liste={p.allergenes} />
-            </div>
+        <Apparition as="li" key={titre} delai={i * 120} className={`flex flex-col gap-2 rounded-2xl border text-[var(--encre)] ${empile ? "p-5" : "p-6"} ${famille ? "border-[var(--accent)] bg-[#FFFCF3]" : "border-[var(--trait)] bg-[var(--carte)]"}`}>
+          <p className={`text-[12px] font-medium uppercase tracking-[0.2em] ${famille ? "text-[var(--accent-texte)]" : "text-[var(--doux)]"}`}>{titre}</p>
+          <h3 className="font-[family-name:var(--titres)] text-[24px] font-normal leading-tight">{p.nom}</h3>
+          <p className="leading-relaxed text-[var(--doux)]">{p.detail}</p>
+          <div className="mt-auto pt-2">
+            <Allergenes liste={p.allergenes} />
           </div>
         </Apparition>
       ))}
     </ol>
-  );
-}
-
-/**
- * Le haut de chaque page intérieure : sur le papier, un grand titre révélé, une note dans
- * la marge, et à droite une photo posée comme un tirage.
- */
-export function EnTetePage({
-  note,
-  titre,
-  children,
-  photo,
-  niveau = "h1",
-}: {
-  note: string;
-  titre: string;
-  children?: React.ReactNode;
-  photo?: { src: string; alt: string };
-  niveau?: "h1" | "p";
-}) {
-  return (
-    <section className="relative overflow-hidden border-b border-[var(--trait)] bg-[var(--fond)] [background-image:repeating-linear-gradient(180deg,transparent_0_39px,rgba(201,214,227,.45)_39px_40px)]">
-      <div aria-hidden="true" className="absolute inset-y-0 left-[8%] hidden w-px bg-[#E3A39A] md:block" />
-      <div className="relative mx-auto grid max-w-7xl gap-10 px-5 pb-16 pt-36 sm:px-8 md:pb-24 md:pt-44 lg:grid-cols-[1.25fr_0.75fr] lg:items-end">
-        <div className="space-y-6">
-          <Apparition><Note>{note}</Note></Apparition>
-          <TitreRevele
-            as={niveau}
-            auChargement
-            texte={titre}
-            className="font-[family-name:var(--titres)] text-[clamp(3.4rem,8vw,7.4rem)] font-normal leading-[0.95] tracking-[-0.02em]"
-            classeAccent={SAUCE}
-          />
-          {children && (
-            <Apparition delai={450} className="max-w-2xl text-lg leading-relaxed text-[var(--doux)] md:text-xl">
-              {children}
-            </Apparition>
-          )}
-        </div>
-        {photo && (
-          <Apparition de="droite" delai={300} className="mx-auto hidden w-full max-w-[300px] [clip-path:none] lg:block">
-            <Tirage photo={photo} angle={3} />
-          </Apparition>
-        )}
-      </div>
-    </section>
   );
 }
 
@@ -175,9 +175,9 @@ export function Faq({ questions }: { questions: Question[] }) {
       {questions.map((x) => (
         <li key={x.q}>
           <details className="kit-accordeon group">
-            <summary className="flex items-center justify-between gap-4 py-5 font-[family-name:var(--titres)] text-[22px] italic leading-snug">
+            <summary className="flex items-center justify-between gap-4 py-5 font-[family-name:var(--titres)] text-[22px] leading-snug">
               {x.q}
-              <span aria-hidden="true" className="kit-plus font-[family-name:var(--f-caveat)] text-[34px] not-italic text-[var(--accent-texte)]">+</span>
+              <span aria-hidden="true" className="kit-plus grid h-9 w-9 shrink-0 place-items-center rounded-full border border-[var(--trait)] text-lg">+</span>
             </summary>
             <p className="pb-5 pr-8 leading-relaxed text-[var(--doux)]">{x.r}</p>
           </details>
@@ -187,33 +187,26 @@ export function Faq({ questions }: { questions: Question[] }) {
   );
 }
 
-/** Le dernier écran de chaque page : l'affiche du lancement, sur le fond animé de la cuisine. */
+/** Le dernier écran de chaque page : clair et centré — viens goûter. */
 export function AppelFinal() {
   return (
-    <section className="px-3 pb-3 sm:px-5 sm:pb-5">
-      <div className="kit-grain relative isolate overflow-hidden rounded-[2.5rem] bg-[var(--sombre)] text-[var(--sur-sombre)]">
-        <FondVivant couleurs={["#16291F", "#2E5440", "#A8442E"]} />
-        <div className="absolute inset-0 bg-[#16291F]/45" />
-        <div className="relative mx-auto grid max-w-6xl gap-10 px-6 py-24 sm:px-10 md:py-32 lg:grid-cols-[1.3fr_0.7fr] lg:items-end">
-          <div className="space-y-6">
-            <Note clair>Notre affiche de lancement</Note>
-            <TitreRevele
-              texte={"Ta grand-mère a une *recette ?*"}
-              className="font-[family-name:var(--titres)] text-[clamp(3rem,8vw,7rem)] font-normal leading-[0.95] tracking-[-0.02em]"
-              classeAccent={MOUTARDE}
-            />
-            <p className="max-w-xl text-lg leading-relaxed text-[var(--sur-sombre)]/90">
-              On la sert à cent vingt. Envoie la page du cahier, telle qu&apos;elle est&nbsp;: on la refait en cuisine, et tu viens goûter.
-            </p>
+    <section className="border-t border-[var(--trait)]">
+      <div className="mx-auto max-w-3xl space-y-8 px-6 py-28 text-center md:py-36">
+        <Apparition><Surtitre>La dégustation</Surtitre></Apparition>
+        <Titre texte="Ta grand-mère a une recette ? *Viens la goûter.*" className="mx-auto" />
+        <Apparition as="p" delai={150} className="mx-auto max-w-lg text-lg leading-relaxed text-[var(--doux)]">
+          On la sert à cent vingt. La dégustation se réserve en ligne, comme une table au restaurant&nbsp;: un samedi, une
+          heure, pour deux.
+        </Apparition>
+        <Apparition delai={250} className="flex flex-col items-center gap-4">
+          <div className="flex flex-wrap justify-center gap-3">
+            <Bouton href={`${DOSSIER}/degustation`}>Réserver une dégustation</Bouton>
+            <Bouton href={`${DOSSIER}#recette`} variante="contour">Envoyer ma recette</Bouton>
           </div>
-          <Apparition className="flex flex-col items-start gap-4 lg:items-end" delai={200}>
-            <Bouton href={`${DOSSIER}#recette`}>Envoyer ma recette</Bouton>
-            <Bouton href={`${DOSSIER}/degustation`} variante="creme">Réserver une dégustation</Bouton>
-            <p className="text-[15px] text-[var(--sur-sombre)]/90">
-              Ou par téléphone : <span className="font-semibold tabular-nums">{entreprise.telephone}</span>
-            </p>
-          </Apparition>
-        </div>
+          <p className="text-[15px] text-[var(--doux)]">
+            Ou par téléphone : <span className="font-medium tabular-nums text-[var(--encre)]">{entreprise.telephone}</span>
+          </p>
+        </Apparition>
       </div>
     </section>
   );

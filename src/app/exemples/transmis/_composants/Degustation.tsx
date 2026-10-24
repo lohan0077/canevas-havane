@@ -25,7 +25,7 @@ export default function Degustation() {
             disabled={x.pris || reservee}
             aria-pressed={x.id === id}
             onClick={() => setId(x.id)}
-            className={`rounded-[18px] border px-4 py-3 text-left transition-colors ${
+            className={`rounded-xl border px-4 py-3 text-left transition-colors ${
               x.pris
                 ? "border-[var(--trait)] text-[var(--doux)] cursor-not-allowed"
                 : x.id === id
@@ -42,7 +42,7 @@ export default function Degustation() {
 
       <form
         id="reserver-degustation"
-        className="rounded-[24px] border border-[var(--trait)] bg-[var(--carte)] p-5 space-y-4"
+        className="rounded-2xl border border-[var(--trait)] bg-[var(--carte)] p-5 space-y-4"
         onSubmit={(e) => {
           e.preventDefault();
           if (c) setReservee(true);
@@ -59,11 +59,11 @@ export default function Degustation() {
             onChange={(e) => setAllergies(e.target.value)}
             rows={2}
             placeholder="Par exemple : sans gluten pour l'un de nous deux"
-            className="w-full rounded-[14px] border border-[var(--trait)] bg-[var(--fond)] p-3 text-[16px] placeholder:text-[var(--doux)]"
+            className="w-full rounded-xl border border-[var(--trait)] bg-[var(--fond)] p-3 text-[16px] placeholder:text-[var(--doux)]"
           />
         </label>
         {reservee && c ? (
-          <div role="status" className="rounded-[16px] border border-[var(--accent)] p-4 space-y-1">
+          <div role="status" className="rounded-xl border border-[var(--accent)] p-4 space-y-1">
             <p className="font-[family-name:var(--titres)] text-[26px]">Dégustation réservée&nbsp;: {c.court}.</p>
             <p className="text-[14px] text-[var(--doux)]">
               {allergies.trim() ? "Tes allergies sont notées pour la dégustation. " : ""}Démonstration : rien n&apos;est envoyé, rien n&apos;est enregistré.
@@ -73,7 +73,7 @@ export default function Degustation() {
           <button
             type="submit"
             disabled={!c}
-            className="flex h-14 w-full items-center justify-center rounded-full bg-[var(--accent)] text-[17px] font-medium text-[var(--sur-accent)] disabled:bg-[var(--trait)] disabled:text-[var(--encre)] disabled:cursor-not-allowed"
+            className="flex h-12 w-full items-center justify-center rounded-full bg-[var(--accent)] text-[15px] font-medium text-[var(--sur-accent)] disabled:bg-[var(--trait)] disabled:text-[var(--encre)] disabled:cursor-not-allowed"
           >
             Réserver ma dégustation
           </button>

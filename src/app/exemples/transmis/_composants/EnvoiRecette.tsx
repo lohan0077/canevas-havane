@@ -30,7 +30,7 @@ export default function EnvoiRecette() {
         if (prete) setEnvoyee(true);
       }}
     >
-      <div id="cadre-photo" className="relative h-[330px] overflow-hidden rounded-[18px] border-2 border-dashed border-[var(--trait)] bg-[var(--carte)]">
+      <div id="cadre-photo" className="relative h-[330px] overflow-hidden rounded-2xl border border-dashed border-[var(--doux)]/40 bg-[var(--carte)]">
         {photo ? (
           // eslint-disable-next-line @next/next/no-img-element -- aperçu local (adresse blob:), next/image ne s'applique pas
           <img src={photo} alt="Ta page de cahier, en aperçu" className={`${s.tombe} absolute inset-4 h-[calc(100%-2rem)] w-[calc(100%-2rem)] object-contain`} />
@@ -46,7 +46,7 @@ export default function EnvoiRecette() {
           <label htmlFor="photo-recette" className="absolute inset-0 grid cursor-pointer place-items-center text-center">
             <span className="space-y-2">
               <span aria-hidden="true" className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[var(--accent)] text-3xl text-[var(--sur-accent)]">+</span>
-              <span className="block font-[family-name:var(--titres)] text-[24px]">Ajouter une photo</span>
+              <span className="block font-[family-name:var(--titres)] text-[24px] font-normal">Ajouter une photo</span>
               <span className="block text-[14px] text-[var(--doux)]">La page du cahier, telle qu&apos;elle est.</span>
             </span>
           </label>
@@ -72,7 +72,7 @@ export default function EnvoiRecette() {
           type="button"
           data-film="exemple"
           onClick={() => { setExemple(true); setPlat("La blanquette"); setQui("Mamie Jo"); }}
-          className="text-[15px] font-medium underline decoration-[var(--accent)] decoration-2 underline-offset-4"
+          className="text-[15px] underline decoration-[var(--accent)] underline-offset-4"
         >
           Pas de photo sous la main&nbsp;? Essaie avec la page de Mamie Jo (exemple)
         </button>
@@ -81,16 +81,16 @@ export default function EnvoiRecette() {
       <div className="grid gap-3 sm:grid-cols-2">
         <label className="block space-y-1.5">
           <span className="text-[14px] font-medium">Le plat</span>
-          <input value={plat} onChange={(e) => setPlat(e.target.value)} placeholder="La blanquette" className="w-full rounded-[12px] border border-[var(--trait)] bg-[var(--carte)] px-4 h-12 placeholder:text-[var(--doux)]" />
+          <input value={plat} onChange={(e) => setPlat(e.target.value)} placeholder="La blanquette" className="w-full rounded-xl border border-[var(--trait)] bg-[var(--carte)] px-4 h-12 placeholder:text-[var(--doux)]" />
         </label>
         <label className="block space-y-1.5">
           <span className="text-[14px] font-medium">Qui te l&apos;a transmis&nbsp;?</span>
-          <input value={qui} onChange={(e) => setQui(e.target.value)} placeholder="Ta grand-mère, ton oncle…" className="w-full rounded-[12px] border border-[var(--trait)] bg-[var(--carte)] px-4 h-12 placeholder:text-[var(--doux)]" />
+          <input value={qui} onChange={(e) => setQui(e.target.value)} placeholder="Ta grand-mère, ton oncle…" className="w-full rounded-xl border border-[var(--trait)] bg-[var(--carte)] px-4 h-12 placeholder:text-[var(--doux)]" />
         </label>
       </div>
 
       {envoyee ? (
-        <div role="status" className="rounded-[16px] border-2 border-[var(--accent)] bg-[var(--carte)] p-4 space-y-1">
+        <div role="status" className="rounded-xl border border-[var(--accent)] bg-[var(--carte)] p-4 space-y-1">
           <p className="font-[family-name:var(--titres)] text-[24px]">Recette reçue&nbsp;: {plat || "ta recette"}{qui ? ` de ${qui}` : ""}.</p>
           <p className="text-[14px] text-[var(--doux)]">
             On t&apos;appellerait pour fixer l&apos;essai n° 1. Démonstration : rien n&apos;est envoyé, ta photo reste sur ton téléphone.
@@ -100,7 +100,7 @@ export default function EnvoiRecette() {
         <button
           type="submit"
           disabled={!prete}
-          className="flex h-14 w-full items-center justify-center rounded-full bg-[var(--accent)] text-[17px] font-semibold text-[var(--sur-accent)] disabled:bg-[var(--trait)] disabled:text-[var(--encre)] disabled:cursor-not-allowed"
+          className="flex h-12 w-full items-center justify-center rounded-full bg-[var(--accent)] text-[15px] font-medium text-[var(--sur-accent)] disabled:bg-[var(--trait)] disabled:text-[var(--encre)] disabled:cursor-not-allowed"
         >
           Envoyer ma recette
         </button>

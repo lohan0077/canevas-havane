@@ -14,11 +14,11 @@ export default function Invites({ depart = 60 }: { depart?: number }) {
   const rempli = ((n - INVITES_MIN) / (INVITES_MAX - INVITES_MIN)) * 100;
 
   return (
-    <div id="outil-invites" className="scroll-mt-24 space-y-6 rounded-[28px] border border-[var(--trait)] bg-[var(--carte)] p-5 text-[var(--encre)] shadow-[0_40px_80px_-50px_rgba(22,41,31,.8)] sm:p-7">
+    <div id="outil-invites" className="scroll-mt-24 space-y-6 rounded-2xl border border-[var(--trait)] bg-[var(--carte)] p-5 text-[var(--encre)] sm:p-7">
       <label className="block space-y-4">
         <span className="flex items-baseline justify-between gap-4">
-          <span className="font-[family-name:var(--f-caveat)] text-[28px] leading-none text-[#1E3A6E]">combien d&apos;invités&nbsp;?</span>
-          <span className="font-[family-name:var(--titres)] text-[48px] leading-none tabular-nums">{n}</span>
+          <span className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">Combien d&apos;invités&nbsp;?</span>
+          <span className="font-[family-name:var(--titres)] text-[44px] leading-none tabular-nums">{n}</span>
         </span>
         <input
           type="range"
@@ -40,9 +40,9 @@ export default function Invites({ depart = 60 }: { depart?: number }) {
         ))}
       </div>
 
-      <div aria-live="polite" className="space-y-1 rounded-[20px] bg-[var(--sombre)] p-5 text-[var(--sur-sombre)]">
-        <p className="text-[12px] uppercase tracking-[0.22em] text-[#E9C46A]">Prix par personne · exemple</p>
-        <p data-film="prix" className="font-[family-name:var(--titres)] text-[68px] leading-none tabular-nums">
+      <div aria-live="polite" className="space-y-1 rounded-xl bg-[var(--sombre)] p-5 text-[var(--sur-sombre)]">
+        <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[#E9C46A]">Prix par personne · exemple</p>
+        <p data-film="prix" className="font-[family-name:var(--titres)] text-[60px] leading-none tabular-nums">
           {euros(prix)} <span className="align-middle font-[family-name:var(--texte)] text-[18px]">TTC</span>
         </p>
         <p className="text-[15px] tabular-nums text-[var(--sur-sombre)]/90">

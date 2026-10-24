@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../_kit/Apparition";
-import { AppelFinal, EnTetePage } from "../_composants/Blocs";
+import { AppelFinal, EnTetePage, Section } from "../_composants/Blocs";
 import CarteDeTable from "../_composants/CarteDeTable";
 import { photos } from "../_composants/donnees";
 
@@ -17,12 +17,12 @@ export const metadata: Metadata = {
 export default function PageCarteDeTable() {
   return (
     <main>
-      <EnTetePage note="le jour J" titre="Sur chaque table, *une carte.*" photo={photos.papier}>
-        D&apos;où vient le plat, et qui l&apos;a transmis. Écris-la&nbsp;: elle se compose à mesure. On n&apos;y met que ton histoire vraie.
+      <EnTetePage surtitre="Le jour J" titre="Sur chaque table, *une carte.*" photo={photos.papier}>
+        D&apos;où vient le plat, et qui l&apos;a transmis. Écris-la : elle se compose à mesure. On n&apos;y met que ton histoire vraie.
       </EnTetePage>
-      <section className="mx-auto max-w-6xl px-5 py-20 sm:px-8 md:py-28">
-        <Apparition de="zoom"><CarteDeTable /></Apparition>
-      </section>
+      <Section>
+        <Apparition><CarteDeTable /></Apparition>
+      </Section>
       <AppelFinal />
     </main>
   );

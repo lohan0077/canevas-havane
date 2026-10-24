@@ -5,16 +5,17 @@ import Pied from "./_composants/Pied";
 import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 
 // Le site de Transmis, maison de traiteur imaginaire, filmé dans les deux vidéos des
-// traiteurs. Le papier du cahier de recettes, l'encre bleue des notes (Caveat), le vert
-// de la marque, la sauce tomate et la moutarde ; Playfair Display pour les titres (la
-// cousine libre du Big Caslon de la marque), Work Sans pour lire. Le `noindex` vient du
-// layout de /exemples.
+// traiteurs. Version « carrée » (24/10/2026) : Playfair Display en graisse normale pour
+// les titres (la cousine libre du Big Caslon de la marque), Inter pour lire, l'encre
+// bleue de Caveat seulement dans les cahiers et les carnets. Le vert de la marque alterne
+// avec la crème ; la sauce tomate est réservée au bouton principal et aux petits détails.
+// Chaque page s'ouvre sur un écran sombre : l'en-tête flottant y est clair.
 export default function TransmisLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
       entreprise="Transmis"
       titres="playfair"
-      texte="workSans"
+      texte="inter"
       autres={["caveat"]}
       couleurs={{
         fond: "#FBF6EC",
@@ -36,8 +37,9 @@ export default function TransmisLayout({ children }: { children: React.ReactNode
           marque={<Marque />}
           liens={NAVIGATION}
           action={{ href: `${DOSSIER}/degustation`, libelle: "Dégustation" }}
+          surSombre
         />
-        {children}
+        <div className="overflow-x-clip">{children}</div>
         <Pied />
       </div>
     </Cadre>

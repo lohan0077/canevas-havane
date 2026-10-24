@@ -27,7 +27,6 @@ export const entreprise = {
 };
 
 export const NAVIGATION = [
-  { href: `${DOSSIER}#recette`, libelle: "Ma recette" },
   { href: `${DOSSIER}/de-la-recette-a-la-table`, libelle: "De la recette à la table" },
   { href: `${DOSSIER}/mariages`, libelle: "Les mariages" },
   { href: `${DOSSIER}/prix`, libelle: "Le prix" },
