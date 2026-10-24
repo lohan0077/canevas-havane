@@ -5,15 +5,15 @@ import Pied from "./_composants/Pied";
 import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 
 // Le gabarit de Douze Mois, la boutique de fleurs imaginaire des deux vidéos des
-// fleuristes. Polices : Bodoni Moda (la cousine libre du Didot de la marque) pour les
-// titres et leur italique, Manrope pour lire, Caveat pour la carte écrite à la main.
+// fleuristes. Polices : Bodoni Moda (la cousine libre du Didot de la marque, en graisse normale) pour les
+// titres et leur italique, Inter pour lire, Caveat pour la carte écrite à la main.
 // Couleurs de la marque : prune, mimosa, rose. Chaque page s'ouvre sur un écran sombre.
 export default function DouzeMoisLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
       entreprise="Douze Mois"
       titres="bodoni"
-      texte="manrope"
+      texte="inter"
       autres={["caveat"]}
       couleurs={{
         fond: "#FBF5EE",

@@ -18,7 +18,7 @@ export default function EcrireCarte() {
         {CARTES.map((c, i) => (
           <div key={c.occasion} className="grid gap-4 py-6 sm:grid-cols-[180px_1fr]">
             <h2 className="font-normal text-2xl leading-tight">
-              <span className="block text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--doux)] [font-family:var(--texte)]">N° {String(i + 1).padStart(2, "0")}</span>
+              <span className="block text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)] [font-family:var(--texte)]">{String(i + 1).padStart(2, "0")}</span>
               {c.occasion}
             </h2>
             <ul className="flex flex-wrap gap-2">
@@ -28,7 +28,7 @@ export default function EcrireCarte() {
                     type="button"
                     aria-pressed={texte === p}
                     onClick={() => setTexte(p)}
-                    className={`border px-4 py-2.5 text-left text-[15px] transition-colors ${texte === p ? "border-[var(--encre)] bg-[var(--encre)] text-[var(--fond)]" : "border-[var(--trait)] bg-[var(--carte)] hover:border-[var(--encre)]"}`}
+                    className={`rounded-xl border px-4 py-2.5 text-left text-[15px] transition-colors ${texte === p ? "border-[var(--encre)] bg-[var(--encre)] text-[var(--fond)]" : "border-[var(--trait)] bg-[var(--carte)] hover:border-[var(--encre)]"}`}
                   >
                     {p}
                   </button>
@@ -39,19 +39,19 @@ export default function EcrireCarte() {
         ))}
       </div>
       <div className="space-y-4 lg:sticky lg:top-28">
-        <div id="apercu-carte" className="min-h-[240px] -rotate-1 rounded-[4px] bg-[var(--carte)] p-8 shadow-[0_30px_60px_-30px_rgba(42,21,32,0.6)] [background-image:repeating-linear-gradient(transparent_0_41px,#EAD9CC_41px_42px)]">
+        <div id="apercu-carte" className="min-h-[240px] rounded-2xl border border-[var(--trait)] bg-[var(--carte)] p-8 [background-image:repeating-linear-gradient(transparent_0_41px,#EAD9CC_41px_42px)]">
           <p className="font-[family-name:var(--f-caveat)] text-[38px] leading-[1.1] break-words" aria-live="polite">{texte || "…"}</p>
         </div>
         <label className="block space-y-2">
-          <span className="text-[12px] font-bold uppercase tracking-[0.2em]">Ou écris la tienne</span>
+          <span className="text-[12px] font-medium uppercase tracking-[0.2em]">Ou écris la tienne</span>
           <textarea
             value={texte}
             onChange={(e) => setTexte(e.target.value.slice(0, LIMITE))}
             rows={3}
-            className="w-full border border-[var(--trait)] bg-[var(--carte)] p-4 text-lg outline-none focus:border-[var(--encre)]"
+            className="w-full rounded-2xl border border-[var(--trait)] bg-[var(--carte)] p-4 text-lg outline-none focus:border-[var(--encre)]"
           />
         </label>
-        <p className={`text-sm ${reste < 15 ? "font-bold text-[var(--accent-texte)]" : "text-[var(--doux)]"}`}>
+        <p className={`text-sm ${reste < 15 ? "font-medium text-[var(--accent-texte)]" : "text-[var(--doux)]"}`}>
           {reste} signe{reste > 1 ? "s" : ""} restant{reste > 1 ? "s" : ""} sur la carte · rien n&apos;est envoyé
         </p>
       </div>
