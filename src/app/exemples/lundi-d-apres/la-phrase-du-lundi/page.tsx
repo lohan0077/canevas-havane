@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../_kit/Apparition";
-import TitreRevele from "../../_kit/TitreRevele";
-import { AppelFinal, Coin, CORAIL, CORAIL_CLAIR, EnTetePage, TITRE } from "../_composants/Blocs";
+import { EnTetePage, Section, Surtitre, Titre } from "../_composants/Blocs";
 import { photos } from "../_composants/donnees";
 
 // « Et sur Instagram, une rubrique : la vraie phrase du lundi. Une par événement. » La
@@ -33,50 +31,42 @@ const REGLES = [
 export default function LaPhraseDuLundi() {
   return (
     <main>
-      <EnTetePage coin="une par événement" titre="La phrase *du lundi.*">
+      <EnTetePage surtitre="Une par événement" titre="la phrase *du lundi.*" photo={photos.cafe} origine="40% 30%">
         Après chaque événement, on passe à la machine à café, et on écoute. Une phrase revient toujours. C&apos;est elle qu&apos;on
         publie, chaque semaine, avec l&apos;accord de l&apos;entreprise et de la personne.
       </EnTetePage>
 
-      <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 md:py-28">
-        <div className="mb-10 space-y-5">
-          <Apparition><Coin>à quoi ça ressemble · exemples</Coin></Apparition>
-          <TitreRevele texte="Une phrase. *Un lundi.*" className={`text-[clamp(3rem,6vw,5.4rem)] ${TITRE}`} classeAccent={CORAIL} />
+      <Section className="space-y-14">
+        <div className="space-y-5">
+          <Apparition><Surtitre>À quoi ça ressemble · exemples</Surtitre></Apparition>
+          <Titre texte="une phrase. *un lundi.*" />
         </div>
-        <ul className="grid gap-4 md:grid-cols-2">
+        <ul className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
           {EXEMPLES.map((x, i) => (
-            <Apparition as="li" key={x.phrase} delai={i * 110} de="zoom" className={`flex min-h-[220px] flex-col justify-between rounded-[2rem] p-7 ${i % 3 === 0 ? "bg-[var(--sombre)] text-[var(--sur-sombre)]" : i % 3 === 1 ? "bg-[var(--accent)] text-[var(--sur-accent)]" : "bg-[#9AD1D4] text-[#2A190F]"}`}>
-              <p className="font-[family-name:var(--titres)] text-[clamp(1.8rem,3vw,2.6rem)] font-extrabold leading-[1] tracking-[-0.03em]">« {x.phrase} »</p>
-              <p className="pt-6 text-[14px] font-bold lowercase">{x.contexte} · exemple</p>
+            <Apparition as="li" key={x.phrase} delai={i * 100} className="grid grid-cols-1 gap-2 py-7 md:grid-cols-[1fr_auto] md:items-baseline md:gap-10">
+              <p className="font-[family-name:var(--titres)] text-[clamp(1.6rem,3vw,2.4rem)] leading-[1.1] tracking-[-0.02em]">«&nbsp;{x.phrase}&nbsp;»</p>
+              <p className="text-[15px] text-[var(--doux)]">{x.contexte} · exemple</p>
             </Apparition>
           ))}
         </ul>
-        <p className="mt-5 text-[14px] text-[var(--doux)]">Ces phrases sont inventées pour la démonstration : l&apos;agence est fictive.</p>
-      </section>
+        <p className="text-[14px] text-[var(--doux)]">Ces phrases sont inventées pour la démonstration : l&apos;agence est fictive.</p>
+      </Section>
 
-      <section className="px-3 sm:px-5">
-        <div className="kit-grain grid overflow-hidden rounded-[2.5rem] bg-[var(--sombre)] text-[var(--sur-sombre)] lg:grid-cols-[1.2fr_0.8fr]">
-          <div className="space-y-8 px-6 py-16 sm:px-12 md:py-24">
-            <TitreRevele texte="Les règles *de la rubrique.*" className={`text-[clamp(2.8rem,5.5vw,4.8rem)] ${TITRE}`} classeAccent={CORAIL_CLAIR} />
-            <ol className="grid gap-5 sm:grid-cols-2">
-              {REGLES.map((r, i) => (
-                <Apparition as="li" key={r.titre} delai={i * 110} className="space-y-2 border-t border-white/20 pt-4">
-                  <p className="font-[family-name:var(--titres)] text-[34px] font-extrabold leading-none text-[#FF8A6E]">{i + 1}</p>
-                  <h2 className="font-[family-name:var(--titres)] text-[24px] font-extrabold lowercase tracking-[-0.03em]">{r.titre}</h2>
-                  <p className="leading-relaxed text-[var(--sur-sombre)]/90">{r.texte}</p>
-                </Apparition>
-              ))}
-            </ol>
-          </div>
-          <div className="relative min-h-[360px]">
-            <Image src={photos.micro.src} alt={photos.micro.alt} fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
-          </div>
+      <Section fond="bg-[var(--sombre)] text-[var(--sur-sombre)]" className="space-y-14">
+        <div className="space-y-5">
+          <Apparition><Surtitre clair>Les règles de la rubrique</Surtitre></Apparition>
+          <Titre texte="quatre règles, *sans exception.*" clair />
         </div>
-      </section>
-
-      <div className="pt-24 md:pt-32">
-        <AppelFinal />
-      </div>
+        <ol className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+          {REGLES.map((r, i) => (
+            <Apparition as="li" key={r.titre} delai={i * 110} className="space-y-3 border-t border-white/20 pt-5">
+              <p className="text-[12px] font-medium uppercase tracking-[0.2em]">0{i + 1}</p>
+              <h2 className="font-[family-name:var(--titres)] text-[24px] font-normal lowercase">{r.titre}</h2>
+              <p className="leading-relaxed">{r.texte}</p>
+            </Apparition>
+          ))}
+        </ol>
+      </Section>
     </main>
   );
 }

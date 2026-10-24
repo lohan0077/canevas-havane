@@ -13,11 +13,11 @@ export const metadata: Metadata = {
 export default function MentionsLegales() {
   return (
     <main>
-      <EnTetePage coin="mentions légales" titre="Ce qui est inventé, *ce qui est vrai.*" niveau="p" />
+      <EnTetePage surtitre="Mentions légales" titre="ce qui est inventé, *ce qui est vrai.*" niveau="p" />
       <MentionsDemonstration
         site="lundi-d-apres"
         entreprise="Lundi d'Après"
-        polices="Bricolage Grotesque et Inter"
+        polices="DM Sans et Inter"
         enPlus={
           <>
             <p>
@@ -32,8 +32,8 @@ export default function MentionsLegales() {
               fixent, pas le DJ.
             </p>
             <p>
-              <strong>Les phrases.</strong> Les phrases montrées (« On refait ça quand ? », les bulles de la machine à café
-              et les autres) sont inventées pour la démonstration et marquées « exemple ». Sur un vrai site, la rubrique « la
+              <strong>Les phrases.</strong> Les phrases montrées (« On refait ça quand ? », « On ne savait pas que la
+              compta chantait aussi bien. » et les autres) sont inventées pour la démonstration et marquées « exemple ». Sur un vrai site, la rubrique « la
               phrase du lundi » ne publierait que des phrases réellement entendues, avec l&apos;accord écrit de l&apos;entreprise
               cliente ou des mariés, et de la personne si elle est reconnaissable : une phrase inventée serait un faux
               témoignage (Code de la consommation, art. L. 121-4, 28°), et les mots d&apos;une personne relèvent de sa vie
@@ -49,7 +49,7 @@ export default function MentionsLegales() {
               « lundi, vos équipes diront quoi ? », la soirée construite à l&apos;envers, la phrase du lundi, les croissants du
               lancement) et « Remplir l&apos;agenda » (le DJ de mariage : la chanson interdite, la page honnête « DJ ou
               playlist ? », les samedis encore libres sur chaque page, la date bloquée en ligne). Les deux sites de
-              démonstration d&apos;origine n&apos;en font plus qu&apos;un. La tasse et les bulles sont dessinées.
+              démonstration d&apos;origine n&apos;en font plus qu&apos;un.
             </p>
           </>
         }

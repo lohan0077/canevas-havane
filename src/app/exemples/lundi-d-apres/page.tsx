@@ -4,230 +4,171 @@ import Link from "next/link";
 import { adressesDeLaPage } from "@/lib/seo";
 import Accordeon from "../_kit/Accordeon";
 import Apparition from "../_kit/Apparition";
-import CarteLueur from "../_kit/CarteLueur";
-import Defilant from "../_kit/Defilant";
-import FondVivant from "../_kit/FondVivant";
-import RecitColle from "../_kit/RecitColle";
 import TitreRevele from "../_kit/TitreRevele";
-import { AppelFinal, Bouton, Coin, CORAIL, CORAIL_CLAIR, MachineACafe, TITRE } from "./_composants/Blocs";
-import Question from "./_composants/Question";
-import { ACCUEIL, DOSSIER, FORMULES, QUESTIONS, SOIREE_MARIAGE, THEMES, euros, photos } from "./_composants/donnees";
+import { Bouton, Intitule, Surtitre, Titre } from "./_composants/Blocs";
+import ChansonInterdite from "./_composants/ChansonInterdite";
+import PhraseLundi from "./_composants/PhraseLundi";
+import { ACCUEIL, DOSSIER, FORMULES, QUESTIONS, THEMES, euros, photos } from "./_composants/donnees";
 
 // L'accueil de Lundi d'Après. « Créer une marque » : « Sur le site, une seule question :
 // qu'est-ce que tes équipes doivent se raconter lundi ? », puis la soirée construite à
-// l'envers (#question, onglet entreprise). « Remplir l'agenda » : « Sur l'accueil, une
-// seule question : quelle chanson est interdite à ton mariage ? » (#interdite, onglet
-// mariage). Une seule question, selon ce que l'on fête.
+// l'envers (#question). « Remplir l'agenda » : « Sur l'accueil, une seule question :
+// quelle chanson est interdite à ton mariage ? » (#interdite). Une seule question par
+// public : l'entreprise a la sienne, le mariage la sienne.
+//
+// Version « carrée » (24/10/2026) : sept écrans, une idée par écran, une grille et une
+// échelle de texte communes. Le dernier écran — les samedis encore libres — vient du
+// gabarit du site, comme sur chaque page.
 export const metadata: Metadata = {
   title: "Lundi d'Après — agence d'événements, site de démonstration",
   description:
-    "Le site d'une agence d'événements imaginaire, soirées d'entreprise et mariages, DJ compris : une seule question — ce que vos équipes diront lundi, ou la chanson interdite à votre mariage.",
+    "Le site d'une agence d'événements imaginaire, soirées d'entreprise et mariages, DJ compris : ce que vos équipes diront lundi, la soirée construite à l'envers, et la chanson interdite à votre mariage.",
   ...adressesDeLaPage("/exemples/lundi-d-apres"),
 };
 
 const exemple = THEMES[0];
 const ENVERS = [
-  { heure: "Lundi, 9 h", titre: "« On ne savait pas que la compta chantait aussi bien. »", texte: "Le point de départ : la phrase qu'on veut entendre devant la machine à café. Tout le reste en découle.", photo: photos.cafe },
-  { ...exemple.moment, photo: photos.micro },
-  { ...exemple.diner, photo: photos.rayons },
-  { ...ACCUEIL, photo: photos.croissants },
+  { heure: "Lundi, 9 h", titre: "« On ne savait pas que la compta chantait aussi bien. »" },
+  { heure: exemple.moment.heure, titre: exemple.moment.titre },
+  { heure: exemple.diner.heure, titre: exemple.diner.titre },
+  { heure: ACCUEIL.heure, titre: ACCUEIL.titre },
 ];
 
 const OFFRES = [
-  { titre: "La soirée d'entreprise", prix: "dès 95 € HT / personne", texte: "Construite à l'envers, à partir de la phrase de lundi. DJ compris.", href: `${DOSSIER}/a-l-envers`, photo: photos.micro, large: true },
-  { titre: "Le séminaire", prix: "dès 260 € HT / personne", texte: "Une journée de travail, une soirée qu'on raconte.", href: `${DOSSIER}/formats`, photo: null, large: false },
-  { titre: "La fête de fin d'année", prix: "dès 75 € HT / personne", texte: "Toute l'entreprise, familles comprises si vous le voulez.", href: `${DOSSIER}/formats`, photo: null, large: false },
-  { titre: "Le mariage", prix: `${euros(FORMULES[0].prix)} TTC la soirée`, texte: "Le DJ, jusqu'à 2 h selon la salle, et la chanson interdite notée.", href: `${DOSSIER}/samedis-libres`, photo: photos.bouleRose, large: true },
+  { titre: "La soirée d'entreprise", prix: "dès 95 € HT par personne", href: `${DOSSIER}/a-l-envers` },
+  { titre: "Le séminaire", prix: "dès 260 € HT par personne", href: `${DOSSIER}/formats` },
+  { titre: "La fête de fin d'année", prix: "dès 75 € HT par personne", href: `${DOSSIER}/formats` },
+  { titre: "Le mariage, DJ compris", prix: `${euros(FORMULES[0].prix)} TTC la soirée`, href: `${DOSSIER}/dj-ou-playlist` },
+  { titre: "La phrase du lundi", prix: "une par événement, avec l'accord de chacun", href: `${DOSSIER}/la-phrase-du-lundi` },
 ];
 
 export default function LundiDApres() {
   return (
     <main>
-      {/* ---------- Premier écran : la typographie seule, sur le fond vivant ---------- */}
-      <section className="kit-grain relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
-        <FondVivant couleurs={["#2A190F", "#B8381F", "#3E6E73"]} vitesse={1.1} />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(42,25,15,0.55)_0%,rgba(42,25,15,0.35)_50%,rgba(42,25,15,0.8)_100%)]" />
-        <div className="relative mx-auto grid w-full max-w-7xl flex-1 gap-10 px-5 pb-14 pt-36 sm:px-8 md:pt-44 lg:grid-cols-[1.35fr_0.65fr] lg:items-end">
-          <div className="space-y-8">
-            <Apparition><Coin clair>agence d&apos;événements · entreprises et mariages</Coin></Apparition>
+      {/* ---------- Premier écran : le micro devant le mur orange, plein cadre ---------- */}
+      {/* Le café se lit sur l'orange du mur, sans voile : la photo reste entière, et le texte ne touche jamais
+          le micro. Sur grand écran, tout se pose à droite du micro, où le mur est le plus clair. Sur téléphone,
+          le micro occupe le milieu de l'écran : le titre passe au-dessus de lui, en deux lignes, la ligne de
+          l'offre se range à sa droite (le seul endroit assez clair pour un petit texte), et les deux boutons,
+          pleins, ferment le bas. Mesuré sous chaque lettre, au format du tournage (390 × 720) comme à 844. */}
+      <section className="relative isolate flex min-h-[calc(100svh-3rem)] flex-col overflow-hidden bg-[#E8662A] text-[#2A190F] lg:min-h-[100svh]">
+        <Image src={photos.micro.src} alt="" fill priority sizes="(max-width: 1023px) 80vh, 100vw" className="object-cover object-[100%_38%] lg:object-[50%_38%]" />
+        <div className="relative mx-auto flex w-full max-w-6xl flex-1 flex-col px-6 pb-8 pt-32 lg:justify-end lg:pb-24 lg:pt-36">
+          <div className="flex flex-1 flex-col lg:ml-auto lg:max-w-[25rem] lg:flex-none lg:space-y-7">
+            <Apparition className="order-2 my-auto ml-auto max-w-[10rem] lg:order-none lg:mx-0 lg:mb-7 lg:mt-0 lg:max-w-none">
+              <p className="text-[12px] font-medium uppercase tracking-[0.2em]">Lundi d&apos;Après · soirées d&apos;entreprise et mariages, DJ compris</p>
+            </Apparition>
             <TitreRevele
               as="h1"
               auChargement
-              texte="Ce dont vous parlerez *lundi.*"
-              className={`text-[clamp(4.2rem,12.5vw,12.5rem)] ${TITRE} leading-[0.85]`}
-              classeAccent={CORAIL_CLAIR}
+              texte="ce dont vous parlerez *lundi.*"
+              classeAccent="italic"
+              className="order-1 font-[family-name:var(--titres)] text-[11.6vw] font-normal lowercase leading-[0.92] tracking-[-0.045em] lg:order-none lg:text-[clamp(2.9rem,6.4vw,5.75rem)]"
             />
-            <Apparition as="p" delai={500} className="max-w-xl text-lg leading-relaxed text-[var(--sur-sombre)]/90 md:text-xl">
-              Une soirée d&apos;entreprise, un mariage&nbsp;: on ne vend pas un cocktail, on vend le lundi matin d&apos;après. On
-              construit l&apos;événement à l&apos;envers, à partir de ce qu&apos;on s&apos;en racontera. DJ compris.
+            <Apparition as="p" delai={450} className="hidden text-lg leading-relaxed lg:block">
+              On ne vend pas une soirée : on vend le lundi matin d&apos;après, quand tout le monde en parle encore.
             </Apparition>
-            <Apparition delai={700} className="flex flex-wrap gap-3">
-              <Bouton href={`${DOSSIER}#question`}>une seule question</Bouton>
-              <Bouton href={`${DOSSIER}/samedis-libres`} variante="trait">les samedis libres</Bouton>
+            <Apparition delai={650} className="order-3 flex flex-col gap-3 lg:order-none lg:flex-row lg:flex-wrap">
+              <Bouton href={`${DOSSIER}#question`} variante="cafe" className="justify-center">Une seule question</Bouton>
+              <Bouton href={`${DOSSIER}/samedis-libres`} variante="clair" className="justify-center">Les samedis libres</Bouton>
             </Apparition>
           </div>
-          <Apparition de="droite" delai={600} className="hidden lg:block">
-            <MachineACafe />
-            <p className="mt-2 text-center text-[13px] text-[var(--sur-sombre)]/90">Phrases d&apos;exemple : l&apos;agence est fictive.</p>
-          </Apparition>
         </div>
       </section>
 
-      {/* ---------- Ce qu'on fait, en défilé ---------- */}
-      <div className="bg-[var(--accent)] py-5 text-[var(--sur-accent)]">
-        <Defilant
-          duree={40}
-          separateur="●"
-          elements={["soirées d'entreprise", "séminaires", "mariages", "le DJ compris", "la soirée construite à l'envers", "la chanson interdite, notée", "les samedis libres, en ligne", "les prix affichés"]}
-          classeElement="whitespace-nowrap font-[family-name:var(--titres)] text-2xl font-extrabold lowercase tracking-[-0.03em] md:text-4xl"
-        />
-      </div>
-
-      {/* ---------- Une seule question : l'outil, comme une application ---------- */}
-      <section id="question" className="scroll-mt-20 bg-[#9AD1D4] text-[#2A190F] [--doux:#4A3424] [--encre:#2A190F]">
-        <div className="mx-auto grid max-w-7xl gap-12 px-5 py-24 sm:px-8 md:py-32 lg:grid-cols-[0.75fr_1.25fr] lg:items-start">
+      {/* ---------- 01. Une entreprise : lundi, vos équipes diront quoi ? ---------- */}
+      <section id="question" className="scroll-mt-20">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 px-6 py-28 md:py-40 lg:grid-cols-2 lg:gap-16 lg:items-start">
           <div className="space-y-6 lg:sticky lg:top-28">
-            <Apparition><Coin>une seule question</Coin></Apparition>
-            <TitreRevele texte="Vous fêtez *quoi ?*" className={`text-[clamp(3.2rem,7vw,6.2rem)] ${TITRE}`} classeAccent="text-[#8F2A14]" />
+            <Apparition><Surtitre>01 — Une entreprise</Surtitre></Apparition>
+            <h2 id="question-titre" className="scroll-mt-24 font-[family-name:var(--titres)] text-[clamp(2.25rem,4.4vw,3.75rem)] font-normal lowercase leading-[1.05] tracking-[-0.03em] text-balance">
+              lundi, vos équipes <span className="italic text-[var(--accent-texte)]">diront quoi&nbsp;?</span>
+            </h2>
+            <Apparition as="p" delai={150} className="max-w-md text-lg leading-relaxed text-[var(--doux)]">
+              Écrivez la phrase qu&apos;on se dira devant la machine à café. On construit la soirée à l&apos;envers, à partir
+              d&apos;elle : lundi d&apos;abord, puis 23 h, 21 h, 19 h.
+            </Apparition>
+          </div>
+          <Apparition delai={150}><PhraseLundi /></Apparition>
+        </div>
+      </section>
+
+      {/* ---------- 02. Un mariage : quelle chanson est interdite ? ---------- */}
+      <section id="interdite" className="scroll-mt-20 bg-[var(--sombre)] text-[var(--sur-sombre)]">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 px-6 py-28 md:py-40 lg:grid-cols-2 lg:gap-16 lg:items-center">
+          <div className="space-y-6">
+            <Apparition><Surtitre clair>02 — Un mariage</Surtitre></Apparition>
+            <h2 id="interdite-titre" className="scroll-mt-24 font-[family-name:var(--titres)] text-[clamp(2.25rem,4.4vw,3.75rem)] font-normal lowercase leading-[1.05] tracking-[-0.03em] text-balance">
+              quelle chanson est <span className="italic text-[#FF8A6E]">interdite</span> à votre mariage&nbsp;?
+            </h2>
             <Apparition as="p" delai={150} className="max-w-md text-lg leading-relaxed">
-              Pas de formulaire de contact, pas de «&nbsp;faites le show&nbsp;». Une seule question, selon ce que vous fêtez&nbsp;: ce
-              que vos équipes diront lundi, ou la chanson qui ne passera pas à votre mariage.
+              Vous l&apos;écrivez, le site répond : noté, elle ne passera pas. Même si un oncle la réclame à minuit.
             </Apparition>
           </div>
-          <Apparition de="zoom"><Question /></Apparition>
+          <Apparition delai={150} className="rounded-2xl bg-[var(--fond)] p-4 text-[var(--encre)] sm:p-6"><ChansonInterdite /></Apparition>
         </div>
       </section>
 
-      {/* ---------- La soirée à l'envers, racontée ---------- */}
-      <section className="mx-auto max-w-7xl px-5 py-24 sm:px-8 md:py-32">
-        <div className="mb-6 space-y-6 md:mb-0">
-          <Apparition><Coin>exemple, du lundi au vendredi</Coin></Apparition>
-          <TitreRevele texte="La soirée, *à l'envers.*" className={`max-w-4xl text-[clamp(3.2rem,7vw,6.4rem)] ${TITRE}`} classeAccent={CORAIL} />
-        </div>
-        <RecitColle
-          etapes={ENVERS.map((e) => ({
-            surtitre: e.heure,
-            titre: e.titre,
-            texte: <p>{e.texte}</p>,
-            visuel: <Image src={e.photo.src} alt={e.photo.alt} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />,
-          }))}
-        />
-        <Apparition className="mt-6"><Bouton href={`${DOSSIER}/a-l-envers`} variante="cafe">construire la nôtre</Bouton></Apparition>
-      </section>
-
-      {/* ---------- Ce qu'on organise : le bento ---------- */}
-      <section className="mx-auto max-w-7xl px-5 pb-24 sm:px-8 md:pb-32">
-        <div className="mb-12 grid gap-6 md:grid-cols-[1fr_0.8fr] md:items-end">
-          <div className="space-y-6">
-            <Apparition><Coin>ce qu&apos;on organise</Coin></Apparition>
-            <TitreRevele texte="Pas un cocktail. *Le lundi.*" className={`text-[clamp(3.2rem,7vw,6.4rem)] ${TITRE}`} classeAccent={CORAIL} />
+      {/* ---------- Une phrase, une photo : le lundi matin d'après ---------- */}
+      {/* La photo est claire partout (la mousse, les croissants, le bois) : aucun voile ne la rendrait lisible
+          sans l'éteindre. La phrase se pose donc sur un aplat café, à côté de la tasse, jamais dessus. */}
+      <section id="lundi" className="relative isolate flex min-h-[92svh] overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
+        <Image src={photos.cafe.src} alt={photos.cafe.alt} fill sizes="(max-width: 1023px) 140vh, 100vw" className="object-cover object-[28%_30%] lg:object-[40%_30%]" />
+        <div className="relative mx-auto flex w-full max-w-6xl items-end px-6 pb-6 pt-40 md:pb-12">
+          <div className="w-full space-y-5 rounded-2xl bg-[var(--sombre)] p-7 sm:p-10 lg:ml-auto lg:max-w-[29rem]">
+            <Apparition><Surtitre clair>Le lundi matin</Surtitre></Apparition>
+            <Titre texte="On ne vend pas un cocktail. On vend *le lundi,* quand tout le monde en parle encore devant la machine à café." clair taille="moyen" />
           </div>
-          <Apparition as="p" delai={150} className="text-lg leading-relaxed text-[var(--doux)]">
-            Les prix sont affichés&nbsp;: hors taxes pour les entreprises, nos clients professionnels&nbsp;; TTC pour les mariages.
-            Ce sont des exemples, et le devis dit tout, ligne par ligne.
-          </Apparition>
         </div>
-        <ul className="grid gap-4 md:grid-cols-3">
-          {OFFRES.map((o, i) => (
-            <Apparition as="li" key={o.titre} delai={i * 110} de="zoom" className={o.large ? "md:col-span-2" : ""}>
-              <CarteLueur className="h-full rounded-[2rem]">
-                <Link href={o.href} className={`group relative flex h-full min-h-[280px] flex-col justify-end overflow-hidden rounded-[2rem] p-7 ${o.photo ? "bg-[var(--sombre)] text-[var(--sur-sombre)]" : "bg-[var(--carte)] ring-1 ring-[var(--trait)]"}`}>
-                  {o.photo && (
-                    <>
-                      <Image src={o.photo.src} alt="" fill sizes="(min-width: 768px) 66vw, 100vw" className="object-cover opacity-50 transition-transform duration-[1.4s] ease-out group-hover:scale-[1.06]" />
-                      <span className="absolute inset-0 bg-[linear-gradient(180deg,rgba(42,25,15,0.1)_20%,rgba(42,25,15,0.95)_100%)]" />
-                    </>
-                  )}
-                  <span aria-hidden="true" className="absolute right-6 top-6 grid h-12 w-12 place-items-center rounded-full bg-[var(--accent)] text-xl font-bold text-[var(--sur-accent)] transition-transform duration-500 group-hover:rotate-45">↗</span>
-                  <span className="relative space-y-2">
-                    <span className={`block text-[14px] font-bold ${o.photo ? "text-[#FFD9A0]" : "text-[var(--accent-texte)]"}`}>{o.prix} · exemple</span>
-                    <span className="block font-[family-name:var(--titres)] text-[clamp(2rem,3.4vw,3rem)] font-extrabold lowercase leading-[0.95] tracking-[-0.04em]">{o.titre}</span>
-                    <span className={`block max-w-md ${o.photo ? "text-[var(--sur-sombre)]/90" : "text-[var(--doux)]"}`}>{o.texte}</span>
-                  </span>
-                </Link>
-              </CarteLueur>
-            </Apparition>
-          ))}
-        </ul>
       </section>
 
-      {/* ---------- La piste encore pleine : la bande sombre aux coins arrondis ---------- */}
-      <section className="px-3 sm:px-5">
-        <div className="kit-grain relative isolate overflow-hidden rounded-[2.5rem] bg-[var(--sombre)] text-[var(--sur-sombre)]">
-          <Image src={photos.bouleOr.src} alt="" fill sizes="100vw" className="object-cover opacity-30" />
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(42,25,15,0.95)_0%,rgba(42,25,15,0.75)_60%,rgba(42,25,15,0.55)_100%)]" />
-          <div className="relative mx-auto max-w-6xl space-y-12 px-6 py-24 sm:px-10 md:py-32">
-            <div className="max-w-3xl space-y-6">
-              <Apparition><Coin clair>un mariage, côté piste</Coin></Apparition>
-              <TitreRevele texte="La piste encore pleine, *à deux heures.*" className={`text-[clamp(3rem,7vw,6.2rem)] ${TITRE}`} classeAccent={CORAIL_CLAIR} />
-              <Apparition as="p" delai={150} className="max-w-xl text-lg leading-relaxed text-[var(--sur-sombre)]/90">
-                On ne vend pas du son. On regarde la salle, on change de chanson avant que la piste se vide, et on finit sur la
-                bonne. L&apos;heure de fin, c&apos;est la salle qui la fixe.
+      {/* ---------- 03. La soirée à l'envers, et ce qu'on organise ---------- */}
+      <section id="envers" className="scroll-mt-24 bg-[var(--carte)]">
+        <div className="mx-auto max-w-6xl space-y-14 px-6 py-28 md:py-40">
+          <Intitule
+            numero="03"
+            surtitre="La soirée à l'envers"
+            titre="on commence *par la fin.*"
+            texte="Une agence part du lieu, puis du menu. Nous, on part de lundi, et on remonte le temps. Pour un mariage : la piste encore pleine à deux heures, selon la salle."
+          />
+          <ol className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-[var(--trait)] bg-[var(--trait)] lg:grid-cols-4">
+            {ENVERS.map((e, i) => (
+              <Apparition as="li" key={e.heure} delai={i * 90} className="min-w-0 space-y-3 bg-[var(--carte)] p-5 sm:p-6">
+                <p className={`font-[family-name:var(--titres)] whitespace-nowrap text-[clamp(1.45rem,3vw,2.6rem)] leading-none tracking-[-0.03em] ${i === 0 ? "text-[var(--accent-texte)]" : ""}`}>{e.heure}</p>
+                <p className="leading-snug text-[var(--doux)]">{e.titre}</p>
               </Apparition>
-            </div>
-            <ol className="grid gap-px overflow-hidden rounded-[2rem] bg-white/15 sm:grid-cols-2 lg:grid-cols-4">
-              {SOIREE_MARIAGE.map((m, i) => (
-                <Apparition as="li" key={m.heure} delai={i * 120} className="space-y-2 bg-[#2A190F] p-6">
-                  <p className="font-[family-name:var(--titres)] text-[44px] font-extrabold leading-none tracking-[-0.04em] text-[#FF8A6E]">{m.heure}</p>
-                  <p className="font-[family-name:var(--titres)] text-xl font-bold lowercase">{m.titre}</p>
-                  <p className="text-[15px] leading-relaxed text-[var(--sur-sombre)]/90">{m.texte}</p>
-                </Apparition>
-              ))}
-            </ol>
-          </div>
+            ))}
+          </ol>
+          <ul className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
+            {OFFRES.map((o) => (
+              <li key={o.titre}>
+                <Link href={o.href} className="group grid gap-1 py-5 sm:grid-cols-[1fr_auto_auto] sm:items-baseline sm:gap-10">
+                  <span className="font-[family-name:var(--titres)] text-2xl lowercase tracking-[-0.02em]">{o.titre}</span>
+                  <span className="text-[15px] text-[var(--doux)]">{o.prix} · exemple</span>
+                  <span aria-hidden="true" className="text-[var(--accent-texte)] transition-transform group-hover:translate-x-1">→</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <Bouton href={`${DOSSIER}/a-l-envers`} variante="contour">La soirée à l&apos;envers, en entier</Bouton>
         </div>
       </section>
 
-      {/* ---------- DJ ou playlist ? : la réponse honnête ---------- */}
-      <section className="mx-auto max-w-7xl px-5 py-24 sm:px-8 md:py-32">
-        <Apparition de="zoom" className="grid gap-10 rounded-[2.5rem] bg-[var(--accent)] p-8 text-[var(--sur-accent)] sm:p-14 lg:grid-cols-[1.3fr_0.7fr] lg:items-end">
+      {/* ---------- 04. Questions ---------- */}
+      <section id="questions" className="scroll-mt-24">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-14 px-6 py-28 md:py-40 lg:grid-cols-[0.8fr_1.2fr]">
           <div className="space-y-6">
-            <p className="inline-flex items-center gap-2 rounded-full bg-[#2A190F] px-3.5 py-1.5 text-[13px] font-bold lowercase text-[#FFD9A0]">la vraie question des mariés</p>
-            <p className={`text-[clamp(3rem,7vw,6.4rem)] ${TITRE}`}>
-              Un dîner calme à trente&nbsp;? Prenez une playlist.
-            </p>
-            <p className="max-w-xl text-lg leading-relaxed">
-              Une page qui répond honnêtement à «&nbsp;DJ ou playlist&nbsp;?&nbsp;». Même quand la réponse, c&apos;est&nbsp;: pas besoin
-              de nous.
-            </p>
-          </div>
-          <div className="lg:justify-self-end"><Bouton href={`${DOSSIER}/dj-ou-playlist`} variante="cafe">trois questions pour trancher</Bouton></div>
-        </Apparition>
-      </section>
-
-      {/* ---------- Le lancement : des croissants un lundi ---------- */}
-      <section className="mx-auto grid max-w-7xl gap-12 px-5 pb-24 sm:px-8 md:grid-cols-2 md:items-center md:pb-32">
-        <Apparition de="gauche" className="relative aspect-[4/3] overflow-hidden rounded-[2.5rem]">
-          <Image src={photos.croissants.src} alt={photos.croissants.alt} fill sizes="(min-width: 768px) 50vw, 100vw" className="object-cover" />
-          <p className="absolute bottom-5 left-5 right-5 rounded-[1.5rem] bg-[#FF6B4A] p-5 font-[family-name:var(--titres)] text-[clamp(1.6rem,3vw,2.4rem)] font-extrabold lowercase leading-[0.95] tracking-[-0.03em] text-[#2A190F]">
-            ça, c&apos;est lundi. imaginez le vendredi.
-          </p>
-        </Apparition>
-        <div className="space-y-6">
-          <Apparition><Coin>notre lancement</Coin></Apparition>
-          <TitreRevele texte="Des croissants, *un lundi matin.*" className={`text-[clamp(3rem,6vw,5.4rem)] ${TITRE}`} classeAccent={CORAIL} />
-          <Apparition as="p" delai={150} className="max-w-md text-lg leading-relaxed text-[var(--doux)]">
-            Achetés chez le boulanger d&apos;à côté, livrés dans les bureaux du quartier, sans rien demander en échange. Avec un mot.
-            Et chaque semaine, la vraie phrase du lundi, publiée avec l&apos;accord de l&apos;entreprise et de la personne.
-          </Apparition>
-          <Apparition delai={250}><Bouton href={`${DOSSIER}/la-phrase-du-lundi`} variante="cafe">la phrase du lundi</Bouton></Apparition>
-        </div>
-      </section>
-
-      {/* ---------- Questions ---------- */}
-      <section id="questions" className="scroll-mt-24 border-t border-[var(--trait)]">
-        <div className="mx-auto grid max-w-7xl gap-12 px-5 py-24 sm:px-8 md:py-32 lg:grid-cols-[0.75fr_1.25fr]">
-          <div className="space-y-6">
-            <Apparition><Coin>vos questions</Coin></Apparition>
-            <TitreRevele texte="Avant de *nous appeler.*" className={`text-[clamp(3rem,5.5vw,4.8rem)] ${TITRE}`} classeAccent={CORAIL} />
+            <Apparition><Surtitre>04 — Questions</Surtitre></Apparition>
+            <Titre texte="avant de *nous appeler.*" />
+            <Apparition className="relative mt-6 hidden aspect-[4/5] overflow-hidden rounded-2xl lg:block">
+              <Image src={photos.croissants.src} alt={photos.croissants.alt} fill sizes="30vw" className="object-cover" />
+            </Apparition>
           </div>
           <Apparition delai={150}>
-            <Accordeon questions={QUESTIONS.map((q) => ({ question: q.q, reponse: q.r }))} />
+            <Accordeon questions={QUESTIONS.slice(0, 5).map((q) => ({ question: q.q, reponse: q.r }))} />
           </Apparition>
         </div>
       </section>
-
-      <AppelFinal />
     </main>
   );
 }

@@ -6,15 +6,16 @@ import SamedisLibres from "./_composants/SamedisLibres";
 import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 
 // Le site de Lundi d'Après, agence d'événements imaginaire (soirées d'entreprise et
-// mariages, DJ compris), filmé dans les deux vidéos de l'événementiel. Le crème, le corail,
-// le ciel et le café de la marque ; Bricolage Grotesque en bas de casse, gras et serré,
-// pour les titres (la Futura de la marque, en plus joueuse), Inter pour lire. Sur chaque
-// page, avant le pied, les samedis encore libres. Le `noindex` vient du layout de /exemples.
+// mariages, DJ compris), filmé dans les deux vidéos de l'événementiel. Version « carrée »
+// (24/10/2026) : DM Sans en graisse normale et en bas de casse pour les titres, son italique
+// pour le mot en relief (la Futura de la marque, en plus douce), Inter pour lire ; le crème et le café de la
+// marque alternent, le corail est réservé au bouton principal et aux petits détails.
+// Chaque page se termine sur les samedis encore libres (« sur chaque page »).
 export default function LundiDApresLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
       entreprise="Lundi d'Après"
-      titres="bricolage"
+      titres="dmSans"
       texte="inter"
       couleurs={{
         fond: "#FFF4E6",
@@ -36,7 +37,7 @@ export default function LundiDApresLayout({ children }: { children: React.ReactN
         action={{ href: `${DOSSIER}/samedis-libres`, libelle: "Samedis libres" }}
         surSombre
       />
-      {children}
+      <div className="overflow-x-clip">{children}</div>
       <SamedisLibres />
       <Pied />
     </Cadre>

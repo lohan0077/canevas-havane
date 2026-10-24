@@ -31,7 +31,6 @@ export const entreprise = {
 export const NAVIGATION = [
   { href: `${DOSSIER}/a-l-envers`, libelle: "La soirée à l'envers" },
   { href: `${DOSSIER}/dj-ou-playlist`, libelle: "DJ ou playlist ?" },
-  { href: `${DOSSIER}/la-phrase-du-lundi`, libelle: "La phrase du lundi" },
   { href: `${DOSSIER}/formats`, libelle: "Formats et prix" },
 ];
 
@@ -43,7 +42,6 @@ export const photos = {
   micro: { src: `${DOSSIER}/micro.webp`, largeur: 1200, hauteur: 1600, alt: "Un micro sur son pied, seul devant un mur orange vif" },
   bouleOr: { src: `${DOSSIER}/boule-or.webp`, largeur: 1400, hauteur: 933, alt: "Une boule à facettes dorée dans le noir, traversée de faisceaux de lumière" },
   bouleRose: { src: `${DOSSIER}/boule-rose.webp`, largeur: 1200, hauteur: 800, alt: "Une boule à facettes aux reflets roses et violets, dans une salle sombre" },
-  rayons: { src: `${DOSSIER}/rayons.webp`, largeur: 1200, hauteur: 675, alt: "Une petite boule à facettes renvoie des rayons de lumière blanche dans l'obscurité" },
 } satisfies Record<string, Photo>;
 
 /** « 1 290 € » : espace fine insécable pour les milliers, insécable avant €. */
@@ -142,10 +140,10 @@ export const FORMULES = [
 
 /** La soirée d'un mariage, heure par heure : la piste encore pleine à 2 h, selon la salle. */
 export const SOIREE_MARIAGE = [
-  { heure: "19 h", titre: "L'accueil", texte: "Musique douce, assez basse pour qu'on se parle. Personne ne danse, et c'est normal.", photo: "cafe" },
-  { heure: "21 h", titre: "Le dîner", texte: "Une playlist suffirait. On la passe quand même : on regarde la salle, on note qui chante.", photo: "rayons" },
-  { heure: "23 h", titre: "L'ouverture du bal", texte: "La chanson que vous avez choisie. Puis celles qu'on a vu fredonner pendant le dîner.", photo: "bouleRose" },
-  { heure: "2 h", titre: "La piste encore pleine", texte: "Selon la salle : c'est son règlement qui fixe l'heure de fin. Si la piste est encore pleine à la dernière chanson, c'est gagné.", photo: "bouleOr" },
+  { heure: "19 h", titre: "L'accueil", texte: "Musique douce, assez basse pour qu'on se parle. Personne ne danse, et c'est normal." },
+  { heure: "21 h", titre: "Le dîner", texte: "Une playlist suffirait. On la passe quand même : on regarde la salle, on note qui chante." },
+  { heure: "23 h", titre: "L'ouverture du bal", texte: "La chanson que vous avez choisie. Puis celles qu'on a vu fredonner pendant le dîner." },
+  { heure: "2 h", titre: "La piste encore pleine", texte: "Selon la salle : c'est son règlement qui fixe l'heure de fin. Si la piste est encore pleine à la dernière chanson, c'est gagné." },
 ] as const;
 
 // ---------- Les samedis ----------
@@ -167,11 +165,11 @@ export const SAMEDIS: Samedi[] = [
 export type Question = { q: string; r: string };
 
 export const QUESTIONS: Question[] = [
-  { q: "Vous faites les entreprises et les mariages ?", r: "Oui. La même idée pour les deux : on part de ce qu'on se racontera lundi. Pour une entreprise, la phrase de la machine à café ; pour un mariage, la piste encore pleine à deux heures du matin. Et le DJ, c'est nous." },
-  { q: "Et si on n'a pas de phrase ?", r: "C'est souvent le cas au début. On part de ce que vous voulez qu'il reste : que les services se parlent, que les nouveaux soient adoptés, que la direction soit approchable. La phrase vient en rendez-vous." },
-  { q: "Vos prix sont hors taxes ?", r: "Pour les entreprises, oui : ce sont nos clients professionnels, les prix sont hors taxes. Pour un mariage, ils sont TTC. Ce sont des exemples ; le devis dit tout, ligne par ligne." },
-  { q: "Jusqu'à quelle heure ?", r: "Jusqu'à 2 h, selon la salle. C'est son règlement, et les règles de la commune sur le bruit, qui fixent l'heure de fin : on les lit avec vous avant de signer." },
-  { q: "Et la chanson interdite, vraiment ?", r: "Vraiment. Elle est notée dans votre fiche, et elle ne passera pas, même si un oncle la réclame à minuit." },
-  { q: "Vous publiez les phrases de nos salariés ?", r: "Seulement avec l'accord écrit de votre entreprise, et de la personne si on peut la reconnaître. Sans accord, la phrase reste entre nous." },
-  { q: "Et si mon samedi est déjà pris ?", r: "Les samedis libres sont sur chaque page, à jour. S'il est pris, il est pris : on vous le dit tout de suite, sans « dernières places »." },
+  { q: "Vous faites les entreprises et les mariages ?", r: "Oui. La même idée pour les deux : on part de ce qu'on se racontera lundi. Pour une entreprise, la phrase de la machine à café ; pour un mariage, la piste encore pleine à deux heures du matin. Et le DJ, c'est nous." },
+  { q: "Et si on n'a pas de phrase ?", r: "C'est souvent le cas au début. On part de ce que vous voulez qu'il reste : que les services se parlent, que les nouveaux soient adoptés, que la direction soit approchable. La phrase vient en rendez-vous." },
+  { q: "Vos prix sont hors taxes ?", r: "Pour les entreprises, oui : ce sont nos clients professionnels, les prix sont hors taxes. Pour un mariage, ils sont TTC. Ce sont des exemples ; le devis dit tout, ligne par ligne." },
+  { q: "Jusqu'à quelle heure ?", r: "Jusqu'à 2 h, selon la salle. C'est son règlement, et les règles de la commune sur le bruit, qui fixent l'heure de fin : on les lit avec vous avant de signer." },
+  { q: "Et la chanson interdite, vraiment ?", r: "Vraiment. Elle est notée dans votre fiche, et elle ne passera pas, même si un oncle la réclame à minuit." },
+  { q: "Vous publiez les phrases de nos salariés ?", r: "Seulement avec l'accord écrit de votre entreprise, et de la personne si on peut la reconnaître. Sans accord, la phrase reste entre nous." },
+  { q: "Et si mon samedi est déjà pris ?", r: "Les samedis libres sont sur chaque page, à jour. S'il est pris, il est pris : on vous le dit tout de suite, sans « dernières places »." },
 ];

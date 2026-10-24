@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../_kit/Apparition";
-import TitreRevele from "../../_kit/TitreRevele";
-import { AppelFinal, Coin, CORAIL, EnTetePage, TITRE } from "../_composants/Blocs";
+import { EnTetePage, Section, Surtitre, Titre } from "../_composants/Blocs";
 import PhraseLundi from "../_composants/PhraseLundi";
 import { ACCUEIL, METHODE, THEMES, photos } from "../_composants/donnees";
 
@@ -26,54 +24,56 @@ export default function ALEnvers() {
   ];
   return (
     <main>
-      <EnTetePage coin="exemple, du lundi au vendredi" titre="La soirée, *à l'envers.*">
-        Une agence part du lieu, puis du menu, puis de l&apos;animation. Nous, on part de lundi&nbsp;: la phrase qu&apos;on veut entendre
+      <EnTetePage surtitre="Exemple, du lundi au vendredi" titre="la soirée, *à l'envers.*" photo={photos.croissants} origine="50% 45%">
+        Une agence part du lieu, puis du menu, puis de l&apos;animation. Nous, on part de lundi : la phrase qu&apos;on veut entendre
         devant la machine à café. Et on remonte le temps.
       </EnTetePage>
 
-      <section className="mx-auto grid max-w-7xl gap-12 px-5 py-20 sm:px-8 md:py-28 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+      <Section className="grid grid-cols-1 gap-16 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
         <div className="space-y-6 lg:sticky lg:top-28">
-          <Apparition><Coin>un exemple, heure par heure</Coin></Apparition>
-          <TitreRevele texte="On commence *par la fin.*" className={`text-[clamp(3rem,6vw,5.4rem)] ${TITRE}`} classeAccent={CORAIL} />
-          <Apparition de="rideau" className="relative hidden aspect-[3/2] overflow-hidden rounded-[2rem] lg:block">
-            <Image src={photos.cafe.src} alt={photos.cafe.alt} fill sizes="560px" className="object-cover" />
-          </Apparition>
+          <Apparition><Surtitre>Un exemple, heure par heure</Surtitre></Apparition>
+          <Titre texte="on commence *par la fin.*" />
         </div>
-        <ol className="space-y-3">
+        <ol className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
           {etapes.map((e, i) => (
-            <Apparition as="li" key={e.heure} delai={i * 120} className={`space-y-1 rounded-[2rem] p-7 ${i === 0 ? "bg-[var(--sombre)] text-[var(--sur-sombre)]" : "bg-[var(--carte)] ring-1 ring-[var(--trait)]"}`}>
-              <p className={`font-[family-name:var(--titres)] text-[34px] font-extrabold leading-none tracking-[-0.04em] ${i === 0 ? "text-[#FF8A6E]" : "text-[var(--accent-texte)]"}`}>{e.heure}</p>
-              <h2 className="pt-2 font-[family-name:var(--titres)] text-[26px] font-bold leading-snug">{e.titre}</h2>
-              <p className={`leading-relaxed ${i === 0 ? "text-[var(--sur-sombre)]/90" : "text-[var(--doux)]"}`}>{e.texte}</p>
+            <Apparition as="li" key={e.heure} delai={i * 110} className="grid grid-cols-1 gap-2 py-6 sm:grid-cols-[8rem_1fr] sm:gap-8">
+              <p className={`font-[family-name:var(--titres)] text-[28px] leading-none tracking-[-0.03em] ${i === 0 ? "text-[var(--accent-texte)]" : ""}`}>{e.heure}</p>
+              <div className="space-y-1">
+                <h2 className="font-[family-name:var(--titres)] text-[24px] font-normal leading-snug">{e.titre}</h2>
+                <p className="leading-relaxed text-[var(--doux)]">{e.texte}</p>
+              </div>
             </Apparition>
           ))}
-          <li className="px-2 text-[13px] text-[var(--doux)]">Exemple : la phrase et l&apos;entreprise sont inventées.</li>
+          <li className="py-4 text-[13px] text-[var(--doux)]">Exemple : la phrase et l&apos;entreprise sont inventées.</li>
         </ol>
-      </section>
+      </Section>
 
-      <section className="bg-[#9AD1D4] text-[#2A190F] [--doux:#4A3424] [--encre:#2A190F]">
-        <div className="mx-auto max-w-3xl space-y-6 px-5 py-20 sm:px-8 md:py-28">
-          <Apparition><Coin>à vous d&apos;essayer</Coin></Apparition>
-          <TitreRevele texte="Écrivez *votre phrase.*" className={`text-[clamp(3rem,6vw,5.4rem)] ${TITRE}`} classeAccent="text-[#8F2A14]" />
-          <Apparition as="p" delai={150} className="text-lg leading-relaxed">Ou prenez un exemple&nbsp;: la soirée se construit à l&apos;envers, sous vos yeux.</Apparition>
-          <Apparition de="zoom"><PhraseLundi /></Apparition>
+      <Section fond="bg-[var(--carte)] border-y border-[var(--trait)]" className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:items-start">
+        <div className="space-y-6">
+          <Apparition><Surtitre>À vous d&apos;essayer</Surtitre></Apparition>
+          <Titre texte="écrivez *votre phrase.*" />
+          <Apparition as="p" delai={150} className="max-w-md text-lg leading-relaxed text-[var(--doux)]">
+            Ou prenez un exemple : la soirée se construit à l&apos;envers, sous vos yeux.
+          </Apparition>
         </div>
-      </section>
+        <Apparition delai={150}><PhraseLundi /></Apparition>
+      </Section>
 
-      <section className="mx-auto max-w-7xl space-y-10 px-5 py-24 sm:px-8 md:py-32">
-        <TitreRevele texte="Les quatre *temps.*" className={`text-[clamp(3rem,6vw,5.4rem)] ${TITRE}`} classeAccent={CORAIL} />
-        <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <Section className="space-y-14">
+        <div className="space-y-5">
+          <Apparition><Surtitre>La méthode</Surtitre></Apparition>
+          <Titre texte="les quatre *temps.*" />
+        </div>
+        <ol className="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4">
           {METHODE.map((m, i) => (
-            <Apparition as="li" key={m.titre} delai={i * 110} className="space-y-3 rounded-[2rem] bg-[var(--carte)] p-6 ring-1 ring-[var(--trait)]">
-              <span className="grid h-11 w-11 place-items-center rounded-full bg-[var(--accent)] font-[family-name:var(--titres)] text-lg font-extrabold text-[var(--sur-accent)]">{i + 1}</span>
-              <h3 className="font-[family-name:var(--titres)] text-[26px] font-extrabold lowercase tracking-[-0.03em]">{m.titre}</h3>
+            <Apparition as="li" key={m.titre} delai={i * 110} className="space-y-3 border-t border-[var(--trait)] pt-5">
+              <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">0{i + 1}</p>
+              <h3 className="font-[family-name:var(--titres)] text-[24px] font-normal lowercase">{m.titre}</h3>
               <p className="leading-relaxed text-[var(--doux)]">{m.texte}</p>
             </Apparition>
           ))}
         </ol>
-      </section>
-
-      <AppelFinal />
+      </Section>
     </main>
   );
 }
