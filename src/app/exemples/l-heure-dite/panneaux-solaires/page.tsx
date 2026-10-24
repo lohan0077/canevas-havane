@@ -1,0 +1,82 @@
+import type { Metadata } from "next";
+import Image from "next/image";
+import { adressesDeLaPage } from "@/lib/seo";
+import Apparition from "../../_kit/Apparition";
+import { AppelFinal, Bouton, EnTetePage, Surtitre, Titre } from "../_composants/Blocs";
+import { DOSSIER, PANNEAUX, POSE_SOLAIRE, photos } from "../_composants/donnees";
+
+export const metadata: Metadata = {
+  title: "Nos panneaux solaires — L'Heure Dite, site de démonstration",
+  description:
+    "Des panneaux, et de quoi savoir ce qu'ils font : la pose, la courbe de ton toit, et ce que ça coûte, pose comprise (prix d'exemple, TTC). Aucune économie annoncée. Site de démonstration.",
+  ...adressesDeLaPage("/exemples/l-heure-dite/panneaux-solaires"),
+};
+
+export default function PanneauxSolaires() {
+  return (
+    <main>
+      <EnTetePage surtitre="Nos panneaux solaires" titre="Des panneaux, *et de quoi savoir ce qu'ils font.*">
+        Pas d&apos;économies annoncées en très gros : ton toit, heure par heure, et le moment où lancer la machine. On mesure
+        ton vrai toit à la visite.
+      </EnTetePage>
+
+      <section className="mx-auto max-w-6xl px-6 py-20 md:py-28">
+        <ol className="grid gap-10 md:grid-cols-3 md:gap-6">
+          {POSE_SOLAIRE.map((p, i) => (
+            <Apparition as="li" key={p.titre} delai={i * 120} className="space-y-3 border-t border-[var(--trait)] pt-5">
+              <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">{String(i + 1).padStart(2, "0")}</p>
+              <h2 className="font-[family-name:var(--titres)] text-2xl font-normal">{p.titre}</h2>
+              <p className="text-[17px] leading-relaxed text-[var(--doux)]">{p.texte}</p>
+            </Apparition>
+          ))}
+        </ol>
+      </section>
+
+      <section className="bg-[var(--sombre)] text-[var(--sur-sombre)]">
+        <div className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:py-40 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+          <div className="space-y-8">
+            <div className="space-y-5">
+              <Apparition><Surtitre clair>Ce que ça coûte</Surtitre></Apparition>
+              <Titre texte="Pose comprise, *en trois tailles de toit.*" clair />
+            </div>
+            <ul className="divide-y divide-white/15 border-y border-white/15">
+              {PANNEAUX.map((p) => (
+                <li key={p.taille} className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-4">
+                  <span>
+                    <span className="block font-[family-name:var(--titres)] text-2xl">{p.taille}</span>
+                    <span className="block text-[15px]">{p.detail}</span>
+                  </span>
+                  <span className="whitespace-nowrap font-[family-name:var(--titres)] text-3xl tabular-nums">{p.prix}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="max-w-[26rem] text-[15px] leading-relaxed">
+              TTC, pose comprise, exemples, avant toute aide : on ne t&apos;en promet aucune. Un à deux jours sur le toit selon sa
+              taille (exemple) ; le raccordement prend plus de temps : la date est au devis.
+            </p>
+          </div>
+          <Apparition className="relative aspect-[3/4] overflow-hidden rounded-2xl bg-[var(--sombre)]">
+            <Image src={photos.panneaux.src} alt={photos.panneaux.alt} fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
+          </Apparition>
+        </div>
+      </section>
+
+      <section className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:grid-cols-2 md:items-center md:py-40">
+        <div className="space-y-6">
+          <Apparition><Surtitre>Ton premier midi</Surtitre></Apparition>
+          <Titre texte="On règle avec toi *l'heure de la machine.*" />
+          <Apparition as="p" delai={150} className="max-w-[26rem] text-lg leading-relaxed text-[var(--doux)]">
+            Le lave-linge, le lave-vaisselle, le chauffe-eau : à la mise en service, on programme leur départ sur le pic de
+            ton toit. Après la pose, le suivi te montre ta vraie journée sur ton téléphone.
+          </Apparition>
+          <Apparition delai={250}><Bouton href={`${DOSSIER}/ma-journee`}>Voir ton toit, heure par heure</Bouton></Apparition>
+        </div>
+        <Apparition className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-[var(--sombre)]">
+          <Image src={photos.tuiles.src} alt={photos.tuiles.alt} fill sizes="(min-width: 768px) 50vw, 100vw" className="object-cover" />
+        </Apparition>
+      </section>
+
+      <AppelFinal />
+    </main>
+  );
+}

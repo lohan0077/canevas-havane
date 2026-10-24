@@ -3,7 +3,9 @@ import type { Fiche } from "../_kit/fiche";
 export const fiche: Fiche = {
   nom: "Rayon Frais",
   metier: "Cabinet de diététique",
-  serie: "Créer une marque",
-  idee: "On part de vos courses : le ticket de caisse, ligne par ligne, puis le rayon qu'on choisit sur le site — le petit-déj, l'apéro, le goûter. Zéro kilo promis.",
-  video: "marque-dieteticiens",
+  secteur: "dieteticiens",
+  groupe: "rendez-vous",
+  idee: "Un cabinet de diététique qui part de vos courses : votre ticket de caisse et une photo de votre frigo à la première séance, un rayon fait ensemble si vous voulez, des soirs jusqu'à 20 h 30, et zéro kilo promis.",
+  image: "/exemples/rayon-frais/cagettes.webp",
+  ancien: "mardi-soir",
 };

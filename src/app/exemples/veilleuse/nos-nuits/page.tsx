@@ -1,73 +1,89 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import Link from "next/link";
 import { adressesDeLaPage } from "@/lib/seo";
+import Apparition from "../../_kit/Apparition";
+import TitreRevele from "../../_kit/TitreRevele";
+import { AppelFinal, EnTetePage, Surtitre } from "../_composants/Blocs";
 import CalculVacances from "../_composants/CalculVacances";
-import { OFFRES, entreprise, euros, photos } from "../_composants/donnees";
+import { OFFRES, euros, photos } from "../_composants/donnees";
 
 export const metadata: Metadata = {
-  title: "Nos nuits et nos prix · Veilleuse — site de démonstration",
+  title: "Nos nuits et nos prix — Veilleuse, site de démonstration",
   description: "Maison, commerce, chantier, fête : ce que Veilleuse veille la nuit, et à quel prix d'exemple. Démonstration de Canevas Havane.",
   ...adressesDeLaPage("/exemples/veilleuse/nos-nuits"),
 };
 
 const PROS = [
   { titre: "Commerce, rondes de nuit", detail: "trois rondes à heures variables, rideau et alarme vérifiés", prix: 120 },
-  { titre: "Chantier, agent sur place", detail: "de 19 h à 7 h, un agent, le rapport le matin", prix: 290 },
+  { titre: "Chantier, agent sur place", detail: "de 19 h à 7 h, un agent, le rapport à 7 h", prix: 290 },
   { titre: "Entrepôt, rondes de nuit", detail: "quatre rondes, quais et accès vérifiés", prix: 150 },
 ];
 
 export default function NosNuits() {
   return (
-    <div>
-      <section className="max-w-6xl mx-auto px-5 sm:px-6 pt-10 sm:pt-16 pb-16 grid gap-10 lg:grid-cols-2 lg:items-start">
+    <main>
+      <EnTetePage surtitre="Nos nuits et nos prix" titre="Ta maison, *quand tu pars.*" photo={photos.maison}>
+        Choisis le nombre de nuits et de passages : le prix s&apos;affiche tout de suite. Pas de « tarif
+        sur demande ».
+      </EnTetePage>
+
+      <section className="mx-auto grid max-w-6xl gap-14 px-5 py-24 sm:px-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
         <div className="space-y-6">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--accent-texte)]">Nos nuits et nos prix</p>
-          <h1 className="text-[44px] sm:text-7xl font-normal leading-[1.0]">Ta maison, <span className="text-[var(--accent-texte)]">quand tu pars.</span></h1>
-          <p className="text-lg leading-relaxed text-[var(--doux)]">
-            Choisis le nombre de nuits et de passages&nbsp;: le prix s&apos;affiche tout de suite.
-            Pas de « tarif sur demande ».
-          </p>
-          <div className="relative aspect-[16/9] overflow-hidden rounded-[28px] bg-[#1A2B24]">
-            <Image src={photos.maison.src} alt={photos.maison.alt} fill sizes="(min-width: 1024px) 540px, 100vw" className="object-cover" />
-          </div>
+          <Apparition><Surtitre>Pour un particulier</Surtitre></Apparition>
+          <TitreRevele
+            texte={"Tu pars *combien de nuits ?*"}
+            className="text-[clamp(2.8rem,6vw,5rem)] font-normal leading-[0.98] tracking-[-0.02em]"
+            classeAccent="text-[var(--accent-texte)]"
+          />
+          <p className="text-lg leading-relaxed text-[var(--doux)]">Prix TTC d&apos;exemple. Une photo du portail à chaque passage, le rapport chaque matin à 7 h.</p>
         </div>
-        <CalculVacances />
+        <Apparition de="zoom"><CalculVacances /></Apparition>
       </section>
 
-      <section className="bg-[var(--sombre)] text-[var(--sur-sombre)]">
-        <div className="max-w-6xl mx-auto px-5 sm:px-6 py-20 space-y-10">
-          <div className="space-y-4 max-w-2xl">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--accent)]">Pour les professionnels</p>
-            <h2 className="text-[40px] sm:text-6xl font-normal leading-[1.02]">Commerces, chantiers, entrepôts.</h2>
-            <p className="text-[#C9C2B3]">Prix hors taxes, par nuit, à titre d&apos;exemple. Le prix ferme vient après la visite, gratuite.</p>
+      <section className="px-3 sm:px-5">
+        <div className="kit-grain rounded-[2.5rem] bg-[var(--sombre)] text-[var(--sur-sombre)]">
+          <div className="mx-auto max-w-6xl space-y-10 px-6 py-24 sm:px-10">
+            <div className="max-w-2xl space-y-5">
+              <Surtitre clair>Pour les professionnels</Surtitre>
+              <TitreRevele
+                texte="Commerces, chantiers, *entrepôts.*"
+                className="text-[clamp(2.8rem,6vw,5rem)] font-normal leading-[0.98] tracking-[-0.02em]"
+                classeAccent="text-[var(--accent)]"
+              />
+              <p className="text-lg">Prix hors taxes, par nuit, à titre d&apos;exemple. Le prix ferme vient après la visite, gratuite.</p>
+            </div>
+            <ul className="divide-y divide-white/15 border-y border-white/15">
+              {PROS.map((p, i) => (
+                <Apparition as="li" key={p.titre} delai={i * 100} className="grid gap-1 py-6 sm:grid-cols-[1fr_auto] sm:items-baseline sm:gap-8">
+                  <span className="font-[family-name:var(--titres)] text-3xl">{p.titre}</span>
+                  <span className="text-2xl font-bold tabular-nums sm:text-right">dès {euros(p.prix)} HT</span>
+                  <span className="sm:col-span-2">{p.detail}</span>
+                </Apparition>
+              ))}
+            </ul>
           </div>
-          <ul className="divide-y divide-[#3E5449] border-y border-[#3E5449]">
-            {PROS.map((p) => (
-              <li key={p.titre} className="py-5 grid gap-1 sm:grid-cols-[1fr_auto] sm:items-baseline sm:gap-8">
-                <span className="font-[family-name:var(--titres)] text-2xl">{p.titre}</span>
-                <span className="text-xl font-bold tabular-nums sm:text-right">dès {euros(p.prix)} HT</span>
-                <span className="text-[#C9C2B3] sm:col-span-2">{p.detail}</span>
-              </li>
-            ))}
-          </ul>
         </div>
       </section>
 
-      <section className="max-w-6xl mx-auto px-5 sm:px-6 py-20 sm:py-24 space-y-10">
-        <h2 className="text-[40px] sm:text-6xl font-normal leading-[1.02]">Tout ce qu&apos;on veille.</h2>
-        <ul className="grid gap-4 sm:grid-cols-2">
-          {OFFRES.map((o) => (
-            <li key={o.titre} className="rounded-[26px] bg-[var(--carte)] border border-[var(--trait)] p-6 space-y-3">
-              <h3 className="text-[28px] font-normal leading-tight">{o.titre}</h3>
-              <p className="leading-relaxed text-[var(--doux)]">{o.texte}</p>
-              <p className="font-bold">{o.prix} <span className="font-normal text-sm text-[var(--doux)]">· exemple, {o.pour}</span></p>
-            </li>
+      <section className="mx-auto max-w-6xl space-y-12 px-5 py-24 sm:px-8">
+        <TitreRevele
+          texte="Tout ce *qu'on veille.*"
+          className="text-[clamp(2.8rem,6vw,5rem)] font-normal leading-[0.98] tracking-[-0.02em]"
+          classeAccent="text-[var(--accent-texte)]"
+        />
+        <ul className="grid gap-5 sm:grid-cols-2">
+          {OFFRES.map((o, i) => (
+            <Apparition as="li" key={o.titre} delai={i * 100} className="flex flex-col gap-3 rounded-[2rem] border border-[var(--trait)] bg-[var(--carte)] p-7">
+              <h2 className="text-[30px] font-normal leading-tight">{o.titre}</h2>
+              <p className="flex-1 leading-relaxed text-[var(--doux)]">{o.texte}</p>
+              <p className="font-bold">{o.prix} <span className="text-sm font-normal text-[var(--doux)]">· exemple, {o.pour}</span></p>
+              <Link href={o.href} className="font-bold text-[var(--accent-texte)] underline underline-offset-4">En savoir plus</Link>
+            </Apparition>
           ))}
         </ul>
-        <p className="text-[var(--doux)]">
-          Une question avant&nbsp;? <a href={`tel:${entreprise.telephoneLien}`} className="font-bold text-[var(--encre)] underline underline-offset-4">{entreprise.telephone}</a>, on répond jusqu&apos;à 22 h.
-        </p>
       </section>
-    </div>
+
+      <AppelFinal />
+    </main>
   );
 }

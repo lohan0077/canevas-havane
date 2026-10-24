@@ -48,7 +48,7 @@ function Page({ registre }: { registre: R }) {
             className="w-full bg-transparent font-[family-name:var(--titres)] text-xl tabular-nums outline-none placeholder:text-[var(--doux)]"
           />
           <form
-            className="flex items-center gap-2"
+            className="flex min-w-0 items-center gap-2"
             onSubmit={(e) => {
               e.preventDefault();
               if (!texte.trim()) return;

@@ -2,90 +2,105 @@
 
 import { useState } from "react";
 
-const JOURS = [
-  { jour: "Lun.", heures: ["9 h 30", "12 h 30", "18 h"] },
-  { jour: "Mar.", heures: ["10 h", "17 h 30"] },
-  { jour: "Mer.", heures: ["9 h", "14 h", "18 h 30"] },
-  { jour: "Jeu.", heures: ["12 h 30", "18 h"] },
-  { jour: "Ven.", heures: ["9 h 30", "16 h"] },
+const CRENEAUX = [
+  { cle: "lundi-18", jour: "Lundi", heure: "18 h" },
+  { cle: "mardi-1230", jour: "Mardi", heure: "12 h 30", pris: true },
+  { cle: "mercredi-9", jour: "Mercredi", heure: "9 h" },
+  { cle: "jeudi-18", jour: "Jeudi", heure: "18 h" },
+  { cle: "vendredi-1730", jour: "Vendredi", heure: "17 h 30", pris: true },
+  { cle: "samedi-10", jour: "Samedi", heure: "10 h" },
 ];
 
 /**
- * Prendre rendez-vous : un jour, une heure, au cabinet ou en visio. C'est le client qui
- * choisit ; personne ne l'appelle pour le lui proposer. Créneaux d'exemple, rien n'est envoyé.
+ * En bas de chaque page : le client choisit lui-même son rendez-vous, au cabinet ou en
+ * visio. Personne ne l'appelle pour le lui proposer (C. consom. L223-1). Créneaux
+ * d'exemple ; la confirmation dit que rien n'est envoyé.
  */
 export default function RendezVous() {
-  const [jour, setJour] = useState(0);
-  const [heure, setHeure] = useState<string | null>(null);
-  const [lieu, setLieu] = useState("au cabinet");
-  const [confirme, setConfirme] = useState(false);
+  const [lieu, setLieu] = useState<"au cabinet" | "en visio">("au cabinet");
+  const [choisi, setChoisi] = useState<string | null>(null);
+  const [reserve, setReserve] = useState(false);
+  const c = CRENEAUX.find((x) => x.cle === choisi);
 
   return (
-    <div data-film="rendez-vous" className="space-y-5 rounded-[28px] bg-[var(--carte)] p-5 text-[var(--encre)] sm:p-7">
-      <div role="group" aria-label="Le jour" className="grid grid-cols-5 gap-2">
-        {JOURS.map((j, i) => (
-          <button
-            key={j.jour}
-            type="button"
-            aria-pressed={jour === i}
-            onClick={() => {
-              setJour(i);
-              setHeure(null);
-              setConfirme(false);
-            }}
-            className={`min-h-12 rounded-2xl text-[15px] font-semibold ${jour === i ? "bg-[var(--encre)] text-[var(--carte)]" : "border border-[var(--trait)] bg-[var(--fond)]"}`}
-          >
-            {j.jour}
-          </button>
-        ))}
-      </div>
-      <div role="group" aria-label="L'heure" className="flex flex-wrap gap-2">
-        {JOURS[jour].heures.map((h) => (
-          <button
-            key={h}
-            type="button"
-            aria-pressed={heure === h}
-            onClick={() => {
-              setHeure(h);
-              setConfirme(false);
-            }}
-            className={`min-h-11 rounded-full px-4 text-[15px] font-semibold tabular-nums ${heure === h ? "bg-[var(--accent)] text-[var(--sur-accent)]" : "border border-[var(--trait)] bg-[var(--fond)]"}`}
-          >
-            {h}
-          </button>
-        ))}
-      </div>
-      <div role="group" aria-label="Où" className="flex gap-2">
-        {["au cabinet", "en visio"].map((l) => (
+    <div data-film="rendez-vous" className="space-y-5">
+      <div role="group" aria-label="Où ?" className="inline-flex rounded-full bg-[#F1E6CF] p-1">
+        {(["au cabinet", "en visio"] as const).map((l) => (
           <button
             key={l}
             type="button"
+            data-film={l === "en visio" ? "visio" : "cabinet"}
             aria-pressed={lieu === l}
-            onClick={() => setLieu(l)}
-            className={`min-h-11 flex-1 rounded-full text-[15px] font-semibold first-letter:uppercase ${lieu === l ? "border-2 border-[var(--encre)]" : "border border-[var(--trait)] bg-[var(--fond)]"}`}
+            onClick={() => {
+              setLieu(l);
+              setReserve(false);
+            }}
+            className={`min-h-11 rounded-full px-5 text-[15px] font-bold first-letter:uppercase ${lieu === l ? "bg-[#1B2A41] text-[#FFF8EC]" : ""}`}
           >
             {l}
           </button>
         ))}
       </div>
-      {confirme && heure ? (
-        <div role="status" className="space-y-1 rounded-2xl border-2 border-[#3FA36B] bg-[var(--fond)] p-4">
-          <p className="font-semibold">
-            Rendez-vous noté : {JOURS[jour].jour.replace(".", "")} {heure}, {lieu}.
+
+      <div role="group" aria-label="La semaine prochaine" className="grid grid-cols-3 gap-2.5">
+        {CRENEAUX.map((x) => {
+          const actif = choisi === x.cle;
+          return (
+            <button
+              key={x.cle}
+              type="button"
+              data-film={`creneau-${x.cle}`}
+              disabled={x.pris || reserve}
+              aria-pressed={actif}
+              onClick={() => setChoisi(x.cle)}
+              className={`rounded-[16px] border-2 px-2 py-3 text-center transition-colors ${
+                x.pris
+                  ? "border-transparent bg-[#EFE8DA] text-[#5A6372]"
+                  : actif
+                    ? "border-[#1B2A41] bg-[#F2C14E] text-[#1B2A41]"
+                    : "border-[#E2D6BE] bg-white text-[#1B2A41] hover:border-[#1B2A41]"
+              }`}
+            >
+              <span className="block text-[16px] font-bold leading-tight">{x.jour}</span>
+              <span className="block text-[14px] tabular-nums">{x.heure}</span>
+              <span className={`mt-1.5 block text-[11px] font-bold uppercase tracking-[0.08em] ${x.pris ? "line-through" : ""}`}>{x.pris ? "Pris" : "Libre"}</span>
+            </button>
+          );
+        })}
+      </div>
+      <p className="text-[13px] leading-relaxed text-[#4F5B6D]">
+        Créneaux d&apos;exemple, la semaine prochaine. Une heure, sans engagement. Personne ne t&apos;appelle avant : c&apos;est toi qui choisis.
+      </p>
+
+      {c && (
+        <div data-film="carte-rendez-vous" className="space-y-3 rounded-[20px] border-2 border-[#1B2A41] bg-white p-5">
+          <p className="font-[family-name:var(--titres)] text-[26px] font-semibold leading-tight">
+            {c.jour}, {c.heure} · {lieu}
           </p>
-          <p className="text-[14px] text-[var(--doux)]">Démonstration : rien n&apos;est envoyé, rien n&apos;est enregistré.</p>
+          {reserve ? (
+            <div role="status" className="space-y-1 rounded-[14px] bg-[#E3F2E9] p-4 text-[#1F5F3C]">
+              <p className="font-bold">Rendez-vous réservé : {c.jour.toLowerCase()} {c.heure}, {lieu}.</p>
+              <p className="text-[14px]">Démonstration : rien n&apos;est envoyé, rien n&apos;est enregistré.</p>
+            </div>
+          ) : (
+            <button type="button" data-film="reserver" onClick={() => setReserve(true)} className="w-full rounded-[14px] bg-[#F2C14E] px-6 py-4 text-[17px] font-bold text-[#1B2A41]">
+              Réserver ce créneau
+            </button>
+          )}
+          {reserve && (
+            <button
+              type="button"
+              onClick={() => {
+                setReserve(false);
+                setChoisi(null);
+              }}
+              className="text-[14px] font-bold underline underline-offset-4"
+            >
+              Choisir un autre créneau
+            </button>
+          )}
         </div>
-      ) : (
-        <button
-          type="button"
-          disabled={!heure}
-          onClick={() => setConfirme(true)}
-          className="w-full rounded-full bg-[var(--encre)] px-6 py-4 text-[17px] font-semibold text-[var(--carte)] disabled:cursor-not-allowed"
-        >
-          {heure ? `Réserver ${JOURS[jour].jour.replace(".", "").toLowerCase()} ${heure}` : "Choisis une heure"}
-        </button>
       )}
-      <p className="text-[12px] leading-relaxed text-[var(--doux)]">Créneaux d&apos;exemple, pour la semaine prochaine. Personne ne t&apos;appelle pour te proposer un rendez-vous : c&apos;est toi qui le prends.</p>
     </div>
   );
 }

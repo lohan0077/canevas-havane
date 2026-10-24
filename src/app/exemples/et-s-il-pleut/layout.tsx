@@ -1,16 +1,19 @@
 import Cadre from "../_kit/Cadre";
-import EnTete from "./_composants/EnTete";
-import PiedDuSite from "./_composants/PiedDuSite";
+import NavVerre from "../_kit/NavVerre";
+import { NomMarque } from "./_composants/Blocs";
+import Pied from "./_composants/Pied";
+import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 
-// Le gabarit d'« Et s'il pleut » : l'ivoire, l'ardoise d'un ciel couvert et le jaune
-// d'un parapluie. Bodoni Moda pour les titres (le Didot de la marque, dans la vidéo),
-// Outfit pour le texte.
+// Le gabarit d'« Et s'il pleut », la wedding planner des deux vidéos des wedding
+// planners : l'ivoire, l'ardoise d'un ciel couvert et le jaune d'un parapluie. Bodoni
+// Moda en graisse normale pour les titres (le Didot de la marque, dans la vidéo), Inter pour lire.
+// Chaque page s'ouvre sur le ciel d'ardoise : l'en-tête flottant l'attend sombre.
 export default function EtSilPleutLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
       entreprise="Et s'il pleut"
       titres="bodoni"
-      texte="outfit"
+      texte="inter"
       couleurs={{
         fond: "#FBF6EC",
         encre: "#2F3B4C",
@@ -24,9 +27,9 @@ export default function EtSilPleutLayout({ children }: { children: React.ReactNo
         surSombre: "#FBF6EC",
       }}
     >
-      <EnTete />
+      <NavVerre accueil={DOSSIER} marque={<NomMarque />} liens={NAVIGATION} action={{ href: `${DOSSIER}#ma-date`, libelle: "Ma date" }} surSombre />
       {children}
-      <PiedDuSite />
+      <Pied />
     </Cadre>
   );
 }

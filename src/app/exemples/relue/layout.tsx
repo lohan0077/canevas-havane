@@ -1,17 +1,19 @@
 import Cadre from "../_kit/Cadre";
-import EnTete from "./_composants/EnTete";
-import PiedDuSite from "./_composants/PiedDuSite";
+import NavVerre from "../_kit/NavVerre";
+import { Marque } from "./_composants/Blocs";
+import Pied from "./_composants/Pied";
+import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 
-// Le gabarit de Relue : Instrument Serif pour les titres (le Didot de la marque, en
-// plus souple), DM Sans pour le texte. Papier crème, encre bleu nuit, rouge cachet.
-// Mise en page inspirée du modèle « Editorial Collection CTA » de MotionSites — grand
-// titre romain et italique, beaucoup d'air, l'objet posé à côté —, transposée à une
-// papeterie.
+// Le gabarit de Relue, papeterie et boutique de jeux imaginaire filmée dans les deux
+// vidéos des loisirs créatifs. Bodoni Moda pour les titres (le Didot de la marque, en
+// romain et en italique), DM Sans pour lire. Papier crème, encre bleu nuit, rouge
+// cachet, et le vert d'un tapis de jeu. Les pages s'ouvrent sur le papier clair :
+// l'en-tête flottant reste en version claire.
 export default function RelueLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
       entreprise="Relue"
-      titres="instrument"
+      titres="bodoni"
       texte="dmSans"
       couleurs={{
         fond: "#FBF6EC",
@@ -26,9 +28,14 @@ export default function RelueLayout({ children }: { children: React.ReactNode })
         surSombre: "#FBF6EC",
       }}
     >
-      <EnTete />
+      <NavVerre
+        accueil={DOSSIER}
+        marque={<Marque />}
+        liens={NAVIGATION}
+        action={{ href: `${DOSSIER}/dans-un-an`, libelle: "Écrire ma lettre" }}
+      />
       {children}
-      <PiedDuSite />
+      <Pied />
     </Cadre>
   );
 }

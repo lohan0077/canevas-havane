@@ -61,9 +61,10 @@ export default function BoiteTirages({ etiquette = "Famille M.", date = "séance
 
       <button
         type="button"
+        data-film="ouvrir"
         onClick={() => setOuverte((o) => !o)}
         aria-pressed={ouverte}
-        className="mx-auto flex min-h-[52px] items-center justify-center rounded-full bg-[var(--accent)] text-[var(--sur-accent)] px-7 text-base font-bold"
+        className="mx-auto flex min-h-[52px] items-center justify-center rounded-[3px] bg-[var(--accent)] px-7 text-base font-semibold text-[var(--sur-accent)] transition-transform hover:-translate-y-0.5"
       >
         {ouverte ? "Refermer la boîte" : "Ouvrir la boîte"}
       </button>

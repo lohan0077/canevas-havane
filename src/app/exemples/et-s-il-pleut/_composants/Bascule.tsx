@@ -25,7 +25,7 @@ const AVERSE = `
 export default function Bascule({ grand = false }: { grand?: boolean }) {
   const [pluie, setPluie] = useState(false);
   return (
-    <div data-film="bascule" className="overflow-hidden rounded-[32px] border border-[var(--trait)] bg-[var(--carte)] shadow-[0_30px_60px_-40px_rgba(47,59,76,0.55)]">
+    <div data-film="bascule" className="overflow-hidden rounded-2xl border border-[var(--trait)] bg-[var(--carte)] shadow-[0_30px_60px_-40px_rgba(47,59,76,0.55)]">
       <style>{AVERSE}</style>
       <div className={`relative ${grand ? "aspect-[4/3] lg:aspect-[16/9]" : "aspect-[4/3]"} bg-[#1E2733]`}>
         <Image src={photos.jardin.src} alt={photos.jardin.alt} fill sizes="(min-width: 1024px) 640px, 100vw" className={`object-cover transition-opacity duration-700 ${pluie ? "opacity-0" : "opacity-100"}`} />
@@ -35,7 +35,7 @@ export default function Bascule({ grand = false }: { grand?: boolean }) {
         <p className="absolute bottom-3 left-3 rounded-full bg-[#1E2733] px-3.5 py-1.5 text-xs font-medium text-[var(--sur-sombre)]">
           Samedi 11 septembre 2027 · exemple
         </p>
-        <p aria-live="polite" className="absolute right-3 top-3 flex items-center gap-2 rounded-full bg-[var(--fond)] px-3.5 py-1.5 text-sm font-semibold text-[var(--encre)]">
+        <p aria-live="polite" className="absolute right-3 top-3 flex items-center gap-2 rounded-full bg-[var(--fond)] px-3.5 py-1.5 text-sm font-medium text-[var(--encre)]">
           {pluie ? (
             <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 9a3 3 0 0 1 .3-6A4 4 0 0 1 12 4a2.5 2.5 0 0 1 0 5z" fill="#7C8FA6" /><path d="M5 11l-1 3M8.5 11l-1 3M12 11l-1 3" stroke="#2F3B4C" strokeWidth="1.4" strokeLinecap="round" /></svg>
           ) : (
@@ -65,7 +65,7 @@ export default function Bascule({ grand = false }: { grand?: boolean }) {
         <ol className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
           {MOMENTS.map((m, i) => (
             <li key={m.moment} className="grid grid-cols-[86px_1fr] items-baseline gap-3 py-3">
-              <span className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--doux)]">
+              <span className="text-xs font-medium uppercase tracking-[0.14em] text-[var(--doux)]">
                 {m.moment}
                 <span className="block font-normal normal-case tracking-normal tabular-nums">{m.heure.replace(/ /g, " ")}</span>
               </span>

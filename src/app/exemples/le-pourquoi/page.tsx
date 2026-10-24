@@ -2,244 +2,174 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { adressesDeLaPage } from "@/lib/seo";
-import BoitePourquoi from "./_composants/BoitePourquoi";
-import SeancePourquoi from "./_composants/SeancePourquoi";
-import { AppelFinal, Arche, Surtitre } from "./_composants/Blocs";
-import { DOSSIER, cabinet, faq, gestes, photos, questionsHebdo } from "./_composants/donnees";
+import Accordeon from "../_kit/Accordeon";
+import Apparition from "../_kit/Apparition";
+import TitreRevele from "../_kit/TitreRevele";
+import Agenda from "./_composants/Agenda";
+import { ACCENT_SOMBRE, AppelFinal, Bouton, Intitule, Surtitre, Titre } from "./_composants/Blocs";
+import ListeNon from "./_composants/ListeNon";
+import { DOSSIER, cabinet, gestes, photos, questions, questionsHebdo, seanceAdulte } from "./_composants/donnees";
 
-// Le site de la marque imaginée dans la vidéo « Si je devais créer un cabinet
-// d'ostéopathie de zéro » : un cabinet qui promet de tout expliquer. Chaque geste a
-// sa page — ce que je fais, pourquoi, et ce que ça ne promet pas. Premier écran
-// inspiré du modèle « Breathstone » de MotionSites (un mot immense, un objet posé
-// devant, une pastille de navigation), transposé au cabinet.
+// Le site des deux vidéos des ostéopathes. De « Créer une marque » : le nom, chaque
+// geste expliqué sur sa page, une question de patient par semaine. De « Remplir
+// l'agenda » : ce que je ne fais pas, le prix en gros, les créneaux de 7 h et de 20 h.
+//
+// Version « carrée » (24/10/2026) : une idée par écran, sept écrans, une grille et une
+// échelle de texte communes. La séance pas à pas, les tarifs et toutes les questions
+// vivent sur /seance-et-prix. Les cibles filmées par les vidéos (#gestes h2,
+// [data-geste]) sont gardées ; les autres sont sur les pages intérieures. Aucune photo
+// de nuque ni de colonne vertébrale en grand : c'est ce que la voix reproche aux sites
+// du métier.
 export const metadata: Metadata = {
-  title: "Le Pourquoi — site de démonstration",
+  title: "Le Pourquoi — cabinet d'ostéopathie, site de démonstration",
   description:
-    "Site de démonstration d'un cabinet d'ostéopathie imaginaire, réalisé par Canevas Havane : chaque geste a sa page — ce que je fais, pourquoi, et ce que ça ne promet pas.",
+    "Le site d'un cabinet d'ostéopathie imaginaire qui explique tout : chaque geste a sa page, ce que l'ostéopathe ne fait pas est écrit, le prix est affiché, et l'on réserve dès 7 h.",
   ...adressesDeLaPage("/exemples/le-pourquoi"),
 };
+
+// Les questions de l'accueil : cinq, pas plus. Les huit sont sur /seance-et-prix.
+const QUESTIONS_ACCUEIL = [0, 1, 2, 3, 6].map((i) => questions[i]);
 
 export default function LePourquoi() {
   return (
     <main>
-      {/* 1. Un mot immense, et la colonne posée devant. */}
-      <section className="relative overflow-hidden pt-6 sm:pt-10">
-        <h1 className="text-center">
-          <span className="block font-[family-name:var(--titres)] text-[clamp(78px,23vw,280px)] font-bold leading-[0.82] tracking-[-0.06em]">
-            Pourquoi&nbsp;?
-          </span>
-          <span className="sr-only">Le Pourquoi, l&apos;ostéopathie expliquée.</span>
-        </h1>
-        <div className="relative max-w-6xl mx-auto px-5 sm:px-6">
-          <Arche photo={photos.colonne} priority sizes="(min-width: 640px) 420px, 70vw" className="relative z-10 mx-auto -mt-[3.5vw] sm:-mt-12 w-[70%] max-w-[420px] aspect-[3/4]" />
-          <div className="mt-6 grid gap-6 sm:absolute sm:inset-x-6 sm:top-1/3 sm:mt-0 sm:grid-cols-2 sm:pointer-events-none">
-            <p className="font-[family-name:var(--titres)] text-[26px] font-medium leading-tight tracking-[-0.02em] sm:max-w-[240px]">
-              L&apos;ostéopathie, <span className="text-[var(--accent-texte)]">expliquée.</span>
-            </p>
-            <p className="text-lg leading-relaxed text-[var(--doux)] sm:ml-auto sm:max-w-[260px] sm:text-right">
-              Chaque geste a sa page : ce que je fais, pourquoi, et ce que ça ne promet pas.
-            </p>
+      {/* ---------- Premier écran : la question, posée en grand ---------- */}
+      <section className="relative flex min-h-[100svh] flex-col bg-[var(--sombre)] text-[var(--sur-sombre)]">
+        <div className="mx-auto grid w-full max-w-6xl flex-1 items-center gap-12 px-6 pb-16 pt-32 lg:grid-cols-[1.15fr_0.85fr] lg:pt-28">
+          <div className="space-y-8">
+            <Apparition><Surtitre clair>{cabinet.titre} · {cabinet.ville}</Surtitre></Apparition>
+            <TitreRevele
+              as="h1"
+              auChargement
+              texte={"Pourquoi ?"}
+              className="text-[clamp(4.5rem,13vw,10rem)] font-normal leading-[0.9] tracking-[-0.03em]"
+            />
+            <TitreRevele
+              as="p"
+              auChargement
+              delai={300}
+              texte="L'ostéopathie, *expliquée.* Chaque geste a sa page, ce que je ne fais pas est écrit, le prix est affiché."
+              className="max-w-[30rem] font-[family-name:var(--titres)] text-[clamp(1.4rem,2.2vw,1.8rem)] leading-[1.3]"
+              classeAccent={ACCENT_SOMBRE}
+            />
+            <Apparition delai={600} className="flex flex-wrap gap-3">
+              <Bouton href={`${DOSSIER}/rendez-vous`}>Prendre rendez-vous</Bouton>
+              <Bouton href={`${DOSSIER}#gestes`} variante="contour">Voir les gestes</Bouton>
+            </Apparition>
           </div>
-          <div className="mt-8 pb-14 flex flex-col sm:flex-row sm:justify-center gap-3">
-            <Link href={`${DOSSIER}#gestes`} className="inline-flex items-center justify-center min-h-14 rounded-full bg-[var(--encre)] text-[var(--fond)] px-8 font-[family-name:var(--titres)] text-lg font-medium">
-              Lire les gestes
-            </Link>
-            <Link href={`${DOSSIER}/rendez-vous`} className="inline-flex items-center justify-center min-h-14 rounded-full border border-[var(--encre)] px-8 font-[family-name:var(--titres)] text-lg font-medium">
-              Prendre rendez-vous
-            </Link>
+          <Apparition delai={200} className="relative aspect-[3/2] overflow-hidden rounded-2xl lg:aspect-[4/5]">
+            <Image src={photos.attente.src} alt={photos.attente.alt} fill priority sizes="(min-width: 1024px) 420px, 100vw" className="object-cover" />
+          </Apparition>
+        </div>
+      </section>
+
+      {/* ---------- 01. Les gestes : une page chacun, une question par semaine ---------- */}
+      <section id="gestes" className="scroll-mt-24">
+        <div className="mx-auto max-w-6xl space-y-14 px-6 py-28 md:py-40">
+          <Intitule
+            numero="01"
+            surtitre="Les gestes"
+            titre="Chaque geste a *sa page.*"
+            texte="Ce que je fais, pourquoi, et ce que ça ne promet pas. Chaque semaine, une question de patient et sa réponse filmée — jamais un patient à l'image."
+          />
+          <ol className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
+            {questionsHebdo.map((q, i) => {
+              const g = gestes.find((x) => x.slug === q.geste);
+              const ligne = (
+                <>
+                  <span className="text-[13px] tabular-nums text-[var(--doux)]">Semaine {q.n}</span>
+                  <span className="font-[family-name:var(--titres)] text-[clamp(1.35rem,2.4vw,1.9rem)] leading-[1.2]">{q.q}</span>
+                  <span className="text-[13px] text-[var(--doux)] sm:text-right">{g ? "Lire la page →" : `À venir · ${q.date}`}</span>
+                </>
+              );
+              return (
+                <Apparition as="li" key={q.n} delai={i * 70}>
+                  {g ? (
+                    <Link href={`${DOSSIER}/gestes/${g.slug}`} data-geste={g.slug} className="group grid items-center gap-x-6 gap-y-1 py-5 sm:grid-cols-[6.5rem_1fr_auto]">
+                      {ligne}
+                    </Link>
+                  ) : (
+                    <div className="grid items-center gap-x-6 gap-y-1 py-5 sm:grid-cols-[6.5rem_1fr_auto]">{ligne}</div>
+                  )}
+                </Apparition>
+              );
+            })}
+          </ol>
+        </div>
+      </section>
+
+      {/* ---------- 02. Ce que je ne fais pas ---------- */}
+      <section id="non" className="scroll-mt-24 bg-[var(--sombre)] text-[var(--sur-sombre)]">
+        <div className="mx-auto max-w-6xl space-y-14 px-6 py-28 md:py-40">
+          <Intitule
+            clair
+            numero="02"
+            surtitre="Comme tout ostéopathe"
+            titre="Ce que je ne fais *pas.*"
+            texte="La page la plus importante du site. Une limite dite, c'est une surprise de moins — et c'est souvent ce qui décide à réserver."
+          />
+          <ListeNon />
+          <Bouton href={`${DOSSIER}/ce-que-je-ne-fais-pas`} variante="contour">Lire la page</Bouton>
+        </div>
+      </section>
+
+      {/* ---------- Une photo, une phrase : le manifeste ---------- */}
+      <section className="bg-[var(--sombre)] px-6 pb-6 text-[var(--sur-sombre)] md:pb-10">
+        <div className="relative mx-auto aspect-[4/5] max-w-6xl overflow-hidden rounded-2xl sm:aspect-[16/10]">
+          <Image src={photos.table.src} alt={photos.table.alt} fill sizes="(min-width: 1152px) 1104px, 100vw" className="object-cover object-[50%_62%]" />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(19,42,36,0)_35%,rgba(19,42,36,0.88)_100%)]" />
+          <div className="absolute inset-x-0 bottom-0 space-y-4 p-7 md:p-12">
+            <Apparition><Surtitre clair>Sur la table</Surtitre></Apparition>
+            <Titre texte="Vous avez le droit de demander *pourquoi.*" clair className="max-w-2xl" />
           </div>
         </div>
       </section>
 
-      {/* 2. Le contre-pied : pas de promesse, une explication. */}
-      <section className="bg-[var(--sombre)] text-[var(--sur-sombre)]">
-        <div className="max-w-6xl mx-auto px-5 sm:px-6 py-20 sm:py-28 grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
-          <div className="space-y-6">
-            <Surtitre clair>Notre seule promesse</Surtitre>
-            <h2 className="text-[42px] sm:text-6xl font-semibold tracking-[-0.04em]">
-              Pas de guérison promise. <span className="text-[#F0A07A]">Une explication, à chaque geste.</span>
-            </h2>
-          </div>
-          <div className="space-y-4 text-lg leading-relaxed text-[#D8E2DB]">
-            <p>
-              Promettre de guérir, quand c&apos;est faux, c&apos;est une pratique commerciale
-              trompeuse. Ici, on promet autre chose : que vous ne repartirez jamais sans savoir
-              ce qu&apos;on vous a fait, ni pourquoi.
-            </p>
-            <p className="text-sm text-[#B9CBBF]">Code de la consommation, art. L121-4, 16°</p>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. Les gestes, une page chacun. */}
-      <section id="gestes" className="max-w-6xl mx-auto px-5 sm:px-6 py-20 sm:py-28 space-y-12 scroll-mt-20">
-        <div className="space-y-5 max-w-2xl">
-          <Surtitre>Les gestes</Surtitre>
-          <h2 className="text-[42px] sm:text-6xl font-semibold tracking-[-0.04em]">
-            Chaque geste a <span className="text-[var(--accent-texte)]">sa page.</span>
-          </h2>
-          <p className="text-lg leading-relaxed text-[var(--doux)]">
-            Trois questions, toujours les mêmes, à chaque page. Les réponses sont écrites
-            par l&apos;ostéopathe, pas par un robot.
-          </p>
-        </div>
-        <ul className="grid gap-5 md:grid-cols-3" data-film="gestes">
-          {gestes.map((g) => (
-            <li key={g.slug}>
-              <Link href={`${DOSSIER}/gestes/${g.slug}`} data-geste={g.slug} className="group block h-full rounded-[28px] bg-[var(--carte)] border border-[var(--trait)] overflow-hidden">
-                <div className="relative aspect-[16/10] bg-[#DCCFBC]">
-                  <Image src={photos[g.photo].src} alt={photos[g.photo].alt} fill sizes="(min-width: 768px) 360px, 100vw" className="object-cover" />
-                  <span className="absolute left-4 top-4 rounded-full bg-[var(--fond)] px-3 py-1 font-[family-name:var(--titres)] text-sm font-semibold">Geste n° {g.numero}</span>
-                </div>
-                <div className="p-6 space-y-4">
-                  <h3 className="text-2xl font-semibold tracking-[-0.02em] group-hover:underline underline-offset-4">{g.question}</h3>
-                  <ul className="flex flex-wrap gap-2 font-[family-name:var(--titres)] text-sm">
-                    {["Ce que je fais", "Pourquoi", "Ce que ça ne promet pas"].map((t) => (
-                      <li key={t} className="rounded-full border border-[var(--trait)] px-3 py-1">{t}</li>
-                    ))}
-                  </ul>
-                </div>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* 4. Ce que les gens tapent, et la boîte qui y répond. */}
-      <section className="bg-[#E9DFCD]">
-        <div className="max-w-6xl mx-auto px-5 sm:px-6 py-20 sm:py-28 grid gap-10 lg:grid-cols-2 lg:items-center">
-          <div className="space-y-6">
-            <Surtitre>Vous la tapez</Surtitre>
-            <h2 className="text-[42px] sm:text-6xl font-semibold tracking-[-0.04em]">
-              La question qu&apos;on n&apos;ose pas poser, <span className="text-[var(--accent-texte)]">allongé sur la table.</span>
-            </h2>
-            <p className="text-lg leading-relaxed text-[var(--doux)]">
-              « Pourquoi l&apos;ostéopathe fait craquer », « pourquoi il appuie sur le ventre » :
-              c&apos;est ce que Google suggère quand on commence à taper. Ici, chaque question a
-              une réponse, signée.
-            </p>
-          </div>
-          <BoitePourquoi />
-        </div>
-      </section>
-
-      {/* 5. La séance, avec un « Pourquoi ? » à chaque étape. */}
-      <section id="seance" className="max-w-6xl mx-auto px-5 sm:px-6 py-20 sm:py-28 grid gap-10 lg:grid-cols-[0.8fr_1.2fr] scroll-mt-20">
-        <div className="space-y-6">
-          <Surtitre>La séance</Surtitre>
-          <h2 className="text-[42px] sm:text-6xl font-semibold tracking-[-0.04em]">
-            Un bouton <span className="text-[var(--accent-texte)]">« Pourquoi ? »</span> à chaque étape.
-          </h2>
-          <p className="text-lg leading-relaxed text-[var(--doux)]">
-            Touchez-le. Au cabinet, c&apos;est pareil : vous pouvez demander pourquoi à tout moment.
-          </p>
-        </div>
-        <SeancePourquoi />
-      </section>
-
-      {/* 6. L'affiche du lancement. */}
-      <section className="px-3 sm:px-6">
-        <div className="max-w-6xl mx-auto rounded-[36px] bg-[var(--sombre)] text-[var(--sur-sombre)] px-6 py-16 sm:px-14 sm:py-24 grid gap-10 lg:grid-cols-[1.3fr_0.7fr] lg:items-end">
-          <p className="font-[family-name:var(--titres)] text-[46px] sm:text-7xl font-semibold leading-[1.0] tracking-[-0.045em]">
-            Vous avez le droit de demander <span className="text-[#F0A07A]">pourquoi.</span>
-          </p>
-          <div className="space-y-3 text-[#D8E2DB]">
-            <p className="font-[family-name:var(--titres)] text-lg font-semibold text-[var(--sur-sombre)]">Le Pourquoi · {cabinet.praticienne}, ostéopathe D.O.</p>
-            <p>L&apos;affiche de l&apos;ouverture, une seule phrase. Sur la porte du cabinet aussi.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* 7. Une question de patient par semaine. */}
-      <section id="questions" className="max-w-6xl mx-auto px-5 sm:px-6 py-20 sm:py-28 space-y-12 scroll-mt-20">
-        <div className="grid gap-6 lg:grid-cols-2 lg:items-end">
-          <div className="space-y-5">
-            <Surtitre>Vos questions</Surtitre>
-            <h2 className="text-[42px] sm:text-6xl font-semibold tracking-[-0.04em]">
-              Une question par semaine. <span className="text-[var(--accent-texte)]">Une minute de réponse.</span>
-            </h2>
-          </div>
-          <p className="text-lg leading-relaxed text-[var(--doux)]">
-            Les questions viennent des patients. Les réponses sont filmées au cabinet, sans
-            jamais montrer de patient. Calendrier d&apos;exemple, à partir du lancement.
-          </p>
-        </div>
-        <ol className="grid gap-px overflow-hidden rounded-[28px] border border-[var(--trait)] bg-[var(--trait)] sm:grid-cols-2 lg:grid-cols-3">
-          {questionsHebdo.map((q) => (
-            <li key={q.n} className="bg-[var(--carte)] p-6 space-y-4">
-              <div className="flex items-center justify-between font-[family-name:var(--titres)] text-sm">
-                <span className="font-semibold text-[var(--accent-texte)]">Question n° {q.n}</span>
-                <span className="text-[var(--doux)]">{q.date}</span>
+      {/* ---------- 03. Le rendez-vous, et le prix ---------- */}
+      <section id="rendez-vous" className="scroll-mt-24">
+        <div className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:py-40 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+          <div className="space-y-6 lg:sticky lg:top-28">
+            <Apparition><Surtitre>03 — Rendez-vous</Surtitre></Apparition>
+            <Titre texte="Le créneau, *avant ou après le travail.*" />
+            <Apparition as="p" delai={150} className="max-w-[26rem] text-lg leading-relaxed text-[var(--doux)]">
+              Dès 7 h et jusqu&apos;à 20 h 45, sans poser sa journée. Un nom et un téléphone : on ne
+              vous demande pas pourquoi vous venez.
+            </Apparition>
+            <Apparition delai={250}>
+              <dl className="grid grid-cols-2 gap-6 border-t border-[var(--trait)] pt-6">
+              <div>
+                <dt className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">Séance adulte</dt>
+                <dd className="mt-2 font-[family-name:var(--titres)] text-4xl tabular-nums">{seanceAdulte.prix}</dd>
+                <dd className="text-[15px] text-[var(--doux)]">{seanceAdulte.duree} · prix d&apos;exemple</dd>
               </div>
-              <p className="font-[family-name:var(--titres)] text-xl font-medium leading-snug">{q.q}</p>
-              <p className="flex items-center gap-2 text-sm text-[var(--doux)]">
-                <span aria-hidden="true" className="grid h-7 w-7 place-items-center rounded-full bg-[var(--encre)] text-[10px] text-[var(--fond)]">▶</span>
-                Réponse filmée · 1 min
-                {q.geste && (
-                  <Link href={`${DOSSIER}/gestes/${q.geste}`} className="ml-auto font-semibold text-[var(--encre)] underline underline-offset-4">Lire</Link>
-                )}
-              </p>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      {/* 8. La praticienne. */}
-      <section className="max-w-6xl mx-auto px-5 sm:px-6 pb-20 sm:pb-28 grid gap-10 lg:grid-cols-2 lg:items-center">
-        <Arche photo={photos.epaule} sizes="(min-width: 1024px) 520px, 100vw" className="aspect-[4/5] max-h-[560px]" />
-        <div className="space-y-6">
-          <Surtitre>La praticienne</Surtitre>
-          <h2 className="text-[42px] sm:text-6xl font-semibold tracking-[-0.04em]">
-            {cabinet.praticienne} <span className="block text-[var(--accent-texte)]">Ostéopathe D.O.</span>
-          </h2>
-          <p className="text-lg leading-relaxed text-[var(--doux)]">
-            Le nom du cabinet est une question ; le titre, lui, est écrit en entier, sur la
-            plaque comme ici. Un ostéopathe indique son diplôme sur sa plaque et sur tout
-            document (décret n° 2007-435, art. 14).
-          </p>
-          <dl className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
-            <div className="py-3.5 space-y-0.5"><dt className="font-[family-name:var(--titres)] text-sm text-[var(--doux)]">Diplôme</dt><dd className="text-lg">{cabinet.diplome}</dd></div>
-            <div className="py-3.5 space-y-0.5"><dt className="font-[family-name:var(--titres)] text-sm text-[var(--doux)]">N° ADELI</dt><dd className="text-lg tabular-nums">{cabinet.adeli} (exemple)</dd></div>
-          </dl>
+              <div>
+                <dt className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">À chaque séance</dt>
+                <dd className="mt-2 font-[family-name:var(--titres)] text-4xl">Facture</dd>
+                <dd className="text-[15px] text-[var(--doux)]">pour votre mutuelle</dd>
+              </div>
+              </dl>
+            </Apparition>
+            <Apparition delai={300}>
+              <Link href={`${DOSSIER}/seance-et-prix`} className="inline-block text-[15px] underline underline-offset-4">La séance et le prix</Link>
+            </Apparition>
+          </div>
+          <Apparition delai={150}>
+            <Agenda />
+          </Apparition>
         </div>
       </section>
 
-      {/* 9. Le prix et le cabinet. */}
-      <section className="bg-[var(--carte)] border-y border-[var(--trait)]">
-        <div className="max-w-6xl mx-auto px-5 sm:px-6 py-16 grid gap-8 sm:grid-cols-3">
-          <div className="space-y-1">
-            <p className="font-[family-name:var(--titres)] text-sm text-[var(--doux)]">Une séance</p>
-            <p className="font-[family-name:var(--titres)] text-5xl font-semibold tracking-[-0.04em] tabular-nums">{cabinet.prix}</p>
-            <p className="text-[var(--doux)]">{cabinet.duree} · prix d&apos;exemple, facture remise</p>
+      {/* ---------- 04. Questions ---------- */}
+      <section id="questions" className="scroll-mt-24 bg-[var(--carte)]">
+        <div className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:py-40 lg:grid-cols-[0.8fr_1.2fr]">
+          <div className="space-y-6">
+            <Apparition><Surtitre>04 — Questions</Surtitre></Apparition>
+            <Titre texte="Ce qu'on me demande *le plus.*" />
           </div>
-          <div className="space-y-1">
-            <p className="font-[family-name:var(--titres)] text-sm text-[var(--doux)]">Le cabinet</p>
-            <p className="text-xl">{cabinet.adresse}, {cabinet.ville}</p>
-            <p className="text-[var(--doux)]">Adresse d&apos;exemple, rez-de-chaussée</p>
-          </div>
-          <div className="space-y-1">
-            <p className="font-[family-name:var(--titres)] text-sm text-[var(--doux)]">Horaires</p>
-            <p className="text-xl">{cabinet.horaires}</p>
-          </div>
-        </div>
-      </section>
-
-      {/* 10. Questions fréquentes. */}
-      <section className="max-w-6xl mx-auto px-5 sm:px-6 py-20 sm:py-28 grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-        <div className="space-y-5">
-          <Surtitre>Avant de venir</Surtitre>
-          <h2 className="text-[42px] sm:text-6xl font-semibold tracking-[-0.04em]">Et aussi.</h2>
-        </div>
-        <div className="border-t border-[var(--trait)]">
-          {faq.map((f) => (
-            <details key={f.q} className="group border-b border-[var(--trait)]">
-              <summary className="flex cursor-pointer list-none items-start justify-between gap-6 py-5 font-[family-name:var(--titres)] text-xl font-medium [&::-webkit-details-marker]:hidden">
-                {f.q}
-                <span aria-hidden="true" className="text-2xl leading-none text-[var(--accent-texte)] transition-transform group-open:rotate-45">+</span>
-              </summary>
-              <p className="pb-6 pr-8 text-lg leading-relaxed text-[var(--doux)]">{f.r}</p>
-            </details>
-          ))}
+          <Apparition delai={150} className="space-y-8">
+            <Accordeon questions={QUESTIONS_ACCUEIL.map((q) => ({ question: q.q, reponse: q.r }))} />
+            <Bouton href={`${DOSSIER}/seance-et-prix#questions`} variante="contour">Toutes les questions</Bouton>
+          </Apparition>
         </div>
       </section>
 

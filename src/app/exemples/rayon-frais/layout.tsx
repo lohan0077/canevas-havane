@@ -1,11 +1,13 @@
 import Cadre from "../_kit/Cadre";
-import EnTete from "./_composants/EnTete";
-import PiedDeSite from "./_composants/PiedDeSite";
+import NavVerre from "../_kit/NavVerre";
+import { Marque } from "./_composants/Blocs";
+import Pied from "./_composants/Pied";
+import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 
-// Le gabarit du site Rayon Frais, cabinet de diététique imaginé dans la vidéo « Si je
-// devais créer un cabinet de diététique de zéro ». Zilla Slab pour la machine à écrire
-// de la marque (chiffres alignés sur les prix), Space Grotesk pour lire ; vert, tomate,
-// jaune et crème, comme un étiquetage de marché.
+// Le gabarit du site Rayon Frais, cabinet de diététique imaginaire filmé dans les deux
+// vidéos des diététiciens. Zilla Slab pour la machine à écrire de la marque (chiffres
+// alignés sur les prix), Space Grotesk pour lire ; vert, tomate, jaune et crème, comme
+// un étiquetage de marché. Le premier écran est clair : en-tête de verre clair.
 export default function RayonFraisLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
@@ -25,9 +27,14 @@ export default function RayonFraisLayout({ children }: { children: React.ReactNo
         surSombre: "#FFF7E6",
       }}
     >
-      <EnTete />
+      <NavVerre
+        accueil={DOSSIER}
+        marque={<Marque />}
+        liens={NAVIGATION}
+        action={{ href: `${DOSSIER}/reserver`, libelle: "Réserver" }}
+      />
       {children}
-      <PiedDeSite />
+      <Pied />
     </Cadre>
   );
 }

@@ -37,7 +37,7 @@ export default function Creneau() {
     `rounded-2xl border-2 transition-colors ${actif ? "border-[var(--sombre)] bg-[var(--sombre)] text-[var(--sur-sombre)]" : "border-[var(--trait)] bg-[var(--carte)] text-[var(--encre)] hover:border-[var(--encre)]"}`;
 
   return (
-    <form onSubmit={reserver} noValidate data-film="creneau" className="rounded-[32px] bg-[var(--carte)] border border-[var(--trait)] p-5 sm:p-8 space-y-7">
+    <form onSubmit={reserver} noValidate data-film="creneau" className="space-y-7">
       <fieldset className="space-y-3" disabled={pret}>
         <legend className="font-[family-name:var(--titres)] text-2xl mb-3">1. Ton numéro</legend>
         <input
@@ -73,7 +73,7 @@ export default function Creneau() {
                 onClick={() => setJour(x.cle)}
                 className={`${puce(jour === x.cle)} h-[72px] flex flex-col items-center justify-center`}
               >
-                <span className="text-sm font-semibold">{x.court}</span>
+                <span className="text-sm font-medium">{x.court}</span>
                 <span className="font-[family-name:var(--titres)] text-[26px] leading-none tabular-nums">{x.quantieme}</span>
               </button>
             ) : (
@@ -87,17 +87,17 @@ export default function Creneau() {
         <legend className="font-[family-name:var(--titres)] text-2xl mb-3">3. L'heure</legend>
         <div className="grid grid-cols-3 gap-2">
           {HEURES.map((x) => (
-            <button key={x.id} type="button" id={`heure-${x.id}`} aria-pressed={heure === x.id} onClick={() => setHeure(x.id)} className={`${puce(heure === x.id)} h-14 text-lg font-semibold tabular-nums`}>
+            <button key={x.id} type="button" id={`heure-${x.id}`} aria-pressed={heure === x.id} onClick={() => setHeure(x.id)} className={`${puce(heure === x.id)} h-14 text-lg font-medium tabular-nums`}>
               {x.libelle}
             </button>
           ))}
         </div>
       </fieldset>
 
-      {erreur && <p role="alert" className="rounded-2xl border-2 border-[var(--encre)] px-4 py-3 text-sm font-semibold">{erreur}</p>}
+      {erreur && <p role="alert" className="rounded-2xl border-2 border-[var(--encre)] px-4 py-3 text-sm font-medium">{erreur}</p>}
 
       {pret && j && h ? (
-        <div role="status" data-film="confirmation" className="rounded-[26px] bg-[var(--sombre)] text-[var(--sur-sombre)] p-6 space-y-2">
+        <div role="status" data-film="confirmation" className="rounded-2xl bg-[var(--sombre)] text-[var(--sur-sombre)] p-6 space-y-2">
           <p className="font-[family-name:var(--titres)] text-[30px] leading-tight">
             On t'appelle {j.long} à {h.parle}.
           </p>
@@ -105,12 +105,12 @@ export default function Creneau() {
           <p className="text-sm">
             {j.long[0].toUpperCase() + j.long.slice(1)} {j.quantieme} {j.mois}, {h.parle} · Démonstration : rien n'est envoyé, rien n'est enregistré.
           </p>
-          <button type="button" onClick={() => setPret(false)} className="pt-1 text-sm font-semibold underline underline-offset-4">
+          <button type="button" onClick={() => setPret(false)} className="pt-1 text-sm font-medium underline underline-offset-4">
             Changer de créneau
           </button>
         </div>
       ) : (
-        <button type="submit" className="w-full h-14 rounded-full bg-[var(--sombre)] text-[var(--sur-sombre)] text-lg font-semibold">
+        <button type="submit" className="w-full h-12 rounded-full bg-[var(--accent)] text-[var(--sur-accent)] text-[15px] font-medium">
           Réserver mon appel
         </button>
       )}

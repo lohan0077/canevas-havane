@@ -1,99 +1,91 @@
 "use client";
 
-import { useState, useSyncExternalStore } from "react";
+import { useState } from "react";
 import Image from "next/image";
-import { MOIS, PHOTOS, type Mois } from "./donnees";
+import { MOIS, PHOTOS } from "./donnees";
+import { useMoisCourant } from "./mois";
 import styles from "./Calendrier.module.css";
 
-const rienAEcouter = () => () => {};
-
-/** La planche d'un mois sans photo : l'initiale de la fleur, tracée comme une gravure. */
-function Planche({ mois }: { mois: Mois }) {
-  return (
-    <div className="relative grid h-full w-full place-items-center bg-[#E8E8E8]" aria-hidden="true">
-      <svg viewBox="0 0 200 200" className="absolute inset-0 h-full w-full text-[var(--trait)]" preserveAspectRatio="none">
-        <path d="M0 100H200M100 0V200" stroke="currentColor" strokeWidth="0.6" strokeDasharray="2 3" />
-        <circle cx="100" cy="100" r="62" fill="none" stroke="currentColor" strokeWidth="0.6" />
-      </svg>
-      <span className="relative font-[family-name:var(--titres)] text-[140px] italic leading-none text-[var(--accent-texte)]">{mois.fleur.charAt(0)}</span>
-    </div>
-  );
-}
+const deux = (n: number) => String(n).padStart(2, "0");
 
 /**
- * Le calendrier des fleurs : douze onglets, une page par mois. On tourne les pages
- * — la page s'abaisse, la suivante apparaît. La fleur du mois, celles qui
- * l'accompagnent, celle qui arrive et celle qui s'en va. Rien n'est envoyé.
+ * Le calendrier des fleurs, posé sur la bande sombre de l'accueil : douze onglets, une
+ * page par mois, reliée par sa spirale. On tourne les pages — la page tombe du haut,
+ * comme une feuille qu'on rabat. La fleur du mois, celles qui l'accompagnent, celle qui
+ * arrive et celle qui s'en va. Ouvert sur le mois en cours. Rien n'est envoyé.
  */
-export default function Calendrier({ depart = 10 }: { depart?: number }) {
-  // Ouvert sur le mois en cours, lu chez le visiteur (la page est générée d'avance :
-  // côté serveur, `depart`). Puis le mois que le visiteur choisit.
-  const courant = useSyncExternalStore(rienAEcouter, () => new Date().getMonth() + 1, () => depart);
+export default function Calendrier() {
+  const courant = useMoisCourant();
   const [choisi, setN] = useState<number | null>(null);
   const n = choisi ?? courant;
   const mois = MOIS[n - 1];
-  const photo = mois.photo ? PHOTOS[mois.photo] : null;
+  const photo = PHOTOS[mois.photo];
   const aller = (k: number) => setN(((k - 1 + 12) % 12) + 1);
 
   return (
-    <div className="space-y-4">
-      <ol className="grid grid-cols-6 gap-1.5 sm:grid-cols-12" aria-label="Choisir un mois">
-        {MOIS.map((m) => (
-          <li key={m.n}>
-            <button
-              type="button"
-              data-mois={m.n}
-              aria-pressed={m.n === n}
-              onClick={() => setN(m.n)}
-              className={`w-full border py-2 text-center text-xs uppercase tracking-[0.08em] transition-colors ${
-                m.n === n ? "border-[var(--accent)] bg-[var(--accent)] text-[var(--sur-accent)]" : "border-[var(--trait)] bg-[var(--carte)] hover:border-[var(--accent)]"
-              }`}
-            >
-              <span className="block font-[family-name:var(--titres)] text-lg normal-case tracking-normal">{String(m.n).padStart(2, "0")}</span>
-              {m.court}
-            </button>
-          </li>
-        ))}
+    <div className="space-y-5" data-film="calendrier">
+      <ol className="grid grid-cols-6 gap-1.5 lg:grid-cols-12" aria-label="Choisir un mois">
+        {MOIS.map((m) => {
+          const actif = m.n === n;
+          return (
+            <li key={m.n}>
+              <button
+                type="button"
+                data-mois={m.n}
+                aria-pressed={actif}
+                onClick={() => setN(m.n)}
+                className={`w-full rounded-xl border py-2 text-center text-[11px] font-medium uppercase tracking-[0.12em] transition-all duration-300 ${
+                  actif
+                    ? "-translate-y-1 border-[var(--accent)] bg-[var(--accent)] text-[var(--sur-accent)]"
+                    : "border-white/25 text-[var(--sur-sombre)] hover:border-[var(--accent)]"
+                }`}
+              >
+                <span className="block font-[family-name:var(--titres)] text-xl font-normal normal-case tracking-normal">{deux(m.n)}</span>
+                {m.court}
+              </button>
+            </li>
+          );
+        })}
       </ol>
 
-      <div className="relative [perspective:1600px]">
-        <div aria-hidden="true" className="absolute -top-2 left-0 right-0 z-10 flex justify-around px-8">
-          {Array.from({ length: 9 }, (_, k) => <i key={k} className="h-4 w-1.5 rounded-full bg-[var(--encre)]" />)}
+      <div className="relative pt-3 [perspective:1800px]">
+        <div aria-hidden="true" className="absolute left-0 right-0 top-0 z-10 flex justify-around px-10">
+          {Array.from({ length: 11 }, (_, k) => (
+            <i key={k} className="h-6 w-2 rounded-full border border-white/40 bg-[var(--sombre)]" />
+          ))}
         </div>
         <article
           key={n}
           id="page-du-mois"
           aria-live="polite"
-          className={`${styles.page} border border-[var(--trait)] bg-[var(--carte)] shadow-[0_30px_60px_-40px_rgba(46,22,32,0.6)]`}
+          className={`${styles.page} overflow-hidden rounded-2xl bg-[var(--fond)] text-[var(--encre)] shadow-[0_40px_80px_-30px_rgba(0,0,0,0.65)]`}
         >
-          <div className="grid gap-0 sm:grid-cols-[1fr_1fr]">
-            <div className="relative h-56 overflow-hidden sm:h-auto sm:min-h-[420px]">
-              {photo ? (
-                <Image src={photo.src} alt={photo.alt} width={photo.largeur} height={photo.hauteur} sizes="(min-width: 640px) 360px, 100vw" className="h-full w-full object-cover bg-[#E8E8E8]" />
-              ) : (
-                <Planche mois={mois} />
-              )}
-              <p className="absolute bottom-2 left-3 text-[10px] uppercase tracking-[0.2em] text-[#4A3A40]">Fig. {String(n).padStart(2, "0")} — {mois.fleur}</p>
-            </div>
-            <div className="space-y-4 p-5 sm:p-8">
-              <p className="flex items-baseline justify-between text-xs uppercase tracking-[0.22em] text-[var(--doux)]">
+          <div className="grid sm:grid-cols-[0.95fr_1.05fr]">
+            <figure className="relative h-60 overflow-hidden bg-[var(--sombre)] sm:h-auto sm:min-h-[480px]">
+              <Image src={photo.src} alt={photo.alt} fill sizes="(min-width: 640px) 45vw, 100vw" className="object-cover" />
+              <figcaption className="absolute bottom-3 left-3 rounded-full bg-[var(--sombre)] px-3 py-1 text-[11px] font-medium uppercase tracking-[0.2em] text-[var(--sur-sombre)]">
+                Fig. {deux(n)} — {mois.fleur}
+              </figcaption>
+            </figure>
+            <div className="flex flex-col gap-4 p-5 sm:p-9">
+              <p className="flex items-baseline justify-between text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">
                 <span>Ce qui fleurit en</span>
-                <span>{String(n).padStart(2, "0")} / 12</span>
+                <span className="font-[family-name:var(--titres)] text-base font-normal italic tracking-normal">{deux(n)} / 12</span>
               </p>
-              <h3 className="text-5xl sm:text-6xl">{mois.nom}</h3>
-              <p className="font-[family-name:var(--titres)] text-3xl italic text-[var(--accent-texte)]">{mois.fleur}</p>
-              <p className="text-sm leading-relaxed">{mois.mot}</p>
-              <dl className="grid grid-cols-2 gap-3 border-t border-[var(--trait)] pt-4 text-sm">
+              <h3 className="text-[clamp(2.75rem,6vw,5.25rem)] font-normal leading-[1] tracking-[-0.02em]">{mois.nom}</h3>
+              <p className="font-[family-name:var(--titres)] text-[clamp(2rem,3.5vw,2.8rem)] italic leading-none text-[var(--accent-texte)]">{mois.fleur}</p>
+              <p className="max-w-sm text-lg leading-relaxed">{mois.mot}</p>
+              <dl className="mt-auto grid grid-cols-2 gap-x-4 gap-y-3 border-t border-[var(--trait)] pt-4 text-[15px]">
                 <div className="col-span-2">
-                  <dt className="text-[10px] uppercase tracking-[0.2em] text-[var(--doux)]">Aussi</dt>
+                  <dt className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">Aussi</dt>
                   <dd>{mois.aussi.join(", ")}</dd>
                 </div>
                 <div>
-                  <dt className="text-[10px] uppercase tracking-[0.2em] text-[var(--doux)]">Arrive</dt>
+                  <dt className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">Arrive</dt>
                   <dd>{mois.arrive}</dd>
                 </div>
                 <div>
-                  <dt className="text-[10px] uppercase tracking-[0.2em] text-[var(--doux)]">S&apos;en va</dt>
+                  <dt className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">S&apos;en va</dt>
                   <dd>{mois.part}</dd>
                 </div>
               </dl>
@@ -103,15 +95,15 @@ export default function Calendrier({ depart = 10 }: { depart?: number }) {
       </div>
 
       <div className="flex items-center justify-between gap-3">
-        <button type="button" onClick={() => aller(n - 1)} className="border border-[var(--encre)] px-4 py-3 text-xs uppercase tracking-[0.18em]">
+        <button type="button" onClick={() => aller(n - 1)} className="h-12 rounded-full border border-white/30 px-5 text-[15px] font-medium text-[var(--sur-sombre)] hover:border-[var(--accent)]">
           ← {MOIS[(n + 10) % 12].nom}
         </button>
-        <button type="button" onClick={() => aller(n + 1)} className="border border-[var(--encre)] bg-[var(--encre)] px-4 py-3 text-xs uppercase tracking-[0.18em] text-[var(--fond)]">
+        <button type="button" onClick={() => aller(n + 1)} className="h-12 rounded-full bg-[var(--accent)] px-5 text-[15px] font-medium text-[var(--sur-accent)]">
           {MOIS[n % 12].nom} →
         </button>
       </div>
-      <p className="text-xs leading-relaxed text-[var(--doux)]">
-        Calendrier indicatif : une saison avance ou recule selon la région et l&apos;année. Chaque mois, il est confirmé avec les producteurs.
+      <p className="max-w-[26rem] text-[15px] leading-relaxed text-[var(--sur-sombre)]">
+        Calendrier indicatif : une saison avance ou recule selon la région et l&apos;année. Chaque mois, il est confirmé avec les producteurs.
       </p>
     </div>
   );

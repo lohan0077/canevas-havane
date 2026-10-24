@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { adressesDeLaPage } from "@/lib/seo";
-import { MUR, photos } from "../_composants/donnees";
-import { Bouton, Cartel } from "../_composants/Blocs";
+import Apparition from "../../_kit/Apparition";
+import TitreRevele from "../../_kit/TitreRevele";
+import { AppelFinal, Bouton, EnTetePage, Surtitre } from "../_composants/Blocs";
 import DepotPhoto from "../_composants/DepotPhoto";
+import { DOSSIER, MUR, VITRINE, photos } from "../_composants/donnees";
 
-// Le coup de lancement de la vidéo : « Apporte la plus vieille photo de ta famille. On
-// l'expose en vitrine, avec ton accord. » Le mur est dessiné (des cadres et des années,
-// aucune photo réelle) ; le dépôt se prépare ici, et rien n'est envoyé.
+// Le coup de lancement de la vidéo « Créer une marque » : « Apporte la plus vieille photo
+// de ta famille. On l'expose en vitrine, avec ton accord. » Le mur est dessiné (des cadres
+// et des années, aucune photo réelle) ; le dépôt se prépare ici, et rien n'est envoyé.
 export const metadata: Metadata = {
-  title: "La vitrine · Pour Plus Tard — site de démonstration",
-  description: "Apporte la plus vieille photo de ta famille : exposée en vitrine en novembre, avec l'accord de chacun. Site de démonstration réalisé par Canevas Havane.",
+  title: "La vitrine — Pour Plus Tard, site de démonstration",
+  description: "Apporte la plus vieille photo de ta famille : exposée en vitrine en novembre, avec l'accord de chacun. Site de démonstration réalisé par Canevas Havane.",
   ...adressesDeLaPage("/exemples/pour-plus-tard/la-vitrine"),
 };
 
@@ -20,77 +21,102 @@ const REGLES = [
   { titre: "Plutôt une photo de famille", texte: "Un vieux portrait de studio reste protégé soixante-dix ans après la mort de son photographe. Une photo prise par un grand-oncle, elle, est à la famille." },
 ];
 
+const FONDS = [
+  "bg-[linear-gradient(#b9a17f_0_55%,#7a6249_55%)]",
+  "bg-[radial-gradient(circle_at_50%_40%,#cdb48e_0_30%,#8c735a_31%)]",
+  "bg-[linear-gradient(160deg,#d3bf9c_0_50%,#6e5946_50%)]",
+];
+
 export default function LaVitrine() {
   return (
     <main>
-      <section className="max-w-6xl mx-auto px-5 pt-8 pb-14 sm:pt-12 space-y-8">
-        <Cartel numero="1">La vitrine · du 2 au 28 novembre 2026</Cartel>
-        <h1 className="text-[48px] sm:text-7xl font-normal max-w-4xl">
-          Apporte ta plus vieille <span className="italic">photo.</span>
-        </h1>
-        <p className="text-lg leading-relaxed max-w-2xl">
-          Du 2 au 28 novembre, la vitrine du studio devient un mur : les plus
-          vieilles photos de famille du quartier, une par famille, de la plus ancienne à la
-          plus récente. Et en bas à droite, un cadre vide.
-        </p>
-      </section>
+      <EnTetePage
+        surtitre={`La vitrine · ${VITRINE.dates}`}
+        titre="Apporte ta plus vieille *photo.*"
+        tirages={[{ ...photos.vieuxTirage, legende: "1957" }, { ...photos.boite1942, legende: "1942" }, { ...photos.albumFleurs, legende: "l'album" }]}
+      >
+        On l&apos;expose en vitrine, avec ton accord. Du 2 au 28 novembre, la vitrine du studio devient un
+        mur : les plus vieilles photos de famille du quartier, une par famille. Et en bas à droite, un
+        cadre vide.
+      </EnTetePage>
 
-      <section aria-label="Le mur de la vitrine, dessiné" className="bg-[var(--sombre)] text-[var(--sur-sombre)]">
-        <div className="max-w-6xl mx-auto px-5 py-14 sm:py-20 space-y-6">
-          <p className="text-[11px] font-bold uppercase tracking-[0.2em]">En vitrine · les plus vieilles photos du quartier</p>
-          <ul className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
+      {/* ---------- Le mur ---------- */}
+      <section aria-label="Le mur de la vitrine, dessiné" className="bg-[#C9A27E] text-[#2A211D]">
+        <div className="mx-auto max-w-7xl space-y-10 px-5 py-20 sm:px-8 md:py-28">
+          <div className="max-w-3xl space-y-6">
+            <Apparition><Surtitre numero="1">Le mur</Surtitre></Apparition>
+            <TitreRevele
+              texte="Un mur entier *de grands-parents.*"
+              className="font-[family-name:var(--titres)] text-[clamp(2.6rem,5.6vw,4.8rem)] font-medium leading-[0.95] tracking-[-0.03em]"
+              classeAccent="italic"
+            />
+          </div>
+          <ul className="grid grid-cols-3 gap-3 sm:grid-cols-4 sm:gap-4 lg:grid-cols-6">
             {MUR.map((annee, i) => (
-              <li key={annee} className={`bg-[#F3EBDD] p-2 pb-1 ${i % 3 === 1 ? "rotate-[1.5deg]" : i % 3 === 2 ? "-rotate-1" : ""}`}>
-                <div aria-hidden="true" className={`aspect-[4/5] ${["bg-[linear-gradient(#b9a17f_0_55%,#7a6249_55%)]", "bg-[radial-gradient(circle_at_50%_40%,#cdb48e_0_30%,#8c735a_31%)]", "bg-[linear-gradient(160deg,#d3bf9c_0_50%,#6e5946_50%)]"][i % 3]} [filter:sepia(.4)]`} />
-                <p className="pt-1 text-center text-sm font-bold text-[#3B2F2A] tabular-nums">{annee}</p>
-              </li>
+              <Apparition as="li" key={annee} de="zoom" delai={i * 60} className={`bg-[#FBF7EF] p-2 pb-1 shadow-[0_18px_30px_-20px_rgba(0,0,0,0.7)] ${i % 3 === 1 ? "rotate-[1.5deg]" : i % 3 === 2 ? "-rotate-1" : ""}`}>
+                <span aria-hidden="true" className={`block aspect-[4/5] ${FONDS[i % 3]} [filter:sepia(.4)]`} />
+                <span className="block pt-0.5 text-center font-[family-name:var(--f-caveat)] text-[21px] leading-tight text-[#3B2F2A]">{annee}</span>
+              </Apparition>
             ))}
-            <li className="border-2 border-dashed border-[#F3EBDD] p-2 pb-1 grid">
-              <div className="aspect-[4/5] grid place-items-center text-center font-[family-name:var(--titres)] text-xl italic">Et nous&nbsp;?</div>
-              <p className="pt-1 text-center text-sm font-bold tabular-nums">2026</p>
+            <li className="grid border-2 border-dashed border-[#2A211D] p-2 pb-1">
+              <span className="grid aspect-[4/5] place-items-center text-center font-[family-name:var(--titres)] text-xl italic">Et nous&nbsp;?</span>
+              <span className="block pt-0.5 text-center font-[family-name:var(--f-caveat)] text-[21px] leading-tight">2026</span>
             </li>
           </ul>
-          <p className="text-sm">Cadres dessinés : aucune photo réelle n&apos;est montrée ici, l&apos;entreprise est fictive.</p>
+          <p className="text-[15px]">Cadres dessinés : aucune photo réelle n&apos;est montrée ici, le studio est fictif.</p>
         </div>
       </section>
 
-      <section className="max-w-6xl mx-auto px-5 py-16 sm:py-20 grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-start">
+      {/* ---------- Les règles et le dépôt ---------- */}
+      <section className="mx-auto grid max-w-7xl gap-14 px-5 py-24 sm:px-8 md:py-32 lg:grid-cols-[1fr_1.1fr] lg:items-start">
         <div className="space-y-8">
-          <div className="space-y-4">
-            <Cartel numero="2">Les règles du mur</Cartel>
-            <h2 className="text-4xl sm:text-5xl font-normal">Trois règles, <span className="italic">pas une de plus.</span></h2>
+          <div className="space-y-6">
+            <Apparition><Surtitre numero="2" className="text-[var(--doux)]">Les règles du mur</Surtitre></Apparition>
+            <TitreRevele
+              texte="Trois règles, *pas une de plus.*"
+              className="font-[family-name:var(--titres)] text-[clamp(2.4rem,4.6vw,3.8rem)] font-medium leading-[0.95] tracking-[-0.03em]"
+              classeAccent="italic text-[var(--accent-texte)]"
+            />
           </div>
-          <ol className="space-y-6">
+          <ol className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
             {REGLES.map((r, i) => (
-              <li key={r.titre} className="border-t border-[var(--encre)] pt-4 space-y-2">
-                <p className="text-xs font-bold tabular-nums">{String(i + 1).padStart(2, "0")}</p>
-                <h3 className="text-2xl font-normal">{r.titre}</h3>
-                <p className="leading-relaxed text-[var(--doux)]">{r.texte}</p>
-              </li>
+              <Apparition as="li" key={r.titre} delai={i * 110} className="grid grid-cols-[3rem_1fr] gap-4 py-6">
+                <span className="font-[family-name:var(--titres)] text-[2.2rem] italic leading-none text-[var(--accent-texte)]">{i + 1}</span>
+                <span className="space-y-2">
+                  <span className="block font-[family-name:var(--titres)] text-[1.6rem] leading-tight">{r.titre}</span>
+                  <span className="block text-[17px] leading-relaxed text-[var(--doux)]">{r.texte}</span>
+                </span>
+              </Apparition>
             ))}
           </ol>
-          <div className="relative aspect-[16/9] overflow-hidden">
-            <Image src={photos.pageQuiAttend.src} alt={photos.pageQuiAttend.alt} fill sizes="(min-width: 1024px) 520px, 100vw" className="object-cover" />
-          </div>
         </div>
-        <div className="space-y-4">
-          <Cartel numero="3">Préparer ton dépôt</Cartel>
-          <DepotPhoto />
+        <div className="space-y-5">
+          <Apparition><Surtitre numero="3" className="text-[var(--doux)]">Préparer ton dépôt</Surtitre></Apparition>
+          <Apparition de="zoom">
+            <DepotPhoto />
+          </Apparition>
         </div>
       </section>
 
-      <section className="border-t border-[var(--encre)]">
-        <div className="max-w-6xl mx-auto px-5 py-16 sm:py-20 text-center space-y-6">
-          <h2 className="text-4xl sm:text-6xl font-normal max-w-3xl mx-auto">
-            Et toi, <span className="italic">qu&apos;est-ce que tu laisseras&nbsp;?</span>
-          </h2>
-          <p className="text-lg leading-relaxed max-w-xl mx-auto">
-            Chacun repart du mur avec la même question. La réponse tient dans une boîte de
-            vingt tirages.
-          </p>
-          <Bouton href="/exemples/pour-plus-tard/la-boite">Voir la boîte</Bouton>
+      {/* ---------- Et nous ? ---------- */}
+      <section className="px-3 sm:px-5">
+        <div className="overflow-hidden rounded-[6px] bg-[var(--accent)] text-[var(--sur-accent)]">
+          <div className="mx-auto max-w-4xl space-y-7 px-6 py-20 text-center sm:px-10 md:py-28">
+            <TitreRevele
+              texte={"Et nous, *on a quoi\u202f?*"}
+              className="font-[family-name:var(--titres)] text-[clamp(3rem,7vw,6rem)] font-medium leading-[0.92] tracking-[-0.035em]"
+              classeAccent="italic"
+            />
+            <p className="mx-auto max-w-xl text-lg leading-relaxed">
+              Chacun repart du mur avec la même question. La réponse tient dans une boîte de vingt tirages.
+            </p>
+            <Bouton href={`${DOSSIER}/la-boite`} variante="clair">Voir la boîte</Bouton>
+          </div>
         </div>
       </section>
+
+      <div className="h-6" />
+      <AppelFinal />
     </main>
   );
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { adressesDeLaPage } from "@/lib/seo";
 import MentionsDemonstration from "../../_kit/MentionsDemonstration";
+import { EnTetePage } from "../_composants/Blocs";
 import { cabinet } from "../_composants/donnees";
 
 export const metadata: Metadata = {
@@ -11,10 +12,16 @@ export const metadata: Metadata = {
 
 export default function MentionsLegales() {
   return (
-    <MentionsDemonstration
+    <main>
+      {/* Le haut sombre que l'en-tête attend ; le titre de la page est plus bas. */}
+      <EnTetePage surtitre="Mentions légales" titre="Un cabinet *fictif.*" titreBalise="p">
+        {cabinet.nom} n&apos;existe pas : la praticienne, l&apos;adresse, les prix et les créneaux
+        sont inventés pour les vidéos de Canevas Havane.
+      </EnTetePage>
+      <MentionsDemonstration
       site="le-pourquoi"
       entreprise="Le Pourquoi"
-      polices="Outfit et Newsreader"
+      polices="Newsreader, Inter et Outfit"
       enPlus={
         <>
           <p>
@@ -35,11 +42,13 @@ export default function MentionsLegales() {
             aucun motif de consultation.
           </p>
           <p>
-            La mise en page du premier écran s&apos;inspire du modèle « Breathstone » de la
-            bibliothèque MotionSites, transposé à un cabinet d&apos;ostéopathie.
+            Ce site réunit les deux vidéos des ostéopathes : « Créer une marque » (le nom, les
+            gestes expliqués) et « Remplir l&apos;agenda » (ce que je ne fais pas, le prix affiché,
+            les créneaux de 7 h et de 20 h).
           </p>
         </>
       }
     />
+    </main>
   );
 }

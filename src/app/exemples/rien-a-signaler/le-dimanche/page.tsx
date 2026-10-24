@@ -1,13 +1,17 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { adressesDeLaPage } from "@/lib/seo";
-import { DOSSIER, photos } from "../_composants/donnees";
+import Apparition from "../../_kit/Apparition";
+import FondVivant from "../../_kit/FondVivant";
+import TitreRevele from "../../_kit/TitreRevele";
+import { ACCENT_CLAIR, ACCENT_SOMBRE, AppelFinal, Bouton, Surtitre } from "../_composants/Blocs";
 import Dimanche from "../_composants/Dimanche";
+import { DOSSIER, photos } from "../_composants/donnees";
 
 export const metadata: Metadata = {
-  title: "Le message du dimanche · Rien à Signaler — site de démonstration",
-  description: "Chaque dimanche à 9 h, un seul message : le rapport automatique de ton alarme. Sans télésurveillance. Marque d'alarmes imaginaire, site de démonstration.",
+  title: "Le message du dimanche — Rien à Signaler, site de démonstration",
+  description:
+    "Chaque dimanche à 9 h, un seul message : le rapport automatique de ton alarme. Sans télésurveillance. Installateur imaginaire, site de démonstration.",
   ...adressesDeLaPage("/exemples/rien-a-signaler/le-dimanche"),
 };
 
@@ -17,52 +21,80 @@ const CE_QUIL_DIT = [
   { titre: "L'état du matériel", texte: "Une pile faible, un détecteur qui ne répond plus : tu le sais avant que ça compte." },
 ];
 
+// La page du message du dimanche. Le téléphone et son bouton portent les `data-film`
+// filmés par la vidéo « Créer une marque » (« Et chaque dimanche matin, un seul message »).
 export default function LeDimanche() {
   return (
-    <div>
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 pt-10 sm:pt-16 pb-16 grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-center">
-        <div className="space-y-5 min-w-0">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--accent-texte)]">Chaque dimanche, 9 h</p>
-          <h1 className="text-[3rem] sm:text-7xl font-bold tracking-[-0.045em] leading-[0.95]">Un seul message. <span className="text-[var(--accent-texte)]">Rien à signaler.</span></h1>
-          <p className="text-xl leading-relaxed">
-            Pas de notification à chaque porte ouverte. Une fois par semaine, le dimanche matin, le
-            résumé de ta semaine. La plupart du temps, il tient en une ligne.
-          </p>
-        </div>
-        <div className="min-w-0">
-          <Dimanche />
-        </div>
-      </section>
-
-      <section className="border-y border-[var(--trait)] bg-[var(--carte)]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 space-y-8">
-          <h2 className="text-4xl sm:text-5xl font-bold tracking-[-0.04em]">Ce que dit le message.</h2>
-          <ul className="grid gap-3 md:grid-cols-3">
-            {CE_QUIL_DIT.map((c) => (
-              <li key={c.titre} className="rounded-[22px] bg-[var(--fond)] p-6 space-y-2">
-                <h3 className="text-2xl font-bold tracking-[-0.02em]">{c.titre}</h3>
-                <p className="text-lg leading-relaxed">{c.texte}</p>
-              </li>
-            ))}
-          </ul>
+    <main>
+      <section className="kit-grain relative isolate overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
+        <FondVivant couleurs={["#0B1328", "#1E3A5F", "#3F6E5A"]} vitesse={0.6} />
+        <div className="absolute inset-0 bg-[var(--sombre)]/45" />
+        <div className="relative mx-auto grid max-w-7xl gap-12 px-5 pb-20 pt-36 sm:px-8 md:pb-28 md:pt-44 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+          <div className="space-y-7">
+            <Apparition><Surtitre clair>Chaque dimanche, 9 h</Surtitre></Apparition>
+            <TitreRevele
+              as="h1"
+              auChargement
+              texte="Un seul message. *Rien à signaler.*"
+              className="font-[family-name:var(--titres)] text-[clamp(3rem,7vw,6.6rem)] font-semibold leading-[0.95] tracking-[-0.055em]"
+              classeAccent={ACCENT_SOMBRE}
+            />
+            <Apparition as="p" delai={400} className="max-w-xl text-xl leading-relaxed text-[var(--sur-sombre)]/90">
+              Pas de notification à chaque porte ouverte. Une fois par semaine, le dimanche matin, le résumé de ta
+              semaine. La plupart du temps, il tient en une ligne.
+            </Apparition>
+          </div>
+          <Apparition de="zoom" delai={300} className="rounded-[2rem] bg-[var(--fond)] p-5 text-[var(--encre)] sm:p-8">
+            <Dimanche />
+          </Apparition>
         </div>
       </section>
 
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16 grid gap-8 md:grid-cols-[0.9fr_1.1fr] md:items-center">
-        <div className="relative aspect-[3/4] rounded-[26px] overflow-hidden bg-[var(--sombre)]">
-          <Image src={photos.cle.src} alt={photos.cle.alt} fill sizes="(min-width: 768px) 480px, 100vw" className="object-cover" />
+      <section className="mx-auto max-w-7xl px-5 py-24 sm:px-8 md:py-32">
+        <div className="mb-12 space-y-6">
+          <Apparition><Surtitre>Ce que dit le message</Surtitre></Apparition>
+          <TitreRevele
+            texte="Trois lignes, *pas une de plus.*"
+            className="font-[family-name:var(--titres)] text-[clamp(2.6rem,5.5vw,5rem)] font-semibold leading-[0.98] tracking-[-0.05em]"
+            classeAccent={ACCENT_CLAIR}
+          />
         </div>
-        <div className="space-y-5">
-          <h2 className="text-4xl sm:text-5xl font-bold tracking-[-0.04em]">Qui l&apos;écrit&nbsp;? Personne.</h2>
-          <p className="text-xl leading-relaxed">
-            C&apos;est un rapport automatique de ton alarme : la centrale compte ce qu&apos;elle a enregistré,
-            et l&apos;application te l&apos;envoie. Rien à Signaler ne fait pas de télésurveillance : aucune
-            personne ne reçoit tes alertes, aucune personne ne regarde chez toi. Si la sirène sonne, c&apos;est
-            ton téléphone qui le sait, et c&apos;est toi qui décides.
-          </p>
-          <Link href={`${DOSSIER}/mon-alarme`} className="inline-flex rounded-full bg-[var(--encre)] text-[var(--fond)] px-7 py-3.5 text-lg font-semibold">Composer mon alarme</Link>
+        <ul className="grid gap-4 md:grid-cols-3">
+          {CE_QUIL_DIT.map((c, i) => (
+            <Apparition as="li" key={c.titre} de="zoom" delai={i * 140} className="flex min-h-[240px] flex-col justify-between gap-6 rounded-[2rem] border border-[var(--trait)] bg-[var(--carte)] p-7">
+              <span aria-hidden="true" className="font-[family-name:var(--titres)] text-5xl font-semibold tracking-[-0.05em] text-[var(--accent-texte)]">0{i + 1}</span>
+              <span>
+                <span className="block font-[family-name:var(--titres)] text-2xl font-semibold tracking-[-0.03em]">{c.titre}</span>
+                <span className="mt-2 block text-lg leading-relaxed text-[var(--doux)]">{c.texte}</span>
+              </span>
+            </Apparition>
+          ))}
+        </ul>
+      </section>
+
+      <section className="px-3 pb-24 sm:px-5 md:pb-32">
+        <div className="mx-auto grid max-w-7xl overflow-hidden rounded-[2rem] bg-[var(--sombre)] text-[var(--sur-sombre)] md:grid-cols-2">
+          <div className="relative min-h-[320px] bg-[var(--sombre)]">
+            <Image src={photos.cle.src} alt={photos.cle.alt} fill sizes="(min-width: 768px) 50vw, 100vw" className="object-cover" />
+          </div>
+          <div className="space-y-6 p-8 sm:p-12">
+            <TitreRevele
+              texte={"Qui l'écrit ? *Personne.*"}
+              className="font-[family-name:var(--titres)] text-[clamp(2.4rem,4.5vw,4rem)] font-semibold leading-[1] tracking-[-0.05em]"
+              classeAccent={ACCENT_SOMBRE}
+            />
+            <p className="text-lg leading-relaxed text-[var(--sur-sombre)]/90">
+              C&apos;est un rapport automatique de ton alarme : la centrale compte ce qu&apos;elle a enregistré, et
+              l&apos;application te l&apos;envoie. Rien à Signaler ne fait pas de télésurveillance : aucune personne ne
+              reçoit tes alertes, aucune personne ne regarde chez toi. Si la sirène sonne, c&apos;est ton téléphone qui
+              le sait, et c&apos;est toi qui décides.
+            </p>
+            <Bouton href={`${DOSSIER}/mon-alarme`}>Composer mon alarme</Bouton>
+          </div>
         </div>
       </section>
-    </div>
+
+      <AppelFinal />
+    </main>
   );
 }

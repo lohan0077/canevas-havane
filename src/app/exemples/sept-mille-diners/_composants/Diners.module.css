@@ -1,4 +1,6 @@
-/* Le plan qui se dessine, puis ses trois annotations, l'une après l'autre. */
+/* Les deux plans qui se dessinent : la feuille, ses repères et ses annotations l'un
+   après l'autre, et les meubles posés à leur tour (délai posé en ligne). Uniquement
+   des animations : aucune propriété qu'une classe Tailwind devrait pouvoir changer. */
 @keyframes apparait {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: none; }
@@ -8,9 +10,14 @@
   70% { opacity: 1; transform: scale(1.15); }
   to { opacity: 1; transform: scale(1); }
 }
+@keyframes pose {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: none; }
+}
 .feuille { animation: apparait 0.45s ease-out both; }
 .note { animation: apparait 0.4s ease-out both; }
 .pastille { transform-box: fill-box; transform-origin: center; animation: pastille 0.45s ease-out both; }
+.meuble { animation: pose 0.35s ease-out both; }
 @media (prefers-reduced-motion: reduce) {
-  .feuille, .note, .pastille { animation: none; }
+  .feuille, .note, .pastille, .meuble { animation: none; }
 }

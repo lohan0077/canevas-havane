@@ -1,16 +1,18 @@
 import Cadre from "../_kit/Cadre";
-import EnTete from "./_composants/EnTete";
-import { PiedDeSite } from "./_composants/Blocs";
+import NavVerre from "../_kit/NavVerre";
+import { Marque, Pied } from "./_composants/Blocs";
+import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 
-// Trois Marches, agence immobilière fictive de la vidéo « Si je devais créer une agence
-// immobilière de zéro ». Papier crème, gravure au trait, Bodoni et petites capitales :
-// transposé du modèle « Heritage Grove » de MotionSites, sans texte ni code repris.
-// Le `noindex` vient du layout de /exemples.
+// Trois Marches, agence immobilière fictive filmée dans les deux vidéos des agents
+// immobiliers (« Créer une marque » et « Remplir l'agenda », dont le site Le Soir Même
+// est fondu ici). Papier crème, terre cuite et brun de la marque ; Playfair Display pour
+// les titres, Manrope pour lire, Caveat pour les souvenirs écrits à la main. Les photos
+// sont posées dans des arches, comme des portes et des fenêtres hautes.
 export default function TroisMarchesLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
       entreprise="Trois Marches"
-      titres="bodoni"
+      titres="playfair"
       texte="manrope"
       autres={["caveat"]}
       couleurs={{
@@ -26,9 +28,9 @@ export default function TroisMarchesLayout({ children }: { children: React.React
         surSombre: "#F7F2E8",
       }}
     >
-      <EnTete />
-      {children}
-      <PiedDeSite />
+      <NavVerre accueil={DOSSIER} marque={<Marque />} liens={NAVIGATION} action={{ href: `${DOSSIER}/estimation`, libelle: "Faire estimer" }} />
+      <div>{children}</div>
+      <Pied />
     </Cadre>
   );
 }

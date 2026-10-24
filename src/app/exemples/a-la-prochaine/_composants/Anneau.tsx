@@ -2,7 +2,7 @@
  * L'anneau d'or vu de face, et, gravé à l'intérieur, son numéro. `id` distingue les
  * définitions SVG quand deux anneaux sont sur la même page.
  */
-export default function Anneau({ numero = "0112", id = "a", className = "", titre }: { numero?: string; id?: string; className?: string; titre?: string }) {
+export default function Anneau({ numero = "0046", id = "a", className = "", titre }: { numero?: string; id?: string; className?: string; titre?: string }) {
   const texte = `N° ${numero} · À LA PROCHAINE · N° ${numero} · À LA PROCHAINE ·`;
   return (
     <svg viewBox="0 0 600 600" className={className} role={titre ? "img" : undefined} aria-label={titre} aria-hidden={titre ? undefined : true}>

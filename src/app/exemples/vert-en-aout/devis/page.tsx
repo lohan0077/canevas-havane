@@ -1,50 +1,67 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { adressesDeLaPage } from "@/lib/seo";
-import { DOSSIER } from "../_composants/donnees";
-import { Surtitre } from "../_composants/Elements";
+import Apparition from "../../_kit/Apparition";
+import { AppelFinal, Bouton, EnTetePage, Surtitre, Titre } from "../_composants/Blocs";
 import { Devis } from "../_composants/Interactifs";
+import { DOSSIER, PHOTOS } from "../_composants/donnees";
 
 export const metadata: Metadata = {
-  title: "Vert en Août — site de démonstration",
+  title: "Le devis — Vert en Août (démonstration)",
   description: "Le devis d'un paysagiste imaginaire, avec la ligne que personne ne met : l'arrosage qu'il faudra, l'été.",
   ...adressesDeLaPage("/exemples/vert-en-aout/devis"),
 };
 
+const POURQUOI = [
+  {
+    titre: "Pourquoi cette ligne ?",
+    texte: "Parce qu'un jardin sec n'est pas un jardin sans eau. La première année, ses racines ne sont pas encore descendues : il faut l'aider. Le dire avant de signer, c'est éviter la surprise de juillet.",
+  },
+  {
+    titre: "Et si l'arrosage est restreint ?",
+    texte: "On suit l'arrêté de ta commune : les restrictions sont graduées, de la vigilance à la crise. Si ta commune est souvent en alerte, on garde les plantes les plus sensibles pour une plantation d'automne.",
+  },
+  {
+    titre: "Et le crédit d'impôt ?",
+    texte: "Pas sur ce devis : la création d'un jardin n'y ouvre pas droit. Il ne vaut que pour l'entretien, confié à une entreprise déclarée services à la personne.",
+  },
+];
+
 export default function PageDevis() {
   return (
     <main>
-      <section className="mx-auto max-w-6xl px-5 pb-6 pt-8 sm:px-8">
-        <Surtitre>Un devis, pour exemple</Surtitre>
-        <h1 className="mt-4 max-w-3xl text-[34px] font-bold leading-[1.04] sm:text-6xl">La ligne que personne ne met.</h1>
-        <p className="mt-5 max-w-xl text-[18px] leading-relaxed text-[var(--doux)]">
-          Sur chaque devis, avant le total : l&apos;arrosage qu&apos;il faudra, l&apos;été. Une estimation, écrite noir sur
-          blanc, pour que tu saches ce que ton jardin te demandera.
-        </p>
-      </section>
-      <section className="mx-auto grid max-w-6xl gap-10 px-5 py-10 sm:px-8 md:grid-cols-[1.1fr_0.9fr] md:items-start">
-        <Devis />
-        <div className="space-y-6">
-          <div className="rounded-[24px] bg-[var(--carte)] p-6 space-y-3">
-            <h2 className="text-[22px] font-bold">Pourquoi cette ligne&nbsp;?</h2>
-            <p className="leading-relaxed text-[var(--doux)]">
-              Parce qu&apos;un jardin sec n&apos;est pas un jardin sans eau. La première année, ses racines ne sont pas
-              encore descendues : il faut l&apos;aider. Le dire avant de signer, c&apos;est éviter la surprise de juillet.
-            </p>
-          </div>
-          <div className="rounded-[24px] bg-[var(--carte)] p-6 space-y-3">
-            <h2 className="text-[22px] font-bold">Et si l&apos;arrosage est restreint&nbsp;?</h2>
-            <p className="leading-relaxed text-[var(--doux)]">
-              On plante à l&apos;automne pour que la première année d&apos;arrosage tombe le moins possible en été, et on
-              suit l&apos;arrêté de ta commune. Les restrictions sont graduées, de la vigilance à la crise.
-            </p>
-            <Link href={`${DOSSIER}#restrictions`} className="inline-block font-bold underline underline-offset-4">Les quatre niveaux</Link>
-          </div>
+      <EnTetePage surtitre="Un devis, pour exemple" titre="La ligne que *personne ne met.*" photo={PHOTOS.pots} note="devis n° 27">
+        Sur chaque devis, avant le total : l&apos;arrosage qu&apos;il faudra, l&apos;été. Une estimation,
+        écrite noir sur blanc, pour que tu saches ce que ton jardin te demandera.
+      </EnTetePage>
+
+      <section className="mx-auto grid max-w-7xl gap-14 px-5 py-24 sm:px-8 md:py-32 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+        <Apparition de="zoom">
+          <Devis />
+        </Apparition>
+        <div className="space-y-5">
+          {POURQUOI.map((p, i) => (
+            <Apparition key={p.titre} delai={i * 120} className="rounded-[2rem] border border-[var(--trait)] bg-[var(--carte)] p-7">
+              <h2 className="text-2xl font-extrabold">{p.titre}</h2>
+              <p className="mt-3 leading-relaxed text-[var(--doux)]">{p.texte}</p>
+            </Apparition>
+          ))}
         </div>
       </section>
-      <section className="mx-auto max-w-6xl px-5 pb-20 sm:px-8">
-        <Link href={`${DOSSIER}#commune`} className="inline-block rounded-full bg-[var(--accent)] px-6 py-3.5 font-bold text-[var(--sur-accent)]">Les plantes pour ma commune</Link>
+
+      <section className="bg-[#E7D7B4]">
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 py-24 sm:px-8 md:py-28 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
+          <div className="space-y-6">
+            <Apparition><Surtitre>Avant le devis</Surtitre></Apparition>
+            <Titre texte="Les plantes, *pour ta commune.*" />
+          </div>
+          <Apparition delai={200} className="flex flex-wrap gap-3 lg:justify-end">
+            <Bouton href={`${DOSSIER}#commune`} variante="sombre">Tape ta commune</Bouton>
+            <Bouton href={`${DOSSIER}#photos`} variante="contour">Envoyer trois photos</Bouton>
+          </Apparition>
+        </div>
       </section>
+
+      <AppelFinal />
     </main>
   );
 }

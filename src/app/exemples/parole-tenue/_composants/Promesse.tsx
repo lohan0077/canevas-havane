@@ -41,7 +41,7 @@ export default function Promesse() {
 
   return (
     <div className="space-y-8">
-      <form onSubmit={tenir} noValidate className="space-y-5 rounded-[6px] border-2 border-[var(--encre)] bg-[var(--carte)] p-5 sm:p-7" data-film="formulaire">
+      <form onSubmit={tenir} noValidate className="space-y-5 rounded-[1.8rem] border border-[var(--trait)] bg-[var(--carte)] shadow-[0_30px_60px_-45px_rgba(22,48,42,0.8)] p-5 sm:p-7" data-film="formulaire">
         <div className="space-y-1.5">
           <label htmlFor={`${id}-qui`} className="block font-[family-name:var(--titres)] text-2xl italic">À qui&nbsp;?</label>
           <input
@@ -89,7 +89,7 @@ export default function Promesse() {
           />
         </div>
         {erreur && <p role="alert" className="font-semibold text-[var(--accent-texte)]">{erreur}</p>}
-        <button type="submit" data-film="tenir" className="flex min-h-14 w-full items-center justify-center rounded-full bg-[var(--accent)] text-lg font-semibold text-[var(--sur-accent)]">
+        <button type="submit" data-film="tenir" className="flex min-h-14 w-full items-center justify-center rounded-full bg-[var(--accent)] text-lg font-semibold text-[var(--sur-accent)] transition-transform hover:scale-[1.01]">
           Tenir ma promesse
         </button>
         <p className="text-xs text-[var(--doux)]">Démonstration : tout se calcule sur ton écran, rien n&apos;est envoyé ni enregistré.</p>
@@ -105,7 +105,7 @@ export default function Promesse() {
           </div>
 
           {/* Le billet de la promesse */}
-          <div className="flex overflow-hidden rounded-[6px] bg-[var(--sombre)] text-[var(--sur-sombre)]">
+          <div className="flex overflow-hidden rounded-[1.8rem] bg-[var(--sombre)] text-[var(--sur-sombre)]">
             <div className="flex-1 space-y-2 p-5">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E9D8B4]">Ta promesse</p>
               <p className="font-[family-name:var(--titres)] text-3xl leading-tight">
@@ -117,7 +117,7 @@ export default function Promesse() {
             <div aria-hidden="true" className="grid w-16 place-items-center border-l-2 border-dashed border-[#E9D8B4]/60 text-3xl">✈</div>
           </div>
 
-          <div className="space-y-5 rounded-[6px] border-2 border-[var(--encre)] bg-[var(--carte)] p-5" data-film="plan-date">
+          <div className="space-y-5 rounded-[1.8rem] border border-[var(--trait)] bg-[var(--carte)] shadow-[0_30px_60px_-45px_rgba(22,48,42,0.8)] p-5" data-film="plan-date">
             <div className="flex items-end justify-between gap-4">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--doux)]">Départ proposé · dans {resultat.plan.mois} mois</p>
@@ -130,7 +130,7 @@ export default function Promesse() {
                 <li key={k} className="h-3 rounded-full bg-[#E5674B]" />
               ))}
             </ol>
-            <div className="rounded-[6px] bg-[#F3EAD8] p-4">
+            <div className="rounded-[1.2rem] bg-[#F3EAD8] p-4">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--doux)]">À mettre de côté</p>
               <p className="font-[family-name:var(--titres)] text-5xl [font-variant-numeric:lining-nums]">
                 {euros(resultat.plan.parMois)} <span className="text-2xl">/ mois</span>
@@ -140,7 +140,7 @@ export default function Promesse() {
               </p>
             </div>
             <p className="text-xs text-[var(--doux)]">Immatriculée Atout France (IM000000000, exemple) · garant et assureur indiqués en bas de page.</p>
-            <Link href={`${DOSSIER}/l-agence#rendez-vous`} className="flex min-h-12 items-center justify-center rounded-full border-2 border-[var(--encre)] font-semibold">
+            <Link href={`${DOSSIER}#ferme`} className="flex min-h-12 items-center justify-center rounded-full border-2 border-[var(--encre)] font-semibold">
               La tenir avec un conseiller
             </Link>
           </div>

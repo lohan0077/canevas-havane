@@ -1,10 +1,14 @@
 import Cadre from "../_kit/Cadre";
-import EnTete from "./_composants/EnTete";
-import { PiedDeSite } from "./_composants/Blocs";
+import NavVerre from "../_kit/NavVerre";
+import { Marque } from "./_composants/Blocs";
+import Moment from "./_composants/Moment";
+import Pied from "./_composants/Pied";
+import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 
-// Voix Basse, cabinet vétérinaire fictif de la vidéo « Si je devais créer une clinique
-// vétérinaire ». Le site dit « cabinet » (Code rural, R242-54). Le `noindex` vient du
-// layout de /exemples.
+// Voix Basse, cabinet vétérinaire fictif filmé dans les deux vidéos des vétérinaires.
+// Instrument Serif pour la voix douce de la marque, Manrope pour lire, Caveat pour le
+// carnet. Le site a deux visages : de jour quand le cabinet est ouvert, du soir quand il
+// est fermé (`Moment` change les couleurs). Le `noindex` vient du layout de /exemples.
 export default function VoixBasseLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
@@ -25,9 +29,16 @@ export default function VoixBasseLayout({ children }: { children: React.ReactNod
         surSombre: "#FBF7EF",
       }}
     >
-      <EnTete />
-      {children}
-      <PiedDeSite />
+      <Moment>
+        <NavVerre
+          accueil={DOSSIER}
+          marque={<Marque />}
+          liens={NAVIGATION}
+          action={{ href: `${DOSSIER}/rendez-vous`, libelle: "Rendez-vous" }}
+        />
+        {children}
+        <Pied />
+      </Moment>
     </Cadre>
   );
 }

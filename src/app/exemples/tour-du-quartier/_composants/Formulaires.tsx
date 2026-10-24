@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { COURSE, CRENEAUX } from "./donnees";
+import { COURSE, CRENEAUX_PREMIERE as CRENEAUX } from "./donnees";
 
 const champ = "min-h-12 w-full rounded-2xl border-2 border-[var(--encre)] bg-[var(--carte)] px-4 text-lg focus:outline-none focus:ring-4 focus:ring-[#F2C14E]";
 

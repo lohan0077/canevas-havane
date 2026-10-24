@@ -2,8 +2,10 @@ import type { Fiche } from "../_kit/fiche";
 
 export const fiche: Fiche = {
   nom: "Premier Billet",
-  metier: "Expert-comptable",
-  serie: "Créer une marque",
-  idee: "Un cabinet qui ne vend pas des bilans mais fête la première facture : un outil pour la faire juste du premier coup, et un cadre pour celle qu'on encaisse.",
-  video: "marque-experts-comptables",
+  metier: "Cabinet d'expertise comptable",
+  secteur: "experts-comptables",
+  groupe: "rendez-vous",
+  idee: "Un cabinet qui fête la première facture et affiche tout le reste : un outil pour la faire juste, les honoraires par mois selon le statut, et le délai de réponse publié chaque mois.",
+  image: "/exemples/premier-billet/atelier-poterie.webp",
+  ancien: "heure-claire",
 };

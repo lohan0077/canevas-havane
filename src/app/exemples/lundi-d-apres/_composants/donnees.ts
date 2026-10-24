@@ -1,21 +1,28 @@
-// Tout ce qu'affiche le site de Lundi d'Après, agence d'événements d'entreprise
-// imaginaire. Entreprise fictive : chaque prix, chaque phrase, chaque date est un
-// exemple, et le site le dit.
+// Tout ce qu'affiche le site de Lundi d'Après, agence d'événements imaginaire : soirées
+// d'entreprise et mariages, DJ compris. Entreprise fictive : chaque prix, chaque phrase,
+// chaque date est un exemple, et le site le dit. Il réunit les deux vidéos de
+// l'événementiel : « Créer une marque » (Lundi d'Après, la question « lundi, vos équipes
+// diront quoi ? », la soirée construite à l'envers, la phrase du lundi, les croissants) et
+// « Remplir l'agenda » (le DJ de mariage : la chanson interdite, la page honnête « DJ ou
+// playlist ? », les samedis encore libres sur chaque page, la date bloquée en ligne).
 //
-// Les règles tenues ici (voir Videos/marque-evenementiel/SOURCES.md) :
-//   - aucun faux témoignage : les « phrases du lundi » montrées sont des exemples,
-//     marqués comme tels ; une vraie phrase ne se publie qu'avec l'accord de
-//     l'entreprise cliente et de la personne (C. consom., art. L. 121-4, 28° ;
-//     Code civil, art. 9) ;
-//   - clients professionnels : prix hors taxes, et le site le dit ;
-//   - aucune boisson alcoolisée annoncée ni montrée ;
-//   - les croissants du lancement sont achetés chez un boulanger et livrés dans les
-//     bureaux, sans achat imposé.
+// Les règles tenues ici (Videos/marque-evenementiel et agenda-evenementiel, SOURCES.md) :
+//   - aucun faux témoignage : les « phrases du lundi » montrées sont des exemples, marqués
+//     comme tels ; une vraie phrase ne se publie qu'avec l'accord de l'entreprise cliente et
+//     de la personne (C. consom., art. L. 121-4, 28° ; Code civil, art. 9) ;
+//   - entreprises : prix hors taxes, et dit ; mariages : prix TTC ; tous « exemple » ;
+//   - l'heure de fin est toujours « selon la salle » : son règlement et les règles locales
+//     sur le bruit la fixent, pas le DJ ;
+//   - les samedis « pris » sont un exemple, rien ne bascule tout seul : pas de fausse
+//     rareté (C. consom., art. L. 121-4, 7°) ; aucun avis, aucune note ;
+//   - aucune boisson alcoolisée annoncée ni montrée ; les croissants du lancement sont
+//     achetés chez un boulanger et livrés dans les bureaux, sans achat imposé.
 
 export const DOSSIER = "/exemples/lundi-d-apres";
 
 export const entreprise = {
   nom: "Lundi d'Après",
+  // Tranche réservée par l'ARCEP aux œuvres de fiction : ce numéro ne sonne chez personne.
   telephone: "01 99 00 41 07",
   telephoneLien: "+33199004107",
   siret: "000 000 000 00000",
@@ -23,7 +30,7 @@ export const entreprise = {
 
 export const NAVIGATION = [
   { href: `${DOSSIER}/a-l-envers`, libelle: "La soirée à l'envers" },
-  { href: `${DOSSIER}/la-phrase-du-lundi`, libelle: "La phrase du lundi" },
+  { href: `${DOSSIER}/dj-ou-playlist`, libelle: "DJ ou playlist ?" },
   { href: `${DOSSIER}/formats`, libelle: "Formats et prix" },
 ];
 
@@ -33,7 +40,14 @@ export const photos = {
   croissants: { src: `${DOSSIER}/croissants.webp`, largeur: 1200, hauteur: 800, alt: "Des croissants dorés tout juste sortis du four, alignés sur du papier cuisson" },
   cafe: { src: `${DOSSIER}/cafe.webp`, largeur: 1200, hauteur: 805, alt: "Une tasse de café au dessin de mousse en feuille, devant des croissants et des pains au chocolat" },
   micro: { src: `${DOSSIER}/micro.webp`, largeur: 1200, hauteur: 1600, alt: "Un micro sur son pied, seul devant un mur orange vif" },
+  bouleOr: { src: `${DOSSIER}/boule-or.webp`, largeur: 1400, hauteur: 933, alt: "Une boule à facettes dorée dans le noir, traversée de faisceaux de lumière" },
+  bouleRose: { src: `${DOSSIER}/boule-rose.webp`, largeur: 1200, hauteur: 800, alt: "Une boule à facettes aux reflets roses et violets, dans une salle sombre" },
 } satisfies Record<string, Photo>;
+
+/** « 1 290 € » : espace fine insécable pour les milliers, insécable avant €. */
+export const euros = (n: number) => `${String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} €`;
+
+// ---------- La soirée à l'envers (entreprises) ----------
 
 export type Moment = { heure: string; titre: string; texte: string };
 export type Theme = { mots: RegExp; nom: string; moment: Moment; diner: Moment };
@@ -54,7 +68,7 @@ export const THEMES: Theme[] = [
   {
     mots: /dans[eéè]|danser|dansai|piste|\bbal\b|valse|rock/i,
     nom: "danse",
-    moment: { heure: "23 h", titre: "La piste", texte: "Un cours de danse de vingt minutes, puis la piste. Le premier rang, c'est la direction." },
+    moment: { heure: "23 h", titre: "La piste", texte: "Un cours de danse de vingt minutes, puis la piste, et notre DJ. Le premier rang, c'est la direction." },
     diner: { heure: "21 h", titre: "Le dîner", texte: "Court, pour garder de l'énergie. Le dessert arrive au moment où la musique monte." },
   },
   {
@@ -95,12 +109,6 @@ export const EXEMPLES_PHRASES = [
   "Le stagiaire a gagné le concours de desserts.",
 ];
 
-export const FORMATS = [
-  { nom: "La soirée d'entreprise", prix: "à partir de 95 € HT par personne", detail: "De l'accueil à la dernière chanson. Lieu, dîner, animation et la phrase du lundi, construits ensemble." },
-  { nom: "Le séminaire", prix: "à partir de 260 € HT par personne", detail: "Une journée de travail, une soirée qu'on raconte. Salles, repas, transport et soirée." },
-  { nom: "La fête de fin d'année", prix: "à partir de 75 € HT par personne", detail: "Pour toute l'entreprise, familles comprises si vous le voulez." },
-];
-
 export const METHODE = [
   { titre: "La phrase", texte: "Avant le lieu, avant le traiteur, avant la date : la phrase que vos équipes doivent se raconter lundi." },
   { titre: "L'envers", texte: "On remonte le temps : ce qui doit arriver à 23 h pour que la phrase existe, puis ce qu'il faut à 21 h, puis à 19 h." },
@@ -108,12 +116,60 @@ export const METHODE = [
   { titre: "Le lundi", texte: "On passe à la machine à café. On écoute. Et avec votre accord, on note la vraie phrase." },
 ];
 
+// ---------- Les formats et les prix ----------
+
+/** Entreprises : prix hors taxes, par personne (exemple). */
+export const FORMATS = [
+  { nom: "La soirée d'entreprise", prix: "à partir de 95 € HT par personne", detail: "De l'accueil à la dernière chanson. Lieu, dîner, animation, DJ et la phrase du lundi, construits ensemble." },
+  { nom: "Le séminaire", prix: "à partir de 260 € HT par personne", detail: "Une journée de travail, une soirée qu'on raconte. Salles, repas, transport et soirée." },
+  { nom: "La fête de fin d'année", prix: "à partir de 75 € HT par personne", detail: "Pour toute l'entreprise, familles comprises si vous le voulez." },
+];
+
+export const PALIERS_ENTREPRISE = [
+  { jusqua: 50, titre: "Une équipe", prix: "110 € HT par personne · exemple", detail: "Soirée d'entreprise jusqu'à 50 personnes : lieu, dîner, le moment de 23 h, le DJ, et nous." },
+  { jusqua: 150, titre: "Un étage entier", prix: "95 € HT par personne · exemple", detail: "Soirée d'entreprise de 60 à 150 personnes : lieu, dîner, le moment de 23 h, le DJ, et nous." },
+  { jusqua: 400, titre: "Toute l'entreprise", prix: "85 € HT par personne · exemple", detail: "Soirée d'entreprise de 160 à 400 personnes : lieu, dîner, le moment de 23 h, le DJ, et nous." },
+];
+
+/** Mariages : le DJ, prix TTC (exemple). */
+export const FORMULES = [
+  { nom: "La soirée", prix: 1290, detail: "De l'ouverture du bal à la dernière chanson, jusqu'à 2 h selon la salle. Son et lumière compris." },
+  { nom: "La journée", prix: 1690, detail: "La cérémonie, l'accueil des invités, le dîner en musique douce, puis la soirée." },
+  { nom: "Une heure de plus", prix: 150, detail: "Si la salle le permet, et seulement si la piste le demande." },
+];
+
+/** La soirée d'un mariage, heure par heure : la piste encore pleine à 2 h, selon la salle. */
+export const SOIREE_MARIAGE = [
+  { heure: "19 h", titre: "L'accueil", texte: "Musique douce, assez basse pour qu'on se parle. Personne ne danse, et c'est normal." },
+  { heure: "21 h", titre: "Le dîner", texte: "Une playlist suffirait. On la passe quand même : on regarde la salle, on note qui chante." },
+  { heure: "23 h", titre: "L'ouverture du bal", texte: "La chanson que vous avez choisie. Puis celles qu'on a vu fredonner pendant le dîner." },
+  { heure: "2 h", titre: "La piste encore pleine", texte: "Selon la salle : c'est son règlement qui fixe l'heure de fin. Si la piste est encore pleine à la dernière chanson, c'est gagné." },
+] as const;
+
+// ---------- Les samedis ----------
+
+export type Samedi = { id: string; jour: string; mois: string; long: string; pris: boolean };
+
+/** Juin et juillet 2027 (vérifiés : ce sont des samedis). « pris » : exemple. */
+export const SAMEDIS: Samedi[] = [
+  { id: "5-juin", jour: "5", mois: "juin", long: "samedi 5 juin 2027", pris: true },
+  { id: "12-juin", jour: "12", mois: "juin", long: "samedi 12 juin 2027", pris: false },
+  { id: "19-juin", jour: "19", mois: "juin", long: "samedi 19 juin 2027", pris: false },
+  { id: "26-juin", jour: "26", mois: "juin", long: "samedi 26 juin 2027", pris: true },
+  { id: "3-juillet", jour: "3", mois: "juil.", long: "samedi 3 juillet 2027", pris: false },
+  { id: "10-juillet", jour: "10", mois: "juil.", long: "samedi 10 juillet 2027", pris: true },
+];
+
+// ---------- Les questions ----------
+
 export type Question = { q: string; r: string };
 
 export const QUESTIONS: Question[] = [
-  { q: "Et si on n'a pas de phrase ?", r: "C'est souvent le cas au début. On part de ce que vous voulez qu'il reste : que les services se parlent, que les nouveaux soient adoptés, que la direction soit approchable. La phrase vient en rendez-vous." },
-  { q: "Vos prix sont hors taxes ?", r: "Oui : nos clients sont des entreprises. Les prix affichés sont des exemples, hors taxes, par personne ; le devis dit tout, ligne par ligne." },
-  { q: "Vous publiez les phrases de nos salariés ?", r: "Seulement avec l'accord écrit de votre entreprise, et de la personne si on peut la reconnaître. Sans accord, la phrase reste entre nous." },
-  { q: "Vous trouvez le lieu ?", r: "Oui, ou on s'adapte au vôtre. On le choisit pour le moment de 23 h : une scène pour un karaoké, une cuisine pour un concours de desserts." },
-  { q: "Combien de temps avant faut-il s'y prendre ?", r: "Trois mois pour une soirée, six pour un séminaire, c'est confortable. Moins, c'est possible : on vous le dit franchement au premier appel." },
+  { q: "Vous faites les entreprises et les mariages ?", r: "Oui. La même idée pour les deux : on part de ce qu'on se racontera lundi. Pour une entreprise, la phrase de la machine à café ; pour un mariage, la piste encore pleine à deux heures du matin. Et le DJ, c'est nous." },
+  { q: "Et si on n'a pas de phrase ?", r: "C'est souvent le cas au début. On part de ce que vous voulez qu'il reste : que les services se parlent, que les nouveaux soient adoptés, que la direction soit approchable. La phrase vient en rendez-vous." },
+  { q: "Vos prix sont hors taxes ?", r: "Pour les entreprises, oui : ce sont nos clients professionnels, les prix sont hors taxes. Pour un mariage, ils sont TTC. Ce sont des exemples ; le devis dit tout, ligne par ligne." },
+  { q: "Jusqu'à quelle heure ?", r: "Jusqu'à 2 h, selon la salle. C'est son règlement, et les règles de la commune sur le bruit, qui fixent l'heure de fin : on les lit avec vous avant de signer." },
+  { q: "Et la chanson interdite, vraiment ?", r: "Vraiment. Elle est notée dans votre fiche, et elle ne passera pas, même si un oncle la réclame à minuit." },
+  { q: "Vous publiez les phrases de nos salariés ?", r: "Seulement avec l'accord écrit de votre entreprise, et de la personne si on peut la reconnaître. Sans accord, la phrase reste entre nous." },
+  { q: "Et si mon samedi est déjà pris ?", r: "Les samedis libres sont sur chaque page, à jour. S'il est pris, il est pris : on vous le dit tout de suite, sans « dernières places »." },
 ];

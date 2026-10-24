@@ -13,12 +13,12 @@ export default function CarnetEssais() {
 
   return (
     <div id="carnet" className="space-y-3">
-      <p className="text-[12px] font-semibold uppercase tracking-[0.2em] text-[var(--doux)]">La blanquette de Mamie Jo · exemple</p>
+      <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">La blanquette de Mamie Jo · exemple</p>
       <ol className="space-y-3">
         {ESSAIS.map((e, i) => {
           const dernier = i === ESSAIS.length - 1;
           return (
-            <li key={e.numero} data-film={`essai-${e.numero}`} className={`relative overflow-hidden rounded-[16px] border bg-[var(--carte)] p-5 ${dernier ? "border-[var(--encre)]" : "border-[var(--trait)]"}`}>
+            <li key={e.numero} data-film={`essai-${e.numero}`} className={`relative overflow-hidden rounded-2xl border bg-[var(--carte)] p-5 ${dernier ? "border-[var(--encre)]" : "border-[var(--trait)]"}`}>
               <div className="flex items-baseline justify-between gap-3">
                 <h3 className="text-[26px]">Essai n<sup className="text-[0.6em]">o</sup>&nbsp;{e.numero}</h3>
                 <p className="text-[14px] text-[var(--doux)]">samedi {e.date}</p>
@@ -33,7 +33,7 @@ export default function CarnetEssais() {
                     <button
                       type="button"
                       onClick={() => setValide(true)}
-                      className="inline-flex h-12 items-center rounded-full bg-[var(--accent)] px-5 font-semibold text-[var(--sur-accent)]"
+                      className="inline-flex h-12 items-center rounded-full bg-[var(--accent)] px-6 text-[15px] font-medium text-[var(--sur-accent)]"
                     >
                       Mamie Jo valide
                     </button>

@@ -19,9 +19,9 @@ export default function Horloge({ clair = false }: { clair?: boolean }) {
   const piste = clair ? "rgba(244,236,226,0.18)" : "#E2D5C6";
 
   return (
-    <div className={`rounded-[34px] p-5 sm:p-8 space-y-6 ${clair ? "bg-white/[0.06]" : "bg-[var(--carte)] border border-[var(--trait)]"}`} data-film="horloge">
-      <div className="grid gap-6 sm:grid-cols-[auto_1fr] sm:items-center">
-        <div className="relative mx-auto h-[236px] w-[236px]">
+    <div className={`rounded-[2rem] p-5 sm:p-9 space-y-7 ${clair ? "border border-white/12 bg-white/[0.06] backdrop-blur-md" : "bg-[var(--carte)] border border-[var(--trait)] shadow-[0_40px_90px_-50px_rgba(42,24,48,0.55)]"}`} data-film="horloge">
+      <div className="grid gap-7 sm:grid-cols-[auto_1fr] sm:items-center sm:gap-10">
+        <div className="relative mx-auto h-[236px] w-[236px] sm:h-[280px] sm:w-[280px]">
           <svg viewBox="0 0 240 240" className="h-full w-full -rotate-90" aria-hidden="true">
             <circle cx="120" cy="120" r={R} fill="none" stroke={piste} strokeWidth="10" />
             <circle
@@ -33,6 +33,7 @@ export default function Horloge({ clair = false }: { clair?: boolean }) {
               strokeWidth="10"
               strokeLinecap="round"
               strokeDasharray={`${TOUR * part} ${TOUR}`}
+              className="transition-[stroke-dasharray] duration-300 ease-out"
             />
             {Array.from({ length: 10 }, (_, i) => {
               // Arrondi : le serveur et le navigateur doivent écrire exactement la même valeur.
@@ -52,7 +53,7 @@ export default function Horloge({ clair = false }: { clair?: boolean }) {
           <p className={`text-xs font-semibold uppercase tracking-[0.22em] ${clair ? "text-[#C9A27E]" : "text-[var(--accent-texte)]"}`}>
             À {courante.minute} min
           </p>
-          <p className="font-[family-name:var(--titres)] text-[32px] sm:text-4xl leading-[1.1] italic" data-film="etape">{courante.texte}</p>
+          <p className="font-[family-name:var(--titres)] text-[32px] sm:text-[2.6rem] leading-[1.08] italic" data-film="etape">{courante.texte}</p>
           <p className={`leading-relaxed ${clair ? "text-[#E6D3BF]" : "text-[var(--doux)]"}`}>{courante.detail}</p>
         </div>
       </div>

@@ -29,3 +29,15 @@
   .flash, .poutre { animation: none; }
   .flash { opacity: 0; }
 }
+
+/* L'explication qui arrive sous la situation touchée. */
+.entree {
+  animation: entree .4s cubic-bezier(.2, .8, .2, 1) both;
+}
+@keyframes entree {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .entree { animation: none; }
+}

@@ -2,205 +2,284 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { adressesDeLaPage } from "@/lib/seo";
-import { Faq, Intitule, Onde, Section } from "./_composants/Blocs";
+import Accordeon from "../_kit/Accordeon";
+import Apparition from "../_kit/Apparition";
+import CarteLueur from "../_kit/CarteLueur";
+import Defilant from "../_kit/Defilant";
+import RecitColle from "../_kit/RecitColle";
+import TitreRevele from "../_kit/TitreRevele";
+import Annee, { Calendrier } from "./_composants/Annee";
+import { AppelFinal, Bouton, Ciel, Croissant, Onde, Surtitre } from "./_composants/Blocs";
 import Carnet from "./_composants/Carnet";
+import Ouverture, { ChampSiSoir } from "./_composants/Ouverture";
 import Question from "./_composants/Question";
-import { CAISSE, DATE_DES_TARIFS, DOSSIER, EQUIPE, ICI, TARIFS, cabinet, photos } from "./_composants/donnees";
+import { ACTES, DATE_DES_TARIFS, DEROULE_CALME, DOSSIER, EQUIPE, ICI, QUESTIONS, SOIR, SOMBRE, cabinet, euros, photos } from "./_composants/donnees";
 
-// L'accueil de Voix Basse. Premier écran transposé du modèle « Wellness Hero » de
-// MotionSites (une photo calme, un grand titre en romain léger, trois pastilles) ;
-// puis l'idée de la vidéo en état de marche : avant de réserver, une seule question,
-// et le créneau calme d'avant l'ouverture. Et le lancement : la visite pour rien.
+// Le site des deux vidéos des vétérinaires. De « Créer une marque » : le nom, « ici, on
+// parle bas », la question du stress et le créneau calme, viens pour rien. De « Remplir
+// l'agenda » : un seul champ sur l'accueil (sa date de naissance) et toute sa première
+// année réservable, le visage du soir, la page de garde, les prix datés. Premier écran
+// partagé en deux : la voix douce à gauche, le chat au soleil à droite.
 export const metadata: Metadata = {
-  title: "Voix Basse — site de démonstration",
-  description: "Site de démonstration d'un cabinet vétérinaire imaginaire, réalisé par Canevas Havane : ici, on parle bas. Une seule question avant de réserver, et un créneau calme avant l'ouverture.",
+  title: "Voix Basse — cabinet vétérinaire, site de démonstration",
+  description:
+    "Le site d'un cabinet vétérinaire imaginaire où l'on parle bas : un créneau calme avant l'ouverture, toute la première année de ton chaton posée dès sa naissance, et un site qui change de visage le soir.",
   ...adressesDeLaPage("/exemples/voix-basse"),
 };
 
-const PASTILLES = ["Créneau calme", "Salle des chats à part", "Viens pour rien"];
+const PHOTOS_CALME = [photos.chien, photos.caisse, photos.visite, photos.chaton];
+const MIS_EN_AVANT = ["consultation", "rappel", "pour-rien"];
 
 export default function VoixBasse() {
   return (
     <main>
-      {/* L'ouverture : la photo calme, puis le titre sur fond plein (lisible partout). */}
-      <section className="mx-auto max-w-6xl px-3 pt-4 sm:px-5">
-        <div className="relative overflow-hidden rounded-[30px]">
-          <div className="relative aspect-[4/5] sm:aspect-[16/9]">
-            <Image src={photos.soleil.src} alt={photos.soleil.alt} fill priority sizes="(min-width: 1152px) 1120px, 100vw" className="object-cover object-[50%_70%] saturate-[0.85]" />
-            <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(180deg,rgba(251,247,239,0)_45%,rgba(251,247,239,0.85)_100%)]" />
-          </div>
-          <ul className="absolute left-4 top-4 flex flex-wrap gap-2 pr-4">
-            {PASTILLES.map((p) => (
-              <li key={p} className="rounded-full bg-[var(--fond)] px-3.5 py-1.5 text-[13px] font-semibold">{p}</li>
-            ))}
-          </ul>
+      <Annee>
+        <Ouverture />
+
+        {/* ---------- Ce qui change ici, en défilant ---------- */}
+        <div className="bg-[var(--accent)] py-5 text-[var(--sur-accent)]">
+          <Defilant
+            duree={48}
+            separateur={<Onde className="h-4 w-12" />}
+            elements={["On parle bas", "Créneau calme à 8 h", "Les chats attendent à part", "Viens pour rien", "Trente minutes par consultation", "Prix affichés et datés", "Le soir, qui appeler"]}
+            classeElement="font-[family-name:var(--titres)] text-2xl italic whitespace-nowrap md:text-3xl"
+          />
         </div>
-        <div className="relative -mt-24 px-3 sm:-mt-40 sm:px-10">
-          <div className="max-w-3xl rounded-[28px] bg-[var(--fond)] p-6 pt-7 sm:p-10">
-            <p className="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.18em] text-[var(--accent-texte)]">
-              <Onde className="h-4 w-14" />
-              Cabinet vétérinaire · chats et chiens
-            </p>
-            <h1 className="mt-5 text-[64px] sm:text-[104px] tracking-[-0.03em]">
-              Ici, on parle <em>bas.</em>
-            </h1>
-            <p className="mt-5 max-w-xl text-lg leading-relaxed text-[var(--doux)]">
-              Ton chat a vu sa caisse, il est sous le lit. On le sait. Alors chez Voix Basse,
-              on ne te montre pas des soins : on te montre comment on le reçoit.
-            </p>
-            <div className="mt-7 flex flex-wrap gap-3">
-              <Link href={`${DOSSIER}/rendez-vous`} className="inline-flex min-h-[54px] items-center rounded-full bg-[var(--encre)] px-7 font-semibold text-[var(--fond)]">
-                Prendre rendez-vous
-              </Link>
-              <Link href={`${DOSSIER}/pour-rien`} className="inline-flex min-h-[54px] items-center rounded-full border-2 border-[var(--encre)] px-7 font-semibold">
-                Viens pour rien
-              </Link>
+
+        {/* ---------- Sa première année ---------- */}
+        <section id="annee" className="scroll-mt-20 mx-auto grid max-w-7xl gap-12 px-4 py-24 sm:px-8 md:py-32 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+          <div className="space-y-7 px-1 lg:sticky lg:top-28">
+            <Apparition><Surtitre>Un seul champ, sa date de naissance</Surtitre></Apparition>
+            <TitreRevele
+              texte="Sa première année, *posée dès la naissance.*"
+              className="text-[clamp(2.8rem,5.6vw,5.2rem)] leading-[0.95] tracking-[-0.02em]"
+              classeAccent="italic text-[var(--accent-texte)]"
+            />
+            <Apparition as="p" delai={150} className="max-w-md text-lg leading-relaxed text-[var(--doux)]">
+              Le site sort son année : chaque visite, avec sa date, réservable d&apos;un geste.
+              L&apos;agenda ne dépend plus des urgences : il se remplit dès la naissance.
+            </Apparition>
+            <Apparition delai={250}>
+              <a href="#naissance" className="font-semibold text-[var(--accent-texte)] underline underline-offset-4">Revenir au champ ↑</a>
+            </Apparition>
+            <ChampSiSoir />
+          </div>
+          <Apparition de="zoom">
+            <Calendrier />
+          </Apparition>
+        </section>
+      </Annee>
+
+      {/* ---------- Une seule question ---------- */}
+      <section className="px-3 sm:px-5">
+        <div style={SOMBRE} className="relative overflow-hidden rounded-[2.5rem] bg-[var(--fond)] text-[var(--encre)]">
+          <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(45%_55%_at_90%_10%,rgba(201,182,228,0.25),transparent_70%)]" />
+          <div className="relative mx-auto grid max-w-6xl gap-12 px-5 py-20 sm:px-10 md:py-28 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+            <Question />
+            <div className="space-y-5 lg:pt-16">
+              <Apparition de="rideau" className="relative aspect-[4/5] overflow-hidden rounded-[2rem]">
+                <Image src={photos.caisse.src} alt={photos.caisse.alt} fill sizes="(min-width: 1024px) 420px, 100vw" className="object-cover" />
+              </Apparition>
+              <Apparition as="p" delai={150} className="text-lg leading-relaxed text-[var(--doux)]">
+                « Un peu » ou « Beaucoup » : on te propose un créneau calme, avant l&apos;ouverture.
+                La salle d&apos;attente est à toi. Même consultation, même prix.
+              </Apparition>
             </div>
           </div>
         </div>
       </section>
 
-      <Section id="question" className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
-        <Question />
-        <div className="space-y-5 lg:pt-24">
-          <div className="relative aspect-[2/3] max-h-[560px] w-full overflow-hidden rounded-[28px]">
-            <Image src={photos.chien.src} alt={photos.chien.alt} fill sizes="(min-width: 1024px) 420px, 100vw" className="object-cover" />
+      {/* ---------- Le créneau calme, en récit ---------- */}
+      <section className="mx-auto max-w-7xl px-5 py-24 sm:px-8 md:py-32">
+        <div className="mb-10 space-y-6 md:mb-4">
+          <Apparition><Surtitre>Le créneau calme</Surtitre></Apparition>
+          <TitreRevele
+            texte="Une demi-heure *avant tout le monde.*"
+            className="max-w-4xl text-[clamp(2.8rem,6vw,5.6rem)] leading-[0.95] tracking-[-0.02em]"
+            classeAccent="italic text-[var(--accent-texte)]"
+          />
+        </div>
+        <RecitColle
+          etapes={DEROULE_CALME.map((d, i) => ({
+            surtitre: d.heure,
+            titre: ["Personne dans la cour.", "La salle est à toi.", "Il sort quand il veut.", "Déjà repartis."][i],
+            texte: <p>{d.texte}</p>,
+            visuel: <Image src={PHOTOS_CALME[i].src} alt={PHOTOS_CALME[i].alt} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />,
+          }))}
+        />
+      </section>
+
+      {/* ---------- Ce qui change ici ---------- */}
+      <section id="ici" className="scroll-mt-24 border-y border-[var(--trait)] bg-[var(--carte)] py-24 md:py-32">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <div className="mb-14 grid gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-end">
+            <div className="space-y-6">
+              <Apparition><Surtitre>Ce qui change ici</Surtitre></Apparition>
+              <TitreRevele
+                texte="Pas des soins d'abord. *Du calme.*"
+                className="text-[clamp(2.8rem,6vw,5.6rem)] leading-[0.95] tracking-[-0.02em]"
+                classeAccent="italic text-[var(--accent-texte)]"
+              />
+            </div>
+            <Apparition as="p" delai={150} className="text-lg leading-relaxed text-[var(--doux)]">
+              Tout commence quand ton chat voit sa caisse… et file sous le lit. Alors on change ce
+              qui se passe avant, pendant et après.
+            </Apparition>
           </div>
-          <p className="text-[var(--doux)]">
-            Le créneau calme, c&apos;est la même consultation, au même prix. Seulement avant
-            l&apos;ouverture, quand personne d&apos;autre n&apos;attend.
-          </p>
-        </div>
-      </Section>
-
-      <Section teinte className="grid gap-12 lg:grid-cols-2 lg:items-center">
-        <div className="relative aspect-[3/2] overflow-hidden rounded-[28px]">
-          <Image src={photos.caisse.src} alt={photos.caisse.alt} fill sizes="(min-width: 1024px) 540px, 100vw" className="object-cover" />
-        </div>
-        <div className="space-y-8">
-          <Intitule surtitre="Tout commence à la maison" titre={<>Le rendez-vous commence <em>à la caisse.</em></>}>
-            Ton chat voit sa caisse, et file sous le lit. La visite a commencé bien avant la
-            salle d&apos;attente. Trois gestes, pour que la caisse redevienne une caisse.
-          </Intitule>
-          <ol className="space-y-5">
-            {CAISSE.map((c, i) => (
-              <li key={c.titre} className="grid grid-cols-[auto_1fr] gap-4">
-                <span className="font-[family-name:var(--titres)] text-4xl leading-none text-[var(--accent-texte)]">{i + 1}</span>
-                <div>
-                  <h3 className="font-[family-name:var(--texte)]! text-lg font-semibold">{c.titre}</h3>
-                  <p className="leading-relaxed text-[var(--doux)]">{c.texte}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </Section>
-
-      <Section id="ici" className="space-y-14">
-        <Intitule surtitre="Ce qui change ici" titre={<>Pas des soins d&apos;abord. <em>Du calme.</em></>}>
-          Les soins sont ceux d&apos;un cabinet vétérinaire. La façon de recevoir, elle, est
-          la nôtre.
-        </Intitule>
-        <ul className="grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
-          {ICI.map((x) => (
-            <li key={x.titre} className="space-y-2 border-t border-[var(--trait)] pt-5">
-              <h3 className="text-[32px]">{x.titre}</h3>
-              <p className="leading-relaxed text-[var(--doux)]">{x.texte}</p>
-            </li>
-          ))}
-        </ul>
-      </Section>
-
-      <Section sombre className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:items-center">
-        <div className="space-y-8">
-          <Intitule surtitre="Pour l'ouverture" titre={<>Viens <em>pour rien.</em></>}>
-            Tu passes avec ton chat ou ton chien. Il renifle, il a une friandise, il repart.
-            Aucun soin, aucun examen, aucune facture. Pour que la prochaine fois, la caisse
-            redevienne juste une caisse.
-          </Intitule>
-          <Link href={`${DOSSIER}/pour-rien`} className="inline-flex min-h-[54px] items-center rounded-full bg-[var(--accent)] px-7 font-semibold text-[var(--sur-accent)]">
-            Choisir un moment pour rien
-          </Link>
-        </div>
-        <div className="relative aspect-[16/10] overflow-hidden rounded-[28px]">
-          <Image src={photos.friandise.src} alt={photos.friandise.alt} fill sizes="(min-width: 1024px) 540px, 100vw" className="object-cover" />
-        </div>
-      </Section>
-
-      <Section className="grid gap-12 lg:grid-cols-2 lg:items-center">
-        <Carnet />
-        <div className="space-y-6">
-          <Intitule surtitre="Après la visite" titre="Le carnet le dit." />
-          <p className="text-lg leading-relaxed text-[var(--doux)]">
-            Chaque visite pour rien s&apos;écrit dans son carnet, comme une vraie. Trois lignes et
-            un tampon : c&apos;est tout ce qu&apos;il y a eu.
-          </p>
-        </div>
-      </Section>
-
-      <Section id="tarifs" teinte className="space-y-10">
-        <Intitule surtitre={`Tarifs au ${DATE_DES_TARIFS}`} titre={<>Le calme <em>ne coûte rien de plus.</em></>}>
-          Prix toutes taxes comprises, d&apos;exemple : le cabinet est fictif. Ce qui est compris
-          est écrit à côté de chaque prix.
-        </Intitule>
-        <ul className="divide-y divide-[var(--trait)] rounded-[24px] border border-[var(--trait)] bg-[var(--carte)]">
-          {TARIFS.map((t) => (
-            <li key={t.acte} className="flex items-baseline justify-between gap-6 px-5 py-5 sm:px-8">
-              <span>
-                <span className="block text-lg font-semibold">{t.acte}</span>
-                <span className="block text-[15px] text-[var(--doux)]">{t.detail}</span>
-              </span>
-              <span className="shrink-0 text-right font-[family-name:var(--titres)] text-3xl tabular-nums">
-                {t.prix}
-                {t.prix !== "Sans frais" && <span className="block font-[family-name:var(--texte)] text-xs text-[var(--doux)]">TTC · exemple</span>}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </Section>
-
-      <Section className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr]">
-        <Intitule surtitre="L'équipe" titre="Trois personnes, à voix basse.">
-          Présentées par leurs initiales : le cabinet est fictif.
-        </Intitule>
-        <ul className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
-          {EQUIPE.map((p) => (
-            <li key={p.initiales} className="flex items-center gap-5 py-6">
-              <span className="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-[#EFE8F7] font-[family-name:var(--titres)] text-2xl">{p.initiales}</span>
-              <span>
-                <span className="block text-sm font-semibold uppercase tracking-[0.14em] text-[var(--accent-texte)]">{p.role}</span>
-                <span className="block text-lg">{p.phrase}</span>
-              </span>
-            </li>
-          ))}
-        </ul>
-      </Section>
-
-      <Section className="grid gap-12 pt-0 lg:grid-cols-[0.8fr_1.2fr]">
-        <Intitule surtitre="Questions" titre="Tout bas, tes questions." />
-        <Faq />
-      </Section>
-
-      <Section id="venir" teinte className="grid gap-10 lg:grid-cols-2">
-        <Intitule surtitre="Venir" titre="Au fond de la cour, au calme.">
-          {cabinet.adresse.join(", ")}. Une place réservée devant la porte pour les créneaux
-          calmes : ton animal passe de la voiture à la salle sans attendre.
-        </Intitule>
-        <div className="space-y-4 self-end">
-          <ul className="divide-y divide-[var(--trait)] border-y border-[var(--trait)] text-lg">
-            {cabinet.horaires.map((h) => (
-              <li key={h.jours} className="flex flex-wrap justify-between gap-x-6 py-3">
-                <span className="font-semibold">{h.jours}</span>
-                <span className="text-[var(--doux)]">{h.heures}</span>
-              </li>
+          <ul className="grid gap-4 md:grid-cols-3">
+            {ICI.map((x, i) => (
+              <Apparition as="li" key={x.titre} delai={(i % 3) * 110} de="zoom" className={i === 0 ? "md:row-span-2" : ""}>
+                <CarteLueur className="h-full rounded-[2rem]">
+                  <div className={`flex h-full flex-col justify-between gap-6 rounded-[2rem] border border-[var(--trait)] p-7 ${i === 0 ? "bg-[var(--accent)] text-[var(--sur-accent)]" : "bg-[var(--fond)]"}`}>
+                    <p className="font-[family-name:var(--titres)] text-[1.1rem] italic tabular-nums">0{i + 1}</p>
+                    <div className="space-y-2">
+                      <h3 className={i === 0 ? "text-[3.4rem] leading-[0.95]" : "text-3xl"}>{x.titre}</h3>
+                      <p className={`leading-relaxed ${i === 0 ? "" : "text-[var(--doux)]"}`}>{x.texte}</p>
+                    </div>
+                  </div>
+                </CarteLueur>
+              </Apparition>
             ))}
           </ul>
-          <p className="text-lg">
-            Téléphone : <span className="font-semibold tabular-nums">{cabinet.telephone}</span>
-            <span className="block text-sm text-[var(--doux)]">Numéro de fiction (tranche réservée par l&apos;ARCEP) : il ne sonne chez personne.</span>
-          </p>
         </div>
-      </Section>
+      </section>
+
+      {/* ---------- Viens pour rien ---------- */}
+      <section className="mx-auto grid max-w-7xl gap-14 px-5 py-24 sm:px-8 md:py-32 lg:grid-cols-[1fr_1fr] lg:items-center">
+        <div className="space-y-8">
+          <Apparition><Surtitre>Pour l&apos;ouverture du cabinet</Surtitre></Apparition>
+          <TitreRevele
+            texte="Viens *pour rien.*"
+            className="text-[clamp(4rem,10vw,9rem)] leading-[0.88] tracking-[-0.03em]"
+            classeAccent="italic text-[var(--accent-texte)]"
+          />
+          <Apparition as="p" delai={150} className="max-w-md text-xl leading-relaxed text-[var(--doux)]">
+            Tu passes avec ton chat. Il renifle, il a une friandise, il repart. Aucun soin. Pour
+            que la prochaine fois, la caisse redevienne juste une caisse.
+          </Apparition>
+          <Apparition delai={250}>
+            <Bouton href={`${DOSSIER}/pour-rien`}>Choisir un moment</Bouton>
+          </Apparition>
+        </div>
+        <Apparition de="zoom" delai={200}>
+          <Carnet />
+        </Apparition>
+      </section>
+
+      {/* ---------- Les prix, datés ---------- */}
+      <section id="tarifs" className="scroll-mt-24 px-3 sm:px-5">
+        <div className="rounded-[2.5rem] bg-[#EFE8F7] px-5 py-20 text-[#2F4A3E] sm:px-10 md:py-28">
+          <div className="mx-auto max-w-6xl">
+            <div className="mb-12 grid gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-end">
+              <div className="space-y-6">
+                <p className="flex items-center gap-3 text-[13px] font-semibold uppercase tracking-[0.2em] text-[#62489A]"><Onde className="h-4 w-12" />Tarifs au {DATE_DES_TARIFS}</p>
+                <TitreRevele
+                  texte="Le prix, *avant la question.*"
+                  className="text-[clamp(2.8rem,6vw,5.6rem)] leading-[0.95] tracking-[-0.02em]"
+                  classeAccent="italic text-[#62489A]"
+                />
+              </div>
+              <Apparition as="p" delai={150} className="text-lg leading-relaxed">
+                Ce qui est compris, ce qui peut s&apos;ajouter, et la date. Prix TTC d&apos;exemple :
+                le cabinet est fictif.
+              </Apparition>
+            </div>
+            <ul className="grid gap-4 md:grid-cols-3">
+              {ACTES.filter((a) => MIS_EN_AVANT.includes(a.id)).map((a, i) => (
+                <Apparition as="li" key={a.id} delai={i * 120} de="zoom">
+                  <div className="flex h-full flex-col rounded-[2rem] bg-white p-7">
+                    <p className="text-sm font-bold uppercase tracking-[0.14em] text-[#62489A]">{a.nom}</p>
+                    <p className="mt-4 font-[family-name:var(--titres)] text-[4.2rem] leading-none tabular-nums">{euros(a.prix)}</p>
+                    <ul className="mt-6 space-y-1.5 border-t border-[#E4DDD0] pt-4 text-[15px]">
+                      {a.compris.slice(0, 3).map((c) => (
+                        <li key={c} className="flex gap-2"><span aria-hidden="true">✓</span>{c}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </Apparition>
+              ))}
+            </ul>
+            <Apparition delai={200} className="mt-10">
+              <Link href={`${DOSSIER}/tarifs`} className="inline-flex min-h-13 items-center gap-3 rounded-full bg-[#2F4A3E] px-6 py-3 text-[15px] font-semibold text-[#FBF7EF]">
+                Tous les actes, compris et ajouts <span aria-hidden="true">→</span>
+              </Link>
+            </Apparition>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- Le soir ---------- */}
+      <section className="px-3 py-3 sm:px-5 sm:py-5">
+        <div style={SOIR} className="relative isolate overflow-hidden rounded-[2.5rem] bg-[var(--fond)] text-[var(--encre)]">
+          <Ciel />
+          <div className="relative mx-auto grid max-w-6xl gap-12 px-5 py-20 sm:px-10 md:py-28 lg:grid-cols-[1fr_0.9fr] lg:items-center">
+            <div className="space-y-7">
+              <Apparition><Surtitre>Après 19 h, le dimanche</Surtitre></Apparition>
+              <TitreRevele
+                texte="Le soir, le site *change de visage.*"
+                className="text-[clamp(2.8rem,6vw,5.6rem)] leading-[0.95] tracking-[-0.02em]"
+                classeAccent="italic text-[var(--accent-texte)]"
+              />
+              <Apparition as="p" delai={150} className="max-w-md text-lg leading-relaxed text-[var(--doux)]">
+                Vingt-trois heures, ton chien ne tient plus debout. En haut de l&apos;accueil : qui
+                appeler, où aller. Et une seule page pour tout le reste.
+              </Apparition>
+              <Apparition delai={250}>
+                <Bouton href={`${DOSSIER}/garde`}>La page de garde</Bouton>
+              </Apparition>
+            </div>
+            <Apparition de="zoom" delai={200} className="rounded-[2rem] border border-[var(--trait)] bg-[var(--carte)] p-7">
+              <div className="flex items-center gap-3">
+                <Croissant className="h-6 w-6 text-[var(--accent-texte)]" />
+                <p className="text-sm font-bold uppercase tracking-[0.16em] text-[var(--accent-texte)]">Vétérinaire de garde</p>
+              </div>
+              <p className="mt-4 font-[family-name:var(--titres)] text-4xl">{cabinet.garde.nom}</p>
+              <p className="mt-1 text-[var(--doux)]">à {cabinet.garde.distance} · {cabinet.garde.trajet} · exemple</p>
+              <p className="mt-6 font-[family-name:var(--titres)] text-5xl tabular-nums">{cabinet.garde.telephone}</p>
+              <p className="mt-2 text-sm text-[var(--doux)]">Numéro de fiction : il ne sonne chez personne.</p>
+            </Apparition>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- L'équipe ---------- */}
+      <section className="mx-auto max-w-7xl px-5 py-24 sm:px-8 md:py-32">
+        <div className="mb-12 space-y-6">
+          <Apparition><Surtitre>L&apos;équipe</Surtitre></Apparition>
+          <TitreRevele
+            texte="Trois voix, *toutes basses.*"
+            className="text-[clamp(2.8rem,6vw,5.6rem)] leading-[0.95] tracking-[-0.02em]"
+            classeAccent="italic text-[var(--accent-texte)]"
+          />
+        </div>
+        <ul className="grid gap-4 md:grid-cols-3">
+          {EQUIPE.map((e, i) => (
+            <Apparition as="li" key={e.initiales} delai={i * 120} className="rounded-[2rem] border border-[var(--trait)] bg-[var(--carte)] p-7">
+              <p aria-hidden="true" className="grid h-20 w-20 place-items-center rounded-full bg-[var(--accent)] font-[family-name:var(--titres)] text-3xl text-[var(--sur-accent)]">{e.initiales}</p>
+              <p className="mt-6 text-sm font-bold uppercase tracking-[0.14em] text-[var(--accent-texte)]">{e.initiales} · {e.role}</p>
+              <p className="mt-2 font-[family-name:var(--titres)] text-3xl italic leading-tight">{e.phrase}</p>
+            </Apparition>
+          ))}
+        </ul>
+        <p className="mt-6 text-sm text-[var(--doux)]">Équipe d&apos;exemple, présentée par ses initiales : le cabinet est fictif.</p>
+      </section>
+
+      {/* ---------- Questions ---------- */}
+      <section id="questions" className="scroll-mt-24 mx-auto grid max-w-7xl gap-12 px-5 pb-24 sm:px-8 md:pb-32 lg:grid-cols-[0.7fr_1.3fr]">
+        <div className="space-y-6">
+          <Apparition><Surtitre>Questions</Surtitre></Apparition>
+          <TitreRevele
+            texte="Tout bas, *tes questions.*"
+            className="text-[clamp(2.6rem,5vw,4.6rem)] leading-[0.95] tracking-[-0.02em]"
+            classeAccent="italic text-[var(--accent-texte)]"
+          />
+        </div>
+        <Apparition delai={150}>
+          <Accordeon questions={QUESTIONS.map((q) => ({ question: q.q, reponse: q.r }))} />
+        </Apparition>
+      </section>
+
+      <AppelFinal />
     </main>
   );
 }

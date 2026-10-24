@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import { adressesDeLaPage } from "@/lib/seo";
-import { entreprise } from "../_composants/donnees";
-import { Section, Surtitre } from "../_composants/Blocs";
+import Accordeon from "../../_kit/Accordeon";
+import Apparition from "../../_kit/Apparition";
+import { Affiche, AppelFinal, Appli, EnTetePage, LaRegle, Surtitre, Titre } from "../_composants/Blocs";
 import Creneau from "../_composants/Creneau";
+import { ETAPES, QUESTIONS, entreprise } from "../_composants/donnees";
 
 export const metadata: Metadata = {
-  title: "Choisir mon heure · L'Heure Dite — site de démonstration",
-  description: "Choisis le jour et l'heure de ton appel parmi les cinq prochains jours ouvrables : on appelle à ce créneau, pas avant, et seulement pour ton devis.",
+  title: "Choisir mon heure — L'Heure Dite, site de démonstration",
+  description:
+    "Choisis le jour et l'heure de ton appel parmi les cinq prochains jours ouvrables : on appelle à ce créneau, pas avant, et seulement pour ton devis. Site de démonstration.",
   ...adressesDeLaPage("/exemples/l-heure-dite/rendez-vous"),
 };
 
@@ -25,48 +28,86 @@ const REGLES = [
   },
 ];
 
+// La page de l'appel. Le formulaire `data-film="creneau"` (#telephone, #accord,
+// #choix-jour, #heure-18, « Réserver mon appel ») est filmé dans les deux vidéos : « Tu
+// rappelles seulement ceux qui l'ont demandé. Dans les cinq jours ouvrables » (« Remplir
+// l'agenda ») et « Mardi, dix-huit heures. Pas une minute avant » (« Créer une marque »).
 export default function RendezVous() {
   return (
-    <>
-      <Section className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-        <div className="space-y-5 lg:sticky lg:top-28">
-          <Surtitre>Ta demande de devis</Surtitre>
-          <h1 className="text-[52px] sm:text-7xl font-normal tracking-[-0.03em]">
-            Quand veux-tu <em className="text-[var(--accent-texte)]">qu'on t'appelle</em>&nbsp;?
-          </h1>
-          <p className="text-lg leading-relaxed text-[var(--doux)]">
-            Prends ton créneau, comme chez le coiffeur. On t'appelle à ce moment-là, pas une minute
-            avant, et seulement pour ton devis.
-          </p>
-          <p className="text-[15px]">
-            Tu préfères appeler&nbsp;? <span className="font-semibold tabular-nums whitespace-nowrap">{entreprise.telephone}</span>
-          </p>
-        </div>
-        <Creneau />
-      </Section>
+    <main>
+      <EnTetePage surtitre="Ta demande de devis" titre={"Quand veux-tu *qu'on t'appelle ?*"}>
+        Prends ton créneau, comme chez le coiffeur. On t&apos;appelle à ce moment-là, pas une minute avant, et seulement
+        pour ton devis.
+      </EnTetePage>
 
-      <div className="bg-[var(--carte)] border-y border-[var(--trait)]">
-        <Section className="space-y-10">
-          <div className="max-w-2xl space-y-3">
-            <Surtitre>Pourquoi ces règles</Surtitre>
-            <h2 className="text-[40px] sm:text-5xl font-normal tracking-[-0.02em]">La loi fixe un cadre. On choisit l'heure dedans.</h2>
+      <section className="mx-auto grid max-w-6xl gap-14 px-6 py-20 md:py-28 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+        <Apparition as="ul" className="divide-y divide-[var(--trait)] border-y border-[var(--trait)] text-lg lg:sticky lg:top-28">
+          {["Un jour parmi les cinq prochains jours ouvrables", "Une heure parmi celles qu'on tient", "Pas une minute avant", "Seulement pour ton devis", `Tu préfères appeler ? ${entreprise.telephone}`].map((t) => (
+            <li key={t} className="py-4">{t}</li>
+          ))}
+        </Apparition>
+        <Apparition>
+          <Appli titre="Ton appel" note="exemple · rien n'est envoyé">
+            <Creneau />
+          </Appli>
+        </Apparition>
+      </section>
+
+      <LaRegle />
+
+      <section className="mx-auto max-w-6xl space-y-14 px-6 py-28 md:py-40">
+        <div className="space-y-5">
+          <Apparition><Surtitre>Pourquoi ces règles</Surtitre></Apparition>
+          <Titre texte="La loi fixe un cadre. *On choisit l'heure dedans.*" className="max-w-3xl" />
+        </div>
+        <ol className="grid gap-10 md:grid-cols-3 md:gap-6">
+          {REGLES.map((r, i) => (
+            <Apparition as="li" key={r.titre} delai={i * 120} className="space-y-3 border-t border-[var(--trait)] pt-5">
+              <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">{String(i + 1).padStart(2, "0")}</p>
+              <h2 className="font-[family-name:var(--titres)] text-2xl font-normal">{r.titre}</h2>
+              <p className="leading-relaxed text-[var(--doux)]">{r.texte}</p>
+            </Apparition>
+          ))}
+        </ol>
+        <p className="max-w-2xl text-[15px] leading-relaxed text-[var(--doux)]">
+          Sur un vrai site, ta demande servirait seulement à t&apos;appeler, et sa trace serait gardée trois ans, comme
+          l&apos;exige le code de la consommation. Ici, c&apos;est une démonstration : rien n&apos;est envoyé, rien n&apos;est enregistré.
+        </p>
+        {/* Les questions que l'accueil ne garde pas (il en montre cinq). */}
+        <Apparition className="max-w-3xl">
+          <Accordeon nom="questions-appel" questions={QUESTIONS.slice(5).map((q) => ({ question: q.q, reponse: q.r }))} />
+        </Apparition>
+      </section>
+
+      <section className="bg-[var(--carte)]">
+        <div className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:py-40 lg:grid-cols-2 lg:items-start">
+          <div className="space-y-10">
+            <div className="space-y-5">
+              <Apparition><Surtitre>Ensuite</Surtitre></Apparition>
+              <Titre texte="De l'heure dite *à ton premier midi.*" />
+            </div>
+            <ol className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
+              {ETAPES.map((e) => (
+                <Apparition as="li" key={e.titre} className="grid gap-1 py-5 sm:grid-cols-[11rem_1fr] sm:gap-6">
+                  <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">{e.moment}</p>
+                  <div className="space-y-1">
+                    <h3 className="font-[family-name:var(--titres)] text-xl font-normal">{e.titre}</h3>
+                    <p className="text-[15px] leading-relaxed text-[var(--doux)]">{e.texte}</p>
+                  </div>
+                </Apparition>
+              ))}
+            </ol>
           </div>
-          <ol className="grid gap-4 md:grid-cols-3">
-            {REGLES.map((r, i) => (
-              <li key={r.titre} className="rounded-[26px] border border-[var(--trait)] bg-[var(--fond)] p-6 space-y-2">
-                <p className="font-[family-name:var(--titres)] text-4xl text-[var(--accent-texte)] tabular-nums">{i + 1}</p>
-                <h3 className="text-2xl">{r.titre}</h3>
-                <p className="leading-relaxed text-[var(--doux)]">{r.texte}</p>
-              </li>
-            ))}
-          </ol>
-          <p className="max-w-2xl text-[15px] leading-relaxed text-[var(--doux)]">
-            Sur un vrai site, ta demande servirait seulement à t'appeler, et sa trace serait gardée
-            trois ans, comme l'exige le code de la consommation. Ici, c'est une démonstration&nbsp;: rien
-            n'est envoyé, rien n'est enregistré.
-          </p>
-        </Section>
-      </div>
-    </>
+          <div className="space-y-6">
+            <Apparition><Surtitre>L&apos;affiche du lancement</Surtitre></Apparition>
+            <Apparition delai={150}>
+              <Affiche />
+            </Apparition>
+          </div>
+        </div>
+      </section>
+
+      <AppelFinal />
+    </main>
   );
 }
