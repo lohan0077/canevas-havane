@@ -22,10 +22,10 @@ export default function ChecklistDict() {
   const pret = fait === ELEMENTS.length;
 
   return (
-    <div className="rounded-[22px] border border-[var(--encre)] bg-[var(--carte)] overflow-hidden">
+    <div className="rounded-2xl border border-[var(--encre)] bg-[var(--carte)] overflow-hidden">
       <div className="flex items-center justify-between gap-3 bg-[var(--sombre)] px-5 py-3 text-[var(--sur-sombre)]">
-        <p className="text-[12px] font-bold uppercase tracking-[0.14em]">Ce qu&apos;il te faut</p>
-        <p className="text-[13px] font-bold tabular-nums text-[#F2C98A]">{fait} / {ELEMENTS.length}</p>
+        <p className="text-[12px] font-medium uppercase tracking-[0.2em]">Ce qu&apos;il te faut</p>
+        <p className="text-[13px] font-medium tabular-nums text-[#F2C98A]">{fait} / {ELEMENTS.length}</p>
       </div>
       <ul className="divide-y divide-[var(--trait)]">
         {ELEMENTS.map((e) => {
@@ -40,7 +40,7 @@ export default function ChecklistDict() {
                   className="mt-1 h-6 w-6 shrink-0 accent-[var(--accent)]"
                 />
                 <span>
-                  <span className={`block font-bold ${coche ? "line-through decoration-2" : ""}`}>{e.titre}</span>
+                  <span className={`block font-medium ${coche ? "line-through decoration-2" : ""}`}>{e.titre}</span>
                   <span className="block text-[15px] text-[var(--doux)]">{e.detail}</span>
                 </span>
               </label>
@@ -50,7 +50,7 @@ export default function ChecklistDict() {
       </ul>
       <div aria-live="polite" className={`px-5 py-4 border-t border-[var(--encre)] ${pret ? "bg-[var(--accent)] text-[var(--sur-accent)]" : ""}`}>
         {pret ? (
-          <p className="font-bold">
+          <p className="font-medium">
             Tout y est. Appelle-nous au <span className="tabular-nums">{entreprise.telephone}</span> : on la remplit ensemble, en un quart d&apos;heure.
             <span className="block text-[13px] font-medium">Démonstration : numéro fictif, rien n&apos;est envoyé.</span>
           </p>

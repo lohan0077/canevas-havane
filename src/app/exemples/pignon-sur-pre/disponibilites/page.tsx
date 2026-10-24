@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../_kit/Apparition";
-import TitreRevele from "../../_kit/TitreRevele";
-import { AppelFinal, EnTetePage, Surtitre, TERRE } from "../_composants/Blocs";
+import { AppelFinal, EnTetePage, Intitule } from "../_composants/Blocs";
 import Planning from "../_composants/Planning";
 import { photos } from "../_composants/donnees";
 
@@ -15,6 +14,13 @@ export const metadata: Metadata = {
   ...adressesDeLaPage("/exemples/pignon-sur-pre/disponibilites"),
 };
 
+const ETAPES = [
+  "Le prix s'affiche, TTC, livré",
+  "Avec chauffeur, si la machine le permet",
+  "« Réserver ce samedi », et c'est bloqué",
+  "Sur un vrai site, la grille bouge à chaque réservation",
+];
+
 export default function Disponibilites() {
   return (
     <main>
@@ -23,20 +29,18 @@ export default function Disponibilites() {
         réserves en ligne.
       </EnTetePage>
 
-      <section className="mx-auto grid max-w-7xl gap-12 px-5 py-20 sm:px-8 md:py-28 lg:grid-cols-[0.75fr_1.25fr] lg:items-start">
-        <div className="space-y-6 lg:sticky lg:top-28">
-          <Apparition><Surtitre>Juin 2027</Surtitre></Apparition>
-          <TitreRevele texte="Touche un samedi *libre.*" className="font-[family-name:var(--titres)] text-[clamp(3rem,5.5vw,4.8rem)] font-normal leading-[0.92] tracking-[-0.03em]" classeAccent={TERRE} />
-          <Apparition as="ul" delai={150} className="space-y-3 text-lg">
-            {["Le prix s'affiche, TTC, livré", "Avec chauffeur, si la machine le permet", "« Réserver ce samedi », et c'est bloqué", "Sur un vrai site, la grille bouge à chaque réservation"].map((t) => (
-              <li key={t} className="flex gap-3 border-b border-[var(--trait)] pb-3">
-                <span aria-hidden="true" className="text-[var(--accent-texte)]">✿</span>
-                {t}
-              </li>
-            ))}
-          </Apparition>
+      <section className="scroll-mt-24">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-14 px-6 py-28 md:py-40 lg:grid-cols-[0.75fr_1.25fr] lg:items-start lg:gap-16">
+          <div className="space-y-10 lg:sticky lg:top-28">
+            <Intitule surtitre="Juin 2027" titre="Touche un samedi *libre.*" />
+            <ul className="divide-y divide-[var(--trait)] border-y border-[var(--trait)] text-lg">
+              {ETAPES.map((t, i) => (
+                <Apparition as="li" key={t} delai={i * 90} className="py-3.5">{t}</Apparition>
+              ))}
+            </ul>
+          </div>
+          <Apparition delai={150}><Planning /></Apparition>
         </div>
-        <Apparition de="zoom"><Planning /></Apparition>
       </section>
 
       <AppelFinal />

@@ -29,7 +29,6 @@ export const NAVIGATION = [
   { href: `${DOSSIER}/tentes`, libelle: "Les tentes" },
   { href: `${DOSSIER}/engins`, libelle: "Les engins" },
   { href: `${DOSSIER}/disponibilites`, libelle: "Disponibilités" },
-  { href: `${DOSSIER}/le-bal`, libelle: "Le bal" },
 ];
 
 export type Photo = { src: string; largeur: number; hauteur: number; alt: string };
@@ -272,11 +271,11 @@ export const WEEKEND = [
 export type Question = { q: string; r: string };
 
 export const QUESTIONS: Question[] = [
-  { q: "Combien d'invités dans chaque tente ?", r: "La capacité affichée est celle du fabricant de chaque modèle, en invités assis à des tables rondes de dix. Une piste de danse, un buffet ou une allée prennent de la place : on en parle à la visite du pré, plan à la main." },
-  { q: "Il faut une autorisation ?", r: "Pour une fête ouverte au public (un bal, une fête de village, un marché), oui : une tente qui reçoit du public ne se monte pas sans l'autorisation de la mairie. On prépare le dossier avec toi. Pour une fête privée chez toi, renseigne-toi auprès de ta mairie : on te dit quoi lui demander." },
-  { q: "Je n'ai jamais conduit de mini-pelle. C'est possible ?", r: "On te fait vingt minutes de prise en main à la livraison, sur ton terrain. Les conditions pour conduire (âge, assurance) sont écrites dans le contrat de location (exemple). Si tu préfères ne pas toucher aux commandes : prends l'option avec chauffeur." },
-  { q: "C'est quoi, la DT-DICT ?", r: "Une déclaration à faire avant de creuser, pour que les exploitants des réseaux enterrés (gaz, électricité, eau, fibre) te disent où passent leurs câbles et leurs tuyaux. Particuliers compris. On t'aide à la remplir : ça prend un quart d'heure au téléphone." },
-  { q: "Et s'il y a du vent ?", r: "La notice du fabricant fixe la vitesse de vent au-delà de laquelle on fait sortir tout le monde. On te la donne avec le contrat, on suit la météo avec toi, et on reste joignable tout le week-end." },
-  { q: "Il y a une caution ?", r: "Pour les engins : 1 500 € par empreinte bancaire, jamais encaissée si la machine revient comme elle est partie (exemple). Pour les tentes, l'état des lieux se fait au montage et au démontage, avec toi." },
-  { q: "Et les voisins ?", r: "Préviens-les. Après la réservation, le site te donne un mot tout prêt à glisser dans leur boîte aux lettres, avec la date." },
+  { q: "Combien d'invités dans chaque tente ?", r: "La capacité affichée est celle du fabricant de chaque modèle, en invités assis à des tables rondes de dix. Une piste de danse, un buffet ou une allée prennent de la place : on en parle à la visite du pré, plan à la main." },
+  { q: "Il faut une autorisation ?", r: "Pour une fête ouverte au public (un bal, une fête de village, un marché), oui : une tente qui reçoit du public ne se monte pas sans l'autorisation de la mairie. On prépare le dossier avec toi. Pour une fête privée chez toi, renseigne-toi auprès de ta mairie : on te dit quoi lui demander." },
+  { q: "Je n'ai jamais conduit de mini-pelle. C'est possible ?", r: "On te fait vingt minutes de prise en main à la livraison, sur ton terrain. Les conditions pour conduire (âge, assurance) sont écrites dans le contrat de location (exemple). Si tu préfères ne pas toucher aux commandes : prends l'option avec chauffeur." },
+  { q: "C'est quoi, la DT-DICT ?", r: "Une déclaration à faire avant de creuser, pour que les exploitants des réseaux enterrés (gaz, électricité, eau, fibre) te disent où passent leurs câbles et leurs tuyaux. Particuliers compris. On t'aide à la remplir : ça prend un quart d'heure au téléphone." },
+  { q: "Et s'il y a du vent ?", r: "La notice du fabricant fixe la vitesse de vent au-delà de laquelle on fait sortir tout le monde. On te la donne avec le contrat, on suit la météo avec toi, et on reste joignable tout le week-end." },
+  { q: "Il y a une caution ?", r: "Pour les engins : 1 500 € par empreinte bancaire, jamais encaissée si la machine revient comme elle est partie (exemple). Pour les tentes, l'état des lieux se fait au montage et au démontage, avec toi." },
+  { q: "Et les voisins ?", r: "Préviens-les. Après la réservation, le site te donne un mot tout prêt à glisser dans leur boîte aux lettres, avec la date." },
 ];

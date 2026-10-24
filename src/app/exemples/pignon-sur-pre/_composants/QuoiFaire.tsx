@@ -40,10 +40,10 @@ export default function QuoiFaire() {
               onClick={() => setId(p.id)}
               className={
                 projet
-                  ? `flex h-[66px] flex-col items-center justify-center gap-1 rounded-[14px] border text-[13px] font-semibold transition-colors ${
+                  ? `flex h-[66px] flex-col items-center justify-center gap-1 rounded-xl border text-[13px] font-medium transition-colors ${
                       choisi ? "border-[var(--sombre)] bg-[var(--sombre)] text-[var(--sur-sombre)]" : "border-[var(--trait)] bg-[var(--carte)] hover:border-[var(--encre)]"
                     }`
-                  : "group flex min-h-[150px] flex-col justify-between rounded-[20px] border border-[var(--trait)] bg-[var(--carte)] p-4 text-left shadow-[0_18px_40px_-30px_rgba(34,49,27,.6)] transition-all hover:-translate-y-0.5 hover:border-[var(--encre)] active:scale-[0.98]"
+                  : "group flex min-h-[150px] flex-col justify-between rounded-2xl border border-[var(--trait)] bg-[var(--carte)] p-4 text-left transition-colors hover:border-[var(--encre)]"
               }
             >
               <span className={projet ? "" : "grid h-12 w-12 place-items-center rounded-full bg-[var(--fond)] text-[var(--sombre)] transition-colors group-hover:bg-[var(--sombre)] group-hover:text-[var(--sur-sombre)]"}>
@@ -120,15 +120,15 @@ function Reponse({
   }
 
   return (
-    <div id="reponse" className="scroll-mt-24 overflow-hidden rounded-[22px] border border-[var(--encre)] bg-[var(--carte)]">
+    <div id="reponse" className="scroll-mt-24 overflow-hidden rounded-2xl border border-[var(--encre)] bg-[var(--carte)]">
       <div className="flex items-center justify-between gap-3 bg-[var(--sombre)] px-5 py-3 text-[var(--sur-sombre)]">
-        <p className="text-[12px] font-semibold uppercase tracking-[0.16em]">{projet.surtitre(quantite)}</p>
+        <p className="text-[12px] font-medium uppercase tracking-[0.2em]">{projet.surtitre(quantite)}</p>
         <p className="font-[family-name:var(--titres)] text-[15px] italic text-[#F2C98A]">la réponse</p>
       </div>
 
       <div className="space-y-5 p-5 sm:p-6">
         <label className="block space-y-2.5">
-          <span className="flex items-baseline justify-between gap-3 text-sm font-semibold">
+          <span className="flex items-baseline justify-between gap-3 text-sm font-medium">
             <span className="uppercase tracking-[0.12em] text-[var(--doux)]">{etiquette}</span>
             <span className="font-[family-name:var(--titres)] text-2xl tabular-nums">{quantite} {unite}</span>
           </span>
@@ -145,25 +145,25 @@ function Reponse({
         </label>
 
         <div className="space-y-1">
-          <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-[var(--doux)]">{projet.genre === "tente" ? "La tente" : "La machine"}</p>
+          <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">{projet.genre === "tente" ? "La tente" : "La machine"}</p>
           <p data-film="machine" className="font-[family-name:var(--titres)] text-[36px] leading-[0.98] tracking-[-0.02em] sm:text-[44px]">{titre}</p>
           {detail && <p className="text-[15px] text-[var(--doux)]">{detail}</p>}
         </div>
 
         <ul aria-live="polite" className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
           <li className="flex items-baseline justify-between gap-3 py-3">
-            <span className="font-semibold">{projet.duree(quantite)}</span>
+            <span className="font-medium">{projet.duree(quantite)}</span>
             <span className="text-[13px] text-[var(--doux)]">exemple</span>
           </li>
           <li className="flex items-baseline justify-between gap-3 py-3">
-            <span className="font-semibold">
+            <span className="font-medium">
               {projet.genre === "tente" ? "Livrée et montée" : avecChauffeur ? "Avec chauffeur" : "Livrée chez toi"} ·{" "}
               <span data-film="prix" className="font-[family-name:var(--titres)] text-[19px] tabular-nums">{euros(total)} TTC</span>
             </span>
             <span className="text-[13px] text-[var(--doux)]">exemple</span>
           </li>
           <li className="py-3">
-            <Link href={lienRegle.href} className="flex items-baseline justify-between gap-3 font-semibold underline decoration-[var(--accent)] decoration-2 underline-offset-4">
+            <Link href={lienRegle.href} className="flex items-baseline justify-between gap-3 font-medium underline decoration-[var(--accent)] decoration-2 underline-offset-4">
               <span>{lienRegle.texte}</span>
               <span aria-hidden="true">→</span>
             </Link>
@@ -171,9 +171,9 @@ function Reponse({
         </ul>
 
         {projet.genre === "engin" && (
-          <label className="flex cursor-pointer items-center justify-between gap-4 rounded-[16px] bg-[var(--fond)] p-4">
+          <label className="flex cursor-pointer items-center justify-between gap-4 rounded-xl bg-[var(--fond)] p-4">
             <span>
-              <span className="block text-lg font-semibold">Avec chauffeur</span>
+              <span className="block text-lg font-medium">Avec chauffeur</span>
               <span className="block text-[13px] text-[var(--doux)]">Il conduit, tu regardes. Carburant compris.</span>
             </span>
             <input type="checkbox" role="switch" checked={chauffeur} onChange={(e) => changerChauffeur(e.target.checked)} className="peer sr-only" />
@@ -184,7 +184,7 @@ function Reponse({
           </label>
         )}
 
-        <Link href={reserver} className="flex h-14 w-full items-center justify-center rounded-full bg-[var(--accent)] text-[17px] font-semibold text-[var(--sur-accent)] transition-transform hover:scale-[1.01]">
+        <Link href={reserver} className="flex h-12 w-full items-center justify-center rounded-full bg-[var(--accent)] text-[15px] font-medium text-[var(--sur-accent)]">
           Réserver mon samedi
         </Link>
 

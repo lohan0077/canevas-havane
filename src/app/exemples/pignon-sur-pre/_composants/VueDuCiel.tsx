@@ -73,7 +73,7 @@ export default function VueDuCiel() {
         </button>
       </form>
 
-      <div id="vue-du-ciel" className="overflow-hidden rounded-[22px] border border-[var(--encre)] bg-[#DCE8C8]">
+      <div id="vue-du-ciel" className="overflow-hidden rounded-2xl border border-[var(--encre)] bg-[#DCE8C8]">
         <div className="relative">
           <svg viewBox="0 0 48 36" className="block w-full h-auto" role="img" aria-label={cherchee ? `Vue du ciel dessinée du pré, avec une tente de ${t.largeur} × ${t.longueur} m` : "Vue du ciel en attente d'une adresse"}>
             <defs>
@@ -183,7 +183,7 @@ export default function VueDuCiel() {
                 role="radio"
                 aria-checked={x.id === id}
                 onClick={() => setId(x.id)}
-                className={`rounded-[14px] border px-2 py-2.5 text-center transition-colors ${x.id === id ? "border-[var(--encre)] bg-[var(--sombre)] text-[var(--sur-sombre)]" : "border-[var(--trait)] bg-[var(--carte)]"}`}
+                className={`rounded-xl border px-2 py-2.5 text-center transition-colors ${x.id === id ? "border-[var(--encre)] bg-[var(--sombre)] text-[var(--sur-sombre)]" : "border-[var(--trait)] bg-[var(--carte)]"}`}
               >
                 <span className="block font-[family-name:var(--titres)] text-[19px] leading-tight">{x.largeur} × {x.longueur}</span>
                 <span className="block text-[12px]">{x.invites} assis</span>
@@ -201,7 +201,7 @@ export default function VueDuCiel() {
           </div>
           <Link
             href={`${DOSSIER}/reserver#t-${id}`}
-            className={`flex h-14 items-center justify-center rounded-full text-[17px] font-semibold ${rentre ? "bg-[var(--accent)] text-[var(--sur-accent)]" : "border border-[var(--trait)] text-[var(--doux)] pointer-events-none"}`}
+            className={`flex h-12 items-center justify-center rounded-full text-[15px] font-medium ${rentre ? "bg-[var(--accent)] text-[var(--sur-accent)]" : "border border-[var(--trait)] text-[var(--doux)] pointer-events-none"}`}
             aria-disabled={!rentre}
           >
             Réserver cette tente

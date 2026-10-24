@@ -16,12 +16,12 @@ export const metadata: Metadata = {
 export default function Reserver() {
   return (
     <main>
-      <EnTetePage surtitre="Réserver ma tente" titre="Ton samedi, *dans ton pré.*" photo={photos.tenteNuit}>
+      <EnTetePage surtitre="Réserver ma tente" titre="Ton samedi, *dans ton pré.*" photo={photos.tenteNuit} origine="50% 100%">
         On monte la veille, on démonte le lundi. Trois semaines avant, on vient voir le pré. Et après la réservation, le mot
         pour les voisins est prêt.
       </EnTetePage>
-      <section className="mx-auto max-w-3xl px-5 py-20 sm:px-8 md:py-24">
-        <Apparition de="zoom"><Reservation /></Apparition>
+      <section className="mx-auto max-w-3xl px-6 py-28 md:py-32">
+        <Apparition><Reservation /></Apparition>
       </section>
       <AppelFinal />
     </main>

@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { adressesDeLaPage } from "@/lib/seo";
-import Apparition from "../../_kit/Apparition";
 import MentionsDemonstration from "../../_kit/MentionsDemonstration";
-import TitreRevele from "../../_kit/TitreRevele";
-import { BLE, Herbe, Surtitre } from "../_composants/Blocs";
+import { EnTetePage } from "../_composants/Blocs";
 import { entreprise } from "../_composants/donnees";
 
 export const metadata: Metadata = {
@@ -15,19 +13,7 @@ export const metadata: Metadata = {
 export default function MentionsLegales() {
   return (
     <main>
-      <section className="kit-grain relative overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
-        <div className="mx-auto max-w-3xl space-y-6 px-5 pb-20 pt-36 md:pt-44">
-          <Apparition><Surtitre clair>Mentions légales</Surtitre></Apparition>
-          <TitreRevele
-            as="p"
-            auChargement
-            texte="Ce qui est inventé, *ce qui est vrai.*"
-            className="font-[family-name:var(--titres)] text-[clamp(2.8rem,7vw,5.5rem)] leading-[0.92] tracking-[-0.03em]"
-            classeAccent={BLE}
-          />
-        </div>
-        <Herbe />
-      </section>
+      <EnTetePage surtitre="Mentions légales" titre="Ce qui est inventé, *ce qui est vrai.*" niveau="p" />
       <MentionsDemonstration
         site="pignon-sur-pre"
         entreprise="Pignon sur Pré"
@@ -69,7 +55,7 @@ export default function MentionsLegales() {
               « Remplir l&apos;agenda » (une seule question, « tu veux faire quoi ? », l&apos;option
               avec chauffeur, les vraies disponibilités réservables en ligne). Les deux sites de
               démonstration d&apos;origine n&apos;en font plus qu&apos;un. La vue du ciel, le logo et
-              les silhouettes de tentes sont dessinés.
+              les pictogrammes des projets sont dessinés.
             </p>
           </>
         }

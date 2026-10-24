@@ -24,9 +24,9 @@ export default function Planning() {
 
   return (
     <div id="planning" className="relative">
-      <div className="overflow-hidden rounded-[22px] border border-[var(--encre)] bg-[var(--carte)]">
+      <div className="overflow-hidden rounded-2xl border border-[var(--encre)] bg-[var(--carte)]">
         <div className="flex items-center justify-between gap-3 bg-[var(--sombre)] px-4 py-3 text-[var(--sur-sombre)]">
-          <p className="text-[12px] font-semibold uppercase tracking-[0.16em]">Disponibilités · juin 2027</p>
+          <p className="text-[12px] font-medium uppercase tracking-[0.2em]">Disponibilités · juin 2027</p>
           <p className="font-[family-name:var(--titres)] text-[15px] italic text-[#F2C98A]">les samedis</p>
         </div>
         <ul className="divide-y divide-[var(--trait)]">
@@ -55,7 +55,7 @@ export default function Planning() {
                         setChoix({ article: ligne.id, samedi: i });
                         setReserve(null);
                       }}
-                      className={`flex h-[60px] flex-col items-center justify-center rounded-[12px] border text-center transition-all duration-300 ${
+                      className={`flex h-[60px] flex-col items-center justify-center rounded-xl border text-center transition-all duration-300 ${
                         fait
                           ? "border-[var(--accent)] bg-[var(--accent)] text-[var(--sur-accent)]"
                           : pris
@@ -65,8 +65,8 @@ export default function Planning() {
                               : "border-[var(--encre)]/40 bg-[var(--carte)] hover:border-[var(--encre)]"
                       }`}
                     >
-                      <span className="text-[13px] font-semibold leading-tight">{s.court}</span>
-                      <span className="mt-0.5 text-[11px] font-semibold uppercase tracking-[0.06em]">{fait ? "Réservé ✓" : pris ? "Pris" : "Libre"}</span>
+                      <span className="text-[13px] font-medium leading-tight">{s.court}</span>
+                      <span className="mt-0.5 text-[11px] font-medium uppercase tracking-[0.06em]">{fait ? "Réservé ✓" : pris ? "Pris" : "Libre"}</span>
                     </button>
                   );
                 })}
@@ -82,34 +82,34 @@ export default function Planning() {
       {/* Le récapitulatif, collé au bas de l'écran tant que la grille est en vue. */}
       <div className="sticky bottom-3 z-10 mt-4" aria-live="polite">
         {art && choix && (
-          <div data-film="recap" className="space-y-3 rounded-[22px] border border-[var(--sombre)] bg-[var(--sombre)] p-4 text-[var(--sur-sombre)] shadow-[0_18px_40px_-18px_rgba(30,48,21,.8)]">
+          <div data-film="recap" className="space-y-3 rounded-2xl border border-[var(--sombre)] bg-[var(--sombre)] p-4 text-[var(--sur-sombre)]">
             {reserve ? (
               <div role="status" className="space-y-1.5">
                 <p className="font-[family-name:var(--titres)] text-[26px] leading-tight text-[#F2C98A]">Réservé ✓</p>
-                <p className="font-semibold">
+                <p className="font-medium">
                   {art.nom}, {SEMAINE[reserve.samedi].long}
                   {chauffeur && art.chauffeur ? ", avec chauffeur" : ""}.
                 </p>
                 <p className="text-[13px]">Démonstration : rien n&apos;est envoyé, rien n&apos;est enregistré.</p>
-                <button type="button" onClick={() => { setReserve(null); setChoix(null); }} className="text-[13px] font-semibold underline underline-offset-4">
+                <button type="button" onClick={() => { setReserve(null); setChoix(null); }} className="text-[13px] font-medium underline underline-offset-4">
                   Choisir un autre samedi
                 </button>
               </div>
             ) : (
               <>
                 <div className="flex items-baseline justify-between gap-3">
-                  <p className="font-semibold leading-snug">
+                  <p className="font-medium leading-snug">
                     {art.court}
                     <br />
                     {majuscule(SEMAINE[choix.samedi].long)}
                   </p>
                   <p className="text-right">
                     <span className="block font-[family-name:var(--titres)] text-[26px] tabular-nums">{euros(prix)}</span>
-                    <span className="block text-[11px] font-semibold uppercase tracking-[0.1em]">TTC · exemple</span>
+                    <span className="block text-[11px] font-medium uppercase tracking-[0.1em]">TTC · exemple</span>
                   </p>
                 </div>
                 {art.chauffeur && (
-                  <label className="flex cursor-pointer items-center gap-3 text-[14px] font-semibold">
+                  <label className="flex cursor-pointer items-center gap-3 text-[14px] font-medium">
                     <input type="checkbox" checked={chauffeur} onChange={(e) => setChauffeur(e.target.checked)} className="h-5 w-5 accent-[var(--accent)]" />
                     Avec chauffeur ({euros(art.chauffeur)} la journée)
                   </label>
@@ -117,7 +117,7 @@ export default function Planning() {
                 <button
                   type="button"
                   onClick={() => setReserve(choix)}
-                  className="flex h-12 w-full items-center justify-center rounded-full bg-[var(--accent)] text-[16px] font-semibold text-[var(--sur-accent)]"
+                  className="flex h-12 w-full items-center justify-center rounded-full bg-[var(--accent)] text-[16px] font-medium text-[var(--sur-accent)]"
                 >
                   Réserver ce samedi
                 </button>

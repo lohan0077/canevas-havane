@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../_kit/Apparition";
-import TitreRevele from "../../_kit/TitreRevele";
-import { AppelFinal, Bouton, EnTetePage, Surtitre, TERRE } from "../_composants/Blocs";
+import { AppelFinal, Bouton, EnTetePage, Intitule, Section } from "../_composants/Blocs";
 import { DOSSIER, photos } from "../_composants/donnees";
 
 // Le coup de lancement de la vidéo : « un bal, avec la mairie. Une tente sur la place du
@@ -39,56 +38,47 @@ export default function LeBal() {
         l&apos;entreprise est fictive.
       </EnTetePage>
 
-      <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 md:py-28">
-        <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-[26px] border border-[var(--trait)] bg-[var(--trait)] md:grid-cols-4">
+      <Section className="space-y-14">
+        <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-[var(--trait)] bg-[var(--trait)] md:grid-cols-4">
           {FICHE.map(([t, d], i) => (
-            <Apparition key={t} delai={i * 90} className="space-y-1 bg-[var(--carte)] p-6">
-              <dt className="text-[13px] uppercase tracking-[0.16em] text-[var(--accent-texte)]">{t}</dt>
-              <dd className="font-[family-name:var(--titres)] text-[26px] leading-tight">{d}</dd>
+            <Apparition key={t} delai={i * 90} className="space-y-2 bg-[var(--carte)] p-6">
+              <dt className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">{t}</dt>
+              <dd className="font-[family-name:var(--titres)] text-2xl leading-tight">{d}</dd>
             </Apparition>
           ))}
         </dl>
-      </section>
-
-      <section className="mx-auto max-w-7xl space-y-12 px-5 pb-24 sm:px-8 md:pb-32">
-        <div className="space-y-6">
-          <Apparition><Surtitre>Comment on l&apos;organise</Surtitre></Apparition>
-          <TitreRevele texte="Une fête ouverte à tous, *ça s'autorise.*" className="max-w-4xl font-[family-name:var(--titres)] text-[clamp(3rem,6vw,5.4rem)] font-normal leading-[0.92] tracking-[-0.03em]" classeAccent={TERRE} />
-          <Apparition as="p" delai={150} className="max-w-2xl text-lg leading-relaxed text-[var(--doux)]">
-            Une tente qui reçoit du public ne se monte pas sans l&apos;autorisation de la mairie. Pour ce bal, c&apos;est la mairie qui
-            nous accueille sur sa place.
-          </Apparition>
-        </div>
-        <ol className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <Intitule
+          surtitre="Comment on l'organise"
+          titre="Une fête ouverte à tous, *ça s'autorise.*"
+          texte="Une tente qui reçoit du public ne se monte pas sans l'autorisation de la mairie. Pour ce bal, c'est la mairie qui nous accueille sur sa place."
+        />
+        <ol className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
           {ETAPES.map((e, i) => (
-            <Apparition as="li" key={e.titre} delai={i * 110} className="space-y-2 border-t-2 border-[var(--encre)] pt-4">
-              <p className="font-[family-name:var(--titres)] text-5xl italic text-[var(--accent-texte)]">{i + 1}</p>
-              <h3 className="font-[family-name:var(--titres)] text-[26px] font-normal leading-tight">{e.titre}</h3>
+            <Apparition as="li" key={e.titre} delai={i * 110} className="space-y-2 border-t border-[var(--encre)] pt-4">
+              <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">{String(i + 1).padStart(2, "0")}</p>
+              <h3 className="font-[family-name:var(--titres)] text-2xl font-normal leading-tight">{e.titre}</h3>
               <p className="leading-relaxed text-[var(--doux)]">{e.texte}</p>
             </Apparition>
           ))}
         </ol>
-      </section>
+      </Section>
 
-      <section className="px-3 sm:px-5">
-        <div className="grid overflow-hidden rounded-[2.5rem] bg-[var(--accent)] text-[var(--sur-accent)] lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="space-y-6 px-6 py-16 sm:px-12 md:py-24">
-            <TitreRevele texte={"Et si on la faisait *chez nous ?*"} className="font-[family-name:var(--titres)] text-[clamp(3rem,6vw,5.4rem)] font-normal leading-[0.92] tracking-[-0.03em]" classeAccent="italic font-light" />
-            <p className="max-w-lg text-lg leading-relaxed">
-              Un comité des fêtes, une association, une commune&nbsp;: on monte le dossier avec la mairie. Un mariage dans le
-              pré&nbsp;: on vient voir le terrain.
-            </p>
-            <Bouton href={`${DOSSIER}#pre`} variante="creme">Voir ma tente sur mon pré</Bouton>
-          </div>
-          <div className="relative min-h-[300px]">
-            <Image src={photos.tenteNuit.src} alt={photos.tenteNuit.alt} fill sizes="(min-width: 1024px) 45vw, 100vw" className="object-cover" />
-          </div>
+      <Section fond="bg-[var(--sombre)] text-[var(--sur-sombre)]" className="grid grid-cols-1 gap-14 lg:grid-cols-2 lg:items-center lg:gap-16">
+        <div className="space-y-8">
+          <Intitule
+            surtitre="Chez vous aussi"
+            titre="Et si on la faisait *chez nous ?*"
+            texte="Un comité des fêtes, une association, une commune : on monte le dossier avec la mairie. Un mariage dans le pré : on vient voir le terrain."
+            clair
+          />
+          <Bouton href={`${DOSSIER}#pre`} variante="clair">Voir ma tente sur mon pré</Bouton>
         </div>
-      </section>
+        <Apparition className="relative aspect-[4/3] overflow-hidden rounded-2xl">
+          <Image src={photos.tenteNuit.src} alt={photos.tenteNuit.alt} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
+        </Apparition>
+      </Section>
 
-      <div className="pt-24 md:pt-32">
-        <AppelFinal />
-      </div>
+      <AppelFinal />
     </main>
   );
 }

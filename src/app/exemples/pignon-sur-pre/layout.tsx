@@ -5,9 +5,11 @@ import Pied from "./_composants/Pied";
 import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 
 // Le site de Pignon sur Pré, loueur imaginaire de tentes de réception et d'engins de
-// jardin, filmé dans les deux vidéos des loueurs. Le pré au couchant, le vert de l'herbe,
-// la terre cuite et le blé ; Fraunces (son italique douce, cousine libre du Baskerville de
-// la marque) et Figtree pour lire. Le `noindex` vient du layout de /exemples.
+// jardin, filmé dans les deux vidéos des loueurs. Version « carrée » (24/10/2026) : Fraunces en
+// graisse normale pour les titres, son italique pour le mot en relief (cousine libre du
+// Baskerville de la marque), Figtree pour lire ; la crème et le vert de l'herbe alternent, la
+// terre cuite est réservée au bouton principal et aux petits détails. Le `noindex` vient du
+// layout de /exemples.
 export default function PignonSurPreLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
