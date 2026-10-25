@@ -420,6 +420,41 @@ et `outils/pages-exemples.json` (mesure de contraste).
   **efface les fichiers de `/private/tmp` non ouverts depuis trois jours** — ne jamais y
   laisser de travail non commité.
 
+## Un site par métier — 23 au 25/10/2026
+
+Les deux vidéos d'un métier filment désormais **le même site** : il porte la marque
+inventée dans « Créer une marque » et absorbe les idées du site de « Remplir l'agenda ».
+**40 métiers fondus** (`Fiche` : `secteur`, `groupe`, `image`, et `ancien`, l'adresse
+absorbée) ; **11 pas encore** — 22 sites restent à l'ancienne fiche (`FicheAncienne`),
+mis de côté le 23/10 par décision de Lohan, pour finir d'abord les dix vidéos à publier.
+Les anciennes adresses sont redirigées : `node outils/registre-exemples.mjs` écrit aussi
+`outils/redirections-exemples.json` (80 redirections), lu par `next.config.ts`. Retirer
+`FicheAncienne` le jour où les 51 sont fondus.
+
+- **/exemples** est une galerie groupée par ce que le site fait venir : rendez-vous,
+  vente, devis.
+- **Le kit a une boîte à mouvements** (`_kit/`) : `mouvement.css` (rangé dans
+  `@layer components`), `Apparition`, `TitreRevele`, `Defilant`, `PhotoCinema`,
+  `CarteLueur`, `Accordeon`, `MotGeant`, `NavVerre`, `FondVivant` (WebGL, rien à
+  télécharger), `RecitColle`. Tout s'arrête avec « animations réduites ».
+- **Les dix sites des vidéos à publier sont en version « carrée »** (24/10) : Neuf Étés
+  (ex-Premier Plongeon), Et s'il pleut, Sept Mille Dîners, L'Heure Dite, Le Pourquoi,
+  Pavillon Bis, Transmis, Lundi d'Après, Douze Mois, Pignon sur Pré. Sept écrans au plus
+  sur l'accueil, une idée par écran, l'accent réservé au bouton principal. Les attributs
+  `data-film="…"` sont lus par les tournages des vidéos (`Videos/<vidéo>/tournage.mjs`,
+  hors dépôt) : ne pas les renommer sans changer le tournage.
+- **La mesure de contraste** descend chaque page par paliers (un bloc qui n'apparaît
+  qu'en entrant à l'écran n'était pas mesuré) et attend la fin des transitions CSS.
+  Le 25/10/2026, sur la compilation de production : 428 pages en clair et en sombre,
+  82 347 textes mesurés, 0 sous le seuil (`node outils/contraste.mjs http://127.0.0.1:3100`).
+- **Dépendances, 25/10/2026** : `zod` 4.6.7 (CVE-2023-54404, HIGH, bloquait la CI).
+  `nodemailer` 10.0.16 garde trois failles modérées de son analyseur d'adresses
+  (GHSA-8c8m-p3m8-cjg8, GHSA-m943-m63m-w62w, GHSA-85x2-q946-cp5h) : **non atteignables
+  ici**, l'adresse du visiteur ne va que dans `Reply-To`, jamais dans les destinataires
+  de l'envoi, et la validation n'y admet qu'un « @ ». Le correctif (10.1.4) date du
+  18/10 : le monter après le 01/11/2026, pas avant — une version d'une semaine dans la
+  chaîne d'envoi d'e-mails est un risque plus grand qu'une faille hors d'atteinte.
+
 ## Après chaque fichier écrit — la commande complète
 
 ```bash
