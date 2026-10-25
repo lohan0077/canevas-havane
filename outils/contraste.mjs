@@ -34,7 +34,7 @@ const filtre = process.argv[3] ?? "";
 const pagesDuSite = [
   "/", "/expertise", "/tarifs", "/realisations", "/realisations/keo",
   "/realisations/edificia", "/blog", "/a-propos", "/contact",
-  "/mentions-legales", "/confidentialite", "/cgv", "/page-inexistante-404",
+  "/mentions-legales", "/confidentialite", "/cgv", "/bio", "/page-inexistante-404",
 ];
 // Sites de démonstration filmés dans les vidéos : hors sitemap, mais publics. La liste
 // vient de outils/registre-exemples.mjs ; les sous-pages générées (pages de chantier…)
