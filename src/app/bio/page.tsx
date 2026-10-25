@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { SITES } from "@/app/exemples/_registre";
 import { adressesDeLaPage } from "@/lib/seo";
+import { MENTION_POSITIONNEMENT, PHRASE_POSITIONNEMENT } from "@/components/Positionnement";
 import DemandeAppel from "./DemandeAppel";
 
 // La page du « lien en bio » : là où arrivent les spectateurs des vidéos TikTok et
@@ -44,6 +45,11 @@ const etapes = [
   {
     titre: "Quinze minutes",
     texte: "Au téléphone ou en visio : votre métier, ce qui fait venir vos clients, ce qui les retient.",
+  },
+  {
+    // La même phrase que sur l'accueil et /expertise (components/Positionnement.tsx).
+    titre: "Votre positionnement",
+    texte: `${PHRASE_POSITIONNEMENT} ${MENTION_POSITIONNEMENT}`,
   },
   {
     titre: "Je crée le site",
@@ -137,7 +143,7 @@ export default function PageBio() {
         <p className="text-sm font-medium uppercase tracking-[0.2em] text-[var(--color-primary-texte)]">
           02 — Comment ça se passe
         </p>
-        <ol className="mt-12 grid gap-10 md:grid-cols-3">
+        <ol className="mt-12 grid gap-10 md:grid-cols-2">
           {etapes.map((etape, i) => (
             <li key={etape.titre} className="border-t border-[var(--color-foreground)]/15 pt-6">
               <p className="text-sm font-medium text-[var(--color-foreground)]/80">{String(i + 1).padStart(2, "0")}</p>

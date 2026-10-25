@@ -3,6 +3,7 @@ import { adressesDeLaPage } from "@/lib/seo";
 import Link from "next/link";
 import Image from "next/image";
 import SimulateurRachat from "@/components/SimulateurRachat";
+import Positionnement from "@/components/Positionnement";
 
 export const metadata: Metadata = {
   title: "Canevas Havane | Agence Web & Design de Prestige en Ardèche",
@@ -138,6 +139,11 @@ export default function Home() {
               <span className="block opacity-60">NOS CHAMPS D'</span>
               <span className="text-gradient block italic">EXPERTISE.</span>
             </h2>
+          </div>
+
+          {/* En tête des services : le positionnement vient avant le site. */}
+          <div className="mb-24 md:mb-48">
+            <Positionnement />
           </div>
 
           <div className="space-y-24 md:space-y-48 w-full">
