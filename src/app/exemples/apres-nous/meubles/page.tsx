@@ -1,97 +1,94 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { adressesDeLaPage } from "@/lib/seo";
+import Apparition from "../../_kit/Apparition";
 import CalculPalier from "../../_kit/CalculPalier";
+import TitreRevele from "../../_kit/TitreRevele";
+import { AppelFinal, CHANFREIN_GRAND, Chapitre, EnTetePage } from "../_composants/Blocs";
 import { meubles, paliers, photos } from "../_composants/donnees";
-import Plaque from "../_composants/Plaque";
 
 export const metadata: Metadata = {
-  title: "Les meubles · Après Nous — site de démonstration",
-  description: "Site de démonstration d'un atelier d'ébénisterie imaginaire : tables, bureau et banc en bois massif, faits sur mesure, et combien coûte une table selon le nombre de convives.",
+  title: "Les tables — Après Nous, site de démonstration",
+  description: "Les meubles d'un atelier imaginaire : la table de famille, la table ronde, le bureau d'écolier, le banc. Dessinés chez toi, numérotés, et combien coûte une table sur mesure.",
   ...adressesDeLaPage("/exemples/apres-nous/meubles"),
 };
 
 const ESSENCES = [
   { nom: "Chêne", texte: "Dur, clair, il fonce doucement avec les années. Le bois des tables de famille.", prix: "prix de base" },
-  { nom: "Frêne", texte: "Plus clair encore, souple, le fil très dessiné. Pour les bancs et les bureaux.", prix: "environ 10 % de moins" },
+  { nom: "Frêne", texte: "Plus clair encore, souple, le fil très dessiné. Pour les bancs et les bureaux.", prix: "environ 10 % de moins" },
   { nom: "Noyer", texte: "Brun, veiné, plus rare. Une table de noyer se remarque dans la pièce.", prix: "environ un tiers de plus" },
 ];
 
 export default function Meubles() {
   return (
-    <>
-      <section className="mx-auto max-w-6xl space-y-6 px-5 pb-12 pt-10 sm:px-6">
-        <p className="text-xs font-semibold uppercase tracking-[0.3em]">Les meubles</p>
-        <h1 className="max-w-4xl text-[50px] sm:text-7xl">
-          Faits pour <span className="italic">être transmis.</span>
-        </h1>
-        <p className="max-w-2xl text-lg leading-relaxed">
-          Quatre meubles, dessinés chez toi, faits à l&apos;atelier, livrés et montés. Chacun a son
-          numéro, et son registre.
-        </p>
-      </section>
+    <main>
+      <EnTetePage numero="III" surtitre="Les tables" titre="Faites pour *être transmises.*" photo={photos.tableDuSoir}>
+        Quatre meubles, dessinés chez toi, faits à l&apos;atelier, livrés et montés. Chacun a son numéro, et son registre.
+      </EnTetePage>
 
-      <section className="mx-auto max-w-6xl px-5 pb-20 sm:px-6">
-        <ul className="divide-y divide-[var(--encre)] border-y border-[var(--encre)]">
+      <section className="mx-auto max-w-6xl px-5 py-16 sm:px-8 md:py-24">
+        <ul className="space-y-20">
           {meubles.map((m, i) => (
-            <li key={m.id} className="grid gap-6 py-10 md:grid-cols-[0.9fr_1.1fr] md:items-center">
-              {m.photo ? (
-                <Image src={photos[m.photo].src} width={photos[m.photo].largeur} height={photos[m.photo].hauteur} alt={photos[m.photo].alt} sizes="(min-width: 768px) 480px, 100vw" className="aspect-[4/3] w-full object-cover" />
-              ) : (
-                <div className="grid aspect-[4/3] place-items-center border border-[var(--trait)] bg-[var(--carte)]" aria-hidden="true">
-                  <Plaque numero={["12", "47"][i - 2] ?? "1"} className="w-2/3" />
-                </div>
-              )}
+            <li key={m.id} id={m.id} className="grid scroll-mt-24 gap-8 md:grid-cols-2 md:items-center">
+              <Apparition de="rideau" className={`relative aspect-[4/3] overflow-hidden ${CHANFREIN_GRAND} ${i % 2 ? "md:order-2" : ""}`}>
+                <Image src={photos[m.photo].src} alt={photos[m.photo].alt} fill sizes="(min-width: 768px) 540px, 100vw" className="object-cover" />
+              </Apparition>
               <div className="space-y-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[var(--accent-texte)]">{["I", "II", "III", "IV"][i]} · délai {m.delai}</p>
-                <h2 className="text-4xl sm:text-5xl">{m.nom}</h2>
-                <p className="text-lg leading-relaxed text-[var(--doux)]">{m.texte}</p>
-                <p className="text-xl font-semibold">{m.prix} <span className="text-sm font-normal text-[var(--doux)]">TTC · exemple</span></p>
+                <Apparition><Chapitre numero={["I", "II", "III", "IV"][i]}>Délai : {m.delai}</Chapitre></Apparition>
+                <TitreRevele texte={m.nom} className="font-[family-name:var(--titres)] text-[clamp(2.4rem,4.5vw,4rem)] leading-[1] tracking-[-0.02em]" />
+                <Apparition as="p" delai={150} className="text-lg leading-relaxed text-[var(--doux)]">{m.texte}</Apparition>
+                <Apparition as="p" delai={200} className="text-xl font-semibold">{m.prix} <span className="text-sm font-normal text-[var(--doux)]">· exemple</span></Apparition>
               </div>
             </li>
           ))}
         </ul>
       </section>
 
-      <section className="bg-[var(--carte)] px-5 py-20 sm:px-6" id="prix">
-        <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+      <section id="prix" className="scroll-mt-24 px-3 sm:px-5">
+        <div className="mx-auto grid max-w-7xl gap-12 rounded-[2.5rem] bg-[var(--sombre)] px-5 py-20 text-[var(--sur-sombre)] sm:px-10 md:py-28 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div className="space-y-6">
-            <h2 className="text-5xl">
-              Combien coûte une table <span className="italic">sur mesure&nbsp;?</span>
-            </h2>
-            <p className="text-lg leading-relaxed text-[var(--doux)]">
-              On nous pose la question avant toutes les autres. La réponse tient surtout au nombre de
-              couverts.
-            </p>
+            <Apparition><Chapitre clair>La question qu&apos;on nous pose d&apos;abord</Chapitre></Apparition>
+            <TitreRevele
+              texte={"Combien coûte une table *sur mesure ?*"}
+              className="font-[family-name:var(--titres)] text-[clamp(2.8rem,5.5vw,5rem)] leading-[0.95] tracking-[-0.02em]"
+              classeAccent="italic text-[#E0B36A]"
+            />
+            <Apparition as="p" delai={150} className="text-lg leading-relaxed text-[var(--sur-sombre)]/90">
+              La réponse tient surtout au nombre de couverts.
+            </Apparition>
           </div>
-          <CalculPalier
-            etiquette="Autour de la table"
-            unite="personnes"
-            min={2}
-            max={14}
-            depart={6}
-            paliers={paliers}
-            titreResultat="Ta table"
-            legende="Prix TTC d'exemple, en chêne huilé, livraison et montage compris. Le prix exact est écrit sur le devis, après le dessin."
-          />
+          <Apparition de="zoom" delai={100}>
+            <CalculPalier
+              etiquette="Autour de la table"
+              unite="personnes"
+              min={2}
+              max={14}
+              depart={6}
+              paliers={paliers}
+              titreResultat="Ta table"
+              legende="Prix TTC d'exemple, en chêne huilé, livraison et montage compris. Le prix exact est écrit sur le devis, après le dessin."
+            />
+          </Apparition>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl space-y-10 px-5 py-20 sm:px-6">
-        <h2 className="text-5xl">
-          Trois bois, <span className="italic">pas un de plus.</span>
-        </h2>
+      <section className="mx-auto max-w-6xl space-y-12 px-5 py-20 sm:px-8 md:py-28">
+        <TitreRevele
+          texte="Trois bois, *pas un de plus.*"
+          className="font-[family-name:var(--titres)] text-[clamp(2.6rem,5vw,4.6rem)] leading-[0.95] tracking-[-0.02em]"
+          classeAccent="italic text-[var(--accent-texte)]"
+        />
         <ul className="grid gap-8 md:grid-cols-3">
-          {ESSENCES.map((e) => (
-            <li key={e.nom} className="space-y-3 border-t-2 border-[var(--encre)] pt-4">
-              <h3 className="text-3xl">{e.nom}</h3>
+          {ESSENCES.map((e, i) => (
+            <Apparition as="li" key={e.nom} delai={i * 120} className="space-y-3 border-t-2 border-[var(--encre)] pt-5">
+              <h2 className="font-[family-name:var(--titres)] text-4xl">{e.nom}</h2>
               <p className="leading-relaxed text-[var(--doux)]">{e.texte}</p>
               <p className="text-xs font-semibold uppercase tracking-[0.2em]">{e.prix}</p>
-            </li>
+            </Apparition>
           ))}
         </ul>
-        <Image src={photos.assemblage.src} width={photos.assemblage.largeur} height={photos.assemblage.hauteur} alt={photos.assemblage.alt} sizes="(min-width: 1024px) 1100px, 100vw" className="aspect-[16/9] w-full object-cover" />
       </section>
-    </>
+      <AppelFinal />
+    </main>
   );
 }

@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { adressesDeLaPage } from "@/lib/seo";
+import Apparition from "../../_kit/Apparition";
+import { AppelFinal, EnTetePage, Surtitre, Titre } from "../_composants/Blocs";
 import Parapluie from "../_composants/Parapluie";
 import { photos } from "../_composants/donnees";
 
 export const metadata: Metadata = {
-  title: "Les parapluies · Et s'il pleut — site de démonstration",
+  title: "Les parapluies — Et s'il pleut, site de démonstration",
   description: "Cent parapluies jaunes aux prénoms des mariés, à chaque mariage : les invités repartent avec. Démonstration de Canevas Havane, rien n'est commandé.",
   ...adressesDeLaPage("/exemples/et-s-il-pleut/parapluies"),
 };
@@ -18,43 +20,48 @@ const ETAPES = [
 
 export default function Parapluies() {
   return (
-    <div>
-      <section className="relative isolate overflow-hidden bg-[#1E2733] text-[var(--sur-sombre)]">
-        <Image src={photos.lac.src} alt={photos.lac.alt} fill preload loading="eager" sizes="100vw" className="-z-10 object-cover object-[50%_62%] opacity-50" />
-        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[linear-gradient(to_bottom,#1E2733cc_0%,#1E273340_40%,#1E2733e6_100%)]" />
-        <div className="max-w-6xl mx-auto px-5 sm:px-6 min-h-[520px] flex flex-col justify-end pb-12 space-y-4">
-          <p className="font-[family-name:var(--titres)] text-7xl italic text-[var(--accent)]">× 100</p>
-          <h1 className="text-[48px] sm:text-8xl font-normal leading-[0.94] tracking-[-0.02em]">Cent parapluies jaunes.</h1>
-          <p className="max-w-md text-lg text-[#D4DCE6]">À chaque mariage, aux prénoms des mariés. Les invités repartent avec.</p>
-        </div>
-      </section>
+    <main>
+      <EnTetePage surtitre="À chaque mariage" titre="Cent parapluies *jaunes.*" photo={photos.lac} origine="50% 62%">
+        Aux prénoms des mariés. Les invités repartent avec.
+      </EnTetePage>
 
-      <section className="max-w-5xl mx-auto px-4 sm:px-6 py-16 sm:py-20 space-y-8">
-        <h2 className="text-[42px] sm:text-6xl font-normal leading-[0.98]">Mettez <span className="italic">vos prénoms dessus.</span></h2>
-        <Parapluie />
-      </section>
-
-      <section className="bg-[#FFF4CF]">
-        <div className="max-w-6xl mx-auto px-5 sm:px-6 py-16 sm:py-20 grid gap-8 md:grid-cols-3">
-          {ETAPES.map((e, i) => (
-            <div key={e.titre} className="space-y-3 border-t border-[var(--encre)] pt-5">
-              <p className="font-[family-name:var(--titres)] text-4xl italic">{i + 1}</p>
-              <h3 className="text-2xl font-normal">{e.titre}</h3>
-              <p className="leading-relaxed text-[var(--doux)]">{e.texte}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-20 grid gap-8 md:grid-cols-2 md:items-center">
-        <div className="relative aspect-square overflow-hidden rounded-[32px]">
-          <Image src={photos.parapluies.src} alt={photos.parapluies.alt} fill sizes="(min-width: 768px) 520px, 100vw" className="object-cover" />
-        </div>
+      <section className="mx-auto max-w-6xl space-y-14 px-6 py-28 md:py-40">
         <div className="space-y-5">
-          <h2 className="text-[42px] sm:text-6xl font-normal leading-[0.98]">Les invités d&apos;aujourd&apos;hui, <span className="italic">les mariés de demain.</span></h2>
-          <p className="text-lg leading-relaxed text-[var(--doux)]">Un parapluie jaune dans une entrée, c&apos;est une question qu&apos;on vous posera longtemps : « Il vient d&apos;où&nbsp;? »</p>
+          <Apparition><Surtitre>L&apos;étiquette</Surtitre></Apparition>
+          <Titre texte="Mettez *vos prénoms dessus.*" />
+        </div>
+        <Apparition><Parapluie /></Apparition>
+      </section>
+
+      <section className="bg-[var(--sombre)] text-[var(--sur-sombre)]">
+        <div className="mx-auto max-w-6xl space-y-14 px-6 py-28 md:py-40">
+          <div className="space-y-5">
+            <Apparition><Surtitre clair>Le jour J</Surtitre></Apparition>
+            <Titre texte="Trois temps, *et ils repartent avec.*" clair />
+          </div>
+          <ol className="grid gap-10 md:grid-cols-3">
+            {ETAPES.map((e, i) => (
+              <Apparition as="li" key={e.titre} delai={i * 120} className="space-y-3 border-t border-white/20 pt-5">
+                <p className="text-[12px] font-medium uppercase tracking-[0.2em]">0{i + 1}</p>
+                <h2 className="font-[family-name:var(--titres)] text-2xl font-normal">{e.titre}</h2>
+                <p className="leading-relaxed">{e.texte}</p>
+              </Apparition>
+            ))}
+          </ol>
         </div>
       </section>
-    </div>
+
+      <section className="mx-auto grid max-w-6xl gap-16 px-6 py-28 md:py-40 md:grid-cols-2 md:items-center">
+        <Apparition className="relative aspect-square overflow-hidden rounded-2xl">
+          <Image src={photos.parapluies.src} alt={photos.parapluies.alt} fill sizes="(min-width: 768px) 520px, 100vw" className="object-cover" />
+        </Apparition>
+        <div className="space-y-6">
+          <Titre texte="Les invités d'aujourd'hui, *les mariés de demain.*" />
+          <p className="max-w-[26rem] text-lg leading-relaxed text-[var(--doux)]">Un parapluie jaune dans une entrée, c&apos;est une question qu&apos;on vous posera longtemps : « Il vient d&apos;où&nbsp;? »</p>
+        </div>
+      </section>
+
+      <AppelFinal />
+    </main>
   );
 }

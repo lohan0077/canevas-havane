@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { STATUT, rubriques } from "./donnees";
+import { STATUT_COMPLET, rubriques } from "./donnees";
 import { fabriquerPdf, type LignePdf } from "./pdf";
 
 const TOUTES = rubriques.flatMap((r) => r.lignes);
@@ -39,7 +39,7 @@ export default function Carnet() {
         lignes.push({ texte: valeurs[l.cle]?.trim() || "—", taille: 11 });
       }
     }
-    lignes.push({ texte: `Dimanche Midi · ${STATUT}. Site de démonstration : entreprise fictive.`, taille: 8, couleur: [0.33, 0.38, 0.31], avant: 24 });
+    lignes.push({ texte: `Dimanche Midi · ${STATUT_COMPLET}. Site de démonstration : entreprise fictive.`, taille: 8, couleur: [0.33, 0.38, 0.31], avant: 24 });
     const octets = fabriquerPdf(lignes);
     const lien = URL.createObjectURL(new Blob([octets.buffer as ArrayBuffer], { type: "application/pdf" }));
     const a = document.createElement("a");
@@ -53,9 +53,9 @@ export default function Carnet() {
   };
 
   return (
-    <div data-film="carnet" className="overflow-hidden rounded-[26px] border border-[var(--trait)] bg-[var(--carte)] shadow-[0_30px_60px_-40px_rgba(34,56,44,0.6)]">
+    <div data-film="carnet" className="overflow-hidden rounded-[2rem] border border-[var(--trait)] bg-[var(--carte)] shadow-[0_40px_80px_-45px_rgba(34,56,44,0.7)]">
       <div className="space-y-1 border-b border-[var(--trait)] px-5 pt-5 pb-4 sm:px-7">
-        <p className="font-[family-name:var(--titres)] text-[28px] leading-tight">Le carnet de famille</p>
+        <p className="font-[family-name:var(--titres)] text-[34px] leading-tight">Le carnet de famille</p>
         <p className="text-[13px] text-[var(--doux)]">Il reste sur ton téléphone : rien n&apos;est envoyé au cabinet.</p>
       </div>
 
@@ -118,7 +118,7 @@ export default function Carnet() {
         <p className="text-[12px] leading-snug text-[var(--doux)]">
           Rien n&apos;est enregistré dans la page : si tu la fermes, le carnet s&apos;efface. Télécharge-le avant.
         </p>
-        <p className="border-t border-[var(--trait)] pt-3 text-[11px] leading-snug text-[var(--doux)]">Dimanche Midi · {STATUT}</p>
+        <p className="border-t border-[var(--trait)] pt-3 text-[11px] leading-snug text-[var(--doux)]">Dimanche Midi · {STATUT_COMPLET}</p>
       </div>
     </div>
   );

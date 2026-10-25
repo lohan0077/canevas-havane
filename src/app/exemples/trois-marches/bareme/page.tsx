@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { adressesDeLaPage } from "@/lib/seo";
-import { Intitule } from "../_composants/Blocs";
+import Apparition from "../../_kit/Apparition";
+import { AppelFinal, EnTetePage } from "../_composants/Blocs";
+import Calculateur from "../_composants/Calculateur";
 import { AUTRES_PRESTATIONS, BAREME_DATE, TRANCHES, euros, pourcent, tauxMax } from "../_composants/donnees";
 
 // Le barème d'honoraires, à un clic de chaque annonce (arrêté du 10/01/2017, art. 2, IV) :
@@ -16,13 +18,18 @@ const EXEMPLES = [150_000, 300_000, 500_000];
 
 export default function PageBareme() {
   return (
-    <div className="mx-auto max-w-4xl space-y-14 px-5 py-14 sm:px-8">
-      <Intitule niveau={1} surtitre="Barème d'honoraires" titre={<>Nos prix maximums, <span className="italic">toutes taxes comprises.</span></>}>
-        Honoraires de transaction, calculés sur le prix de vente hors honoraires, à la charge de
-        l&apos;acquéreur. Le montant exact est fixé dans le mandat, sans jamais dépasser ce barème.
-      </Intitule>
+    <main>
+    <EnTetePage
+      surtitre="Barème d'honoraires"
+      titre="Nos prix maximums, *toutes taxes comprises.*"
+      aCote={<Apparition de="zoom" delai={250}><div className="mx-auto max-w-[440px]"><Calculateur /></div></Apparition>}
+    >
+      Honoraires de transaction, calculés sur le prix de vente hors honoraires, à la charge de
+      l&apos;acquéreur. Le montant exact est fixé dans le mandat, sans jamais dépasser ce barème.
+    </EnTetePage>
+    <div className="mx-auto max-w-4xl space-y-14 px-5 py-16 sm:px-8 md:py-24">
 
-      <div className="overflow-hidden border border-[var(--trait)] bg-[var(--carte)]">
+      <div className="overflow-hidden rounded-[1.75rem] border border-[var(--trait)] bg-[var(--carte)]">
         <table className="w-full text-left text-[15px]">
           <caption className="sr-only">Barème des honoraires de vente, prix maximums TTC</caption>
           <thead className="bg-[var(--sombre)] text-[var(--sur-sombre)]">
@@ -55,13 +62,13 @@ export default function PageBareme() {
       </div>
 
       <section className="space-y-5">
-        <h2 className="text-[32px] font-normal">Ce que ça donne</h2>
-        <ul className="grid gap-4 sm:grid-cols-3">
+        <h2 className="text-[clamp(2.2rem,4vw,3.4rem)] font-normal leading-tight">Ce que ça <em className="text-[var(--accent-texte)]">donne</em></h2>
+        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           {EXEMPLES.map((p) => {
             const t = tauxMax(p);
             const h = (p * t) / 100;
             return (
-              <li key={p} className="space-y-1 border border-[var(--trait)] bg-[var(--carte)] p-5">
+              <li key={p} className="space-y-1 rounded-t-[999px] border border-[var(--trait)] bg-[var(--carte)] px-5 pb-6 pt-14 text-center">
                 <p className="text-[14px] text-[var(--doux)]">Prix de vente : {euros(p)} hors honoraires</p>
                 <p className="font-[family-name:var(--titres)] text-[30px] tabular-nums">{euros(h)}</p>
                 <p className="text-[14px]">au plus, soit {pourcent(t)} TTC, payés par l&apos;acquéreur</p>
@@ -76,5 +83,7 @@ export default function PageBareme() {
       </section>
 
     </div>
+    <AppelFinal />
+    </main>
   );
 }

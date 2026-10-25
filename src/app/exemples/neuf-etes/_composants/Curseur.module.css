@@ -1,0 +1,44 @@
+/* Le curseur de surface du calculateur : une ligne d'eau qui se remplit de soleil, et
+   un plot rond. Rien que les pseudo-éléments du curseur ici : tout le reste du site
+   s'écrit en classes Tailwind (une feuille de module l'emporterait sur elles). */
+.curseur {
+  width: 100%;
+  height: 28px;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+.curseur::-webkit-slider-runnable-track {
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #f6c445 var(--rempli), rgba(255, 248, 236, 0.22) var(--rempli));
+}
+.curseur::-moz-range-track {
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #f6c445 var(--rempli), rgba(255, 248, 236, 0.22) var(--rempli));
+}
+.curseur::-webkit-slider-thumb {
+  appearance: none;
+  box-sizing: border-box;
+  width: 28px;
+  height: 28px;
+  margin-top: -10px;
+  border-radius: 50%;
+  background: #f6c445;
+  border: 5px solid #0d3446;
+  box-shadow: 0 0 0 2px #f6c445;
+}
+.curseur::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #f6c445;
+  border: 5px solid #0d3446;
+  box-shadow: 0 0 0 2px #f6c445;
+}
+.curseur:focus-visible {
+  outline: 2px solid #fff8ec;
+  outline-offset: 6px;
+  border-radius: 999px;
+}

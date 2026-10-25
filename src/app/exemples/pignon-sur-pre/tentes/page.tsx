@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { adressesDeLaPage } from "@/lib/seo";
-import { DOSSIER, OPTIONS, TENTES, photos } from "../_composants/donnees";
-import { CarteTente, Faq, Surtitre } from "../_composants/Blocs";
+import Apparition from "../../_kit/Apparition";
+import { AppelFinal, Bouton, CarteTente, EnTetePage, Faq, Intitule, PHOTO_TENTE, Section } from "../_composants/Blocs";
+import { DOSSIER, OPTIONS, TENTES, WEEKEND, photos } from "../_composants/donnees";
 
 // Les trois tentes, leur capacité (celle du fabricant), leur prix TTC d'exemple pour le
-// week-end, ce qui est compris, et ce qu'on pose avec.
+// week-end, ce qui est compris, le week-end raconté de vendredi à lundi (venu de
+// l'accueil dans la version carrée), et ce qu'on pose avec.
 export const metadata: Metadata = {
-  title: "Les tentes · Pignon sur Pré — site de démonstration",
+  title: "Les tentes — Pignon sur Pré, site de démonstration",
   description: "Trois tentes de réception, de 60 à 240 invités assis selon le fabricant, montées la veille. Site de démonstration, prix d'exemple.",
   ...adressesDeLaPage("/exemples/pignon-sur-pre/tentes"),
 };
@@ -29,66 +30,80 @@ const QUESTIONS_TENTES = [
 
 export default function Tentes() {
   return (
-    <div>
-      <section className="max-w-6xl mx-auto px-5 pt-10 pb-14 sm:pt-16 grid gap-8 md:grid-cols-[1.2fr_0.8fr] md:items-end">
-        <div className="space-y-4">
-          <Surtitre>Les tentes</Surtitre>
-          <h1 className="text-[48px] sm:text-7xl font-normal">Trois tentes, <em className="text-[var(--accent-texte)]">un week-end.</em></h1>
-          <p className="text-lg leading-relaxed text-[var(--doux)]">
-            Montées le vendredi, démontées le lundi. Les prix sont TTC, pour le week-end, montage et démontage compris.
-          </p>
-        </div>
-        <div className="relative hidden md:block aspect-[3/4] overflow-hidden rounded-t-full">
-          <Image src={photos.tenteJardin.src} alt={photos.tenteJardin.alt} fill sizes="380px" className="object-cover" />
-        </div>
-      </section>
+    <main>
+      <EnTetePage surtitre="Les tentes" titre="Trois tentes, *un week-end.*" photo={photos.tenteJardin} origine="50% 40%">
+        Montées le vendredi, démontées le lundi. Les prix sont TTC, pour le week-end, montage et démontage compris&nbsp;: des
+        exemples, l&apos;entreprise est fictive.
+      </EnTetePage>
 
-      <section className="max-w-6xl mx-auto px-5 pb-16 sm:pb-24">
-        <ul className="grid gap-4 md:grid-cols-3">
-          {TENTES.map((t) => (
-            <li key={t.id}><CarteTente t={t} /></li>
+      <Section className="space-y-6">
+        <ul className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          {TENTES.map((t, i) => (
+            <Apparition as="li" key={t.id} delai={i * 120}>
+              <CarteTente t={t} photo={PHOTO_TENTE[t.id]} />
+            </Apparition>
           ))}
         </ul>
-        <p className="mt-4 text-[13px] text-[var(--doux)]">Prix TTC d&apos;exemple. Capacité : celle du fabricant de chaque modèle, en invités assis à des tables rondes de dix.</p>
-      </section>
+        <p className="text-[13px] text-[var(--doux)]">Prix TTC d&apos;exemple. Capacité : celle du fabricant de chaque modèle, en invités assis à des tables rondes de dix.</p>
+      </Section>
 
-      <section className="bg-[var(--carte)] border-y border-[var(--trait)]">
-        <div className="max-w-6xl mx-auto px-5 py-16 sm:py-24 grid gap-10 md:grid-cols-2">
-          <div className="space-y-5">
-            <Surtitre>Compris</Surtitre>
-            <h2 className="text-[40px] sm:text-5xl font-normal">Dans le prix.</h2>
-            <ul className="space-y-3 text-lg">
-              {COMPRIS.map((c) => (
-                <li key={c} className="flex gap-3"><span aria-hidden="true" className="text-[var(--accent-texte)]">✓</span>{c}</li>
-              ))}
-            </ul>
-          </div>
-          <div className="space-y-5">
-            <Surtitre>En plus</Surtitre>
-            <h2 className="text-[40px] sm:text-5xl font-normal">Ce qu&apos;on pose avec.</h2>
+      <Section fond="bg-[var(--sombre)] text-[var(--sur-sombre)]" className="grid grid-cols-1 gap-14 lg:grid-cols-2 lg:items-center lg:gap-16">
+        <div className="space-y-10">
+          <Intitule surtitre="Compris" titre="Dans le *prix.*" clair />
+          <ul className="divide-y divide-white/15 border-y border-white/15 text-lg">
+            {COMPRIS.map((c, i) => (
+              <Apparition as="li" key={c} delai={i * 90} className="py-3.5">{c}</Apparition>
+            ))}
+          </ul>
+        </div>
+        <Apparition className="relative aspect-[4/3] overflow-hidden rounded-2xl">
+          <Image src={photos.tenteNuit.src} alt={photos.tenteNuit.alt} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
+        </Apparition>
+      </Section>
+
+      <Section className="space-y-14">
+        <Intitule
+          surtitre="De vendredi à lundi"
+          titre="La tranchée finie *avant l'apéro.*"
+          texte="Ton week-end, raconté de la visite du pré au démontage. Ton terrain a le dernier mot, mais c'est le but."
+        />
+        <ol className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
+          {WEEKEND.map((w, i) => (
+            <Apparition as="li" key={w.titre} delai={i * 90} className="grid grid-cols-1 gap-2 py-6 md:grid-cols-[12rem_1fr_1.4fr] md:items-baseline md:gap-8">
+              <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">{w.quand}</p>
+              <h3 className="font-[family-name:var(--titres)] text-2xl font-normal leading-tight">{w.titre}</h3>
+              <p className="leading-relaxed text-[var(--doux)]">{w.texte}</p>
+            </Apparition>
+          ))}
+        </ol>
+      </Section>
+
+      <Section fond="bg-[var(--carte)] border-y border-[var(--trait)]" className="grid grid-cols-1 gap-16 lg:grid-cols-2">
+        <div className="space-y-10">
+          <Intitule surtitre="En plus" titre="Ce qu'on *pose avec.*" />
+          <div className="space-y-3">
             <ul className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
-              {OPTIONS.map((o) => (
-                <li key={o.nom} className="flex items-baseline justify-between gap-4 py-3.5">
+              {OPTIONS.map((o, i) => (
+                <Apparition as="li" key={o.nom} delai={i * 90} className="flex items-baseline justify-between gap-4 py-4">
                   <span>
-                    <span className="block font-semibold">{o.nom}</span>
+                    <span className="block text-[17px] font-medium">{o.nom}</span>
                     <span className="block text-[15px] text-[var(--doux)]">{o.detail}</span>
                   </span>
-                  <span className="shrink-0 text-[15px] font-semibold">{o.prix}</span>
-                </li>
+                  <span className="shrink-0 tabular-nums">{o.prix}</span>
+                </Apparition>
               ))}
             </ul>
             <p className="text-[13px] text-[var(--doux)]">Prix TTC d&apos;exemple, pour le week-end.</p>
           </div>
         </div>
-      </section>
+        <div className="space-y-10">
+          <Intitule surtitre="Questions" titre="Avant de *choisir.*" />
+          <Faq questions={QUESTIONS_TENTES} />
+          <Bouton href={`${DOSSIER}#pre`}>Voir ma tente sur mon pré</Bouton>
+        </div>
+      </Section>
 
-      <section className="max-w-3xl mx-auto px-5 py-16 sm:py-24 space-y-8">
-        <h2 className="text-[40px] font-normal">Questions</h2>
-        <Faq questions={QUESTIONS_TENTES} />
-        <Link href={`${DOSSIER}#pre`} className="inline-flex h-14 items-center rounded-full bg-[var(--accent)] px-6 text-[17px] font-semibold text-[var(--sur-accent)]">
-          Voir ma tente sur mon pré
-        </Link>
-      </section>
-    </div>
+      <AppelFinal />
+    </main>
   );
 }

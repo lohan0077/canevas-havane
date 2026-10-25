@@ -1,6 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { DOSSIER, agence, euros, pourcent, prixHonorairesInclus, type Classe, type Maison } from "./donnees";
+import Apparition from "../../_kit/Apparition";
+import FondVivant from "../../_kit/FondVivant";
+import MotGeant from "../../_kit/MotGeant";
+import TitreRevele from "../../_kit/TitreRevele";
+import { DOSSIER, NAVIGATION, agence, euros, pourcent, prixHonorairesInclus, type Classe, type Maison, type Photo } from "./donnees";
 
 /** La feuille de la marque : trois traits, comme trois marches. Décoratif. */
 export function Marches({ className = "" }: { className?: string }) {
@@ -8,27 +12,6 @@ export function Marches({ className = "" }: { className?: string }) {
     <svg viewBox="0 0 36 18" aria-hidden="true" className={className} fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
       <path d="M12 4 H24 M8 9 H28 M4 14 H32" />
     </svg>
-  );
-}
-
-/** Un titre de section, centré : les trois marches, un surtitre en petites capitales, le titre en Bodoni. */
-export function Intitule({ surtitre, titre, children, gauche = false, niveau = 2 }: { surtitre: string; titre: React.ReactNode; children?: React.ReactNode; gauche?: boolean; niveau?: 1 | 2 }) {
-  const Titre = niveau === 1 ? "h1" : "h2";
-  return (
-    <div className={`max-w-2xl space-y-4 ${gauche ? "" : "mx-auto text-center"}`}>
-      <Marches className={`h-4 w-9 text-[var(--accent)] ${gauche ? "" : "mx-auto"}`} />
-      <p className="text-[12px] font-semibold uppercase tracking-[0.28em] text-[var(--accent-texte)]">{surtitre}</p>
-      <Titre className="text-[40px] font-normal leading-[1.02] tracking-[-0.01em] sm:text-[58px]">{titre}</Titre>
-      {children && <div className="text-[17px] leading-relaxed text-[var(--doux)]">{children}</div>}
-    </div>
-  );
-}
-
-export function Section({ id, className = "", fondu = false, children, label }: { id?: string; className?: string; fondu?: boolean; children: React.ReactNode; label?: string }) {
-  return (
-    <section id={id} aria-label={label} className={`scroll-mt-24 ${fondu ? "bg-[#E9EFE6]" : ""}`}>
-      <div className={`mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28 ${className}`}>{children}</div>
-    </section>
   );
 }
 
@@ -97,10 +80,10 @@ export function Depenses({ maison }: { maison: Maison }) {
 /** Une maison en vignette : l'histoire d'abord, le prix légal ensuite. */
 export function CarteMaison({ maison }: { maison: Maison }) {
   return (
-    <article className="flex h-full flex-col border border-[var(--trait)] bg-[var(--carte)]">
-      <div className="relative aspect-[4/3] border-b border-[var(--trait)]">
-        <Image src={maison.photo.src} alt={maison.photo.alt} fill sizes="(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw" className="object-cover" />
-        <span className="absolute left-3 top-3 bg-[var(--carte)] px-2.5 py-1 text-[12px] font-semibold">Annonce : exemple</span>
+    <article className="group flex h-full flex-col overflow-hidden rounded-t-[999px] rounded-b-[1.5rem] border border-[var(--trait)] bg-[var(--carte)] shadow-[0_30px_60px_-45px_rgba(62,58,54,0.6)]">
+      <div className="relative aspect-[4/5] overflow-hidden border-b border-[var(--trait)]">
+        <Image src={maison.photo.src} alt={maison.photo.alt} fill sizes="(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw" className="object-cover transition-transform duration-[1.4s] ease-out group-hover:scale-[1.05]" />
+        <span className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-[var(--carte)] px-3 py-1 text-[12px] font-semibold">Annonce : exemple</span>
       </div>
       <div className="flex flex-1 flex-col gap-5 p-6">
         <blockquote className="space-y-2">
@@ -141,30 +124,122 @@ export function MentionsAgence() {
   );
 }
 
-export function PiedDeSite() {
+/** Le monogramme « III » dans un rond, et le nom. */
+export function Marque() {
   return (
-    <div className="border-t border-[var(--trait)] bg-[var(--fond)]">
-      <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8">
-        <div className="grid gap-10 md:grid-cols-[1fr_1.3fr]">
-          <div className="space-y-3">
-            <p className="flex items-center gap-3">
-              <span aria-hidden="true" className="grid h-11 w-11 place-items-center rounded-full border border-[var(--encre)] font-[family-name:var(--titres)] text-[15px] tracking-[0.1em]">III</span>
-              <span className="font-[family-name:var(--titres)] text-[28px]">Trois Marches</span>
-            </p>
-            <p className="font-[family-name:var(--titres)] text-[19px] italic">Chaque maison a son histoire.</p>
-            <p className="text-[15px]">
-              <a href={`tel:${agence.telephone.replace(/ /g, "")}`} className="font-semibold underline underline-offset-4">{agence.telephone}</a>
-              <span className="text-[var(--doux)]"> · numéro de fiction</span>
-            </p>
-            <p className="text-[15px]">
-              <Link href={`${DOSSIER}/mentions-legales`} className="underline underline-offset-4">Mentions légales et crédits</Link>
-            </p>
+    <span className="flex items-center gap-2.5">
+      <span aria-hidden="true" className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-current font-[family-name:var(--titres)] text-[14px] tracking-[0.1em]">III</span>
+      <span className="whitespace-nowrap font-[family-name:var(--titres)] text-[22px]">Trois Marches</span>
+    </span>
+  );
+}
+
+/** Le petit intitulé au-dessus d'un titre : les trois marches, des petites capitales. */
+export function Surtitre({ children, clair = false }: { children: React.ReactNode; clair?: boolean }) {
+  return (
+    <p className={`flex items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.28em] ${clair ? "text-[#F2C3A6]" : "text-[var(--accent-texte)]"}`}>
+      <Marches className={`h-3.5 w-8 ${clair ? "text-[#E8A27C]" : "text-[var(--accent)]"}`} />
+      {children}
+    </p>
+  );
+}
+
+/** Un bouton-lien en pilule, petites capitales. */
+export function Bouton({ href, children, variante = "plein" }: { href: string; children: React.ReactNode; variante?: "plein" | "encre" | "contour" | "clair" }) {
+  const styles = {
+    plein: "bg-[var(--accent)] text-[var(--sur-accent)]",
+    encre: "bg-[var(--encre)] text-[var(--fond)]",
+    contour: "border border-current/40 hover:bg-[color-mix(in_oklab,currentColor_8%,transparent)]",
+    clair: "bg-[#F7F2E8] text-[#3E3A36]",
+  }[variante];
+  return (
+    <Link href={href} className={`group inline-flex min-h-13 items-center gap-3 rounded-full px-7 py-3 text-[14px] font-semibold uppercase tracking-[0.16em] transition-transform hover:scale-[1.02] ${styles}`}>
+      {children}
+      <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+    </Link>
+  );
+}
+
+/** Classes des grands titres : Playfair, l'italique en relief. */
+export const TITRE = "font-normal leading-[0.96] tracking-[-0.02em]";
+export const ACCENT = "italic text-[var(--accent-texte)]";
+export const ACCENT_CLAIR = "italic text-[#F2C3A6]";
+
+/** Une photo dans une arche, comme une porte ou une fenêtre haute. */
+export function Arche({ photo, className = "", priority = false, sizes = "(min-width: 1024px) 40vw, 100vw" }: { photo: Photo; className?: string; priority?: boolean; sizes?: string }) {
+  return (
+    <div className={`relative overflow-hidden rounded-t-[999px] ${className}`}>
+      <Image src={photo.src} alt={photo.alt} fill priority={priority} sizes={sizes} className="kit-cinema-img object-cover" />
+    </div>
+  );
+}
+
+/** Le haut de chaque page intérieure : un titre très grand sur le papier, une photo dans une arche. */
+export function EnTetePage({ surtitre, titre, children, photo, aCote }: { surtitre: string; titre: string; children?: React.ReactNode; photo?: Photo; aCote?: React.ReactNode }) {
+  return (
+    <section className="relative overflow-hidden border-b border-[var(--trait)]">
+      <div className="mx-auto grid grid-cols-1 max-w-7xl gap-12 px-5 pb-16 pt-32 sm:px-8 md:pb-20 md:pt-40 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
+        <div className="space-y-7">
+          <Apparition><Surtitre>{surtitre}</Surtitre></Apparition>
+          <TitreRevele as="h1" auChargement texte={titre} className={`max-w-4xl text-[clamp(3.2rem,8vw,7.4rem)] ${TITRE}`} classeAccent={ACCENT} />
+          {children && (
+            <Apparition delai={350} className="max-w-2xl text-[19px] leading-relaxed text-[var(--doux)]">
+              {children}
+            </Apparition>
+          )}
+        </div>
+        {aCote ?? (photo && (
+          <Apparition de="rideau" delai={200}>
+            <Arche photo={photo} priority className="mx-auto aspect-[3/4] w-full max-w-[380px]" />
+          </Apparition>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/** Le dernier écran : la phrase de la marque, sur le fond vivant, et l'estimation. */
+export function AppelFinal() {
+  return (
+    <section className="px-3 pb-3 pt-3 sm:px-5 sm:pb-5 sm:pt-5">
+      <div className="relative isolate overflow-hidden rounded-[2.5rem] bg-[#3E3A36] text-[#F7F2E8]">
+        <FondVivant couleurs={["#2E2B28", "#5A4636", "#B4532C"]} vitesse={0.7} />
+        <div className="absolute inset-0 bg-[#3E3A36]/50" />
+        <div className="relative mx-auto grid grid-cols-1 max-w-6xl gap-10 px-6 py-24 sm:px-10 md:py-32 lg:grid-cols-[1.3fr_0.7fr] lg:items-end">
+          <div className="space-y-7">
+            <Surtitre clair>Vous vendez</Surtitre>
+            <TitreRevele texte="Une agence ne vend pas des murs. *Elle vend ce qu'on y a vécu.*" className={`text-[clamp(2.8rem,6.4vw,6rem)] ${TITRE}`} classeAccent={ACCENT_CLAIR} />
           </div>
-          <div className="text-[var(--doux)]">
-            <MentionsAgence />
-          </div>
+          <Apparition className="flex flex-col items-start gap-4 lg:items-end" delai={200}>
+            <Bouton href={`${DOSSIER}/estimation`} variante="clair">Faire estimer ma maison</Bouton>
+            <p className="text-[15px] text-[#F7F2E8]/90">Ou par téléphone : <span className="font-semibold tabular-nums">{agence.telephone}</span></p>
+          </Apparition>
         </div>
       </div>
-    </div>
+    </section>
+  );
+}
+
+/** Le pied de chaque page : les mentions de l'agence, ses pages, et le nom en grand. */
+export function Pied() {
+  return (
+    <footer className="overflow-hidden bg-[#3E3A36] text-[#F7F2E8]">
+      <div className="mx-auto grid grid-cols-1 max-w-6xl gap-10 px-6 pb-10 pt-20 sm:px-10 md:grid-cols-[1fr_1.3fr_0.7fr]">
+        <div className="space-y-3">
+          <Marque />
+          <p className="font-[family-name:var(--titres)] text-[19px] italic text-[#F2C3A6]">Chaque maison a son histoire.</p>
+          <p className="text-[15px] tabular-nums">{agence.telephone} <span className="text-[#F7F2E8]/90">· numéro de fiction</span></p>
+        </div>
+        <div className="text-[#F7F2E8]/90 [&_a]:text-[#F7F2E8]">
+          <MentionsAgence />
+        </div>
+        <ul className="space-y-2 text-[15px] font-semibold">
+          {[{ href: DOSSIER, libelle: "Accueil" }, ...NAVIGATION, { href: `${DOSSIER}/estimation`, libelle: "Faire estimer" }, { href: `${DOSSIER}/mentions-legales`, libelle: "Mentions légales et crédits" }].map((l) => (
+            <li key={l.href}><Link href={l.href} className="underline-offset-4 hover:underline">{l.libelle}</Link></li>
+          ))}
+        </ul>
+      </div>
+      <MotGeant texte="Trois Marches" chasse={1.85} className="px-4 pb-3 font-[family-name:var(--titres)] italic text-[#E8A27C]" />
+    </footer>
   );
 }

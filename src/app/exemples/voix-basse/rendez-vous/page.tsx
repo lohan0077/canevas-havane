@@ -1,62 +1,76 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { adressesDeLaPage } from "@/lib/seo";
-import { Intitule, Section } from "../_composants/Blocs";
+import Apparition from "../../_kit/Apparition";
+import TitreRevele from "../../_kit/TitreRevele";
+import { AppelFinal, Surtitre } from "../_composants/Blocs";
 import Question from "../_composants/Question";
-import { cabinet, photos } from "../_composants/donnees";
+import { DEROULE_CALME, SOMBRE, cabinet, photos } from "../_composants/donnees";
 
-// La page de rendez-vous : celle que la vidéo filme. Avant de réserver, une seule
-// question ; « un peu » ou « beaucoup » ouvre le créneau calme, avant l'ouverture.
+// La page que la vidéo « Créer une marque » filme. Avant de réserver, une seule question ;
+// « un peu » ou « beaucoup » ouvre le créneau calme, avant l'ouverture. La question ouvre
+// la page : elle est à l'écran dès l'arrivée, sur un téléphone aussi.
 export const metadata: Metadata = {
   title: "Rendez-vous — Voix Basse, site de démonstration",
   description: "Avant de réserver, une seule question : ton animal est stressé ? Un créneau calme, avant l'ouverture. Page de démonstration d'un cabinet vétérinaire imaginaire.",
   ...adressesDeLaPage("/exemples/voix-basse/rendez-vous"),
 };
 
-const DEROULE = [
-  { heure: "7 h 55", texte: "Tu te gares devant la porte, sur la place réservée. Personne dans la cour." },
-  { heure: "8 h 00", texte: "La salle d'attente est à toi. La caisse se pose en hauteur, porte ouverte." },
-  { heure: "8 h 05", texte: "On vient vous chercher à voix basse. Il sort de sa caisse quand il veut." },
-  { heure: "8 h 30", texte: "Le cabinet ouvre. Vous, vous êtes déjà repartis." },
-];
-
 export default function RendezVous() {
   return (
     <main>
-      <Section className="pt-10 sm:pt-16">
-        <Question titre="h1" />
-      </Section>
-
-      <Section teinte className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
-        <div className="space-y-10">
-          <Intitule surtitre="Le créneau calme" titre={<>Une demi-heure <em>avant tout le monde.</em></>}>
-            Avant l&apos;ouverture, le cabinet ne reçoit qu&apos;un rendez-vous à la fois. Même
-            consultation, même prix ; seulement plus tôt, et plus bas.
-          </Intitule>
-          <ol className="space-y-0 border-l-2 border-[var(--accent)] pl-6">
-            {DEROULE.map((d) => (
-              <li key={d.heure} className="relative pb-7 last:pb-0">
-                <span aria-hidden="true" className="absolute -left-[33px] top-1.5 h-4 w-4 rounded-full border-[3px] border-[#EFE8F7] bg-[var(--encre)]" />
-                <p className="font-[family-name:var(--titres)] text-3xl tabular-nums">{d.heure}</p>
-                <p className="text-lg leading-relaxed text-[var(--doux)]">{d.texte}</p>
-              </li>
-            ))}
-          </ol>
+      <section className="relative overflow-hidden">
+        <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(45%_55%_at_85%_15%,color-mix(in_oklab,var(--accent)_32%,transparent),transparent_70%)]" />
+        <div className="relative mx-auto grid max-w-7xl gap-12 px-5 pb-20 pt-28 sm:px-8 md:pt-36 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
+          <Question titre="h1" />
+          <Apparition de="rideau" delai={200} className="relative hidden aspect-[3/4] overflow-hidden rounded-[2.5rem] lg:block">
+            <Image src={photos.soleil.src} alt={photos.soleil.alt} fill priority sizes="(min-width: 1024px) 420px, 100vw" className="object-cover" />
+          </Apparition>
         </div>
-        <div className="relative aspect-[3/2] overflow-hidden rounded-[28px] lg:mt-24">
-          <Image src={photos.caisse.src} alt={photos.caisse.alt} fill sizes="(min-width: 1024px) 460px, 100vw" className="object-cover" />
-        </div>
-      </Section>
+      </section>
 
-      <Section className="max-w-3xl space-y-4">
-        <h2 className="text-[38px] sm:text-5xl">Une urgence&nbsp;?</h2>
-        <p className="text-lg leading-relaxed text-[var(--doux)]">
-          N&apos;attends pas un créneau : appelle le cabinet au{" "}
-          <span className="font-semibold text-[var(--encre)] tabular-nums">{cabinet.telephone}</span> aux heures
-          d&apos;ouverture. Le soir et le dimanche, le répondeur donne le numéro du service de
-          garde du secteur. Numéro de fiction : il ne sonne chez personne.
-        </p>
-      </Section>
+      <section className="px-3 sm:px-5">
+        <div style={SOMBRE} className="overflow-hidden rounded-[2.5rem] bg-[var(--fond)] text-[var(--encre)]">
+          <div className="mx-auto grid max-w-6xl gap-12 px-6 py-20 sm:px-10 md:py-28 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+            <div className="space-y-8">
+              <Apparition><Surtitre>Le créneau calme</Surtitre></Apparition>
+              <TitreRevele
+                texte="Une demi-heure *avant tout le monde.*"
+                className="text-[clamp(2.6rem,5.4vw,5rem)] leading-[0.95] tracking-[-0.02em]"
+                classeAccent="italic text-[var(--accent-texte)]"
+              />
+              <ol className="space-y-0 border-l-2 border-[var(--accent)] pl-6">
+                {DEROULE_CALME.map((d, i) => (
+                  <Apparition as="li" key={d.heure} delai={i * 120} className="relative pb-7 last:pb-0">
+                    <span aria-hidden="true" className="absolute -left-[33px] top-1.5 h-4 w-4 rounded-full border-[3px] border-[var(--fond)] bg-[var(--accent)]" />
+                    <p className="font-[family-name:var(--titres)] text-3xl tabular-nums">{d.heure}</p>
+                    <p className="text-lg leading-relaxed text-[var(--doux)]">{d.texte}</p>
+                  </Apparition>
+                ))}
+              </ol>
+            </div>
+            <Apparition de="zoom" className="relative aspect-[3/2] overflow-hidden rounded-[2rem]">
+              <Image src={photos.caisse.src} alt={photos.caisse.alt} fill sizes="(min-width: 1024px) 460px, 100vw" className="object-cover" />
+            </Apparition>
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-4xl space-y-5 px-5 py-24 sm:px-8 md:py-28">
+        <Apparition><Surtitre>Une urgence ?</Surtitre></Apparition>
+        <TitreRevele
+          texte="N'attends pas *un créneau.*"
+          className="text-[clamp(2.4rem,5vw,4.4rem)] leading-[0.95] tracking-[-0.02em]"
+          classeAccent="italic text-[var(--accent-texte)]"
+        />
+        <Apparition as="p" delai={150} className="text-lg leading-relaxed text-[var(--doux)]">
+          Appelle le cabinet au <span className="font-semibold text-[var(--encre)] tabular-nums">{cabinet.telephone}</span> aux
+          heures d&apos;ouverture. Le soir et le dimanche, le site passe au visage du soir et te
+          dit qui appeler : la garde du secteur. Numéros de fiction : ils ne sonnent chez personne.
+        </Apparition>
+      </section>
+
+      <AppelFinal />
     </main>
   );
 }

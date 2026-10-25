@@ -26,14 +26,14 @@ export default function Mur() {
 
   return (
     <div className="space-y-8">
-      <ul className="grid grid-cols-2 gap-x-3 gap-y-5 sm:grid-cols-4" aria-label="Billets du mur (exemples)">
+      <ul className="mx-auto grid w-full max-w-sm grid-cols-1 gap-x-4 gap-y-5 sm:max-w-none sm:grid-cols-3 lg:grid-cols-4" aria-label="Billets du mur (exemples)">
         {[...MUR_EXEMPLES, ...miens].map((b, i) => (
           <li key={`${b.ou}-${i}`}>
             <Billet ou={b.ou} pour={b.pour} angle={ANGLES[i % ANGLES.length]} neuf={i >= MUR_EXEMPLES.length} />
           </li>
         ))}
       </ul>
-      <form onSubmit={coller} className="grid gap-3 rounded-[6px] bg-[var(--carte)] p-5 sm:grid-cols-[1fr_1fr_auto] sm:items-end">
+      <form onSubmit={coller} className="grid gap-3 rounded-[1.8rem] bg-[var(--carte)] p-5 shadow-[0_30px_60px_-45px_rgba(22,48,42,0.8)] sm:grid-cols-[1fr_1fr_auto] sm:items-end sm:p-7">
         <label className="space-y-1">
           <span className="block text-sm font-semibold">Ta destination</span>
           <input id={`${id}-ou`} value={ou} onChange={(e) => setOu(e.target.value)} maxLength={24} autoComplete="off" placeholder="L'Écosse" className="w-full border-b-2 border-[var(--trait)] bg-transparent py-2 text-lg outline-none focus:border-[var(--encre)]" />

@@ -29,13 +29,13 @@ export default function Pot({ auteur, oeuvre, animee = false, className = "" }: 
 }
 
 /** Le même pot, en vignette : le couvercle, la teinte du produit, le prénom sur la collerette. */
-export function PotMini({ auteur, oeuvre }: { auteur: Auteur; oeuvre: Oeuvre }) {
+export function PotMini({ auteur, oeuvre, petit = false }: { auteur: Auteur; oeuvre: Oeuvre; petit?: boolean }) {
   return (
-    <div className="w-[5.5rem]" aria-hidden="true">
+    <div className={petit ? "w-[4.2rem]" : "w-[5.5rem]"} aria-hidden="true">
       <div className="mx-auto h-3 w-[76%] rounded-t-md bg-[#1E2A4A]" />
       <div className="overflow-hidden rounded-b-[1.4rem] rounded-t-lg px-1.5 pb-4 pt-4" style={{ background: oeuvre.teinte }}>
         <div className="rounded-[3px] border-2 border-[#1E2A4A] bg-[#FFFCF6] px-1 py-1.5 text-center text-[#1E2A4A]">
-          <p className="font-[family-name:var(--titres)] text-lg font-semibold leading-none">{auteur.prenom}</p>
+          <p className={`font-[family-name:var(--titres)] font-semibold leading-none ${petit ? (auteur.prenom.length > 6 ? "text-[10px]" : "text-[13px]") : auteur.prenom.length > 6 ? "text-[15px]" : "text-lg"}`}>{auteur.prenom}</p>
           <Signature variante={auteur.signature} couleur="#1E2A4A" className="mx-auto h-3 w-[80%]" />
         </div>
       </div>

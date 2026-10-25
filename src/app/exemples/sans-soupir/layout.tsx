@@ -1,10 +1,13 @@
 import Cadre from "../_kit/Cadre";
-import EnTete from "./_composants/EnTete";
-import PiedDuSite from "./_composants/PiedDuSite";
+import NavVerre from "../_kit/NavVerre";
+import { NomMarque } from "./_composants/Blocs";
+import Pied from "./_composants/Pied";
+import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 
-// Le gabarit de Sans Soupir : la crème, l'ardoise et le jaune de la marque, et de
-// gros caractères partout (le texte courant est en 18 px). Sora pour les titres,
-// Figtree pour le texte, deux sans-serif très lisibles.
+// Le gabarit de Sans Soupir, l'informaticien à domicile des deux vidéos du dépannage
+// informatique : la crème, l'ardoise et le jaune de la marque, le corail de la porte
+// « C'est cassé » et le vert d'eau de « Je veux apprendre ». De gros caractères partout
+// (le texte courant est en 18 px). Sora pour les titres, Figtree pour le texte.
 export default function SansSoupirLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
@@ -25,9 +28,9 @@ export default function SansSoupirLayout({ children }: { children: React.ReactNo
       }}
     >
       <div className="text-[18px]">
-        <EnTete />
+        <NavVerre accueil={DOSSIER} marque={<NomMarque />} liens={NAVIGATION} action={{ href: `${DOSSIER}/fiches`, libelle: "Les fiches" }} />
         {children}
-        <PiedDuSite />
+        <Pied />
       </div>
     </Cadre>
   );

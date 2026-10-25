@@ -1,77 +1,154 @@
-import Image from "next/image";
 import Link from "next/link";
-import { Logo } from "./EnTete";
-import { DOSSIER, NAVIGATION, PHRASE_L313_3, PHRASE_L322_2, entreprise, photos, questions } from "./donnees";
+import Apparition from "../../_kit/Apparition";
+import FondVivant from "../../_kit/FondVivant";
+import TitreRevele from "../../_kit/TitreRevele";
+import RendezVous from "./RendezVous";
+import { PHRASE_L313_3, PHRASE_L322_2, entreprise } from "./donnees";
 
-/** Un titre de section, centré ou non : petit libellé, titre en Fraunces, chapeau. */
-export function Intitule({
-  libelle,
-  titre,
-  children,
-  clair = false,
-  centre = false,
-  niveau = 2,
-}: {
-  libelle: string;
-  titre: React.ReactNode;
-  children?: React.ReactNode;
-  clair?: boolean;
-  centre?: boolean;
-  niveau?: 1 | 2;
-}) {
-  const Balise = niveau === 1 ? "h1" : "h2";
+/** Le monogramme : BN dans un rond jaune, une onde verte, comme un appel qui arrive. */
+export function Monogramme({ taille = 38 }: { taille?: number }) {
   return (
-    <div className={`max-w-2xl space-y-4 ${centre ? "mx-auto text-center" : ""}`}>
-      <p className={`text-[12px] font-semibold tracking-[0.2em] uppercase ${clair ? "text-[#F2C14E]" : "text-[var(--accent-texte)]"}`}>{libelle}</p>
-      <Balise className={`text-[40px] font-normal tracking-[-0.02em] sm:text-6xl ${clair ? "text-[var(--sur-sombre)]" : ""}`}>{titre}</Balise>
-      {children && <div className={`text-[17px] leading-relaxed ${clair ? "text-[#C9D2DF]" : "text-[var(--doux)]"}`}>{children}</div>}
-    </div>
-  );
-}
-
-export function Photo({ photo, sizes, className = "" }: { photo: (typeof photos)[keyof typeof photos]; sizes: string; className?: string }) {
-  return (
-    <div className={`relative overflow-hidden rounded-[24px] bg-[var(--carte)] ${className}`}>
-      <Image src={photo.src} alt={photo.alt} width={photo.largeur} height={photo.hauteur} sizes={sizes} className="h-full w-full object-cover" />
-    </div>
-  );
-}
-
-/**
- * Un dessin au trait, très pâle, sous le titre de l'accueil : des maisons, un fil de
- * téléphone qui court de l'une à l'autre. Décoratif.
- */
-export function Dessin() {
-  return (
-    <svg viewBox="0 0 800 220" className="h-auto w-full" aria-hidden="true">
-      <g fill="none" stroke="#CFC6B3" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round">
-        <path d="M0 200 H800" />
-        <path d="M40 200 V120 L95 80 L150 120 V200" />
-        <path d="M70 200 V160 H100 V200 M110 135 H135 V155 H110 Z M55 135 H80 V155 H55 Z" />
-        <path d="M190 200 V100 H300 V200 M190 100 L245 60 L300 100" />
-        <path d="M210 125 H235 V150 H210 Z M255 125 H280 V150 H255 Z M232 200 V170 H258 V200" />
-        <path d="M520 200 V110 L580 70 L640 110 V200 M545 200 V165 H570 V200 M590 130 H620 V155 H590 Z" />
-        <path d="M680 200 V130 H770 V200 M680 130 L725 95 L770 130 M700 150 H720 V170 H700 Z M735 150 H755 V170 H735 Z" />
-        <path d="M150 105 C 220 40, 320 40, 360 90 S 470 150, 520 110" strokeDasharray="2 7" />
-        <path d="M352 82 c 10 -14 30 -14 40 0 l -6 8 c -8 -8 -20 -8 -28 0 z" fill="#F2C14E" stroke="#B79A53" />
-        <path d="M430 60 q 6 -6 12 0 q 6 -6 12 0 M470 45 q 5 -5 10 0 q 5 -5 10 0" />
-      </g>
+    <svg viewBox="0 0 48 48" width={taille} height={taille} aria-hidden="true" className="shrink-0">
+      <circle cx="24" cy="24" r="22" fill="#F2C14E" />
+      <path d="M38 12a19 19 0 0 1 0 24" fill="none" stroke="#3FA36B" strokeWidth="2.6" strokeLinecap="round" />
+      <text x="22" y="30" textAnchor="middle" fontSize="16" fontWeight="600" fontFamily="var(--titres)" fill="#1B2A41">BN</text>
     </svg>
   );
 }
 
-/** L'affiche de lancement, en vrai : la phrase, la signature, et les mentions lisibles. */
-export function Affiche() {
+/** Le monogramme et le nom, pour l'en-tête. */
+export function Marque() {
   return (
-    <figure data-film="affiche" className="mx-auto max-w-md -rotate-1 rounded-[10px] bg-[#1B2A41] p-7 text-[#FFF8EC] shadow-[0_40px_80px_-40px_rgba(27,42,65,0.8)] sm:p-9">
-      <p className="font-[family-name:var(--titres)] text-[48px] leading-[1.02] tracking-[-0.02em]">
-        Oui ou non, <em className="text-[#F2C14E]">on t&apos;appelle.</em>
+    <span className="flex items-center gap-2.5">
+      <Monogramme />
+      <span className="whitespace-nowrap font-[family-name:var(--titres)] text-[22px] font-semibold tracking-[-0.02em]">Bonne Nouvelle</span>
+    </span>
+  );
+}
+
+/** Le petit intitulé au-dessus d'un titre : une pastille, un point vert qui palpite. */
+export function Surtitre({ children, clair = false }: { children: React.ReactNode; clair?: boolean }) {
+  return (
+    <p
+      className={`inline-flex items-center gap-2.5 rounded-full border px-4 py-1.5 text-[12px] font-bold uppercase tracking-[0.18em] ${
+        clair ? "border-white/25 text-[#FFF8EC]" : "border-[var(--trait)] bg-[var(--carte)] text-[var(--encre)]"
+      }`}
+    >
+      <span aria-hidden="true" className="relative flex h-2 w-2">
+        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#3FA36B] opacity-60 motion-reduce:animate-none" />
+        <span className="relative inline-flex h-2 w-2 rounded-full bg-[#3FA36B]" />
+      </span>
+      {children}
+    </p>
+  );
+}
+
+/** Un bouton-lien aux coins doux. */
+export function Bouton({ href, children, variante = "jaune" }: { href: string; children: React.ReactNode; variante?: "jaune" | "nuit" | "contour" | "creme" }) {
+  const styles = {
+    jaune: "bg-[#F2C14E] text-[#1B2A41]",
+    nuit: "bg-[#1B2A41] text-[#FFF8EC]",
+    contour: "border-2 border-current/35 hover:bg-[color-mix(in_oklab,currentColor_8%,transparent)]",
+    creme: "bg-[#FFF8EC] text-[#1B2A41]",
+  }[variante];
+  return (
+    <Link href={href} className={`group inline-flex min-h-13 items-center gap-3 rounded-[14px] px-6 py-3 text-[16px] font-bold transition-transform hover:-translate-y-0.5 ${styles}`}>
+      {children}
+      <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+    </Link>
+  );
+}
+
+/** Classes des grands titres : Fraunces serré, l'italique en relief. */
+export const TITRE = "font-medium leading-[0.95] tracking-[-0.035em]";
+export const ACCENT = "italic font-normal text-[var(--accent-texte)]";
+export const ACCENT_JAUNE = "italic font-normal text-[#F2C14E]";
+
+/** Le fond de nuit des hauts de page : bleu nuit, vert, une pointe d'or, qui coulent. */
+export function Nuit({ voile = 45 }: { voile?: number }) {
+  return (
+    <>
+      <FondVivant couleurs={["#16233A", "#1F4A47", "#6E6A3A"]} vitesse={0.7} />
+      <div className="absolute inset-0 bg-[#1B2A41]" style={{ opacity: voile / 100 }} />
+    </>
+  );
+}
+
+/** L'appel qui arrive : la carte d'un téléphone qui sonne, sans présumer la réponse. */
+export function AppelEntrant({ className = "" }: { className?: string }) {
+  return (
+    <div className={`rounded-[1.75rem] border border-white/15 bg-[#22344F] p-5 text-[#FFF8EC] shadow-[0_40px_80px_-30px_rgba(0,0,0,0.7)] ${className}`}>
+      <p className="flex items-center justify-between text-[12px] font-bold uppercase tracking-[0.16em] text-[#DDE4EE]">
+        Appel entrant
+        <span className="tabular-nums">14:02</span>
       </p>
-      <p className="mt-6 text-[14px] font-semibold tracking-[0.12em] uppercase">Bonne Nouvelle · courtage en crédit immobilier</p>
-      <div className="mt-6 space-y-2 border-t border-[#3A4A63] pt-4 text-[12px] leading-relaxed text-[#C9D2DF]">
-        <p>
-          {entreprise.nom}, {entreprise.adresse} · {entreprise.categorie} · ORIAS n°&nbsp;{entreprise.orias} (exemple)
-        </p>
+      <div className="mt-4 flex items-center gap-4">
+        <span className="relative grid h-14 w-14 shrink-0 place-items-center">
+          <span aria-hidden="true" className="absolute inset-0 animate-ping rounded-full bg-[#3FA36B] opacity-40 motion-reduce:animate-none" />
+          <Monogramme taille={56} />
+        </span>
+        <span>
+          <span className="block font-[family-name:var(--titres)] text-[24px] font-semibold leading-tight">Bonne Nouvelle</span>
+          <span className="block text-[14px] text-[#DDE4EE]">Dossier n° 2 731 · la réponse des banques</span>
+        </span>
+      </div>
+      <div aria-hidden="true" className="mt-5 grid grid-cols-2 gap-2 text-center text-[14px] font-bold">
+        <span className="rounded-full bg-[#3FA36B] py-2.5 text-[#10251A]">Décrocher</span>
+        <span className="rounded-full border border-white/25 py-2.5">Plus tard</span>
+      </div>
+      <p className="mt-4 text-[12px] leading-snug text-[#DDE4EE]">Oui ou non, on t&apos;appelle. Exemple : l&apos;entreprise est fictive.</p>
+    </div>
+  );
+}
+
+/** Le haut de chaque page intérieure : la nuit qui coule, un titre très grand. */
+export function EnTetePage({
+  surtitre,
+  titre,
+  children,
+  aCote,
+}: {
+  surtitre: string;
+  titre: string;
+  children?: React.ReactNode;
+  aCote?: React.ReactNode;
+}) {
+  return (
+    <section className="kit-grain relative isolate overflow-hidden bg-[#1B2A41] text-[#FFF8EC]">
+      <Nuit />
+      <div className={`relative mx-auto grid grid-cols-1 max-w-7xl gap-12 px-5 pb-16 pt-36 sm:px-8 md:pb-24 md:pt-44 ${aCote ? "lg:grid-cols-[1.15fr_0.85fr] lg:items-end" : ""}`}>
+        <div className="space-y-7">
+          <Apparition><Surtitre clair>{surtitre}</Surtitre></Apparition>
+          <TitreRevele
+            as="h1"
+            auChargement
+            texte={titre}
+            className={`max-w-5xl text-[clamp(3.2rem,8vw,7.6rem)] ${TITRE}`}
+            classeAccent={ACCENT_JAUNE}
+          />
+          {children && (
+            <Apparition delai={350} className="max-w-2xl text-[19px] leading-relaxed text-[#E6EBF2]">
+              {children}
+            </Apparition>
+          )}
+        </div>
+        {aCote && <Apparition de="zoom" delai={300}>{aCote}</Apparition>}
+      </div>
+    </section>
+  );
+}
+
+/** L'affiche de lancement, en vrai : la question, la signature, les mentions lisibles. */
+export function Affiche({ className = "" }: { className?: string }) {
+  return (
+    <figure data-film="affiche" className={`rounded-[10px] bg-[#1B2A41] p-7 text-[#FFF8EC] shadow-[0_50px_90px_-40px_rgba(27,42,65,0.85)] sm:p-10 ${className}`}>
+      <Monogramme taille={52} />
+      <p className="mt-6 font-[family-name:var(--titres)] text-[48px] font-medium leading-[1] tracking-[-0.03em] sm:text-[56px]">
+        Oui ou non, <em className="font-normal text-[#F2C14E]">on t&apos;appelle.</em>
+      </p>
+      <p className="mt-6 text-[13px] font-bold uppercase tracking-[0.14em]">Bonne Nouvelle · courtage en crédit immobilier</p>
+      <div className="mt-6 space-y-2 border-t border-[#3A4A63] pt-4 text-[12px] leading-relaxed text-[#DDE4EE]">
+        <p>{entreprise.nom}, {entreprise.adresse} · {entreprise.categorie} · ORIAS n°&nbsp;{entreprise.orias} (exemple)</p>
         <p>{PHRASE_L322_2}</p>
         <p>{PHRASE_L313_3}</p>
       </div>
@@ -80,53 +157,33 @@ export function Affiche() {
   );
 }
 
-export function Faq() {
+/**
+ * En bas de chaque page (le gabarit le pose) : le client choisit son créneau. Personne ne
+ * l'appelle pour le lui proposer (C. consom. L223-1).
+ */
+export function CreneauEnBas() {
   return (
-    <div className="space-y-3">
-      {questions.map((q) => (
-        <details key={q.q} className="group rounded-[20px] border border-[var(--trait)] bg-[var(--carte)] px-5">
-          <summary className="flex cursor-pointer list-none items-start justify-between gap-4 py-4 text-[18px] leading-snug font-semibold [&::-webkit-details-marker]:hidden">
-            {q.q}
-            <span aria-hidden="true" className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#F2C14E] text-[16px] text-[#1B2A41] transition-transform group-open:rotate-45">+</span>
-          </summary>
-          <p className="pb-5 text-[16px] leading-relaxed text-[var(--doux)]">{q.r}</p>
-        </details>
-      ))}
-    </div>
-  );
-}
-
-/** Le pied de chaque page : les mentions imposées à toute publicité d'un courtier, lisibles. */
-export function PiedDeSite() {
-  return (
-    <footer className="bg-[var(--sombre)] text-[var(--sur-sombre)]">
-      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:px-6 lg:grid-cols-[1.3fr_0.7fr]">
-        <div data-film="mentions-pied" className="space-y-4 text-[15px] leading-relaxed">
-          <p className="text-[12px] font-semibold tracking-[0.2em] text-[#F2C14E] uppercase">En vrai, lisibles</p>
-          <p className="font-[family-name:var(--titres)] text-[21px] leading-snug">« {PHRASE_L322_2} »</p>
-          <p className="text-[#E3E7EE]">{PHRASE_L313_3}</p>
-          <p className="text-[#C9D2DF]">
-            {entreprise.nom}, {entreprise.adresse} · {entreprise.categorie} · ORIAS n°&nbsp;{entreprise.orias} (exemple) · Nous exerçons pour
-            le compte de : {entreprise.banques.join(" ; ")} (exemples) · Médiateur de la consommation : médiateur d&apos;exemple, ses
-            coordonnées et l&apos;adresse de son site.
-          </p>
-        </div>
-        <div className="space-y-5">
-          <Logo clair />
-          <p className="text-[15px] text-[#C9D2DF]">
-            <a href={`tel:${entreprise.telephoneLien}`} className="font-semibold text-[var(--sur-sombre)] underline underline-offset-4">{entreprise.telephone}</a>
-            <br />
-            {entreprise.horaires}
-          </p>
-          <ul className="space-y-2 text-[15px] font-semibold">
-            <li><Link href={DOSSIER} className="hover:underline">Accueil</Link></li>
-            {NAVIGATION.map((l) => (
-              <li key={l.href}><Link href={l.href} className="hover:underline">{l.libelle}</Link></li>
-            ))}
-            <li><Link href={`${DOSSIER}/mentions-legales`} className="underline underline-offset-4">Mentions légales et crédits</Link></li>
-          </ul>
+    <section id="rendez-vous" className="scroll-mt-24 px-3 pb-3 pt-3 sm:px-5 sm:pb-5 sm:pt-5">
+      <div className="relative isolate overflow-hidden rounded-[2.5rem] bg-[#1B2A41] text-[#FFF8EC]">
+        <Nuit voile={40} />
+        <div className="relative mx-auto grid grid-cols-1 max-w-6xl gap-12 px-5 py-20 sm:px-10 md:py-28 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+          <div className="space-y-7">
+            <Surtitre clair>Rendez-vous</Surtitre>
+            <TitreRevele
+              texte="Tu choisis *ton créneau.*"
+              className={`text-[clamp(3.2rem,7.4vw,6.6rem)] ${TITRE}`}
+              classeAccent={ACCENT_JAUNE}
+            />
+            <p className="max-w-md text-[18px] leading-relaxed text-[#E6EBF2]">
+              Au cabinet ou en visio, une heure, sans engagement. Personne ne t&apos;appelle pour te le
+              proposer : c&apos;est toi qui viens. Ensuite, c&apos;est nous qui appelons, pour ton dossier.
+            </p>
+          </div>
+          <div className="rounded-[2rem] bg-[#FFF8EC] p-5 text-[#1B2A41] shadow-[0_50px_90px_-50px_rgba(0,0,0,0.7)] sm:p-8">
+            <RendezVous />
+          </div>
         </div>
       </div>
-    </footer>
+    </section>
   );
 }

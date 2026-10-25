@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { adressesDeLaPage } from "@/lib/seo";
+import Apparition from "../../_kit/Apparition";
+import { EnTetePage, Section, Surtitre, Titre } from "../_composants/Blocs";
 import { photos } from "../_composants/donnees";
-import { Coin } from "../_composants/Blocs";
 
 // « Et sur Instagram, une rubrique : la vraie phrase du lundi. Une par événement. » La
 // page qui explique la rubrique, et ses règles : une vraie phrase, jamais inventée,
 // publiée seulement avec l'accord de l'entreprise et de la personne. Les phrases
 // montrées ici sont des exemples, et le disent.
 export const metadata: Metadata = {
-  title: "La phrase du lundi · Lundi d'Après — site de démonstration",
+  title: "La phrase du lundi — Lundi d'Après, site de démonstration",
   description: "Après chaque événement, la vraie phrase entendue lundi, publiée avec l'accord de l'entreprise et de la personne. Site de démonstration.",
   ...adressesDeLaPage("/exemples/lundi-d-apres/la-phrase-du-lundi"),
 };
@@ -18,61 +18,55 @@ const EXEMPLES = [
   { phrase: "On refait ça quand ?", contexte: "Soirée d'entreprise, 140 personnes" },
   { phrase: "Je savais pas que le directeur dansait.", contexte: "Fête de fin d'année, 80 personnes" },
   { phrase: "L'équipe de nuit a gagné le quiz. Évidemment.", contexte: "Séminaire, 60 personnes" },
+  { phrase: "Ils ont tenu la piste jusqu'à la dernière.", contexte: "Mariage, 120 invités" },
 ];
 
 const REGLES = [
   { titre: "Une vraie phrase", texte: "Entendue lundi, mot pour mot. Jamais arrangée, jamais inventée : une phrase inventée serait un faux témoignage." },
-  { titre: "L'accord de l'entreprise", texte: "Rien ne se publie sans l'accord écrit de l'entreprise cliente." },
+  { titre: "L'accord de l'entreprise", texte: "Rien ne se publie sans l'accord écrit de l'entreprise cliente, ou des mariés." },
   { titre: "L'accord de la personne", texte: "Si on peut la reconnaître, elle donne son accord, par écrit. Sinon, la phrase reste entre nous." },
   { titre: "Sans nom", texte: "On publie la phrase et l'événement. Pas le nom de la personne, ni sa photo." },
 ];
 
 export default function LaPhraseDuLundi() {
   return (
-    <div>
-      <section className="max-w-6xl mx-auto px-5 pt-8 pb-14 sm:pt-14 grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+    <main>
+      <EnTetePage surtitre="Une par événement" titre="la phrase *du lundi.*" photo={photos.cafe} origine="40% 30%">
+        Après chaque événement, on passe à la machine à café, et on écoute. Une phrase revient toujours. C&apos;est elle qu&apos;on
+        publie, chaque semaine, avec l&apos;accord de l&apos;entreprise et de la personne.
+      </EnTetePage>
+
+      <Section className="space-y-14">
         <div className="space-y-5">
-          <Coin>une par événement</Coin>
-          <h1 className="text-[48px] sm:text-[84px] font-bold lowercase leading-[0.95] tracking-[-0.04em]">la phrase du lundi</h1>
-          <p className="text-lg leading-relaxed text-[var(--doux)]">
-            Après chaque événement, on passe à la machine à café, et on écoute. Une phrase revient toujours. C&apos;est elle
-            qu&apos;on publie, chaque semaine, avec l&apos;accord de l&apos;entreprise et de la personne.
-          </p>
+          <Apparition><Surtitre>À quoi ça ressemble · exemples</Surtitre></Apparition>
+          <Titre texte="une phrase. *un lundi.*" />
         </div>
-        <div className="relative aspect-[3/4] max-w-sm overflow-hidden rounded-[32px] lg:justify-self-end">
-          <Image src={photos.micro.src} alt={photos.micro.alt} fill priority sizes="(min-width: 1024px) 380px, 90vw" className="object-cover" />
-        </div>
-      </section>
+        <ul className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
+          {EXEMPLES.map((x, i) => (
+            <Apparition as="li" key={x.phrase} delai={i * 100} className="grid grid-cols-1 gap-2 py-7 md:grid-cols-[1fr_auto] md:items-baseline md:gap-10">
+              <p className="font-[family-name:var(--titres)] text-[clamp(1.6rem,3vw,2.4rem)] leading-[1.1] tracking-[-0.02em]">«&nbsp;{x.phrase}&nbsp;»</p>
+              <p className="text-[15px] text-[var(--doux)]">{x.contexte} · exemple</p>
+            </Apparition>
+          ))}
+        </ul>
+        <p className="text-[14px] text-[var(--doux)]">Ces phrases sont inventées pour la démonstration : l&apos;agence est fictive.</p>
+      </Section>
 
-      <section className="bg-[var(--encre)] text-[var(--fond)]">
-        <div className="max-w-6xl mx-auto px-5 py-16 sm:py-20 space-y-6">
-          <p className="text-[13px] font-bold uppercase tracking-[0.14em] text-[#FFD9A0]">À quoi ça ressemble · exemples</p>
-          <ul className="grid gap-3 md:grid-cols-3">
-            {EXEMPLES.map((x) => (
-              <li key={x.phrase} className="rounded-[28px] bg-[#FFF4E6]/10 p-6 space-y-3">
-                <p className="font-[family-name:var(--titres)] text-[26px] font-semibold leading-snug">« {x.phrase} »</p>
-                <p className="text-[14px] text-[#D8C9B4]">{x.contexte} · exemple</p>
-              </li>
-            ))}
-          </ul>
-          <p className="text-[14px] text-[#D8C9B4]">Ces phrases sont inventées pour la démonstration : l&apos;agence est fictive.</p>
+      <Section fond="bg-[var(--sombre)] text-[var(--sur-sombre)]" className="space-y-14">
+        <div className="space-y-5">
+          <Apparition><Surtitre clair>Les règles de la rubrique</Surtitre></Apparition>
+          <Titre texte="quatre règles, *sans exception.*" clair />
         </div>
-      </section>
-
-      <section className="max-w-6xl mx-auto px-5 py-16 sm:py-24 space-y-8">
-        <h2 className="text-[36px] sm:text-5xl font-bold lowercase leading-[1] tracking-[-0.03em]">les règles de la rubrique</h2>
-        <ol className="grid gap-3 sm:grid-cols-2">
+        <ol className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
           {REGLES.map((r, i) => (
-            <li key={r.titre} className="flex gap-4 rounded-[28px] bg-[var(--carte)] p-6">
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[var(--accent)] font-[family-name:var(--titres)] text-lg font-bold">{i + 1}</span>
-              <div className="space-y-1">
-                <h3 className="text-[22px] font-bold lowercase">{r.titre}</h3>
-                <p className="leading-relaxed text-[var(--doux)]">{r.texte}</p>
-              </div>
-            </li>
+            <Apparition as="li" key={r.titre} delai={i * 110} className="space-y-3 border-t border-white/20 pt-5">
+              <p className="text-[12px] font-medium uppercase tracking-[0.2em]">0{i + 1}</p>
+              <h2 className="font-[family-name:var(--titres)] text-[24px] font-normal lowercase">{r.titre}</h2>
+              <p className="leading-relaxed">{r.texte}</p>
+            </Apparition>
           ))}
         </ol>
-      </section>
-    </div>
+      </Section>
+    </main>
   );
 }

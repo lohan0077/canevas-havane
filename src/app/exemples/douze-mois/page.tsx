@@ -2,185 +2,169 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { adressesDeLaPage } from "@/lib/seo";
-import { DOSSIER, MOIS, PHOTOS, QUESTIONS, boutique } from "./_composants/donnees";
+import Accordeon from "../_kit/Accordeon";
+import Apparition from "../_kit/Apparition";
+import PhotoCinema from "../_kit/PhotoCinema";
+import TitreRevele from "../_kit/TitreRevele";
+import { ACCENT_SOMBRE, AppelFinal, Bouton, Intitule, Surtitre, Titre } from "./_composants/Blocs";
 import Calendrier from "./_composants/Calendrier";
-import { Faq, Legende } from "./_composants/Blocs";
+import ChoixMessage from "./_composants/ChoixMessage";
+import { DOSSIER, PHOTOS, QUESTIONS } from "./_composants/donnees";
 
-// L'accueil : le nom en travers de la page, la planche du mois, puis le calendrier
-// qu'on feuillette. Ensuite la règle de la boutique, la vidéo du premier du mois, la
-// Saint-Valentin sans roses, le bouquet du mois, les questions, la boutique.
+// Le site de Douze Mois, la boutique de fleurs des deux vidéos des fleuristes. Il garde
+// la marque de « Créer une marque » — le nom, le calendrier qu'on feuillette, pas une
+// rose au 14 février — et les idées de « Remplir l'agenda » : « c'est pour dire
+// quoi ? », le bouquet et la phrase écrite à la main, l'heure limite écrite en gros.
+//
+// Version « carrée » (24/10/2026) : une idée par écran, sept écrans, une grille et une
+// échelle de texte communes ; la règle, le premier du mois, le bouquet du mois et les
+// trois gestes vivent sur les pages intérieures. Les éléments filmés par les deux
+// vidéos (#heure, #choix, #proposition, #carte, #signature, #calendrier, data-mois,
+// data-message) sont gardés.
 export const metadata: Metadata = {
-  title: "Douze Mois — site de démonstration",
-  description: "Site de démonstration d'une boutique de fleurs imaginaire, réalisé par Canevas Havane : seulement ce qui fleurit en France ce mois-ci, dans un calendrier qu'on feuillette.",
+  title: "Douze Mois — boutique de fleurs, site de démonstration",
+  description:
+    "Le site d'une boutique de fleurs imaginaire qui ne vend que ce qui fleurit en France ce mois-ci : c'est pour dire quoi ? Le bouquet de la saison, la phrase écrite à la main, livré le jour même avant 14 h.",
   ...adressesDeLaPage("/exemples/douze-mois"),
 };
 
-// Les trois prochains « premier du mois », vus depuis octobre : la fleur qui arrive,
-// celle qui s'en va.
-const PREMIERS = [MOIS[10], MOIS[11], MOIS[0]];
+const PAGES = [
+  { href: `${DOSSIER}/calendrier`, photo: PHOTOS.tulipe, titre: "Les douze mois", texte: "Une fleur par mois, celles qui l'accompagnent, celle qui arrive et celle qui s'en va." },
+  { href: `${DOSSIER}/saint-valentin`, photo: PHOTOS.mimosaBranche, titre: "Le 14 février", texte: "Pas une seule rose rouge. Du mimosa, la fleur de février." },
+  { href: `${DOSSIER}/la-carte`, photo: PHOTOS.carteEcrite, titre: "La carte", texte: "Que mettre sur la carte ? Des phrases toutes prêtes, ou la tienne." },
+  { href: `${DOSSIER}/livraison`, photo: PHOTOS.velo, titre: "La livraison", texte: "À vélo dans la ville. Commandé avant 14 h, livré aujourd'hui." },
+];
 
 export default function DouzeMois() {
   return (
     <main>
-      <section className="relative overflow-hidden border-b border-[var(--encre)]">
-        <div className="mx-auto max-w-6xl px-4 pt-6 sm:px-6">
-          <h1 className="text-center font-normal uppercase leading-[0.82] tracking-[-0.02em] text-[23vw] sm:text-[12.5vw] lg:text-[150px]">
-            Douze <span className="sm:inline block italic normal-case tracking-normal">Mois</span>
-          </h1>
-          <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-3 border-t border-[var(--encre)] pt-4 sm:grid-cols-3">
-            <Legende>Boutique de fleurs</Legende>
-            <Legende>Fleurs de saison, rien d&apos;autre.</Legende>
-            <p className="col-span-2 text-sm leading-relaxed sm:col-span-1">
-              Ce qui fleurit en France ce mois-ci. Le reste, on ne le vend pas.
-            </p>
-          </div>
+      {/* ---------- Premier écran : un chardon doré sur le noir, le nom, l'heure limite ----------
+          La photo et le texte se partagent l'écran : le noir de la photo continue dans
+          celui de la section, et aucun mot ne se pose sur la fleur. */}
+      <section className="relative isolate grid min-h-[100svh] bg-[#050505] text-[var(--sur-sombre)] lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="relative min-h-[46svh] overflow-hidden lg:min-h-0">
+          <PhotoCinema src={PHOTOS.chardon.src} alt="" priority origine="35% 40%" sizes="(min-width: 1024px) 55vw, 100vw" />
+          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-[linear-gradient(180deg,rgba(5,5,5,0)_0%,#050505_100%)] lg:inset-y-0 lg:left-auto lg:right-0 lg:h-auto lg:w-1/3 lg:bg-[linear-gradient(90deg,rgba(5,5,5,0)_0%,#050505_100%)]" />
         </div>
-        <div className="mx-auto grid max-w-6xl gap-6 px-4 pb-12 pt-8 sm:px-6 md:grid-cols-[1fr_1.2fr_1fr] md:items-end">
-          <div className="hidden space-y-2 md:block">
-            <Legende n="01">Planche du mois</Legende>
-            <p className="text-sm leading-relaxed text-[var(--doux)]">Une fleur par mois, montrée comme un spécimen : sa saison, ce qui l&apos;accompagne, ce qui arrive après.</p>
-          </div>
-          <figure className="relative">
-            <div className="relative aspect-[4/3] overflow-hidden border border-[var(--encre)] bg-white">
-              <Image src={PHOTOS.dahlia.src} alt={PHOTOS.dahlia.alt} width={PHOTOS.dahlia.largeur} height={PHOTOS.dahlia.hauteur} sizes="(min-width: 768px) 480px, 100vw" priority className="h-full w-full object-cover" />
-              <svg aria-hidden="true" viewBox="0 0 400 300" preserveAspectRatio="none" className="absolute inset-0 h-full w-full text-[var(--encre)]">
-                <path d="M0 150H400M200 0V300" stroke="currentColor" strokeWidth="0.5" strokeDasharray="3 5" opacity="0.35" />
-                <path d="M262 92L330 40H392" stroke="currentColor" strokeWidth="0.8" fill="none" />
-              </svg>
-              <p className="absolute right-2 top-6 text-[10px] uppercase tracking-[0.2em]">Cœur</p>
-            </div>
-            <figcaption className="mt-2 flex items-baseline justify-between text-[11px] uppercase tracking-[0.22em]">
-              <span>Fig. 10 — Dahlia</span>
-              <span className="text-[var(--doux)]">les derniers, avant le gel</span>
-            </figcaption>
-          </figure>
-          <div className="space-y-3 md:text-right">
-            <Legende n="02">Ce mois-ci</Legende>
-            <a href="#calendrier" className="inline-flex items-center gap-3 border border-[var(--encre)] bg-[var(--encre)] px-5 py-3 text-xs uppercase tracking-[0.2em] text-[var(--fond)]">
-              Ouvrir le calendrier ↓
-            </a>
-          </div>
+        <div className="relative flex flex-col justify-end gap-5 px-6 pb-12 pt-2 lg:justify-center lg:gap-7 lg:pb-16 lg:pl-4 lg:pr-[max(1.5rem,calc((100vw-72rem)/2+1.5rem))] lg:pt-36">
+          <Apparition><Surtitre clair>Fleurs de saison, rien d&apos;autre</Surtitre></Apparition>
+          <TitreRevele
+            as="h1"
+            auChargement
+            texte="Douze *Mois*"
+            className="text-[clamp(3.6rem,8.5vw,8.5rem)] font-normal leading-[0.9] tracking-[-0.03em] lg:[&>span:first-child]:block"
+            classeAccent={ACCENT_SOMBRE}
+          />
+          <TitreRevele
+            as="p"
+            auChargement
+            delai={300}
+            texte={"Commandé avant 14\u00a0h, *livré aujourd'hui.*"}
+            className="max-w-[30rem] scroll-mt-24 font-[family-name:var(--titres)] text-[clamp(1.75rem,2.8vw,2.5rem)] font-normal leading-[1.08] tracking-[-0.01em] text-balance [font-variant-numeric:lining-nums]"
+            classeAccent={ACCENT_SOMBRE}
+            id="heure"
+          />
+          <Apparition as="p" delai={600} className="max-w-[26rem] text-lg leading-relaxed">
+            Ce qui fleurit en France ce mois-ci, et la phrase sur la carte, écrite à la main.
+          </Apparition>
+          <Apparition delai={800} className="flex flex-wrap gap-3">
+            <Bouton href={`${DOSSIER}#choix`}>C&apos;est pour dire quoi&nbsp;?</Bouton>
+            <Bouton href={`${DOSSIER}#calendrier`} variante="contour">Le calendrier</Bouton>
+          </Apparition>
         </div>
       </section>
 
-      <section id="calendrier" className="scroll-mt-14 mx-auto max-w-6xl space-y-8 px-4 py-14 sm:px-6 sm:py-20">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div className="space-y-3">
-            <Legende n="03">Le calendrier</Legende>
-            <h2 className="text-5xl sm:text-7xl">Tourne <span className="italic">les pages.</span></h2>
-          </div>
-          <p className="max-w-sm text-sm leading-relaxed text-[var(--doux)]">En février, du mimosa. En mai, des pivoines. En septembre, des dahlias. Et pas de roses en janvier.</p>
-        </div>
-        <Calendrier />
-      </section>
-
-      <section className="bg-[var(--sombre)] text-[var(--sur-sombre)]">
-        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-20 sm:px-6 md:grid-cols-[1.2fr_0.8fr] md:items-end">
-          <h2 className="text-5xl leading-[1.02] sm:text-7xl">
-            Ce qui fleurit en France, <span className="italic text-[#F2C94C]">ce mois-ci.</span> Le reste, on ne le vend pas.
-          </h2>
-          <div className="space-y-4 text-lg leading-relaxed">
-            <p>Toutes les boutiques vendent des roses rouges toute l&apos;année. Même en janvier.</p>
-            <p>Ici, une saison, des fleurs. Quand il n&apos;y a presque rien, on le dit — et on fait de beaux bouquets avec ce qu&apos;il y a.</p>
-          </div>
+      {/* ---------- 01. L'outil de la marque : le calendrier ---------- */}
+      <section id="calendrier" className="scroll-mt-16 bg-[var(--sombre)] text-[var(--sur-sombre)]">
+        <div className="mx-auto max-w-6xl space-y-14 px-6 py-28 md:py-40">
+          <Intitule
+            clair
+            numero="01"
+            surtitre="Le calendrier"
+            titre="Tourne *les pages.*"
+            texte="En février, du mimosa. En mai, des pivoines. En septembre, des dahlias. Et pas de roses en janvier : en France, elles ne fleurissent pas dehors."
+          />
+          <Apparition delai={150}>
+            <Calendrier />
+          </Apparition>
+          <Link href={`${DOSSIER}/calendrier`} className="inline-block text-[15px] underline underline-offset-4">
+            L&apos;année entière
+          </Link>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl space-y-10 px-4 py-20 sm:px-6">
-        <div className="space-y-3">
-          <Legende n="04">Le premier de chaque mois</Legende>
-          <h2 className="text-5xl sm:text-6xl">Celle qui arrive, <span className="italic">celle qui s&apos;en va.</span></h2>
-          <p className="max-w-xl text-[var(--doux)]">Le premier de chaque mois, une courte vidéo : la fleur qui arrive en boutique, et celle qui nous quitte jusqu&apos;à l&apos;an prochain.</p>
-        </div>
-        <ol className="grid gap-px border border-[var(--encre)] bg-[var(--encre)] md:grid-cols-3">
-          {PREMIERS.map((m) => (
-            <li key={m.n} className="space-y-4 bg-[var(--fond)] p-6">
-              <p className="flex items-baseline justify-between text-[11px] uppercase tracking-[0.22em]">
-                <span>1<sup>er</sup> {m.nom.toLowerCase()}</span>
-                <span aria-hidden="true">▶</span>
-              </p>
-              <p className="font-[family-name:var(--titres)] text-4xl">{m.fleur}</p>
-              <dl className="grid grid-cols-2 gap-3 text-sm">
-                <div><dt className="text-[10px] uppercase tracking-[0.2em] text-[var(--doux)]">Arrive</dt><dd>{MOIS[(m.n + 10) % 12].arrive}</dd></div>
-                <div><dt className="text-[10px] uppercase tracking-[0.2em] text-[var(--doux)]">S&apos;en va</dt><dd>{m.part}</dd></div>
-              </dl>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      <section className="bg-[#F6D965] text-[#3A2A10]">
-        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-20 sm:px-6 md:grid-cols-[1fr_1fr] md:items-center">
-          <div className="space-y-6">
-            <p className="text-[11px] uppercase tracking-[0.26em]">14 février · le lancement</p>
-            <p className="font-[family-name:var(--titres)] text-[64px] leading-[0.95] sm:text-[96px]">
-              Pas de roses. Du <span className="italic text-[#8E2A1A]">mimosa.</span>
-            </p>
-            <p className="max-w-md text-lg">Le 14 février, une seule affiche en vitrine, et pas une seule rose rouge. Certains vont râler. Tant mieux : on parlera de la boutique.</p>
-            <Link href={`${DOSSIER}/saint-valentin`} className="inline-block border border-[#3A2A10] px-5 py-3 text-xs uppercase tracking-[0.2em]">
-              Réserver son mimosa
-            </Link>
-          </div>
-          <div className="relative mx-auto aspect-[2/3] w-full max-w-xs overflow-hidden border border-[#3A2A10]">
-            <Image src={PHOTOS.mimosa.src} alt={PHOTOS.mimosa.alt} width={PHOTOS.mimosa.largeur} height={PHOTOS.mimosa.hauteur} sizes="320px" className="h-full w-full object-cover" />
-          </div>
+      {/* ---------- 02. L'outil de l'agenda : c'est pour dire quoi ? ---------- */}
+      <section id="choix" className="scroll-mt-20">
+        <div className="mx-auto max-w-6xl space-y-14 px-6 py-28 md:py-40">
+          <Intitule
+            numero="02"
+            surtitre="Ton bouquet"
+            titre={"C'est pour dire *quoi ?*"}
+            texte="Une question, pas quarante vignettes. Le bouquet suit la saison, la phrase est écrite à la main sur la carte : tu n'as qu'à signer."
+          />
+          <Apparition delai={150}>
+            <ChoixMessage />
+          </Apparition>
         </div>
       </section>
 
-      <section className="border-b border-[var(--encre)]">
-        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-20 sm:px-6 md:grid-cols-2">
-          <div className="space-y-4">
-            <Legende n="05">Le bouquet du mois</Legende>
-            <h2 className="text-5xl sm:text-6xl">Douze bouquets <span className="italic">par an.</span></h2>
-            <p className="max-w-md leading-relaxed text-[var(--doux)]">Chaque premier samedi, le bouquet de la saison, à prendre en boutique ou livré dans la ville. On s&apos;arrête quand tu veux.</p>
-          </div>
-          <ul className="divide-y divide-[var(--encre)] border-y border-[var(--encre)]">
-            {[
-              ["Le petit", "pour une table de chevet", "29 €"],
-              ["Le moyen", "pour la table du salon", "45 €"],
-              ["Le grand", "pour l'entrée, ou pour offrir", "65 €"],
-            ].map(([nom, pour, prix]) => (
-              <li key={nom} className="flex items-baseline justify-between gap-4 py-5">
-                <span>
-                  <span className="block font-[family-name:var(--titres)] text-3xl">{nom}</span>
-                  <span className="text-sm text-[var(--doux)]">{pour}</span>
-                </span>
-                <span className="font-[family-name:var(--titres)] text-3xl">{prix}</span>
-              </li>
+      {/* ---------- Une photo, une phrase : des dahlias en terre, en octobre ---------- */}
+      <section className="relative isolate flex min-h-[88svh] flex-col justify-end overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
+        <div className="absolute inset-x-0 top-0 h-[72%]">
+          <PhotoCinema src={PHOTOS.dahliasJardin.src} alt="" origine="50% 45%" />
+          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-[linear-gradient(180deg,rgba(42,21,32,0)_0%,rgba(42,21,32,1)_100%)]" />
+        </div>
+        <div className="relative mx-auto w-full max-w-6xl space-y-5 px-6 pb-16 pt-[60svh] md:pb-24">
+          <Apparition><Surtitre clair>Octobre · les derniers dahlias</Surtitre></Apparition>
+          <Titre texte="Ce qui fleurit en France, ce mois-ci. *Le reste, on ne le vend pas.*" clair className="max-w-3xl" />
+        </div>
+      </section>
+
+      {/* ---------- 03. La preuve : les pages de la boutique ---------- */}
+      <section className="bg-[var(--carte)]">
+        <div className="mx-auto max-w-6xl space-y-14 px-6 py-28 md:py-40">
+          <Intitule
+            numero="03"
+            surtitre="L'année"
+            titre="Douze mois, *une page chacun.*"
+            texte="Le calendrier entier, le 14 février sans roses, les phrases pour la carte, et la livraison du jour."
+          />
+          <ul className="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4 lg:gap-6">
+            {PAGES.map((p, i) => (
+              <Apparition as="li" key={p.href} delai={i * 90}>
+                <Link href={p.href} className="group block space-y-4">
+                  <span className="relative block aspect-[4/5] overflow-hidden rounded-2xl bg-[var(--sombre)]">
+                    <Image src={p.photo.src} alt={p.photo.alt} fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover transition-transform duration-[1.4s] ease-out group-hover:scale-[1.05]" />
+                  </span>
+                  <span className="flex items-baseline justify-between gap-3 font-[family-name:var(--titres)] text-2xl leading-tight">
+                    {p.titre}
+                    <span aria-hidden="true" className="text-[var(--accent-texte)] transition-transform group-hover:translate-x-1">→</span>
+                  </span>
+                  <span className="block text-[15px] leading-relaxed text-[var(--doux)]">{p.texte}</span>
+                </Link>
+              </Apparition>
             ))}
-            <li className="py-3 text-xs text-[var(--doux)]">Prix TTC d&apos;exemple, par mois. Livraison dans la ville : 6 €.</li>
           </ul>
         </div>
       </section>
 
-      <section id="questions" className="scroll-mt-14 mx-auto grid max-w-6xl gap-10 px-4 py-20 sm:px-6 md:grid-cols-[0.8fr_1.2fr]">
-        <div className="space-y-3">
-          <Legende n="06">Questions</Legende>
-          <h2 className="text-5xl sm:text-6xl">Avant <span className="italic">de venir.</span></h2>
+      {/* ---------- 04. Questions ---------- */}
+      <section id="questions" className="scroll-mt-24">
+        <div className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:py-40 lg:grid-cols-[0.8fr_1.2fr]">
+          <div className="space-y-6">
+            <Apparition><Surtitre>04 — Questions</Surtitre></Apparition>
+            <Titre texte="Avant de *signer.*" />
+            <Apparition className="relative mt-6 hidden aspect-[4/5] overflow-hidden rounded-2xl lg:block">
+              <Image src={PHOTOS.atelier.src} alt={PHOTOS.atelier.alt} fill sizes="30vw" className="object-cover" />
+            </Apparition>
+          </div>
+          <Apparition delai={150}>
+            <Accordeon questions={QUESTIONS.slice(0, 5).map((q) => ({ question: q.q, reponse: q.r }))} />
+          </Apparition>
         </div>
-        <Faq questions={QUESTIONS} />
       </section>
 
-      <section className="border-t border-[var(--encre)] bg-[var(--carte)]">
-        <div className="mx-auto grid max-w-6xl gap-8 px-4 py-16 sm:px-6 md:grid-cols-3">
-          <div className="space-y-3">
-            <Legende n="07">La boutique</Legende>
-            <p className="font-[family-name:var(--titres)] text-4xl">{boutique.horaires}</p>
-          </div>
-          <div className="space-y-1">
-            <Legende>Adresse</Legende>
-            <p className="text-lg leading-relaxed">{boutique.adresse.map((l) => <span key={l} className="block">{l}</span>)}</p>
-          </div>
-          <div className="space-y-1">
-            <Legende>Téléphone</Legende>
-            <a href={`tel:${boutique.telephoneLien}`} className="font-[family-name:var(--titres)] text-4xl">{boutique.telephone}</a>
-          </div>
-          <p className="text-xs text-[var(--doux)] md:col-span-3">
-            Numéro de la tranche que l&apos;ARCEP réserve à la fiction, adresse inventée : la boutique n&apos;existe pas.{" "}
-            <Link href={`${DOSSIER}/mentions-legales`} className="underline underline-offset-4">Mentions légales et crédits</Link>
-          </p>
-        </div>
-      </section>
+      <AppelFinal />
     </main>
   );
 }

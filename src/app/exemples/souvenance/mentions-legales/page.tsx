@@ -1,23 +1,30 @@
 import type { Metadata } from "next";
 import { adressesDeLaPage } from "@/lib/seo";
 import MentionsDemonstration from "../../_kit/MentionsDemonstration";
+import { EnTetePage } from "../_composants/Blocs";
 import { CONTACT } from "../_composants/donnees";
 
 export const metadata: Metadata = {
-  title: "Souvenance — site de démonstration",
-  description: "Souvenance est une marque fictive : qui a réalisé ce site de démonstration, ce qu'il collecte, et d'où viennent ses images.",
+  title: "Mentions légales et crédits — Souvenance, site de démonstration",
+  description: "Souvenance est une savonnerie fictive : qui a réalisé ce site de démonstration, ce qu'il ne collecte pas, et d'où viennent ses images.",
   ...adressesDeLaPage("/exemples/souvenance/mentions-legales"),
 };
 
 export default function MentionsLegales() {
   return (
     <main>
+      <EnTetePage surtitre="Souvenance · site de démonstration" titre="Ce qui est *inventé.*" titreEnParagraphe />
       <MentionsDemonstration
         site="souvenance"
         entreprise="Souvenance"
         polices="Bodoni Moda et Lora"
         enPlus={
           <>
+            <p>
+              Ce site réunit les deux vidéos des cosmétiques : « Créer une marque » (le nom, la question « ça sentait
+              quoi, chez toi, enfant ? », l&apos;affiche du prochain savon) et « Remplir l&apos;agenda » (le numéro de
+              lot en page d&apos;accueil, le séchoir et ses dates de sortie, la réservation du lot suivant).
+            </p>
             <p>
               Ce qu&apos;une vraie marque de savons doit avoir fait avant le premier savon vendu, et qu&apos;elle
               indiquerait ici avec ses vrais numéros : un atelier déclaré auprès de la DGCCRF (code de la santé publique,
@@ -27,15 +34,12 @@ export default function MentionsLegales() {
               l&apos;Exemple · exemple. SIRET 000 000 000 00000 · exemple.
             </p>
             <p>
-              Les étiquettes montrées suivent l&apos;article 19 du règlement. Les listes d&apos;ingrédients, les lots,
-              les dates et les prix sont des exemples. Aucune allégation sur la peau n&apos;est faite (art. 20 ;
-              règlement (UE) n° 655/2013). Aucun décompte de réponses n&apos;est affiché : il n&apos;y en a pas. Le numéro
-              {" "}{CONTACT.telephone} appartient à la tranche que l&apos;ARCEP réserve à la fiction ; l&apos;adresse est
-              inventée.
-            </p>
-            <p>
-              Premier écran inspiré du modèle « Rare Gallery » de la bibliothèque MotionSites, transposé à une marque de
-              savons.
+              Les étiquettes montrées suivent l&apos;article 19 du règlement : contenu, date de durabilité minimale,
+              numéro de lot, fonction, précautions, liste des ingrédients précédée de « Ingredients ». Les lots, les
+              dates, les quantités, les listes d&apos;ingrédients et les prix sont des exemples. Aucune allégation sur
+              la peau n&apos;est faite (art. 20 ; règlement (UE) n° 655/2013). Aucun décompte de réponses n&apos;est
+              affiché : il n&apos;y en a pas. Le numéro {CONTACT.telephone} appartient à la tranche que l&apos;ARCEP
+              réserve à la fiction ; l&apos;adresse est inventée.
             </p>
           </>
         }

@@ -1,191 +1,225 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { adressesDeLaPage } from "@/lib/seo";
-import { DOSSIER, ETAPES, FAQ, HONORAIRES, euros, photos } from "./_composants/donnees";
+import Accordeon from "../_kit/Accordeon";
+import Apparition from "../_kit/Apparition";
+import CarteLueur from "../_kit/CarteLueur";
+import Defilant from "../_kit/Defilant";
+import PhotoCinema from "../_kit/PhotoCinema";
+import RecitColle from "../_kit/RecitColle";
+import TitreRevele from "../_kit/TitreRevele";
 import Bilan from "./_composants/Bilan";
+import { AppelFinal, Bouton, Surtitre } from "./_composants/Blocs";
+import ChaiseVide from "./_composants/ChaiseVide";
 import Jour365 from "./_composants/Jour365";
-import Bougie from "./_composants/Bougie";
+import { BILAN, DOSSIER, ETAPES, POSTES, QUESTIONS, VERSEMENT, euros, photos, total } from "./_composants/donnees";
 
-// Le site du cabinet imaginé dans la vidéo « Si je devais créer un cabinet de
-// recrutement » : tout le monde vend des talents ; Première Bougie vend le premier
-// anniversaire de la personne recrutée. Pas d'offres d'emploi, un seul bilan —
-// toujours là un an après, et parties —, et un gâteau à une bougie.
+// L'accueil de Première Bougie. Une seule question (« Remplir l'agenda » : « Sur l'accueil,
+// une seule question : ton poste est vide depuis combien de semaines ? »), les heures sur
+// une chaise vide, et juste en dessous, vingt minutes pour définir le poste. Puis la marque
+// (« Créer une marque ») : pas d'offres d'emploi, un seul chiffre — toujours là un an
+// après, et parties —, le jour 365 et son gâteau à une bougie.
 export const metadata: Metadata = {
-  title: "Première Bougie — site de démonstration",
-  description: "Site de démonstration d'un cabinet de recrutement imaginaire, réalisé par Canevas Havane : pas d'offres d'emploi, un seul bilan — combien de recrues sont toujours là un an après.",
+  title: "Première Bougie — cabinet de recrutement, site de démonstration",
+  description:
+    "Le site d'un cabinet de recrutement imaginaire : une seule question — ton poste est vide depuis combien de semaines ? —, vingt minutes pour définir le poste, des honoraires ligne par ligne, et un seul bilan : combien de recrues sont toujours là un an après.",
   ...adressesDeLaPage("/exemples/premiere-bougie"),
 };
 
-const Petit = ({ children, clair = false }: { children: React.ReactNode; clair?: boolean }) => (
-  <p className={`text-xs font-semibold uppercase tracking-[0.2em] ${clair ? "text-[#F2C14E]" : "text-[var(--accent-texte)]"}`}>{children}</p>
-);
+const PHOTOS_ETAPES = [photos.chaiseOrange, photos.atelier, photos.chaiseRouge, photos.cupcake];
 
 export default function PremiereBougie() {
+  const exemple = POSTES[0];
   return (
     <main>
-      {/* 1. Le nom, en grand */}
-      <section className="mx-auto max-w-6xl px-5 pt-8 sm:pt-12">
-        <div className="grid grid-cols-2 gap-4 text-[13px] leading-snug sm:grid-cols-4">
-          <p className="font-semibold">Cabinet de recrutement</p>
-          <p className="text-[var(--doux)]">Pour les PME qui veulent que ça dure.</p>
-          <p className="text-[var(--doux)] max-sm:hidden">Pas d&apos;offres d&apos;emploi ici.</p>
-          <p className="text-[var(--doux)] max-sm:hidden">Un seul chiffre : toujours là, un an après.</p>
-        </div>
-        <h1 className="mt-6 font-normal leading-[0.86] text-[clamp(3.6rem,19vw,12.5rem)] tracking-tight">
-          <span className="block">Première</span>
-          <span className="flex items-end gap-3">
-            <span>Bougie</span>
-            <Bougie allumee className="mb-[0.08em] h-[0.9em] w-[0.36em] shrink-0" />
-          </span>
-        </h1>
-        <div className="mt-8 grid gap-8 md:grid-cols-[1.2fr_1fr] md:items-end">
-          <div className="space-y-5">
-            <p className="font-[family-name:var(--titres)] text-3xl sm:text-4xl leading-tight">
-              On ne compte pas les CV placés. <em className="text-[var(--accent-texte)]">On compte les anniversaires.</em>
-            </p>
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <Link href="#bilan" className="inline-flex min-h-13 items-center justify-center rounded-full bg-[var(--accent)] px-7 font-semibold text-[var(--sur-accent)]">Voir le bilan</Link>
-              <Link href={`${DOSSIER}/recruter`} className="inline-flex min-h-13 items-center justify-center rounded-full border-2 border-[var(--encre)] px-7 font-semibold">Recruter avec nous</Link>
+      <ChaiseVide />
+
+      {/* ---------- Du jour −30 au jour 365 ---------- */}
+      <div className="bg-[var(--accent)] py-5 text-[var(--sur-accent)]">
+        <Defilant
+          duree={40}
+          separateur="✦"
+          elements={["Jour −30 · le poste", "Jour 0 · l'arrivée", "Jour 30", "Jour 90", "Jour 180", "Jour 365 · la première bougie"]}
+          classeElement="font-[family-name:var(--titres)] text-xl md:text-2xl whitespace-nowrap"
+        />
+      </div>
+
+      {/* ---------- Pas des talents ---------- */}
+      <section className="px-3 pt-3 sm:px-5 sm:pt-5">
+        <div className="kit-grain relative overflow-hidden rounded-[2.5rem] bg-[var(--sombre)] text-[var(--sur-sombre)]">
+          <div className="mx-auto grid max-w-6xl gap-12 px-6 py-24 sm:px-10 md:py-32 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+            <div className="space-y-8">
+              <Apparition><Surtitre>Ce que vendent les autres</Surtitre></Apparition>
+              <ul className="space-y-1 font-[family-name:var(--titres)] text-[clamp(2.2rem,5vw,4rem)] leading-[1.05]">
+                {["Des talents.", "Des CV placés.", "Des offres d'emploi."].map((t, i) => (
+                  <Apparition as="li" key={t} delai={i * 180}>
+                    <span className="kit-barre">{t}</span>
+                  </Apparition>
+                ))}
+              </ul>
+              <TitreRevele
+                texte="Nous, on vend *le premier anniversaire.*"
+                className="font-[family-name:var(--titres)] text-[clamp(2.6rem,5.6vw,4.8rem)] leading-[0.95] tracking-[-0.02em]"
+                classeAccent="italic text-[var(--accent)]"
+              />
+              <Apparition as="p" delai={200} className="max-w-lg text-lg leading-relaxed">
+                Le jour où ta nouvelle recrue fête sa première année chez toi. Jour 365. Le cabinet ne
+                compte pas les CV placés : il compte les anniversaires.
+              </Apparition>
             </div>
+            <Apparition de="zoom" delai={150} className="relative mx-auto aspect-[3/4] w-full max-w-sm overflow-hidden rounded-[2rem]">
+              <Image src={photos.cupcake.src} alt={photos.cupcake.alt} fill sizes="(min-width: 1024px) 380px, 90vw" className="object-cover" />
+              <p className="absolute bottom-4 left-4 rounded-full bg-[var(--accent)] px-4 py-1.5 font-[family-name:var(--titres)] text-lg text-[var(--sur-accent)]">Jour 365</p>
+            </Apparition>
           </div>
-          <Image src={photos.cupcake.src} width={photos.cupcake.largeur} height={photos.cupcake.hauteur} alt={photos.cupcake.alt} sizes="(min-width: 768px) 480px, 100vw" priority className="aspect-[4/3] w-full rounded-[28px] object-cover object-[50%_70%]" />
         </div>
       </section>
 
-      {/* 2. Le bilan */}
-      <section id="bilan" className="scroll-mt-16 mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:py-24 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-        <div className="space-y-5">
-          <Petit>Sur ce site</Petit>
-          <h2 className="text-5xl sm:text-6xl font-normal">Pas d&apos;offres d&apos;emploi. <em className="text-[var(--accent-texte)]">Un seul chiffre.</em></h2>
-          <p className="text-lg leading-relaxed">Combien de recrues sont toujours là, un an après. Et combien sont parties : les deux chiffres. C&apos;est ça, la confiance.</p>
-          <Link href={`${DOSSIER}/bilan`} className="inline-block font-semibold underline underline-offset-[6px]">Comment on compte</Link>
+      {/* ---------- Le bilan : un seul chiffre ---------- */}
+      <section id="bilan" className="scroll-mt-20 mx-auto grid max-w-7xl gap-12 px-4 py-24 sm:px-8 md:py-32 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+        <div className="space-y-7">
+          <Apparition><Surtitre className="text-[var(--doux)]">Le bilan</Surtitre></Apparition>
+          <TitreRevele
+            texte="Pas d'offres d'emploi. *Un seul chiffre.*"
+            className="font-[family-name:var(--titres)] text-[clamp(3rem,6.6vw,5.8rem)] leading-[0.92] tracking-[-0.02em]"
+            classeAccent="italic text-[var(--accent-texte)]"
+          />
+          <Apparition as="p" delai={150} className="max-w-lg text-xl leading-relaxed text-[var(--doux)]">
+            Combien de recrues sont toujours là, un an après. Et combien sont parties : les deux chiffres,
+            sans tri. C&apos;est ça, la confiance.
+          </Apparition>
+          <Apparition as="p" delai={250} className="font-[family-name:var(--titres)] text-[clamp(2rem,4vw,3rem)] leading-tight">
+            <span className="tabular-nums">{BILAN.toujoursLa}</span> sur <span className="tabular-nums">{BILAN.recrues}</span>, toujours là.{" "}
+            <em className="whitespace-nowrap text-[var(--accent-texte)]"><span className="tabular-nums">{BILAN.parties}</span>&nbsp;parties.</em>
+          </Apparition>
+          <Apparition delai={350}>
+            <Bouton href={`${DOSSIER}/bilan`} variante="sombre">Comment on compte</Bouton>
+          </Apparition>
         </div>
-        <Bilan />
+        <Apparition de="zoom">
+          <Bilan />
+        </Apparition>
       </section>
 
-      {/* 3. Jour 365 */}
-      <section id="jour-365" className="scroll-mt-16 border-y border-[var(--trait)] bg-[#FBEFD8]">
-        <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:py-24 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
-          <div className="space-y-5">
-            <Petit>Jour 365</Petit>
-            <h2 className="text-5xl sm:text-6xl font-normal">Le jour où elle fête <em className="text-[var(--accent-texte)]">sa première année.</em></h2>
-            <p className="text-lg leading-relaxed">C&apos;est la date qu&apos;on vise, dès le premier rendez-vous.</p>
+      {/* ---------- Le récit, du jour −30 au jour 365 ---------- */}
+      <section className="mx-auto max-w-7xl px-5 pb-24 sm:px-8 md:pb-36">
+        <div className="mb-10 space-y-6 md:mb-4">
+          <Apparition><Surtitre className="text-[var(--doux)]">Une première année</Surtitre></Apparition>
+          <TitreRevele
+            texte="Du jour −30 *au jour 365.*"
+            className="max-w-4xl font-[family-name:var(--titres)] text-[clamp(2.8rem,6vw,5.4rem)] leading-[0.95] tracking-[-0.02em]"
+            classeAccent="italic text-[var(--accent-texte)]"
+          />
+        </div>
+        <RecitColle
+          etapes={ETAPES.map((e, i) => ({
+            surtitre: e.jour,
+            titre: e.titre,
+            texte: <p>{e.texte}</p>,
+            visuel: <Image src={PHOTOS_ETAPES[i].src} alt={PHOTOS_ETAPES[i].alt} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />,
+          }))}
+        />
+      </section>
+
+      {/* ---------- Sa première bougie, à la date près ---------- */}
+      <section className="bg-[var(--accent)] text-[var(--sur-accent)]">
+        <div className="mx-auto grid max-w-7xl gap-12 px-5 py-24 sm:px-8 md:py-28 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+          <div className="space-y-6">
+            <Apparition><Surtitre>Le jour 365</Surtitre></Apparition>
+            <TitreRevele
+              texte="Sa première bougie, *à la date près.*"
+              className="font-[family-name:var(--titres)] text-[clamp(2.8rem,6vw,5.2rem)] leading-[0.95] tracking-[-0.02em]"
+              classeAccent="italic"
+            />
+            <Apparition as="p" delai={150} className="max-w-md text-lg leading-relaxed">
+              Ce jour-là, un gâteau livré dans l&apos;entreprise. Une seule bougie. La date est dans le
+              contrat dès l&apos;arrivée.
+            </Apparition>
           </div>
-          <Jour365 />
+          <Apparition de="zoom">
+            <Jour365 />
+          </Apparition>
         </div>
       </section>
 
-      {/* 4. Le gâteau */}
-      <section className="mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:py-24 md:grid-cols-2 md:items-center">
-        <Image src={photos.gateau.src} width={photos.gateau.largeur} height={photos.gateau.hauteur} alt={photos.gateau.alt} sizes="(min-width: 768px) 540px, 100vw" className="aspect-square w-full rounded-[28px] object-cover" />
-        <div className="space-y-5">
-          <Petit>À chaque première année</Petit>
-          <h2 className="text-5xl sm:text-6xl font-normal">Un gâteau. <em className="text-[var(--accent-texte)]">Une seule bougie.</em></h2>
-          <p className="text-lg leading-relaxed">Livré dans l&apos;entreprise, le jour 365. Pour la personne, et pour l&apos;équipe qui l&apos;a gardée.</p>
-          <p className="rounded-2xl bg-[var(--carte)] p-4 text-[15px] leading-relaxed">
-            Et la photo sur LinkedIn ? Seulement avec l&apos;accord de la personne <strong>et</strong> celui de l&apos;entreprise. Sinon, pas de photo : le gâteau suffit.
-          </p>
+      {/* ---------- Un an. Toujours là. ---------- */}
+      <section className="relative isolate overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
+        <PhotoCinema src={photos.gateau.src} alt="" origine="70% 40%" className="opacity-70" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(27,27,48,0.96)_0%,rgba(27,27,48,0.8)_45%,rgba(27,27,48,0.25)_100%)]" />
+        <div className="relative mx-auto max-w-7xl space-y-7 px-5 py-28 sm:px-8 md:py-40">
+          <Apparition><Surtitre>Le lancement</Surtitre></Apparition>
+          <TitreRevele
+            texte="Un an. *Toujours là.*"
+            className="font-[family-name:var(--titres)] text-[clamp(4rem,11vw,10rem)] leading-[0.88] tracking-[-0.03em]"
+            classeAccent="italic text-[var(--accent)]"
+          />
+          <Apparition as="p" delai={200} className="max-w-xl text-xl leading-relaxed">
+            À chaque première année, un gâteau livré dans l&apos;entreprise. Et la photo part sur LinkedIn —
+            seulement avec l&apos;accord de la personne, et celui de l&apos;entreprise. Sinon, pas de photo.
+          </Apparition>
         </div>
       </section>
 
-      {/* 5. La première année, étape par étape */}
-      <section className="bg-[var(--sombre)] text-[var(--sur-sombre)]">
-        <div className="mx-auto max-w-6xl space-y-12 px-5 py-16 sm:py-24">
-          <div className="max-w-2xl space-y-4">
-            <Petit clair>Comment on travaille</Petit>
-            <h2 className="text-5xl sm:text-6xl font-normal">Du jour −30 <em className="text-[#F2C14E]">au jour 365.</em></h2>
+      {/* ---------- Les honoraires ---------- */}
+      <section className="mx-auto max-w-7xl px-5 py-24 sm:px-8 md:py-32">
+        <div className="mb-12 grid gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-end">
+          <div className="space-y-6">
+            <Apparition><Surtitre className="text-[var(--doux)]">Honoraires</Surtitre></Apparition>
+            <TitreRevele
+              texte={"Combien coûte un cabinet de recrutement ? *Ligne par ligne.*"}
+              className="font-[family-name:var(--titres)] text-[clamp(2.6rem,5.4vw,4.6rem)] leading-[0.95] tracking-[-0.02em]"
+              classeAccent="italic text-[var(--accent-texte)]"
+            />
           </div>
-          <ol className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {ETAPES.map((e) => (
-              <li key={e.titre} className="space-y-2 border-t border-[#3A3A55] pt-5">
-                <p className="text-sm font-semibold text-[#F2C14E] [font-variant-numeric:lining-nums]">{e.jour}</p>
-                <h3 className="text-3xl font-normal">{e.titre}</h3>
-                <p className="leading-relaxed text-[#DCDCE6]">{e.texte}</p>
-              </li>
+          <Apparition as="p" delai={150} className="text-xl leading-relaxed text-[var(--doux)]">
+            Pas « nous consulter ». Un forfait écrit et signé avant de commencer, en HT : nos clients sont
+            des entreprises.
+          </Apparition>
+        </div>
+        <div className="grid gap-5 lg:grid-cols-[1.25fr_0.75fr]">
+          <Apparition de="zoom" className="rounded-[2.5rem] bg-[var(--sombre)] p-8 text-[var(--sur-sombre)] sm:p-12">
+            <p className="text-[13px] font-bold uppercase tracking-[0.16em] text-[var(--accent)]">Exemple · {exemple.intitule.toLowerCase()}</p>
+            <p className="mt-6 font-[family-name:var(--titres)] text-[clamp(4rem,10vw,8rem)] leading-[0.85] tabular-nums">{euros(total(exemple))}</p>
+            <p className="mt-2 font-[family-name:var(--titres)] text-3xl italic text-[var(--accent)]">HT, forfait</p>
+            <p className="mt-8 max-w-md text-lg leading-relaxed">{exemple.contexte}. Sept lignes, de la définition du poste au gâteau du jour 365.</p>
+          </Apparition>
+          <div className="grid gap-5">
+            {VERSEMENT.map((v, i) => (
+              <Apparition key={v.quand} delai={150 + i * 120}>
+                <CarteLueur className={`h-full rounded-[2.5rem] ${i ? "bg-[var(--accent)] text-[var(--sur-accent)]" : "border border-[var(--trait)] bg-[var(--carte)]"}`}>
+                  <div className="flex h-full flex-col justify-between gap-6 p-8">
+                    <p className="text-[13px] font-bold uppercase tracking-[0.16em]">{v.quand}</p>
+                    <p className="font-[family-name:var(--titres)] text-[3.2rem] leading-none">{v.part}&nbsp;%</p>
+                  </div>
+                </CarteLueur>
+              </Apparition>
             ))}
-          </ol>
-        </div>
-      </section>
-
-      {/* 6. Les deux chiffres */}
-      <section className="mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:py-24 md:grid-cols-2">
-        <div className="space-y-5">
-          <Petit>Pourquoi les départs aussi</Petit>
-          <h2 className="text-5xl sm:text-6xl font-normal">Les deux chiffres. <em className="text-[var(--accent-texte)]">C&apos;est ça, la confiance.</em></h2>
-        </div>
-        <div className="space-y-4 text-lg leading-relaxed">
-          <p>N&apos;afficher que ceux qui restent, ce serait raconter la moitié de l&apos;histoire. Alors on compte aussi celles et ceux qui sont partis avant leur première année.</p>
-          <p className="text-[var(--doux)]">Toujours en chiffres d&apos;ensemble : un intitulé de poste et une date suffiraient à reconnaître quelqu&apos;un. Ce qui se passe chez nos clients reste chez eux.</p>
-        </div>
-      </section>
-
-      {/* 7. Les honoraires */}
-      <section className="mx-auto max-w-6xl px-5 pb-16 sm:pb-24">
-        <div className="grid gap-8 rounded-[28px] border-2 border-[var(--encre)] bg-[var(--carte)] p-6 sm:p-10 md:grid-cols-[1fr_1fr] md:items-center">
-          <div className="space-y-4">
-            <Petit>Honoraires</Petit>
-            <h2 className="text-4xl sm:text-5xl font-normal">Une partie payée <em className="text-[var(--accent-texte)]">à la première bougie.</em></h2>
-            <p className="leading-relaxed text-[var(--doux)]">On a intérêt à ce que ça dure, autant que toi.</p>
-          </div>
-          <div className="space-y-3">
-            <p className="text-sm text-[var(--doux)]">Exemple · {HONORAIRES.exemple}</p>
-            <p className="font-[family-name:var(--titres)] text-5xl [font-variant-numeric:lining-nums]">{euros(HONORAIRES.total)} HT</p>
-            <ul className="space-y-2">
-              {HONORAIRES.parts.map((x) => (
-                <li key={x.quand} className="flex items-center gap-3">
-                  <span className="h-3 rounded-full bg-[#F2C14E]" style={{ width: `${x.part * 1.6}px` }} aria-hidden="true" />
-                  <span className="font-semibold [font-variant-numeric:lining-nums]">{x.part} %</span>
-                  <span className="text-[var(--doux)]">{x.quand}</span>
-                </li>
-              ))}
-            </ul>
-            <p className="text-xs text-[var(--doux)]">Prix exemple, hors taxes : nos clients sont des entreprises.</p>
           </div>
         </div>
+        <Apparition delai={200} className="mt-8">
+          <Bouton href={`${DOSSIER}/honoraires`}>Voir le détail, ligne par ligne</Bouton>
+        </Apparition>
       </section>
 
-      {/* 8. Les candidats */}
-      <section className="bg-[#FBEFD8] border-y border-[var(--trait)]">
-        <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:py-24 md:grid-cols-[1.2fr_0.8fr] md:items-center">
-          <div className="space-y-5">
-            <Petit>Et si tu cherches un poste</Petit>
-            <h2 className="text-5xl sm:text-6xl font-normal">Placement gratuit <em className="text-[var(--accent-texte)]">pour les candidats.</em></h2>
-            <p className="text-lg leading-relaxed">Aucun frais ne peut t&apos;être demandé pour te trouver un poste (Code du travail, art. L.5321-3). Ta candidature n&apos;est présentée qu&apos;avec ton accord, et ton nom n&apos;apparaît nulle part.</p>
+      {/* ---------- Questions ---------- */}
+      <section id="questions" className="scroll-mt-24 border-t border-[var(--trait)] bg-[var(--carte)]">
+        <div className="mx-auto grid max-w-7xl gap-12 px-5 py-24 sm:px-8 md:py-32 lg:grid-cols-[0.7fr_1.3fr]">
+          <div className="space-y-6">
+            <Apparition><Surtitre className="text-[var(--doux)]">Questions</Surtitre></Apparition>
+            <TitreRevele
+              texte="Ce que les dirigeants *demandent.*"
+              className="font-[family-name:var(--titres)] text-[clamp(2.6rem,5vw,4.5rem)] leading-[0.95] tracking-[-0.02em]"
+              classeAccent="italic text-[var(--accent-texte)]"
+            />
           </div>
-          <Image src={photos.main.src} width={photos.main.largeur} height={photos.main.hauteur} alt={photos.main.alt} sizes="(min-width: 768px) 400px, 100vw" className="aspect-[4/5] w-full rounded-[28px] object-cover" />
+          <Apparition delai={150}>
+            <Accordeon questions={QUESTIONS.map((q) => ({ question: q.q, reponse: q.r }))} />
+          </Apparition>
         </div>
       </section>
 
-      {/* 9. Questions */}
-      <section className="mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:py-24 lg:grid-cols-[0.8fr_1.2fr]">
-        <div className="space-y-4">
-          <Petit>Questions</Petit>
-          <h2 className="text-5xl sm:text-6xl font-normal">Avant de <em className="text-[var(--accent-texte)]">souffler.</em></h2>
-        </div>
-        <ul className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
-          {FAQ.map((x) => (
-            <li key={x.q}>
-              <details className="group">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-lg font-semibold [&::-webkit-details-marker]:hidden">
-                  {x.q}
-                  <span aria-hidden="true" className="font-[family-name:var(--titres)] text-3xl transition-transform group-open:rotate-45">+</span>
-                </summary>
-                <p className="pb-6 pr-8 leading-relaxed text-[var(--doux)]">{x.r}</p>
-              </details>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* 10. Un an. Toujours là. */}
-      <section className="bg-[var(--sombre)] text-[var(--sur-sombre)]">
-        <div className="mx-auto max-w-4xl space-y-6 px-5 py-16 text-center sm:py-24">
-          <h2 className="text-5xl sm:text-7xl font-normal">Un an. <em className="text-[#F2C14E]">Toujours là.</em></h2>
-          <p className="mx-auto max-w-lg text-lg leading-relaxed text-[#DCDCE6]">C&apos;est ce qu&apos;on veut écrire sous la photo de ta prochaine recrue, avec son accord.</p>
-          <Link href={`${DOSSIER}/recruter`} className="inline-flex min-h-13 items-center justify-center rounded-full bg-[#F2C14E] px-8 font-semibold text-[#22223B]">Recruter avec nous</Link>
-        </div>
-      </section>
+      <div className="h-3 sm:h-5" />
+      <AppelFinal />
     </main>
   );
 }

@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { adressesDeLaPage } from "@/lib/seo";
-import { ACCUEIL, METHODE, THEMES, photos } from "../_composants/donnees";
-import { Coin } from "../_composants/Blocs";
+import Apparition from "../../_kit/Apparition";
+import { EnTetePage, Section, Surtitre, Titre } from "../_composants/Blocs";
 import PhraseLundi from "../_composants/PhraseLundi";
+import { ACCUEIL, METHODE, THEMES, photos } from "../_composants/donnees";
 
-// « Et on construit la soirée à l'envers, à partir de cette phrase. » La méthode
-// expliquée sur un exemple complet (« On ne savait pas que la compta chantait aussi
-// bien. »), puis l'outil, avec trois phrases d'exemple à essayer.
+// « Et on construit la soirée à l'envers, à partir de cette phrase. » Un exemple complet,
+// heure par heure en remontant le temps, puis l'outil : à vous d'écrire la phrase.
 export const metadata: Metadata = {
-  title: "La soirée à l'envers · Lundi d'Après — site de démonstration",
-  description: "On part de la phrase que vos équipes doivent se raconter lundi, et on remonte jusqu'à l'accueil du vendredi. Site de démonstration.",
+  title: "La soirée à l'envers — Lundi d'Après, site de démonstration",
+  description: "Une agence part du lieu, puis du menu. Nous, on part de lundi : la soirée construite à l'envers, à partir de la phrase que vos équipes se diront. Site de démonstration.",
   ...adressesDeLaPage("/exemples/lundi-d-apres/a-l-envers"),
 };
 
@@ -24,51 +23,57 @@ export default function ALEnvers() {
     ACCUEIL,
   ];
   return (
-    <div>
-      <section className="max-w-6xl mx-auto px-5 pt-8 pb-14 sm:pt-14 grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-start">
-        <div className="space-y-5">
-          <Coin>exemple, du lundi au vendredi</Coin>
-          <h1 className="text-[48px] sm:text-[84px] font-bold lowercase leading-[0.95] tracking-[-0.04em]">la soirée, à l&apos;envers</h1>
-          <p className="text-lg leading-relaxed text-[var(--doux)]">
-            Une agence part du lieu, puis du menu, puis de l&apos;animation. Nous, on part de lundi. Voici un exemple, heure par
-            heure, en remontant le temps.
-          </p>
-          <div className="relative hidden lg:block aspect-[3/2] overflow-hidden rounded-[32px]">
-            <Image src={photos.cafe.src} alt={photos.cafe.alt} fill sizes="480px" className="object-cover" />
-          </div>
+    <main>
+      <EnTetePage surtitre="Exemple, du lundi au vendredi" titre="la soirée, *à l'envers.*" photo={photos.croissants} origine="50% 45%">
+        Une agence part du lieu, puis du menu, puis de l&apos;animation. Nous, on part de lundi : la phrase qu&apos;on veut entendre
+        devant la machine à café. Et on remonte le temps.
+      </EnTetePage>
+
+      <Section className="grid grid-cols-1 gap-16 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+        <div className="space-y-6 lg:sticky lg:top-28">
+          <Apparition><Surtitre>Un exemple, heure par heure</Surtitre></Apparition>
+          <Titre texte="on commence *par la fin.*" />
         </div>
-        <ol className="space-y-3">
+        <ol className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
           {etapes.map((e, i) => (
-            <li key={e.heure} className={`rounded-[28px] p-6 space-y-1 ${i === 0 ? "bg-[var(--encre)] text-[var(--fond)]" : "bg-[var(--carte)]"}`}>
-              <p className={`text-[13px] font-bold uppercase tracking-[0.12em] ${i === 0 ? "text-[#FFD9A0]" : "text-[var(--accent-texte)]"}`}>{e.heure}</p>
-              <h2 className="font-[family-name:var(--titres)] text-[24px] font-semibold leading-snug">{e.titre}</h2>
-              <p className={`leading-relaxed ${i === 0 ? "text-[#D8C9B4]" : "text-[var(--doux)]"}`}>{e.texte}</p>
-            </li>
+            <Apparition as="li" key={e.heure} delai={i * 110} className="grid grid-cols-1 gap-2 py-6 sm:grid-cols-[8rem_1fr] sm:gap-8">
+              <p className={`font-[family-name:var(--titres)] text-[28px] leading-none tracking-[-0.03em] ${i === 0 ? "text-[var(--accent-texte)]" : ""}`}>{e.heure}</p>
+              <div className="space-y-1">
+                <h2 className="font-[family-name:var(--titres)] text-[24px] font-normal leading-snug">{e.titre}</h2>
+                <p className="leading-relaxed text-[var(--doux)]">{e.texte}</p>
+              </div>
+            </Apparition>
           ))}
-          <li className="px-2 text-[13px] text-[var(--doux)]">Exemple : la phrase et l&apos;entreprise sont inventées.</li>
+          <li className="py-4 text-[13px] text-[var(--doux)]">Exemple : la phrase et l&apos;entreprise sont inventées.</li>
         </ol>
-      </section>
+      </Section>
 
-      <section className="bg-[#9AD1D4] [--doux:#5A3D2B]">
-        <div className="max-w-3xl mx-auto px-5 py-16 sm:py-20 space-y-6">
-          <h2 className="text-[36px] sm:text-5xl font-bold lowercase leading-[1] tracking-[-0.03em]">à vous d&apos;essayer</h2>
-          <p className="text-lg leading-relaxed">Écrivez votre phrase, ou prenez un exemple.</p>
-          <PhraseLundi />
+      <Section fond="bg-[var(--carte)] border-y border-[var(--trait)]" className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:items-start">
+        <div className="space-y-6">
+          <Apparition><Surtitre>À vous d&apos;essayer</Surtitre></Apparition>
+          <Titre texte="écrivez *votre phrase.*" />
+          <Apparition as="p" delai={150} className="max-w-md text-lg leading-relaxed text-[var(--doux)]">
+            Ou prenez un exemple : la soirée se construit à l&apos;envers, sous vos yeux.
+          </Apparition>
         </div>
-      </section>
+        <Apparition delai={150}><PhraseLundi /></Apparition>
+      </Section>
 
-      <section className="max-w-6xl mx-auto px-5 py-16 sm:py-24 space-y-8">
-        <h2 className="text-[36px] sm:text-5xl font-bold lowercase leading-[1] tracking-[-0.03em]">les quatre temps</h2>
-        <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <Section className="space-y-14">
+        <div className="space-y-5">
+          <Apparition><Surtitre>La méthode</Surtitre></Apparition>
+          <Titre texte="les quatre *temps.*" />
+        </div>
+        <ol className="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4">
           {METHODE.map((m, i) => (
-            <li key={m.titre} className="rounded-[28px] bg-[var(--carte)] p-6 space-y-3">
-              <span className="grid h-10 w-10 place-items-center rounded-full bg-[var(--accent)] font-[family-name:var(--titres)] text-lg font-bold">{i + 1}</span>
-              <h3 className="text-[24px] font-bold lowercase">{m.titre}</h3>
+            <Apparition as="li" key={m.titre} delai={i * 110} className="space-y-3 border-t border-[var(--trait)] pt-5">
+              <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">0{i + 1}</p>
+              <h3 className="font-[family-name:var(--titres)] text-[24px] font-normal lowercase">{m.titre}</h3>
               <p className="leading-relaxed text-[var(--doux)]">{m.texte}</p>
-            </li>
+            </Apparition>
           ))}
         </ol>
-      </section>
-    </div>
+      </Section>
+    </main>
   );
 }

@@ -1,36 +1,46 @@
 import Cadre from "../_kit/Cadre";
+import NavVerre from "../_kit/NavVerre";
 import { variablePolice } from "../_kit/polices";
-import EnTete from "./_composants/EnTete";
-import PiedDePage from "./_composants/PiedDePage";
+import { Marque } from "./_composants/Blocs";
+import Pied from "./_composants/Pied";
+import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 
-// Parole Tenue : vert sapin, sable, corail et crème, titres en Playfair, billets
-// écrits à la main en Caveat. Premier écran inspiré du modèle « Vintage Care » de
-// MotionSites (un grand titre centré à empattements, une image au milieu, de courts
-// textes de part et d'autre), transposé en carte d'embarquement.
+// Parole Tenue, agence de voyage imaginaire filmée dans les deux vidéos des agences de
+// voyage : elle ne vend que les voyages promis (« Créer une marque ») ; un seul bouton,
+// « ferme tes onglets », trente minutes avec un conseiller, des budgets ligne par ligne
+// (« Remplir l'agenda », ancien site Un Seul Onglet). Vert sapin, corail et crème ;
+// Instrument Serif pour les titres, Work Sans pour lire, et les billets écrits à la main
+// en Caveat. Toutes les pages s'ouvrent sur un écran sapin.
 export default function ParoleTenueLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
       entreprise="Parole Tenue"
-      titres="playfair"
+      titres="instrument"
       texte="workSans"
       autres={["caveat"]}
       couleurs={{
         fond: "#FBF6EC",
         encre: "#1F3D36",
         doux: "#56655F",
-        accent: "#1F3D36",
-        surAccent: "#FBF6EC",
+        accent: "#F2A58E",
+        surAccent: "#1F3D36",
         accentTexte: "#B4432A",
         carte: "#FFFFFF",
-        trait: "#E4D8C0",
-        sombre: "#1F3D36",
+        trait: "#E4DACB",
+        sombre: "#16302A",
         surSombre: "#FBF6EC",
       }}
     >
       <div style={{ "--manuscrit": `var(${variablePolice("caveat")})` } as React.CSSProperties}>
-        <EnTete />
+        <NavVerre
+          accueil={DOSSIER}
+          marque={<Marque />}
+          liens={NAVIGATION}
+          action={{ href: `${DOSSIER}#ferme`, libelle: "Ferme tes onglets" }}
+          surSombre
+        />
         {children}
-        <PiedDePage />
+        <Pied />
       </div>
     </Cadre>
   );

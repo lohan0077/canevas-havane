@@ -1,16 +1,21 @@
 import Cadre from "../_kit/Cadre";
-import EnTete from "./_composants/EnTete";
-import PiedDuSite from "./_composants/PiedDuSite";
+import NavVerre from "../_kit/NavVerre";
+import { Marque } from "./_composants/Blocs";
+import Pied from "./_composants/Pied";
+import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 
-// Le gabarit d'Après Nous : le lin pour le papier, le noyer pour l'encre et les bandes
-// sombres, le chêne pour l'accent — la palette de la vidéo. Bodoni Moda pour les
-// titres (le Big Caslon de la vidéo, en plus contrasté), Figtree pour le texte, et
-// Caveat pour les lignes qu'on écrit soi-même dans le registre.
+// Après Nous, l'atelier des deux vidéos des artisans d'art : la marque de « Créer une
+// marque » (une ébénisterie : le numéro gravé sous chaque table, son registre, le
+// premier repas), qui a absorbé les idées de « Remplir l'agenda » (un céramiste : une
+// page et vingt secondes de tournage par pièce, l'ouverture du four en direct, une
+// seule de chaque). Fraunces, un caractère au dessin chaud, presque taillé, pour les
+// titres ; Figtree pour lire ; Caveat pour les lignes qu'on écrit soi-même. Le lin,
+// le noyer, le chêne. Chaque page s'ouvre sur un écran sombre : en-tête `surSombre`.
 export default function ApresNousLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
       entreprise="Après Nous"
-      titres="bodoni"
+      titres="fraunces"
       texte="figtree"
       autres={["caveat"]}
       couleurs={{
@@ -22,13 +27,19 @@ export default function ApresNousLayout({ children }: { children: React.ReactNod
         accentTexte: "#7A5226",
         carte: "#FAF6EE",
         trait: "#D8CCB9",
-        sombre: "#3B2416",
+        sombre: "#2A190E",
         surSombre: "#F3EDE2",
       }}
     >
-      <EnTete />
+      <NavVerre
+        accueil={DOSSIER}
+        marque={<Marque />}
+        liens={NAVIGATION}
+        action={{ href: `${DOSSIER}/registre`, libelle: "Mon numéro" }}
+        surSombre
+      />
       {children}
-      <PiedDuSite />
+      <Pied />
     </Cadre>
   );
 }

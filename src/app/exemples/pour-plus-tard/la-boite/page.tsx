@@ -1,99 +1,147 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { adressesDeLaPage } from "@/lib/seo";
-import Panier from "../../_kit/Panier";
-import Creneaux from "../../_kit/Creneaux";
-import { CRENEAUX, FORMULE, INVENTAIRE, entreprise, photos } from "../_composants/donnees";
-import { Cartel } from "../_composants/Blocs";
+import Apparition from "../../_kit/Apparition";
+import TitreRevele from "../../_kit/TitreRevele";
 import AtelierBoite from "../_composants/AtelierBoite";
+import { AppelFinal, Bouton, EnTetePage, Surtitre } from "../_composants/Blocs";
+import { DEROULE, DOSSIER, FORMULE, INVENTAIRE, photos } from "../_composants/donnees";
 
-// La page de la boîte : l'étiquette qu'on écrit soi-même, le prix détaillé (TTC,
-// marqué exemple), les boîtes en plus, et les dates de séance qu'on réserve.
+// La séance et la boîte : la seule formule (« Créer une marque »), et son prix affiché en
+// grand, tout en haut (« Remplir l'agenda » : « Et le prix, affiché. » — parce qu'on tape
+// « combien coûte un shooting photo famille »). Prix TTC d'exemple.
 export const metadata: Metadata = {
-  title: "La boîte · Pour Plus Tard — site de démonstration",
-  description: "Une séance et une boîte de vingt tirages à ton nom, livrée chez toi : 390 € TTC (prix d'exemple). Site de démonstration réalisé par Canevas Havane.",
+  title: "La séance et la boîte — Pour Plus Tard, site de démonstration",
+  description: "Une séance d'une heure et une boîte de vingt tirages à ton nom, livrée chez toi : 390 € TTC, prix d'exemple affiché. Site de démonstration d'un studio photo imaginaire.",
   ...adressesDeLaPage("/exemples/pour-plus-tard/la-boite"),
 };
 
 export default function LaBoite() {
   return (
     <main>
-      <section className="max-w-6xl mx-auto px-5 pt-8 pb-14 sm:pt-12 grid gap-10 md:grid-cols-[1.1fr_1fr] md:items-end">
-        <div className="space-y-6">
-          <Cartel numero="1">La boîte</Cartel>
-          <h1 className="text-[52px] sm:text-7xl font-normal">
-            Vingt tirages, <span className="italic">une boîte, ton nom.</span>
-          </h1>
-          <p className="text-lg leading-relaxed">
-            {FORMULE.nom}, {FORMULE.prix} TTC (prix d&apos;exemple). La boîte arrive chez toi par
-            la poste, ficelée, trois semaines après la séance.
-          </p>
-        </div>
-        <div className="relative aspect-[3/2] overflow-hidden">
-          <Image src={photos.colis.src} alt={photos.colis.alt} fill priority sizes="(min-width: 768px) 520px, 100vw" className="object-cover" />
+      <EnTetePage
+        surtitre="La séance et la boîte · prix d'exemple"
+        titre={"Une séance, vingt tirages\u00a0: *390 €.*"}
+        tirages={[
+          { ...photos.colis, legende: "livrée chez toi" },
+          { ...photos.albumFleurs, legende: "pour plus tard" },
+          { ...photos.tirageMer, legende: "été 2026" },
+        ]}
+        apres={
+          <Apparition delai={600} className="flex flex-wrap gap-3">
+            <Bouton href={`${DOSSIER}/reserver`}>Choisir ma date</Bouton>
+            <Bouton href="#etiquette" variante="contour">Écrire l&apos;étiquette</Bouton>
+          </Apparition>
+        }
+      >
+        <span data-film="prix">
+          TTC, livraison comprise. Une heure ensemble, chez toi ou dehors ; trois semaines plus tard,
+          la boîte arrive par la poste, ficelée. Le même prix pour tout le monde.
+        </span>
+      </EnTetePage>
+
+      {/* ---------- Le prix, en entier ---------- */}
+      <section className="mx-auto max-w-7xl px-5 py-24 sm:px-8 md:py-32">
+        <div className="grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
+          <Apparition de="zoom" className="rounded-[6px] bg-[var(--accent)] p-8 text-[var(--sur-accent)] sm:p-12">
+            <p className="text-[12px] font-semibold uppercase tracking-[0.22em]">{FORMULE.nom} · exemple</p>
+            <p className="mt-6 font-[family-name:var(--titres)] text-[clamp(6rem,15vw,12rem)] font-medium leading-[0.8] tracking-[-0.05em] tabular-nums">
+              {FORMULE.prix}
+            </p>
+            <ul className="mt-10 grid gap-x-8 gap-y-3 text-[17px] sm:grid-cols-2">
+              {FORMULE.details.map((d) => (
+                <li key={d} className="flex gap-3 border-t border-white/25 pt-3">
+                  <span aria-hidden="true">✓</span>
+                  {d}
+                </li>
+              ))}
+            </ul>
+          </Apparition>
+          <div className="grid gap-5">
+            <Apparition delai={150} className="rounded-[6px] border border-[var(--trait)] bg-[var(--carte)] p-8">
+              <p className="font-[family-name:var(--titres)] text-3xl">En plus, si tu veux</p>
+              <ul className="mt-4 space-y-3 text-[17px] text-[var(--doux)]">
+                {FORMULE.pasCompris.map((d) => <li key={d}>{d}</li>)}
+              </ul>
+            </Apparition>
+            <Apparition delai={300} className="flex flex-col justify-between gap-6 rounded-[6px] bg-[var(--sombre)] p-8 text-[var(--sur-sombre)]">
+              <p className="font-[family-name:var(--titres)] text-3xl leading-tight">Réglé le jour de la séance. <em className="text-[#E0B48C]">Rien en ligne.</em></p>
+              <Bouton href={`${DOSSIER}/reserver`} variante="clair">Voir les dates de novembre</Bouton>
+            </Apparition>
+          </div>
         </div>
       </section>
 
-      <section className="border-y border-[var(--encre)] bg-[var(--carte)]">
-        <div className="max-w-6xl mx-auto px-5 py-14 sm:py-20 space-y-10">
-          <div className="space-y-4 max-w-2xl">
-            <Cartel numero="2">L&apos;étiquette</Cartel>
-            <h2 className="text-4xl sm:text-6xl font-normal">Écris le nom <span className="italic">sur la boîte.</span></h2>
+      {/* ---------- L'étiquette ---------- */}
+      <section id="etiquette" className="scroll-mt-24 border-y border-[var(--trait)] bg-[var(--carte)]">
+        <div className="mx-auto max-w-6xl space-y-12 px-5 py-24 sm:px-8 md:py-28">
+          <div className="max-w-3xl space-y-6">
+            <Apparition><Surtitre numero="1" className="text-[var(--doux)]">L&apos;étiquette</Surtitre></Apparition>
+            <TitreRevele
+              texte="Écris le nom *sur la boîte.*"
+              className="font-[family-name:var(--titres)] text-[clamp(2.6rem,5.4vw,4.6rem)] font-medium leading-[0.95] tracking-[-0.03em]"
+              classeAccent="italic text-[var(--accent-texte)]"
+            />
           </div>
           <AtelierBoite />
         </div>
       </section>
 
-      <section className="max-w-6xl mx-auto px-5 py-16 sm:py-20 grid gap-10 lg:grid-cols-2 lg:items-start">
-        <div className="space-y-6">
-          <Cartel numero="3">Le prix, en entier</Cartel>
-          <h2 className="text-4xl sm:text-6xl font-normal">Une boîte de plus <span className="italic">pour les grands-parents&nbsp;?</span></h2>
-          <ul className="border-t border-[var(--encre)]">
-            {INVENTAIRE.slice(0, 4).map((x) => (
-              <li key={x.n} className="flex gap-3 border-b border-[var(--trait)] py-3">
-                <span className="text-xs font-bold tabular-nums pt-1">{x.n}</span>
-                <span>{x.titre}</span>
-              </li>
-            ))}
-          </ul>
-          <p className="leading-relaxed text-[var(--doux)]">
-            Livraison comprise en France métropolitaine. Séance à 30 km autour du studio,
-            déplacement compris. Tout est payé le jour de la séance, rien en ligne (exemple).
-          </p>
-        </div>
-        <Panier
-          produits={[
-            { nom: FORMULE.nom, detail: "La séance et la boîte à ton nom", prix: FORMULE.prixNombre },
-            { nom: "Boîte en double", detail: "Les mêmes vingt tirages, pour quelqu'un d'autre", prix: 120 },
-            { nom: "Tirage 30 × 40", detail: "Ta préférée, en grand, papier mat", prix: 45 },
-          ]}
-          bouton="Préparer ma commande"
-          confirmation="Commande prête : on la confirme ensemble le jour de la séance."
-          mention="Prix TTC d'exemple, livraison comprise. Les boîtes en plus se commandent après la séance."
-        />
-      </section>
-
-      <section id="reserver" className="scroll-mt-20 border-t border-[var(--encre)]">
-        <div className="max-w-6xl mx-auto px-5 py-16 sm:py-20 grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-          <div className="space-y-5">
-            <Cartel numero="4">Réserver</Cartel>
-            <h2 className="text-4xl sm:text-6xl font-normal">Les séances <span className="italic">de novembre.</span></h2>
-            <p className="text-lg leading-relaxed">
-              Choisis une date ; on se rappelle pour le lieu. Ou appelle le{" "}
-              <a href={`tel:${entreprise.telephoneLien}`} className="underline underline-offset-4 tabular-nums">{entreprise.telephone}</a>{" "}
-              (numéro fictif, réservé par l&apos;ARCEP aux œuvres de fiction).
-            </p>
-          </div>
-          <Creneaux
-            creneaux={CRENEAUX}
-            colonnes={2}
-            titreCarte="Ta séance"
-            bouton="Réserver cette séance"
-            confirmation="Séance réservée. On t'appelle pour le lieu."
-            note="Créneaux pris : exemple, l'entreprise est fictive."
+      {/* ---------- Dans la boîte ---------- */}
+      <section className="mx-auto max-w-7xl px-5 py-24 sm:px-8 md:py-32">
+        <div className="mb-12 max-w-3xl space-y-6">
+          <Apparition><Surtitre numero="2" className="text-[var(--doux)]">Dans la boîte</Surtitre></Apparition>
+          <TitreRevele
+            texte="Cinq choses, *pas une de plus.*"
+            className="font-[family-name:var(--titres)] text-[clamp(2.6rem,5.4vw,4.6rem)] font-medium leading-[0.95] tracking-[-0.03em]"
+            classeAccent="italic text-[var(--accent-texte)]"
           />
         </div>
+        <ul className="grid gap-4 md:grid-cols-6">
+          {INVENTAIRE.map((x, i) => (
+            <Apparition
+              as="li"
+              key={x.n}
+              de="zoom"
+              delai={i * 100}
+              className={`flex flex-col justify-between gap-8 rounded-[6px] p-7 ${i < 2 ? "md:col-span-3" : "md:col-span-2"} ${i === 0 ? "bg-[var(--sombre)] text-[var(--sur-sombre)]" : i === 3 ? "bg-[#C9A27E] text-[#2A211D]" : "border border-[var(--trait)] bg-[var(--carte)]"}`}
+            >
+              <span className="font-[family-name:var(--titres)] text-[3rem] italic leading-none">{x.n}</span>
+              <span className="space-y-2">
+                <span className="block font-[family-name:var(--titres)] text-[1.7rem] leading-tight">{x.titre}</span>
+                <span className="block text-[16px] leading-relaxed">{x.texte}</span>
+              </span>
+            </Apparition>
+          ))}
+        </ul>
       </section>
+
+      {/* ---------- La séance, minute par minute ---------- */}
+      <section className="px-3 sm:px-5">
+        <div className="kit-grain overflow-hidden rounded-[6px] bg-[var(--sombre)] text-[var(--sur-sombre)]">
+          <div className="mx-auto max-w-6xl space-y-12 px-6 py-20 sm:px-10 md:py-28">
+            <div className="max-w-3xl space-y-6">
+              <Surtitre numero="3">La séance</Surtitre>
+              <TitreRevele
+                texte="Une heure, *minute par minute.*"
+                className="font-[family-name:var(--titres)] text-[clamp(2.6rem,5.4vw,4.6rem)] font-medium leading-[0.95] tracking-[-0.03em]"
+                classeAccent="italic text-[#E0B48C]"
+              />
+            </div>
+            <ol className="grid gap-8 md:grid-cols-4">
+              {DEROULE.map((d, i) => (
+                <Apparition as="li" key={d.minute} delai={i * 120} className="space-y-3 border-t border-white/25 pt-5">
+                  <span className="block font-[family-name:var(--titres)] text-[3.4rem] italic leading-none text-[#E0B48C]">{d.minute}′</span>
+                  <span className="block font-[family-name:var(--titres)] text-[1.5rem] leading-tight">{d.titre}</span>
+                  <span className="block text-[16px] leading-relaxed">{d.texte}</span>
+                </Apparition>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <div className="h-16 md:h-24" />
+      <AppelFinal />
     </main>
   );
 }

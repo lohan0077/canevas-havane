@@ -9,11 +9,12 @@ const espace = (n: string) => n.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
  * Le dossier qui se suit comme un colis : reçu, envoyé aux banques, réponse des banques,
  * fonds versés. On entre son numéro, on touche « Suivre » ; chaque étape se touche et dit
  * ce qui s'y est passé. Deux dossiers d'exemple : l'un accordé, l'autre refusé (on appelle
- * dans les deux cas). Rien n'est envoyé : la recherche se fait dans la page.
+ * dans les deux cas). Rien n'est envoyé : la recherche se fait dans la page. `ouvert` :
+ * le premier dossier est déjà affiché (l'accueil) ; sinon, on touche « Suivre » (le film).
  */
-export default function Suivi() {
+export default function Suivi({ ouvert = false }: { ouvert?: boolean }) {
   const [saisie, setSaisie] = useState(dossiers[0].numero);
-  const [numero, setNumero] = useState<string | null>(null);
+  const [numero, setNumero] = useState<string | null>(ouvert ? dossiers[0].numero : null);
   const [ouverte, setOuverte] = useState<number | null>(null);
   const [inconnu, setInconnu] = useState(false);
   const d = dossiers.find((x) => x.numero === numero);
@@ -26,7 +27,7 @@ export default function Suivi() {
   };
 
   return (
-    <div data-film="suivi" className="overflow-hidden rounded-[28px] border border-[var(--trait)] bg-[var(--carte)] shadow-[0_30px_70px_-45px_rgba(27,42,65,0.55)]">
+    <div data-film="suivi" className="overflow-hidden rounded-[1.75rem] border border-[var(--trait)] bg-white text-[var(--encre)] shadow-[0_50px_90px_-50px_rgba(27,42,65,0.65)]">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -46,7 +47,7 @@ export default function Suivi() {
             onChange={(e) => setSaisie(e.target.value)}
             className="min-w-0 flex-1 rounded-full border-2 border-[var(--trait)] bg-[var(--fond)] px-5 py-3 text-[18px] font-semibold tabular-nums focus:border-[var(--encre)] focus:outline-none"
           />
-          <button type="submit" data-film="suivre" className="rounded-full bg-[var(--encre)] px-6 text-[16px] font-semibold text-[var(--carte)]">
+          <button type="submit" data-film="suivre" className="rounded-full bg-[#1B2A41] px-6 text-[16px] font-bold text-[#FFF8EC]">
             Suivre
           </button>
         </div>

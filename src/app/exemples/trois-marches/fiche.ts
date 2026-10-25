@@ -3,7 +3,9 @@ import type { Fiche } from "../_kit/fiche";
 export const fiche: Fiche = {
   nom: "Trois Marches",
   metier: "Agence immobilière",
-  serie: "Créer une marque",
-  idee: "Une agence qui ne vend pas des mètres carrés : chaque annonce commence par l'histoire de la maison, racontée par ceux qui y ont vécu, et chaque vente finit par la dernière photo de famille, sur le perron.",
-  video: "marque-agents-immobiliers",
+  secteur: "agents-immobiliers",
+  groupe: "rendez-vous",
+  idee: "Une agence qui fait de son barème la page d'accueil et commence chaque annonce par l'histoire de la maison : le prix honoraires inclus en grand, le compte rendu de chaque visite le soir même, et la dernière photo sur le perron.",
+  image: "/exemples/trois-marches/perron-porte-verte.webp",
+  ancien: "le-soir-meme",
 };

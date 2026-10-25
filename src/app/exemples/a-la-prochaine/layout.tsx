@@ -1,25 +1,27 @@
 import Cadre from "../_kit/Cadre";
-import EnTete from "./_composants/EnTete";
-import PiedDeSite from "./_composants/PiedDeSite";
+import NavVerre from "../_kit/NavVerre";
+import { Marque } from "./_composants/Blocs";
+import Pied from "./_composants/Pied";
+import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 
-// Le site de la marque imaginée dans la vidéo « Si je devais créer une marque de bijoux » :
-// chaque bijou est gravé d'un numéro, ce numéro a sa page, le premier nom est le tien,
-// et en dessous une ligne vide. Inspiration : le modèle « Ancient Oath » de MotionSites
-// (un titre immense à fort contraste, coupé par un objet d'or), transposé sur le vert
-// de l'écrin et l'ivoire.
-// Le `noindex` vient du layout de /exemples.
+// À la Prochaine, la marque de bijoux des deux vidéos des créatrices : la marque de
+// « Créer une marque » (le numéro gravé, le registre, la ligne vide), qui a absorbé
+// les idées de « Remplir l'agenda » (une pièce, une page, le film de sa fabrication,
+// le tampon « Partie », la sortie du vendredi 18 h). Instrument Serif, une Didone fine
+// qui tient dans les très grandes tailles, et Manrope pour lire. Le vert de l'écrin,
+// l'or, l'ivoire. Chaque page s'ouvre sur l'écrin sombre : en-tête `surSombre`.
 export default function ALaProchaineLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
       entreprise="À la Prochaine"
-      titres="bodoni"
+      titres="instrument"
       texte="manrope"
       couleurs={{
         fond: "#F3EDE2",
         encre: "#1E3A33",
         doux: "#4F5F58",
-        accent: "#1E3A33",
-        surAccent: "#F3EDE2",
+        accent: "#C9A86A",
+        surAccent: "#152B26",
         accentTexte: "#7A5A1E",
         carte: "#FAF6EE",
         trait: "#D8CCB5",
@@ -27,9 +29,15 @@ export default function ALaProchaineLayout({ children }: { children: React.React
         surSombre: "#F3EDE2",
       }}
     >
-      <EnTete />
+      <NavVerre
+        accueil={DOSSIER}
+        marque={<Marque />}
+        liens={NAVIGATION}
+        action={{ href: `${DOSSIER}/registre`, libelle: "Mon numéro" }}
+        surSombre
+      />
       {children}
-      <PiedDeSite />
+      <Pied />
     </Cadre>
   );
 }

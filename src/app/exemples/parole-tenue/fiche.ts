@@ -3,7 +3,9 @@ import type { Fiche } from "../_kit/fiche";
 export const fiche: Fiche = {
   nom: "Parole Tenue",
   metier: "Agence de voyage",
-  serie: "Créer une marque",
-  idee: "Tu écris le voyage que tu as promis : le site te dit depuis combien de temps tu le repousses, te propose une date et ce qu'il faut mettre de côté chaque mois.",
-  video: "marque-agences-voyage",
+  secteur: "agences-voyage",
+  groupe: "rendez-vous",
+  idee: "Une agence qui ne vend que les voyages promis : un seul bouton pour fermer ses quarante onglets et trente minutes avec un conseiller, la promesse qu'on écrit — le site dit depuis quand on la repousse et propose une date —, et des budgets détaillés ligne par ligne.",
+  image: "/exemples/parole-tenue/fuji.webp",
+  ancien: "un-seul-onglet",
 };

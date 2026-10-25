@@ -1,61 +1,89 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { adressesDeLaPage } from "@/lib/seo";
-import { photos } from "../_composants/donnees";
+import Apparition from "../../_kit/Apparition";
+import { AppelFinal, EnTetePage, Surtitre, Titre } from "../_composants/Blocs";
 import Ticket from "../_composants/Ticket";
+import { DEROULE_DINER, photos } from "../_composants/donnees";
 
 export const metadata: Metadata = {
-  title: "Le premier dîner · Sept Mille Dîners — site de démonstration",
-  description: "Le soir de chaque pose, Sept Mille Dîners cuisine le premier dîner chez son client, offert sans condition. Marque de cuisines imaginaire, site de démonstration.",
+  title: "Le premier dîner — Sept Mille Dîners, site de démonstration",
+  description:
+    "Le soir de chaque pose, Sept Mille Dîners cuisine le premier dîner chez son client, offert sans condition. Marque de cuisines imaginaire, site de démonstration.",
   ...adressesDeLaPage("/exemples/sept-mille-diners/le-premier-diner"),
 };
 
-const DEROULE = [
-  { quand: "Deux semaines avant", quoi: "On choisit le menu avec toi : ce que vous aimez, ce que vous ne mangez pas, les allergies." },
-  { quand: "Le dernier jour de pose", quoi: "Les poseurs rangent. Le chef arrive vers 18 h, avec ses courses." },
-  { quand: "Le soir", quoi: "Il cuisine dans ta nouvelle cuisine. Tu le regardes faire, ou tu mets la table." },
-  { quand: "Après le dessert", quoi: "Il range, et il s'en va. Les 7 299 dîners suivants sont à toi." },
+const CONDITIONS = [
+  "Le dîner n'est compté dans aucun prix : la cuisine coûte la même chose avec ou sans lui.",
+  "Tu n'as rien d'autre à acheter, ni à réserver, pour l'avoir.",
+  "Tu peux le refuser : rien ne change.",
+  "Il est cuisiné par un chef à domicile déclaré et assuré, qui respecte les règles d'hygiène de son métier (exemple).",
 ];
 
 export default function LePremierDiner() {
   return (
-    <div>
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 pt-10 sm:pt-16 pb-16 grid gap-12 lg:grid-cols-2 lg:items-center">
-        <div className="space-y-5 min-w-0">
-          <p className="text-xs font-semibold uppercase tracking-[0.26em] text-[var(--accent-texte)]">Le soir de la pose</p>
-          <h1 className="text-[3rem] sm:text-7xl">Le premier dîner, <span className="italic">c&apos;est nous.</span></h1>
-          <p className="text-xl leading-relaxed text-[var(--doux)]">
-            Le soir de chaque pose, on cuisine le premier dîner. Chez toi, dans ta nouvelle cuisine.
-          </p>
-        </div>
-        <Ticket />
-      </section>
+    <main>
+      <EnTetePage surtitre="Le soir de la pose" titre="Le premier dîner, *c'est nous.*">
+        Le soir de chaque pose, on cuisine le premier dîner. Chez toi, dans ta nouvelle cuisine. Et on te laisse les
+        7&nbsp;299 autres.
+      </EnTetePage>
 
-      <section className="border-y border-[var(--trait)] bg-[var(--carte)]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 grid gap-10 md:grid-cols-[1.1fr_0.9fr] md:items-center">
-          <ol className="space-y-6">
-            {DEROULE.map((d) => (
-              <li key={d.quand} className="border-t border-[var(--encre)] pt-4">
-                <p className="font-[family-name:var(--titres)] text-2xl italic text-[var(--accent-texte)]">{d.quand}</p>
-                <p className="text-lg leading-relaxed [font-variant-numeric:lining-nums]">{d.quoi}</p>
-              </li>
+      <section className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:py-40 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+        <div className="space-y-10">
+          <div className="space-y-5">
+            <Apparition><Surtitre>Ce soir-là</Surtitre></Apparition>
+            <Titre texte="Du dernier coup de tournevis *au dessert.*" />
+          </div>
+          <ol className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
+            {DEROULE_DINER.map((d, i) => (
+              <Apparition as="li" key={d.quand} delai={i * 120} className="grid gap-1 py-5 sm:grid-cols-[12rem_1fr] sm:gap-6">
+                <p className="font-[family-name:var(--titres)] text-xl italic text-[var(--accent-texte)]">{d.quand}</p>
+                <p className="text-[17px] leading-relaxed [font-variant-numeric:lining-nums]">{d.quoi}</p>
+              </Apparition>
             ))}
           </ol>
-          <div className="relative aspect-[4/5] rounded-[24px] overflow-hidden bg-[var(--sombre)]">
-            <Image src={photos.service.src} alt={photos.service.alt} fill sizes="(min-width: 768px) 460px, 100vw" className="object-cover" />
+        </div>
+        <Apparition delai={150}>
+          <Ticket />
+        </Apparition>
+      </section>
+
+      <section className="bg-[var(--sombre)] text-[var(--sur-sombre)]">
+        <div className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:py-40 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+          <div className="space-y-5">
+            <Apparition><Surtitre clair>Offert, et on dit comment</Surtitre></Apparition>
+            <Titre texte="Offert, *sans condition.*" clair />
           </div>
+          <ul className="divide-y divide-white/15 border-y border-white/15 text-lg leading-relaxed">
+            {CONDITIONS.map((c, i) => (
+              <Apparition as="li" key={c} delai={i * 120} className="flex gap-4 py-4">
+                <span aria-hidden="true" className="font-[family-name:var(--titres)] italic text-[#F0B49B]">{i + 1}.</span>
+                {c}
+              </Apparition>
+            ))}
+          </ul>
         </div>
       </section>
 
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 py-16 space-y-6">
-        <h2 className="text-5xl">Offert, <span className="italic">sans condition.</span></h2>
-        <ul className="space-y-3 text-lg leading-relaxed">
-          <li>Le dîner n&apos;est compté dans aucun prix : la cuisine coûte la même chose avec ou sans lui.</li>
-          <li>Tu n&apos;as rien d&apos;autre à acheter, ni à réserver, pour l&apos;avoir.</li>
-          <li>Tu peux le refuser : rien ne change.</li>
-          <li>Il est cuisiné par un chef à domicile déclaré et assuré, qui respecte les règles d&apos;hygiène de son métier <span className="text-[var(--doux)]">(exemple)</span>.</li>
-        </ul>
+      <section className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:py-40 lg:grid-cols-2 lg:items-center">
+        <div className="space-y-6">
+          <Apparition><Surtitre>Chaque pose, filmée</Surtitre></Apparition>
+          <Titre texte="Quatre jours. *Trente secondes.*" />
+          <Apparition as="p" delai={150} className="max-w-[26rem] text-lg leading-relaxed text-[var(--doux)]">
+            Les meubles qui se montent, en accéléré, jusqu&apos;au premier dîner. Seulement avec ton accord écrit, et sans
+            rien montrer de chez toi : ni adresse, ni famille, ni objets personnels.
+          </Apparition>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          {[photos.herbes, photos.service].map((p, i) => (
+            <Apparition key={p.src} delai={i * 140} className="relative aspect-[3/4] overflow-hidden rounded-2xl bg-[var(--sombre)]">
+              <Image src={p.src} alt={p.alt} fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover" />
+            </Apparition>
+          ))}
+        </div>
       </section>
-    </div>
+
+      <AppelFinal />
+    </main>
   );
 }

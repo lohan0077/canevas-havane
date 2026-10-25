@@ -2,215 +2,304 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { adressesDeLaPage } from "@/lib/seo";
+import Accordeon from "../_kit/Accordeon";
+import Apparition from "../_kit/Apparition";
+import CarteLueur from "../_kit/CarteLueur";
+import Defilant from "../_kit/Defilant";
+import FondVivant from "../_kit/FondVivant";
+import RecitColle from "../_kit/RecitColle";
+import TitreRevele from "../_kit/TitreRevele";
 import Anneau from "./_composants/Anneau";
+import { AppelFinal, Bouton, Libelle } from "./_composants/Blocs";
+import Bijou from "./_composants/Bijou";
+import { Lettre } from "./_composants/Interactions";
+import { Tampon } from "./_composants/Pieces";
 import Registre from "./_composants/Registre";
-import { CarteBijou, Faq, Libelle } from "./_composants/Blocs";
-import { BIJOUX, DOSSIER, IMAGES, entreprise } from "./_composants/donnees";
+import Vendredi from "./_composants/Vendredi";
+import { DOSSIER, IMAGES, PIECES, PROCHAINE, QUESTIONS, REPONSES, euros, grave, pieceNumero } from "./_composants/donnees";
 
 export const metadata: Metadata = {
-  title: "À la Prochaine — site de démonstration",
-  description: "Site de démonstration d'une marque de bijoux imaginaire, réalisé par Canevas Havane : chaque bijou est gravé d'un numéro, et ce numéro a sa page.",
+  title: "À la Prochaine — bijoux, site de démonstration",
+  description:
+    "Le site d'une marque de bijoux imaginaire : chaque pièce est faite une fois et gravée d'un numéro qui a sa page — sa fabrication, le premier nom, une ligne vide pour la suite — et six pièces sortent chaque vendredi à 18 h.",
   ...adressesDeLaPage("/exemples/a-la-prochaine"),
 };
 
-const ETAPES = [
-  { n: "I", titre: "Tu le portes", texte: "Ton prénom et l'année ouvrent sa page. Le premier nom, c'est le tien." },
-  { n: "II", titre: "Tu le donnes", texte: "À ta fille, à ton filleul, à une amie. Le jour où tu veux, à qui tu veux." },
-  { n: "III", titre: "La ligne suivante s'écrit", texte: "La personne qui le reçoit ajoute son prénom sous le tien, avec votre accord à tous les deux." },
-];
-
-const REPONSES = [
-  { texte: "La bague de sa grand-mère", detail: "portée depuis le lycée" },
-  { texte: "La gourmette de son baptême", detail: "agrandie deux fois" },
-  { texte: "Une médaille sans nom", detail: "trouvée dans une boîte à bijoux" },
+const TRANSMETTRE = [
+  { n: "I", titre: "Tu la portes", texte: "Ton prénom et l'année ouvrent sa page, sous le film de sa fabrication. Le premier nom, c'est le tien.", image: IMAGES.baguePortee },
+  { n: "II", titre: "Tu la donnes", texte: "À ta fille, à ton filleul, à une amie. Le jour où tu veux, à qui tu veux. Une mise à taille est offerte à qui la reçoit.", image: IMAGES.boite },
+  { n: "III", titre: "La ligne suivante s'écrit", texte: "La personne qui la reçoit ajoute son prénom sous le tien, avec votre accord à tous les deux. Et en dessous, une nouvelle ligne vide.", image: IMAGES.baguesLin },
 ];
 
 const PROMESSES = [
-  { titre: "Un prénom, une année", texte: "Rien d'autre au registre : ni nom de famille, ni ville, ni photo." },
-  { titre: "Une ligne qui s'efface", texte: "Chacun peut faire retirer la sienne, à tout moment, sans se justifier." },
-  { titre: "Une taille à chaque passage", texte: "La mise à taille pour la personne suivante est faite à la boutique, sans frais." },
-  { titre: "L'or, poinçonné", texte: "Le numéro s'ajoute aux poinçons que la loi impose ; il ne les remplace pas." },
+  { titre: "Une de chaque", texte: "Chaque numéro est fait une fois, et jamais refait. Pas de collection, pas de stock." },
+  { titre: "Un prénom, une année", texte: "Rien d'autre au registre : ni nom de famille, ni ville, ni photo. Chaque ligne s'efface sur demande." },
+  { titre: "Une taille à chaque passage", texte: "La mise à taille pour la personne suivante est faite à l'atelier, sans frais." },
+  { titre: "Le métal, poinçonné", texte: "Le numéro s'ajoute aux poinçons que la loi impose à l'argent et à l'or ; il ne les remplace pas." },
 ];
 
 export default function ALaProchaine() {
+  const p47 = pieceNumero(47)!;
+  const p46 = pieceNumero(46)!;
+  const p52 = pieceNumero(52)!;
   return (
-    <div>
-      {/* 1. L'ouverture : le titre immense, coupé par l'anneau. */}
-      <section data-film="ouverture" className="relative overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
-        <div className="mx-auto flex max-w-6xl flex-col items-center px-5 pb-14 pt-10 text-center lg:pb-20">
-          <Libelle clair>Bijoux en or · gravés d&apos;un numéro</Libelle>
-          <h1 className="relative mt-6 text-[88px] leading-[0.92] sm:text-[140px] lg:text-[180px]">
-            <span className="relative z-10 block">À toi.</span>
-            <span aria-hidden="true" className="relative z-0 mx-auto -my-4 block w-[230px] sm:-my-8 sm:w-[340px]">
-              <Anneau id="ouverture" className="w-full drop-shadow-[0_30px_40px_rgba(0,0,0,0.45)]" />
+    <main>
+      {/* ---------- Premier écran : la typographie seule, sur l'écrin qui bouge ---------- */}
+      <section data-film="ouverture" className="kit-grain relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
+        <FondVivant couleurs={["#152B26", "#21443B", "#7A5E26"]} vitesse={0.7} />
+        <div className="absolute inset-0 bg-[var(--sombre)]/40" />
+        <div aria-hidden="true" className="absolute inset-y-0 left-1/4 hidden w-px bg-white/10 md:block" />
+        <div aria-hidden="true" className="absolute inset-y-0 left-3/4 hidden w-px bg-white/10 md:block" />
+        <div className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-5 pb-10 pt-32 sm:px-8">
+          <div className="flex items-center justify-between text-[13px] font-semibold uppercase tracking-[0.2em] text-[#C9A86A]">
+            <Apparition as="p">[{grave(p47.numero)}]</Apparition>
+            <Apparition as="p" delai={150}>Une sur une</Apparition>
+          </div>
+          <h1 className="relative my-6 text-center font-[family-name:var(--titres)] leading-[0.82] tracking-[-0.03em]">
+            <Apparition as="span" de="flou" className="relative z-10 block text-[clamp(6rem,22vw,20rem)]">À toi.</Apparition>
+            <span aria-hidden="true" className="relative z-0 mx-auto -my-[6vw] block w-[clamp(180px,30vw,380px)] md:-my-[4.5vw]">
+              <Anneau id="ouverture" numero={grave(p46.numero)} className="w-full animate-[spin_70s_linear_infinite] drop-shadow-[0_30px_40px_rgba(0,0,0,0.5)] motion-reduce:animate-none" />
             </span>
-            <em className="relative z-10 block text-[64px] sm:text-[110px] lg:text-[140px]">Pour l&apos;instant.</em>
+            <Apparition as="span" de="flou" delai={350} className="relative z-10 block text-[clamp(3.6rem,13vw,12rem)] italic text-[#C9A86A]">Pour l&apos;instant.</Apparition>
           </h1>
-          <p className="mt-8 max-w-md text-lg leading-relaxed">
-            Chaque bijou est gravé d&apos;un numéro, et ce numéro a sa page. Le premier nom, c&apos;est le tien. La suite viendra.
-          </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Link href={`${DOSSIER}#registre`} className="flex min-h-12 items-center rounded-full bg-[#C9A86A] px-7 text-[13px] font-semibold uppercase tracking-[0.18em] text-[var(--sombre)]">
-              Chercher un numéro
+          <div className="grid gap-8 border-t border-white/20 pt-8 md:grid-cols-[1.2fr_0.8fr] md:items-end">
+            <Apparition as="p" delai={600} className="max-w-xl text-lg leading-relaxed text-[var(--sur-sombre)]/90">
+              Des bijoux faits main, une seule fois chacun. Chaque pièce est gravée d&apos;un numéro, et ce numéro a sa page :
+              le film de sa fabrication, puis le premier nom — le tien. En dessous, une ligne vide.
+            </Apparition>
+            <Apparition delai={800} className="flex flex-wrap gap-3 md:justify-end">
+              <Bouton href={`${DOSSIER}#vendredi`} variante="clair">Vendredi, 18 h</Bouton>
+              <Bouton href={`${DOSSIER}/registre`} variante="contour">Chercher un numéro</Bouton>
+            </Apparition>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- Les pièces, numéro par numéro ---------- */}
+      <div className="border-y border-[#A88A4E] bg-[var(--accent)] py-5 text-[var(--sur-accent)]">
+        <Defilant
+          duree={60}
+          separateur="·"
+          elements={PIECES.map((p) => `N° ${grave(p.numero)} ${p.nom}${p.partieLe ? " — partie" : ""}`)}
+          classeElement="font-[family-name:var(--titres)] text-2xl whitespace-nowrap md:text-3xl"
+        />
+      </div>
+
+      {/* ---------- Le contre-pied ---------- */}
+      <section className="mx-auto grid max-w-7xl gap-12 px-5 py-24 sm:px-8 md:grid-cols-[0.85fr_1.15fr] md:items-center md:py-36">
+        <Apparition de="rideau" className="relative aspect-[4/5] overflow-hidden">
+          <Image src={IMAGES.baguePortee.src} alt={IMAGES.baguePortee.alt} fill sizes="(min-width: 768px) 520px, 92vw" className="object-cover" />
+          <span className="absolute bottom-0 left-0 bg-[var(--sombre)] px-4 py-2 font-[family-name:var(--titres)] text-3xl text-[var(--sur-sombre)]">1 sur 1</span>
+        </Apparition>
+        <div className="space-y-8">
+          <Apparition><Libelle>Ce qu&apos;on vend</Libelle></Apparition>
+          <TitreRevele
+            texte="Pas un bijou pour toi. *Celui qu'on portera après toi.*"
+            className="font-[family-name:var(--titres)] text-[clamp(3rem,6.5vw,6rem)] leading-[0.95] tracking-[-0.02em]"
+            classeAccent="italic text-[var(--accent-texte)]"
+          />
+          <Apparition as="p" delai={150} className="max-w-xl text-lg leading-relaxed text-[var(--doux)]">
+            Ailleurs, une bague ressemble à toutes les autres, et on trie par prix. Ici, chaque pièce est la seule qui
+            existe : faite une fois, jamais refaite. Un bijou qui a une histoire, personne ne le jette. On le passe.
+          </Apparition>
+          <Apparition delai={250}>
+            <Bouton href={`${DOSSIER}/pieces`}>Toutes les pièces</Bouton>
+          </Apparition>
+        </div>
+      </section>
+
+      {/* ---------- Chaque pièce a sa page : le bento ---------- */}
+      <section className="mx-auto max-w-7xl px-5 pb-24 sm:px-8 md:pb-36">
+        <div className="mb-12 grid gap-6 lg:grid-cols-[1fr_0.8fr] lg:items-end">
+          <TitreRevele
+            texte="Chaque pièce a *sa page.*"
+            className="font-[family-name:var(--titres)] text-[clamp(3rem,7vw,6.6rem)] leading-[0.92] tracking-[-0.02em]"
+            classeAccent="italic text-[var(--accent-texte)]"
+          />
+          <Apparition as="p" delai={150} className="text-lg leading-relaxed text-[var(--doux)]">
+            Son numéro, sa matière, le film de sa fabrication. Et quand elle est vendue, sa page reste, avec un tampon :
+            partie.
+          </Apparition>
+        </div>
+        <div className="grid gap-4 md:grid-cols-4 md:grid-rows-[300px_300px]">
+          <Apparition de="zoom" className="md:col-span-2 md:row-span-2">
+            <CarteLueur className="h-full">
+              <Link href={`${DOSSIER}/pieces/${p47.numero}`} className="group relative flex h-[440px] flex-col justify-end overflow-hidden bg-[var(--sombre)] p-7 text-[var(--sur-sombre)] md:h-full">
+                <Image src={IMAGES.bagueMartelee.src} alt={IMAGES.bagueMartelee.alt} fill sizes="(min-width: 768px) 50vw, 100vw" className="object-cover opacity-70 transition-transform duration-[1.4s] group-hover:scale-105" />
+                <span className="absolute inset-0 bg-[linear-gradient(180deg,rgba(21,43,38,0)_35%,rgba(21,43,38,0.95)_100%)]" />
+                <span className="absolute left-5 top-5 bg-[var(--sombre)] px-3 py-1 text-[13px] font-semibold uppercase tracking-[0.18em] text-[#C9A86A]">Pièce n° {grave(p47.numero)} · 1 sur 1</span>
+                <span className="relative space-y-2">
+                  <span className="block font-[family-name:var(--titres)] text-[3rem] leading-none">Bague <em>«&nbsp;{p47.nom}&nbsp;»</em></span>
+                  <span className="block text-[15px] text-[var(--sur-sombre)]/90">{euros(p47.prix)} TTC, exemple · avec le film de sa fabrication →</span>
+                </span>
+              </Link>
+            </CarteLueur>
+          </Apparition>
+          <Apparition de="zoom" delai={120}>
+            <Link href={`${DOSSIER}/pieces/${p46.numero}`} className="group relative flex h-[300px] flex-col justify-between overflow-hidden bg-[var(--sombre)] p-5 text-[var(--sur-sombre)]">
+              <span className="text-[13px] font-semibold tabular-nums tracking-[0.12em]">[{grave(p46.numero)}]</span>
+              <Bijou piece={p46} className="absolute inset-0 m-auto h-[78%] w-[78%]" />
+              <Tampon />
+              <span className="relative font-[family-name:var(--titres)] text-2xl">Partie le {p46.partieLe}</span>
             </Link>
-            <Link href={`${DOSSIER}/bijoux`} className="flex min-h-12 items-center rounded-full border border-[var(--sur-sombre)] px-7 text-[13px] font-semibold uppercase tracking-[0.18em]">
-              Les bijoux
+          </Apparition>
+          <Apparition de="zoom" delai={200}>
+            <Link href={`${DOSSIER}/pieces/${p52.numero}`} className="group relative flex h-[300px] flex-col justify-between overflow-hidden border border-[var(--trait)] bg-[var(--carte)] p-5">
+              <span className="text-[13px] font-semibold tabular-nums tracking-[0.12em] text-[var(--accent-texte)]">[{grave(p52.numero)}] · encore là</span>
+              <span className="absolute inset-x-8 bottom-16 top-10 bg-[var(--sombre)]">
+                <Bijou piece={p52} className="h-full w-full p-3" />
+              </span>
+              <span className="relative font-[family-name:var(--titres)] text-2xl">{p52.nom} · {euros(p52.prix)}</span>
             </Link>
+          </Apparition>
+          <Apparition de="zoom" delai={280} className="md:col-span-2">
+            <Link href={`${DOSSIER}/atelier`} className="group relative flex h-[300px] items-end overflow-hidden bg-[var(--sombre)] p-6 text-[var(--sur-sombre)]">
+              <Image src={IMAGES.flamme.src} alt={IMAGES.flamme.alt} fill sizes="(min-width: 768px) 50vw, 100vw" className="object-cover opacity-60 transition-transform duration-[1.4s] group-hover:scale-105" />
+              <span className="absolute inset-0 bg-[linear-gradient(90deg,rgba(21,43,38,0.95)_0%,rgba(21,43,38,0.35)_100%)]" />
+              <span className="relative max-w-sm space-y-2">
+                <span className="block font-[family-name:var(--titres)] text-[2.4rem] leading-none">Le film de sa fabrication</span>
+                <span className="block text-[15px] text-[var(--sur-sombre)]/90">Souder, recuire, ajuster, marteler, graver. Quinze secondes, sur sa page.</span>
+              </span>
+            </Link>
+          </Apparition>
+        </div>
+      </section>
+
+      {/* ---------- L'outil de « Remplir l'agenda » : la sortie du vendredi ---------- */}
+      <section id="vendredi" className="scroll-mt-20 border-y border-[var(--trait)] bg-[var(--carte)]">
+        <div className="mx-auto grid max-w-7xl gap-14 px-5 py-24 sm:px-8 md:py-32 lg:grid-cols-[0.85fr_1.15fr]">
+          <div className="space-y-7">
+            <Apparition><Libelle>Le rendez-vous</Libelle></Apparition>
+            <TitreRevele
+              texte={"Chaque vendredi, *18 h.*"}
+              className="font-[family-name:var(--titres)] text-[clamp(3rem,6.5vw,6rem)] leading-[0.92] tracking-[-0.02em]"
+              classeAccent="italic text-[var(--accent-texte)]"
+            />
+            <Apparition as="p" delai={150} className="text-lg leading-relaxed text-[var(--doux)]">
+              Pas de collection, pas de stock : les six pièces finies dans la semaine, montrées le vendredi à 18 h. Les
+              vraies. Quand elles sont parties, elles sont parties.
+            </Apparition>
+            <Apparition as="p" delai={200} data-film="abonnees" className="border-l-2 border-[var(--accent)] pl-4 text-lg leading-relaxed">
+              Les abonnées à la lettre les voient en premier, à 17 h.
+            </Apparition>
+          </div>
+          <div className="space-y-6">
+            <Apparition de="droite" delai={100} className="space-y-6">
+              <Vendredi />
+              <p className="border border-[var(--trait)] bg-[var(--fond)] px-4 py-3 text-[15px]">
+                Prochaine sortie : <strong>{PROCHAINE.date}, {PROCHAINE.heure}</strong> — les n° {PROCHAINE.numeros}, encore à l&apos;atelier.
+              </p>
+            </Apparition>
+            <Apparition id="lettre" delai={150} className="scroll-mt-24 bg-[var(--sombre)] p-6 text-[var(--sur-sombre)] sm:p-8">
+              <p className="mb-5 font-[family-name:var(--titres)] text-3xl">La lettre du vendredi</p>
+              <Lettre />
+            </Apparition>
           </div>
         </div>
       </section>
 
-      {/* 2. Le contre-pied. */}
-      <section className="mx-auto grid max-w-6xl gap-10 px-5 py-16 md:grid-cols-2 md:items-center lg:py-24">
-        <div className="relative aspect-[4/5] overflow-hidden">
-          <Image src={IMAGES.baguePortee.src} alt={IMAGES.baguePortee.alt} width={IMAGES.baguePortee.largeur} height={IMAGES.baguePortee.hauteur} sizes="(min-width: 768px) 540px, 100vw" className="h-full w-full object-cover" />
-        </div>
-        <div className="space-y-5">
-          <Libelle>Ce qu&apos;on vend</Libelle>
-          <h2 className="text-5xl sm:text-6xl">
-            Pas un bijou pour toi. <em>Celui qu&apos;on portera après toi.</em>
-          </h2>
-          <p className="text-lg leading-relaxed text-[var(--doux)]">
-            Un bijou qui a une histoire, personne ne le jette. On le passe. Alors on les fait pour ça : en or plein, assez épais pour être retaillés, et numérotés pour qu&apos;on se souvienne de qui les a portés.
-          </p>
-        </div>
-      </section>
-
-      {/* 3. Le numéro gravé. */}
-      <section className="bg-[var(--sombre)] text-[var(--sur-sombre)]">
-        <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 md:grid-cols-2 md:items-center lg:py-24">
-          <Anneau id="grave" titre="Un anneau d'or vu de face ; à l'intérieur, gravé : N° 0112 · À la prochaine" className="mx-auto w-full max-w-[420px]" />
-          <div className="space-y-5">
-            <Libelle clair>Le numéro</Libelle>
-            <h2 className="text-5xl sm:text-6xl">
-              Gravé à l&apos;intérieur. <em>Là où personne ne le voit.</em>
-            </h2>
-            <p className="text-lg leading-relaxed">
-              Quatre chiffres, dans l&apos;anneau, au dos de la plaque ou sur le fermoir. Ils ne disent rien à personne. Sauf au site.
-            </p>
+      {/* ---------- L'outil de « Créer une marque » : le numéro gravé, le registre ---------- */}
+      <section id="registre" className="scroll-mt-20 px-3 pt-5 sm:px-5">
+        <div className="kit-grain relative overflow-hidden rounded-[2.5rem] bg-[var(--sombre)] text-[var(--sur-sombre)]">
+          <div className="mx-auto grid max-w-6xl gap-12 px-5 py-20 sm:px-10 md:py-28 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+            <div className="space-y-6">
+              <Apparition><Libelle clair>Le numéro gravé</Libelle></Apparition>
+              <TitreRevele
+                texte="Gravé à l'intérieur. *Là où personne ne le voit.*"
+                className="font-[family-name:var(--titres)] text-[clamp(2.8rem,5.5vw,5.2rem)] leading-[0.95] tracking-[-0.02em]"
+                classeAccent="italic text-[#C9A86A]"
+              />
+              <Apparition as="p" delai={150} className="text-lg leading-relaxed text-[var(--sur-sombre)]/90">
+                Quatre chiffres, dans l&apos;anneau, au dos de la plaque ou sur le fermoir. Ils ne disent rien à personne.
+                Sauf au site : tape-les, la page de ton bijou s&apos;ouvre.
+              </Apparition>
+              <Apparition de="zoom" delai={200} className="mx-auto w-full max-w-[340px] lg:mx-0">
+                <Anneau id="grave" numero={grave(p46.numero)} titre={`Un anneau d'or vu de face ; à l'intérieur, gravé : N° ${grave(p46.numero)} · À la prochaine`} className="w-full animate-[spin_90s_linear_infinite] motion-reduce:animate-none" />
+              </Apparition>
+            </div>
+            <Apparition de="droite" delai={100}>
+              <Registre sombre depart={grave(p46.numero)} />
+            </Apparition>
           </div>
         </div>
       </section>
 
-      {/* 4. Le registre. */}
-      <section id="registre" className="mx-auto grid max-w-6xl scroll-mt-16 gap-10 px-5 py-16 md:grid-cols-[0.9fr_1.1fr] lg:py-24">
-        <div className="space-y-5">
-          <Libelle>Le registre</Libelle>
-          <h2 className="text-5xl sm:text-6xl">
-            Ce numéro a <em>sa page.</em>
-          </h2>
-          <p className="text-lg leading-relaxed text-[var(--doux)]">
-            Tape les quatre chiffres gravés dans ton bijou. Sa page s&apos;ouvre : le premier nom, puis les suivants. Et en dessous, une ligne vide.
-          </p>
-          <Link href={`${DOSSIER}/registre`} className="inline-block text-[13px] font-semibold uppercase tracking-[0.18em] underline underline-offset-8">
-            Tout le registre
-          </Link>
+      {/* ---------- Transmettre : le récit ---------- */}
+      <section className="mx-auto max-w-7xl px-5 py-24 sm:px-8 md:py-36">
+        <div className="mb-10 space-y-6 md:mb-4">
+          <Apparition><Libelle>Transmettre</Libelle></Apparition>
+          <TitreRevele
+            texte="Trois lignes, *et une vide.*"
+            className="max-w-4xl font-[family-name:var(--titres)] text-[clamp(3rem,6.5vw,6rem)] leading-[0.92] tracking-[-0.02em]"
+            classeAccent="italic text-[var(--accent-texte)]"
+          />
         </div>
-        <Registre />
+        <RecitColle
+          etapes={TRANSMETTRE.map((e) => ({
+            surtitre: e.n,
+            titre: e.titre,
+            texte: <p>{e.texte}</p>,
+            visuel: <Image src={e.image.src} alt={e.image.alt} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />,
+          }))}
+        />
+        <Apparition className="mt-6">
+          <Bouton href={`${DOSSIER}/transmettre`}>Inscrire le nom suivant</Bouton>
+        </Apparition>
       </section>
 
-      {/* 5. Comment ça se transmet. */}
-      <section className="border-y border-[var(--trait)] bg-[var(--carte)]">
-        <div className="mx-auto max-w-6xl px-5 py-16 lg:py-24">
-          <Libelle>Transmettre</Libelle>
-          <h2 className="mt-4 max-w-2xl text-5xl sm:text-6xl">
-            Trois lignes, <em>et une vide.</em>
-          </h2>
-          <ol className="mt-10 grid gap-10 md:grid-cols-3">
-            {ETAPES.map((e) => (
-              <li key={e.n} className="space-y-3 border-t border-[var(--encre)] pt-5">
-                <p className="font-[family-name:var(--titres)] text-5xl italic text-[var(--accent-texte)]">{e.n}</p>
-                <h3 className="text-[32px]">{e.titre}</h3>
-                <p className="leading-relaxed text-[var(--doux)]">{e.texte}</p>
-              </li>
+      {/* ---------- La question posée aux réseaux ---------- */}
+      <section className="bg-[var(--accent)] text-[var(--sur-accent)]">
+        <div className="mx-auto grid max-w-7xl gap-12 px-5 py-24 sm:px-8 md:py-32 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+          <div className="space-y-6">
+            <Apparition><p className="text-[12px] font-semibold uppercase tracking-[0.24em]">[ Une seule question, sur les réseaux ]</p></Apparition>
+            <TitreRevele
+              texte={"C'est quoi le bijou le plus vieux *que tu portes ?*"}
+              className="font-[family-name:var(--titres)] text-[clamp(3rem,6.5vw,6rem)] leading-[0.92] tracking-[-0.02em]"
+              classeAccent="italic"
+            />
+            <Apparition as="p" delai={150} className="max-w-lg text-lg leading-relaxed">
+              Les réponses deviennent notre campagne. Une photo n&apos;est repartagée qu&apos;avec l&apos;accord de qui
+              l&apos;a prise et de qui la porte.
+            </Apparition>
+          </div>
+          <ul className="space-y-3">
+            {REPONSES.map((r, i) => (
+              <Apparition as="li" key={r.texte} delai={i * 120} de="droite" className="bg-[var(--sombre)] px-6 py-5 text-[var(--sur-sombre)]" style={{ transform: `rotate(${[-1.5, 1, -0.6, 1.4][i]}deg)` }}>
+                <p className="font-[family-name:var(--titres)] text-[30px] italic leading-tight">«&nbsp;{r.texte}&nbsp;»</p>
+                <p className="mt-1 text-[15px] text-[var(--sur-sombre)]/90">{r.detail}</p>
+              </Apparition>
             ))}
-          </ol>
-          <Link href={`${DOSSIER}/transmettre`} className="mt-10 inline-flex min-h-12 items-center rounded-full bg-[var(--accent)] px-7 text-[13px] font-semibold uppercase tracking-[0.18em] text-[var(--sur-accent)]">
-            Inscrire le nom suivant
-          </Link>
-        </div>
-      </section>
-
-      {/* 6. Les bijoux. */}
-      <section className="mx-auto max-w-6xl px-5 py-16 lg:py-24">
-        <div className="flex flex-wrap items-end justify-between gap-6">
-          <div className="space-y-4">
-            <Libelle>Les bijoux</Libelle>
-            <h2 className="text-5xl sm:text-6xl">Quatre, <em>pour commencer.</em></h2>
-          </div>
-          <Link href={`${DOSSIER}/bijoux`} className="text-[13px] font-semibold uppercase tracking-[0.18em] underline underline-offset-8">Les voir</Link>
-        </div>
-        <ul className="mt-10 grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4">
-          {BIJOUX.map((b) => (
-            <li key={b.id}>
-              <CarteBijou b={b} sizes="(min-width: 1024px) 270px, 50vw" />
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* 7. La question posée aux réseaux. */}
-      <section className="bg-[var(--sombre)] text-[var(--sur-sombre)]">
-        <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 md:grid-cols-2 md:items-center lg:py-24">
-          <div className="space-y-5">
-            <Libelle clair>Une seule question</Libelle>
-            <h2 className="text-5xl sm:text-6xl">
-              C&apos;est quoi le bijou le plus vieux <em>que tu portes&nbsp;?</em>
-            </h2>
-            <p className="text-lg leading-relaxed">
-              On la pose sur nos réseaux, et les réponses deviennent notre campagne. Une photo n&apos;est repartagée qu&apos;avec l&apos;accord de qui l&apos;a prise et de qui la porte.
-            </p>
-          </div>
-          <ul className="space-y-4">
-            {REPONSES.map((r) => (
-              <li key={r.texte} className="border border-white/20 px-5 py-4">
-                <p className="font-[family-name:var(--titres)] text-[28px] italic leading-tight">«&nbsp;{r.texte}&nbsp;»</p>
-                <p className="mt-1 text-[15px] text-[#D9C9A6]">{r.detail}</p>
-              </li>
-            ))}
-            <li className="text-[13px] text-[#D9C9A6]">Réponses imaginées, pour l&apos;exemple : la marque est fictive.</li>
+            <li className="pt-2 text-[14px]">Réponses imaginées, pour l&apos;exemple : la marque est fictive.</li>
           </ul>
         </div>
       </section>
 
-      {/* 8. Ce qu'on promet. */}
-      <section className="mx-auto max-w-6xl px-5 py-16 lg:py-24">
-        <div className="grid gap-10 md:grid-cols-[1fr_1.3fr]">
-          <div className="relative aspect-[4/5] overflow-hidden md:order-2">
-            <Image src={IMAGES.boite.src} alt={IMAGES.boite.alt} width={IMAGES.boite.largeur} height={IMAGES.boite.hauteur} sizes="(min-width: 768px) 600px, 100vw" className="h-full w-full object-cover" />
-          </div>
-          <div className="space-y-8">
-            <Libelle>Ce qu&apos;on promet</Libelle>
-            <dl className="space-y-6">
-              {PROMESSES.map((p) => (
-                <div key={p.titre} className="space-y-1.5 border-t border-[var(--trait)] pt-5">
-                  <dt className="font-[family-name:var(--titres)] text-[30px] leading-tight">{p.titre}</dt>
-                  <dd className="leading-relaxed text-[var(--doux)]">{p.texte}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
+      {/* ---------- Ce qu'on promet, et les questions ---------- */}
+      <section id="questions" className="scroll-mt-24 mx-auto grid max-w-7xl gap-14 px-5 py-24 sm:px-8 md:py-36 lg:grid-cols-[0.8fr_1.2fr]">
+        <div className="space-y-8">
+          <Apparition><Libelle>Ce qu&apos;on promet</Libelle></Apparition>
+          <dl className="space-y-6">
+            {PROMESSES.map((p, i) => (
+              <Apparition key={p.titre} delai={i * 100} className="space-y-1.5 border-t border-[var(--encre)] pt-5">
+                <dt className="font-[family-name:var(--titres)] text-[34px] leading-tight">{p.titre}</dt>
+                <dd className="leading-relaxed text-[var(--doux)]">{p.texte}</dd>
+              </Apparition>
+            ))}
+          </dl>
+        </div>
+        <div className="space-y-8">
+          <TitreRevele
+            texte="Questions, *réponses.*"
+            className="font-[family-name:var(--titres)] text-[clamp(2.8rem,5vw,4.8rem)] leading-[0.95] tracking-[-0.02em]"
+            classeAccent="italic text-[var(--accent-texte)]"
+          />
+          <Apparition delai={150}>
+            <Accordeon questions={QUESTIONS.map((q) => ({ question: q.q, reponse: q.r }))} />
+          </Apparition>
         </div>
       </section>
 
-      {/* 9. Questions. */}
-      <section className="mx-auto max-w-4xl px-5 pb-16 lg:pb-24">
-        <h2 className="mb-8 text-5xl sm:text-6xl">Questions, <em>réponses.</em></h2>
-        <Faq />
-      </section>
-
-      {/* 10. La boutique. */}
-      <section className="border-t border-[var(--trait)] bg-[var(--carte)]">
-        <div className="mx-auto flex max-w-6xl flex-col gap-6 px-5 py-16 md:flex-row md:items-end md:justify-between">
-          <div className="space-y-3">
-            <h2 className="text-5xl sm:text-6xl">Venir <em>les essayer.</em></h2>
-            <p className="max-w-md text-lg leading-relaxed text-[var(--doux)]">{entreprise.adresse}. {entreprise.horaires}.</p>
-          </div>
-          <a href={`tel:${entreprise.telephone.replace(/ /g, "")}`} className="flex min-h-14 items-center justify-center rounded-full bg-[var(--accent)] px-8 text-lg font-semibold tabular-nums text-[var(--sur-accent)]">
-            {entreprise.telephone}
-          </a>
-        </div>
-      </section>
-    </div>
+      <AppelFinal />
+    </main>
   );
 }

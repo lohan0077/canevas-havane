@@ -41,7 +41,7 @@ export default function AvantApres() {
   const [p, setP] = useState(15);
   return (
     <div data-film="avant-apres" className="space-y-4">
-      <div className="relative aspect-[3/2] overflow-hidden rounded-[24px] border border-[var(--trait)]">
+      <div className="relative aspect-[3/2] overflow-hidden rounded-[14px] border border-[var(--trait)]">
         <div className="absolute inset-0"><Bureau sale /></div>
         <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - p}% 0 0)` }}><Bureau sale={false} /></div>
         <div aria-hidden="true" className="absolute inset-y-0 w-1 -translate-x-1/2 bg-[var(--accent)]" style={{ left: `${p}%` }} />
