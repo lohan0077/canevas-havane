@@ -15,9 +15,11 @@ import type { Jardin, Rect } from "./jardin-geometrie";
 // Le jardin du visiteur en maquette d'architecte, d'après le rendu du configurateur de
 // Kéo (vue « maquette ») : un socle avec sa coupe de terre, la maison en deux volumes,
 // un bassin creusé et carrelé dont l'eau bouge, la vie autour (haie, arbres, transats,
-// parasol, table). Lumière de studio, reflets d'environnement, et sur ordinateur
-// occlusion ambiante et halo. Deux ambiances : le jour, et le soir où la piscine
-// s'éclaire de l'intérieur.
+// parasol, table, bornes). Lumière de studio, reflets d'environnement, et sur ordinateur
+// occlusion ambiante et halo. Deux ambiances, et le passage de l'une à l'autre se
+// joue : le soleil descend et rougit, puis chaque fenêtre s'allume à son tour, les
+// bornes du jardin et la piscine s'éclairent, les étoiles sortent. Le jour, la
+// lumière danse au fond du bassin ; les arbres bougent un peu au vent.
 //
 // Tout est construit et peint sur place : aucun fichier chargé, aucun serveur tiers
 // (les éclairages tout faits des surcouches React de Kéo se téléchargent sur un CDN que
@@ -131,15 +133,106 @@ const textureTerre = () =>
     pointille(ctx, 256, 256, 1600, () => `rgba(${Math.random() < 0.5 ? "0,0,0" : "255,240,220"},0.08)`, () => 0.6 + Math.random() * 2);
   });
 
-/** Le fond de studio : un halo plus clair derrière la maquette. */
-const textureFond = (centre: string, bord: string) =>
-  toile(512, 512, (ctx) => {
+/** L'intérieur d'une pièce vu du jardin, le soir : plafonnier, rideaux, meubles en ombre. */
+const textureInterieur = () =>
+  toile(128, 128, (ctx) => {
+    const d = ctx.createLinearGradient(0, 0, 0, 128);
+    d.addColorStop(0, "#fff0d2");
+    d.addColorStop(0.55, "#ffc57e");
+    d.addColorStop(1, "#c9783c");
+    ctx.fillStyle = d;
+    ctx.fillRect(0, 0, 128, 128);
+    const lampe = ctx.createRadialGradient(64, 16, 2, 64, 16, 62);
+    lampe.addColorStop(0, "rgba(255,252,236,0.9)");
+    lampe.addColorStop(1, "rgba(255,252,236,0)");
+    ctx.fillStyle = lampe;
+    ctx.fillRect(0, 0, 128, 128);
+    ctx.fillStyle = "rgba(150,80,35,0.35)";
+    ctx.fillRect(0, 0, 15, 128);
+    ctx.fillRect(113, 0, 15, 128);
+    ctx.fillStyle = "rgba(70,35,15,0.55)";
+    ctx.fillRect(26, 94, 58, 34);
+    ctx.fillRect(22, 86, 10, 42);
+    ctx.fillRect(80, 86, 10, 42);
+    ctx.fillRect(100, 58, 3, 70);
+  });
+
+/** Une flaque de lumière au sol : claire au centre, noire au bord, posée en fondu additif. */
+const textureNappe = () =>
+  toile(128, 128, (ctx) => {
+    const d = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
+    d.addColorStop(0, "#ffffff");
+    d.addColorStop(0.35, "#8a8a8a");
+    d.addColorStop(1, "#000000");
+    ctx.fillStyle = d;
+    ctx.fillRect(0, 0, 128, 128);
+  });
+
+/** Le réseau de lignes claires que l'eau dessine au fond d'un bassin, raccordable. */
+const textureCaustiques = () =>
+  toile(256, 256, (ctx) => {
+    const img = ctx.createImageData(256, 256);
+    for (let y = 0; y < 256; y++)
+      for (let x = 0; x < 256; x++) {
+        const u = (x / 256) * Math.PI * 2;
+        const v = (y / 256) * Math.PI * 2;
+        const a = Math.sin(u * 2 + Math.sin(v * 3) * 1.1) + Math.sin(v * 2 + Math.sin(u * 3 + 1.7) * 1.1);
+        const b = Math.sin(u * 3 - v * 2 + Math.sin(u * 2 - v) * 0.9) + Math.sin(u + v * 4 + 2.3) * 0.6;
+        const clair = Math.min(255, (Math.exp(-Math.abs(a) * 5) + Math.exp(-Math.abs(b) * 6) * 0.8) * 230);
+        const k = (y * 256 + x) * 4;
+        img.data[k] = img.data[k + 1] = img.data[k + 2] = clair;
+        img.data[k + 3] = 255;
+      }
+    ctx.putImageData(img, 0, 0);
+  });
+
+/** Transition douce entre a et b (0 avant a, 1 après b). */
+function lisse(a: number, b: number, t: number) {
+  const x = THREE.MathUtils.clamp((t - a) / (b - a), 0, 1);
+  return x * x * (3 - 2 * x);
+}
+
+/** Le fond de studio, repeint à chaque pas du passage au soir : un halo plus clair
+    derrière la maquette, et les étoiles qui sortent à la nuit. */
+function fondCiel() {
+  const c = document.createElement("canvas");
+  c.width = c.height = 512;
+  const ctx = c.getContext("2d")!;
+  const texture = new THREE.CanvasTexture(c);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  const etoiles = Array.from({ length: 160 }, () => ({
+    x: Math.random() * 512,
+    y: Math.random() * 330,
+    r: 0.5 + Math.random() * 1.1,
+    a: 0.35 + Math.random() * 0.65,
+  }));
+  const centre = [new THREE.Color("#1F5E78"), new THREE.Color("#123247")];
+  const bord = [new THREE.Color("#0A2A39"), new THREE.Color("#04131B")];
+  const couleur = new THREE.Color();
+  let dernier = -1;
+  const peindre = (t: number) => {
+    if (t === dernier) return;
+    dernier = t;
     const d = ctx.createRadialGradient(256, 230, 20, 256, 256, 380);
-    d.addColorStop(0, centre);
-    d.addColorStop(1, bord);
+    d.addColorStop(0, couleur.lerpColors(centre[0], centre[1], t).getStyle());
+    d.addColorStop(1, couleur.lerpColors(bord[0], bord[1], t).getStyle());
     ctx.fillStyle = d;
     ctx.fillRect(0, 0, 512, 512);
-  });
+    const nuit = lisse(0.55, 1, t);
+    if (nuit > 0) {
+      ctx.fillStyle = "#ffffff";
+      for (const e of etoiles) {
+        ctx.globalAlpha = e.a * nuit;
+        ctx.beginPath();
+        ctx.arc(e.x, e.y, e.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    }
+    texture.needsUpdate = true;
+  };
+  return { texture, peindre };
+}
 
 /** Carte de normales de l'eau : des vaguelettes, raccordables sur les bords. */
 const textureVaguelettes = () =>
@@ -300,18 +393,54 @@ function creerMatieres() {
   const parvis = texturePierre("#cfc8bb");
   const terre = textureTerre();
   const vaguelettes = textureVaguelettes();
+  const interieur = textureInterieur();
+  const nappe = textureNappe();
+  const caustiques = textureCaustiques();
+  // Partagés avec le nuanceur du fond du bassin : l'heure, et sa lueur propre le soir.
+  const temps = { value: 0 };
+  const fondLumineux = { value: 0 };
+  const fondDuBassin = new THREE.MeshStandardMaterial({ map: carreauxFond, roughness: 0.4, emissiveMap: caustiques, emissive: "#c8f6ff", emissiveIntensity: 0 });
+  // Deux passages du même dessin, à deux échelles, qui glissent l'un sur l'autre : la
+  // lumière danse au lieu de défiler.
+  fondDuBassin.onBeforeCompile = (nuanceur) => {
+    nuanceur.uniforms.uTemps = temps;
+    nuanceur.uniforms.uFondLumineux = fondLumineux;
+    nuanceur.fragmentShader = nuanceur.fragmentShader.replace("void main() {", "uniform float uTemps;\nuniform float uFondLumineux;\nvoid main() {").replace(
+      "#include <emissivemap_fragment>",
+      `float caustique1 = texture2D( emissiveMap, vEmissiveMapUv * 0.55 + vec2( uTemps * 0.031, uTemps * 0.017 ) ).r;
+      float caustique2 = texture2D( emissiveMap, vEmissiveMapUv * 0.43 + vec2( -uTemps * 0.022, uTemps * 0.027 ) ).r;
+      totalEmissiveRadiance *= uFondLumineux + ( caustique1 + caustique2 ) * 0.6;`,
+    );
+  };
+  fondDuBassin.customProgramCacheKey = () => "fond-du-bassin";
+  const flaque = (couleur: string) =>
+    new THREE.MeshBasicMaterial({
+      map: nappe,
+      color: couleur,
+      transparent: true,
+      opacity: 0,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      polygonOffset: true,
+      polygonOffsetFactor: -2,
+    });
   return {
-    textures: [pelouse, lames, carreaux, carreauxFond, pierre, parvis, terre, vaguelettes],
+    textures: [pelouse, lames, carreaux, carreauxFond, pierre, parvis, terre, vaguelettes, interieur, nappe, caustiques],
     vaguelettes,
+    interieur,
+    temps,
+    fondLumineux,
     pelouse: new THREE.MeshStandardMaterial({ map: pelouse, roughness: 0.95 }),
     parvis: new THREE.MeshStandardMaterial({ map: parvis, roughness: 0.9 }),
     terre: new THREE.MeshStandardMaterial({ map: terre, roughness: 1 }),
     bois: new THREE.MeshStandardMaterial({ map: lames, roughness: 0.75 }),
     boisChant: new THREE.MeshStandardMaterial({ color: "#7a5434", roughness: 0.8 }),
     pierre: new THREE.MeshStandardMaterial({ map: pierre, roughness: 0.6 }),
-    carreaux: new THREE.MeshStandardMaterial({ map: carreaux, roughness: 0.35, side: THREE.DoubleSide }),
-    carreauxFond: new THREE.MeshStandardMaterial({ map: carreauxFond, roughness: 0.4 }),
+    carreaux: new THREE.MeshStandardMaterial({ map: carreaux, roughness: 0.35, side: THREE.DoubleSide, emissive: "#0f6d8c", emissiveIntensity: 0 }),
+    carreauxFond: fondDuBassin,
     eau: new THREE.MeshStandardMaterial({
+      emissive: "#17a9dc",
+      emissiveIntensity: 0,
       color: "#1b9cc4",
       roughness: 0.03,
       metalness: 0,
@@ -335,6 +464,9 @@ function creerMatieres() {
     coussin: new THREE.MeshStandardMaterial({ color: "#F6C445", roughness: 0.85 }),
     toile: new THREE.MeshStandardMaterial({ color: "#efe7d8", roughness: 0.85, side: THREE.DoubleSide }),
     pot: new THREE.MeshStandardMaterial({ color: "#b8693f", roughness: 0.8 }),
+    lanterne: new THREE.MeshStandardMaterial({ color: "#efe6d6", roughness: 0.4, emissive: "#ffc27a", emissiveIntensity: 0 }),
+    nappeBornes: flaque("#ffb66e"),
+    nappeFenetres: flaque("#ffb262"),
   };
 }
 
@@ -348,8 +480,36 @@ function boite(l: number, h: number, p: number, m: THREE.Material, x: number, y:
   return b;
 }
 
+/** Une vitre qui s'allume le soir à son heure (`seuil`, entre 0 et 1 du passage au soir). */
+type Allumage = { mat: THREE.MeshStandardMaterial; seuil: number; force: number };
+
+/** Un objet qui bouge au vent autour de son point d'attache. */
+type Oscillant = { objet: THREE.Object3D; phase: number; ampli: number };
+
+/** Ce qu'une maquette crée pour elle seule, et qu'il faut libérer avec elle. */
+type Propre = { fenetres: Allumage[]; couronnes: Oscillant[]; matieres: THREE.Material[] };
+
+/** Une flaque de lumière posée à plat. */
+function nappe(l: number, p: number, mat: THREE.Material) {
+  const n = new THREE.Mesh(new THREE.PlaneGeometry(l, p), mat);
+  n.rotation.x = -Math.PI / 2;
+  n.renderOrder = 3;
+  return n;
+}
+
+/** La vitre d'une fenêtre : la sienne, pour s'allumer à son heure, sur l'intérieur peint. */
+function vitre(m: Matieres, propre: Propre, seuil: number, force: number) {
+  const mat = m.vitre.clone();
+  mat.emissiveMap = m.interieur;
+  mat.emissive.set("#ffffff");
+  mat.emissiveIntensity = 0;
+  propre.fenetres.push({ mat, seuil, force });
+  propre.matieres.push(mat);
+  return mat;
+}
+
 /** Une fenêtre : cadre fin, meneaux et vitre, face vers +z. */
-function fenetre(l: number, h: number, m: Matieres, meneaux = 0) {
+function fenetre(l: number, h: number, m: Matieres, verre: THREE.Material, meneaux = 0) {
   const g = new THREE.Group();
   const e = 0.07;
   g.add(boite(l, e, 0.12, m.menuiserie, 0, h / 2 - e / 2, 0));
@@ -357,9 +517,9 @@ function fenetre(l: number, h: number, m: Matieres, meneaux = 0) {
   g.add(boite(e, h, 0.12, m.menuiserie, -l / 2 + e / 2, 0, 0));
   g.add(boite(e, h, 0.12, m.menuiserie, l / 2 - e / 2, 0, 0));
   for (let i = 1; i <= meneaux; i++) g.add(boite(0.05, h, 0.1, m.menuiserie, -l / 2 + (l / (meneaux + 1)) * i, 0, 0));
-  const vitre = new THREE.Mesh(new THREE.PlaneGeometry(l - 2 * e, h - 2 * e), m.vitre);
-  vitre.position.z = -0.02;
-  g.add(vitre);
+  const plan = new THREE.Mesh(new THREE.PlaneGeometry(l - 2 * e, h - 2 * e), verre);
+  plan.position.z = -0.02;
+  g.add(plan);
   return g;
 }
 
@@ -377,8 +537,9 @@ function toitPlat(l: number, p: number, m: Matieres, x: number, y: number, z: nu
   return g;
 }
 
-/** La maison en deux volumes, construite face à +z puis tournée vers le jardin. */
-function maison(rect: Rect, versX: number, m: Matieres) {
+/** La maison en deux volumes, construite face à +z puis tournée vers le jardin. Le
+    soir, ses baies éclairent le sol devant elles, posé à la hauteur `sol`. */
+function maison(rect: Rect, versX: number, m: Matieres, sol: number, propre: Propre) {
   const g = new THREE.Group();
   const facade = versX === 0 ? rect.largeur : rect.profondeur;
   const profondeur = 9;
@@ -392,29 +553,43 @@ function maison(rect: Rect, versX: number, m: Matieres) {
   g.add(boite(la, ha, profondeur - 1.2, m.enduitAnnexe, xa, ha / 2, -0.6));
   g.add(toitPlat(lp, profondeur, m, xp, hp, 0));
   g.add(toitPlat(la, profondeur - 1.2, m, xa, ha, -0.6));
-  const baie = fenetre(lp * 0.78, 2.4, m, 3);
+  // Le séjour s'allume le premier, puis l'annexe, puis les chambres une à une.
+  const baie = fenetre(lp * 0.78, 2.4, m, vitre(m, propre, 0.36, 1.05), 3);
   baie.position.set(xp, 1.3, profondeur / 2 + 0.06);
   g.add(baie);
+  const flaqueBaie = nappe(lp * 0.9, 3.2, m.nappeFenetres);
+  flaqueBaie.position.set(xp, sol, profondeur / 2 + 1.6);
+  g.add(flaqueBaie);
   const nb = Math.max(2, Math.round(lp / 3.4));
   for (let i = 0; i < nb; i++) {
-    const f = fenetre(1.25, 1.35, m, 1);
+    const seuil = 0.5 + (((i * 7 + 3) % nb) / nb) * 0.3;
+    const f = fenetre(1.25, 1.35, m, vitre(m, propre, seuil, i % 3 === 1 ? 0.6 : 0.9), 1);
     f.position.set(xp - lp / 2 + (lp / nb) * (i + 0.5), 4.35, profondeur / 2 + 0.06);
     g.add(f);
   }
-  const baieAnnexe = fenetre(la * 0.72, 2.3, m, 1);
+  const baieAnnexe = fenetre(la * 0.72, 2.3, m, vitre(m, propre, 0.44, 0.95), 1);
   baieAnnexe.position.set(xa, 1.25, profondeur / 2 - 1.2 + 0.06);
   g.add(baieAnnexe);
+  const flaqueAnnexe = nappe(la * 0.85, 2.8, m.nappeFenetres);
+  flaqueAnnexe.position.set(xa, sol, profondeur / 2 - 1.2 + 1.4);
+  g.add(flaqueAnnexe);
   g.position.set(rect.x, 0, rect.z);
   g.rotation.y = versX === 0 ? 0 : versX < 0 ? Math.PI / 2 : -Math.PI / 2;
   return g;
 }
 
-function arbre(x: number, z: number, taille: number, m: Matieres) {
+/** Un arbre : le tronc reste droit, la couronne oscille au vent depuis le haut du tronc. */
+function arbre(x: number, z: number, taille: number, m: Matieres, propre: Propre) {
   const g = new THREE.Group();
-  const tronc = new THREE.Mesh(new THREE.CylinderGeometry(0.11 * taille, 0.16 * taille, 1.9 * taille, 7), m.tronc);
-  tronc.position.y = 0.95 * taille;
+  const haut = 1.9 * taille;
+  const tronc = new THREE.Mesh(new THREE.CylinderGeometry(0.11 * taille, 0.16 * taille, haut, 7), m.tronc);
+  tronc.position.y = haut / 2;
   tronc.castShadow = true;
   g.add(tronc);
+  const couronne = new THREE.Group();
+  couronne.position.y = haut;
+  g.add(couronne);
+  propre.couronnes.push({ objet: couronne, phase: x * 1.7 + z * 0.9, ampli: 0.026 + taille * 0.012 });
   const touffes: [number, number, number, number][] = [
     [0, 2.6, 0, 1.25],
     [0.7, 2.25, 0.3, 0.9],
@@ -423,10 +598,10 @@ function arbre(x: number, z: number, taille: number, m: Matieres) {
   ];
   touffes.forEach(([dx, dy, dz, r], i) => {
     const t = new THREE.Mesh(boule(r * taille, x + z + i * 2.3), i % 2 ? m.feuillageClair : m.feuillage);
-    t.position.set(dx * taille, dy * taille, dz * taille);
+    t.position.set(dx * taille, dy * taille - haut, dz * taille);
     t.castShadow = true;
     t.receiveShadow = true;
-    g.add(t);
+    couronne.add(t);
   });
   g.position.set(x, 0, z);
   g.rotation.y = (x * 7 + z * 3) % Math.PI;
@@ -473,6 +648,27 @@ function tableEtChaises(m: Matieres) {
   return g;
 }
 
+/** Une borne de jardin : un fût sombre, une tête qui s'allume le soir, et sa flaque de
+    lumière au pied. */
+function borne(m: Matieres) {
+  const g = new THREE.Group();
+  const fut = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.06, 0.6, 8), m.menuiserie);
+  fut.position.y = 0.3;
+  fut.castShadow = true;
+  g.add(fut);
+  const tete = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.075, 0.14, 10), m.lanterne);
+  tete.position.y = 0.67;
+  g.add(tete);
+  const chapeau = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 0.03, 10), m.menuiserie);
+  chapeau.position.y = 0.755;
+  chapeau.castShadow = true;
+  g.add(chapeau);
+  const flaque = nappe(2.6, 2.6, m.nappeBornes);
+  flaque.position.y = 0.02;
+  g.add(flaque);
+  return g;
+}
+
 function potEtBuisson(m: Matieres) {
   const g = new THREE.Group();
   const pot = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.22, 0.5, 10), m.pot);
@@ -509,10 +705,11 @@ function haie(x1: number, z1: number, x2: number, z2: number, m: Matieres) {
 
 /* ============================ la maquette ============================ */
 
-type Maquette = { groupe: THREE.Group; etendue: THREE.Box3; lumierePiscine: THREE.PointLight | null; regard: THREE.Vector3 };
+type Maquette = { groupe: THREE.Group; etendue: THREE.Box3; lumierePiscine: THREE.PointLight | null; regard: THREE.Vector3; propre: Propre };
 
 function construireMaquette(j: Jardin, m: Matieres): Maquette {
   const groupe = new THREE.Group();
+  const propre: Propre = { fenetres: [], couronnes: [], matieres: [] };
   const versX = j.maison.x === 0 ? 0 : Math.sign(j.maison.x);
 
   // Le socle : jardin + maison + une marge de parvis, et sa coupe de terre.
@@ -554,7 +751,7 @@ function construireMaquette(j: Jardin, m: Matieres): Maquette {
   if (versX !== 1) groupe.add(haie(hx, -hz, hx, hz, m));
 
   // La maison et sa terrasse en bois, lames parallèles à la façade.
-  groupe.add(maison(j.maison, versX, m));
+  groupe.add(maison(j.maison, versX, m, j.terrasse ? 0.135 : 0.022, propre));
   if (j.terrasse) {
     const r = j.terrasse;
     groupe.add(boite(r.largeur, 0.12, r.profondeur, m.boisChant, r.x, 0.06, r.z));
@@ -567,6 +764,15 @@ function construireMaquette(j: Jardin, m: Matieres): Maquette {
     pot.position.set(r.x + (versX === 0 ? r.largeur / 2 - 0.5 : 0), 0.12, r.z + (versX === 0 ? 0 : r.profondeur / 2 - 0.5));
     groupe.add(pot);
   }
+
+  // Ce qui occupe déjà le sol du jardin : rien ne se pose dessus.
+  const occupe: Rect[] = [];
+  if (j.terrasse) occupe.push(j.terrasse);
+  if (b) occupe.push({ ...b, largeur: b.largeur + 0.9, profondeur: b.profondeur + 0.9 });
+  const libre = (x: number, z: number, dl: number, dp: number) =>
+    Math.abs(x) + dl <= j.largeur / 2 - 0.3 &&
+    Math.abs(z) + dp <= j.profondeur / 2 - 0.3 &&
+    occupe.every((r) => Math.abs(x - r.x) >= r.largeur / 2 + dl || Math.abs(z - r.z) >= r.profondeur / 2 + dp);
 
   // Le bassin : parois carrelées, fond, marches, margelles biseautées, eau.
   let lumierePiscine: THREE.PointLight | null = null;
@@ -620,11 +826,6 @@ function construireMaquette(j: Jardin, m: Matieres): Maquette {
 
     // Deux transats et un parasol sur le premier côté du bassin où ils tiennent
     // dans le jardin sans toucher ni la terrasse ni la margelle ; sinon, rien.
-    const occupe = [j.terrasse, { ...b, largeur: b.largeur + 0.9, profondeur: b.profondeur + 0.9 }].filter(Boolean) as Rect[];
-    const libre = (x: number, z: number, dl: number, dp: number) =>
-      Math.abs(x) + dl <= j.largeur / 2 - 0.3 &&
-      Math.abs(z) + dp <= j.profondeur / 2 - 0.3 &&
-      occupe.every((r) => Math.abs(x - r.x) >= r.largeur / 2 + dl || Math.abs(z - r.z) >= r.profondeur / 2 + dp);
     // côté opposé à la maison d'abord : les transats regardent l'eau et la caméra les voit
     const cotes: [number, number][] = versX === 0 ? [[0, 1], [1, 0], [-1, 0]] : [[0, 1], [-versX, 0], [0, -1]];
     for (const [nx, nz] of cotes) {
@@ -643,11 +844,13 @@ function construireMaquette(j: Jardin, m: Matieres): Maquette {
         // les pieds vers l'eau
         t.rotation.y = Math.atan2(-nx, -nz);
         groupe.add(t);
+        occupe.push({ x: p.x, z: p.z, largeur: nz ? 0.7 : 2, profondeur: nz ? 2 : 0.7 });
       }
       if (libre(parasolEn.x, parasolEn.z, 0.25, 0.25)) {
         const p = parasol(m);
         p.position.set(parasolEn.x, 0, parasolEn.z);
         groupe.add(p);
+        occupe.push({ x: parasolEn.x, z: parasolEn.z, largeur: 0.5, profondeur: 0.5 });
       }
       break;
     }
@@ -661,9 +864,34 @@ function construireMaquette(j: Jardin, m: Matieres): Maquette {
       : [[-versX * (j.largeur / 2 - 1.3), -j.profondeur / 2 + 1.3], [-versX * (j.largeur / 2 - 1.3), j.profondeur / 2 - 1.3]];
   coins.forEach(([x, z], i) => {
     const loin = !b || Math.abs(x - b.x) > b.largeur / 2 + 1.6 || Math.abs(z - b.z) > b.profondeur / 2 + 1.6;
-    if (loin) groupe.add(arbre(x, z, i ? 0.95 : 1.15, m));
+    if (!loin) return;
+    groupe.add(arbre(x, z, i ? 0.95 : 1.15, m, propre));
+    occupe.push({ x, z, largeur: 0.6, profondeur: 0.6 });
   });
-  groupe.add(arbre(maxX - 0.9, minZ + 0.9, 1.3, m));
+  groupe.add(arbre(maxX - 0.9, minZ + 0.9, 1.3, m, propre));
+
+  // Les bornes du soir : aux deux coins de la terrasse côté jardin, puis aux coins du
+  // bassin, là où elles ne gênent rien.
+  const bornes: [number, number, number][] = [];
+  if (j.terrasse) {
+    const r = j.terrasse;
+    const dx = versX === 0 ? 0 : -versX;
+    const dz = versX === 0 ? 1 : 0;
+    const avant = (dz ? r.profondeur : r.largeur) / 2 - 0.3;
+    const cote = (dz ? r.largeur : r.profondeur) / 2 - 0.3;
+    for (const s of [-1, 1]) bornes.push([r.x + dx * avant + dz * s * cote, r.z + dz * avant + Math.abs(dx) * s * cote, 0.122]);
+  }
+  if (b)
+    for (const [sx, sz] of [[1, 1], [-1, 1], [1, -1], [-1, -1]]) {
+      const x = b.x + sx * (b.largeur / 2 + 0.75);
+      const z = b.z + sz * (b.profondeur / 2 + 0.75);
+      if (libre(x, z, 0.2, 0.2)) bornes.push([x, z, 0.012]);
+    }
+  for (const [x, z, y] of bornes) {
+    const bo = borne(m);
+    bo.position.set(x, y, z);
+    groupe.add(bo);
+  }
 
   // On regarde la façade côté jardin, de trois quarts.
   const face = versX === 0 ? new THREE.Vector3(0, 0, 1) : new THREE.Vector3(-versX, 0, 0);
@@ -679,13 +907,15 @@ function construireMaquette(j: Jardin, m: Matieres): Maquette {
     etendue: new THREE.Box3(new THREE.Vector3(minX, -epaisseur, minZ), new THREE.Vector3(maxX, 6.5, maxZ)),
     lumierePiscine,
     regard,
+    propre,
   };
 }
 
-function liberer(objet: THREE.Object3D) {
-  objet.traverse((o) => {
+function liberer(q: Maquette) {
+  q.groupe.traverse((o) => {
     if (o instanceof THREE.Mesh) o.geometry.dispose();
   });
+  q.propre.matieres.forEach((mat) => mat.dispose());
 }
 
 /* ============================ l'ambiance ============================ */
@@ -705,36 +935,73 @@ type Moteur = {
   matieres: Matieres;
   lumieres: Lumieres;
   halo: UnrealBloomPass | null;
-  fonds: Record<Ambiance, THREE.Texture>;
+  ciel: ReturnType<typeof fondCiel>;
   maquette: Maquette | null;
-  ambiance: Ambiance;
+  /** Où en est la lumière : 0 le jour, 1 le soir ; `cible` est l'ambiance demandée. */
+  t: number;
+  cible: number;
+  /** Le point d'où vient le soleil, à sa hauteur de midi ; il descend en passant au soir. */
+  soleil: THREE.Vector3;
+  /** Le visiteur limite les animations : rien ne bouge, la lumière change d'un coup. */
+  reduit: boolean;
   redessiner: () => void;
 };
 
-function appliquerAmbiance(m: Moteur, ambiance: Ambiance) {
-  const soir = ambiance === "soir";
+const TEINTES = {
+  cielJour: new THREE.Color("#dfe8ff"),
+  cielSoir: new THREE.Color("#5266a8"),
+  solJour: new THREE.Color("#3a3f4f"),
+  solSoir: new THREE.Color("#0c1020"),
+  soleil: new THREE.Color("#fff1de"),
+  couchant: new THREE.Color("#ffad66"),
+  lune: new THREE.Color("#9fb2ff"),
+  fondJour: new THREE.Color("#c8f6ff"),
+  fondSoir: new THREE.Color("#1a8fb5"),
+};
+
+/** La lumière à l'instant t du passage au soir (0 : jour, 1 : soir). */
+function appliquerAmbiance(m: Moteur, t: number) {
+  const e = lisse(0, 1, t);
+  const lerp = THREE.MathUtils.lerp;
   const { ciel, cle, contre, ambiante, terrasse } = m.lumieres;
-  m.scene.background = m.fonds[ambiance];
-  m.scene.environmentIntensity = soir ? 0.12 : 0.45;
-  ambiante.intensity = soir ? 0.04 : 0;
-  ciel.color.set(soir ? "#5266a8" : "#dfe8ff");
-  ciel.groundColor.set(soir ? "#0c1020" : "#3a3f4f");
-  ciel.intensity = soir ? 0.3 : 0.5;
-  cle.color.set(soir ? "#9fb2ff" : "#fff1de");
-  cle.intensity = soir ? 0.35 : 2.8;
-  contre.intensity = soir ? 0.2 : 0.45;
-  terrasse.intensity = soir ? 3 : 0;
-  const allumer = (mat: THREE.MeshStandardMaterial, couleur: string, force: number) => {
-    mat.emissive.set(soir ? couleur : "#000000");
-    mat.emissiveIntensity = soir ? force : 0;
-  };
-  allumer(m.matieres.vitre, "#ffb969", 0.85);
-  allumer(m.matieres.eau, "#17a9dc", 0.6);
-  allumer(m.matieres.carreaux, "#0f6d8c", 0.6);
-  allumer(m.matieres.carreauxFond, "#0f6d8c", 0.7);
-  if (m.maquette?.lumierePiscine) m.maquette.lumierePiscine.intensity = soir ? 10 : 0;
+  const mt = m.matieres;
+  m.ciel.peindre(t);
+  m.scene.environmentIntensity = lerp(0.45, 0.12, e);
+  ambiante.intensity = 0.04 * e;
+  ciel.color.lerpColors(TEINTES.cielJour, TEINTES.cielSoir, e);
+  ciel.groundColor.lerpColors(TEINTES.solJour, TEINTES.solSoir, e);
+  ciel.intensity = lerp(0.5, 0.3, e);
+  contre.intensity = lerp(0.45, 0.2, e);
+  // Le soleil descend et rougit jusqu'à mi-chemin, puis la lune prend le relais.
+  const avant = t < 0.5;
+  const k = avant ? lisse(0, 0.5, t) : lisse(0.5, 1, t);
+  if (avant) cle.color.lerpColors(TEINTES.soleil, TEINTES.couchant, k);
+  else cle.color.lerpColors(TEINTES.couchant, TEINTES.lune, k);
+  cle.intensity = avant ? lerp(2.8, 1.9, k) : lerp(1.9, 0.35, k);
+  cle.position.set(m.soleil.x, avant ? lerp(m.soleil.y, 7, k) : lerp(7, m.soleil.y, k), m.soleil.z);
+  terrasse.intensity = 3 * lisse(0.45, 0.8, t);
+  // Chaque fenêtre à son heure, puis la piscine, puis les bornes.
+  for (const f of m.maquette?.propre.fenetres ?? []) f.mat.emissiveIntensity = f.force * lisse(f.seuil, f.seuil + 0.12, t);
+  const baies = lisse(0.4, 0.75, t);
+  mt.nappeFenetres.opacity = 0.6 * baies;
+  mt.nappeFenetres.visible = baies > 0;
+  const eau = lisse(0.4, 0.9, t);
+  mt.eau.emissiveIntensity = 0.6 * eau;
+  mt.carreaux.emissiveIntensity = 0.6 * eau;
+  // Le fond garde ses reflets dansants le soir, sur sa propre lueur bleue.
+  mt.carreauxFond.emissive.lerpColors(TEINTES.fondJour, TEINTES.fondSoir, eau);
+  mt.carreauxFond.emissiveIntensity = lerp(0.65, 0.75, eau);
+  mt.fondLumineux.value = 0.7 * eau;
+  if (m.maquette?.lumierePiscine) m.maquette.lumierePiscine.intensity = 10 * eau;
+  const lampes = lisse(0.55, 0.8, t);
+  mt.lanterne.emissiveIntensity = 2.4 * lampes;
+  mt.nappeBornes.opacity = 0.75 * lampes;
+  mt.nappeBornes.visible = lampes > 0;
   // Le halo ne sert que le soir, autour de ce qui s'allume ; le jour il voilerait tout.
-  if (m.halo) m.halo.enabled = soir;
+  if (m.halo) {
+    m.halo.enabled = t > 0.25;
+    m.halo.strength = 0.55 * lisse(0.25, 1, t);
+  }
 }
 
 /* ============================ le composant ============================ */
@@ -766,7 +1033,8 @@ export default function Jardin3D({ jardin, ambiance, onIndisponible }: Props) {
     Object.assign(rendu.domElement.style, { display: "block", width: "100%", height: "100%" });
 
     const scene = new THREE.Scene();
-    const fonds = { jour: textureFond("#1F5E78", "#0A2A39"), soir: textureFond("#123247", "#04131B") };
+    const cielDuFond = fondCiel();
+    scene.background = cielDuFond.texture;
     const pmrem = new THREE.PMREMGenerator(rendu);
     const environnement = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
     scene.environment = environnement;
@@ -830,16 +1098,31 @@ export default function Jardin3D({ jardin, ambiance, onIndisponible }: Props) {
     let image = 0;
     let visible = true;
     let precedent = 0;
-    const boucle = (t: number) => {
+    let horloge = 0;
+    const boucle = (maintenant: number) => {
       image = requestAnimationFrame(boucle);
       // une trentaine d'images par seconde suffisent à l'eau et à la rotation
-      if (t - precedent < 32) return;
-      const dt = Math.min(0.1, (t - precedent) / 1000);
-      precedent = t;
+      if (maintenant - precedent < 32) return;
+      const dt = Math.min(0.1, (maintenant - precedent) / 1000);
+      precedent = maintenant;
       let bouge = controles.update(dt);
+      const m = moteur.current;
+      // Le passage d'une ambiance à l'autre prend un peu moins de deux secondes.
+      if (m && m.t !== m.cible) {
+        const pas = dt / 1.8;
+        m.t = m.cible > m.t ? Math.min(m.cible, m.t + pas) : Math.max(m.cible, m.t - pas);
+        appliquerAmbiance(m, m.t);
+        bouge = true;
+      }
       if (!reduit) {
+        horloge += dt;
         matieres.vaguelettes.offset.x += dt * 0.025;
         matieres.vaguelettes.offset.y += dt * 0.012;
+        matieres.temps.value = horloge;
+        for (const c of m?.maquette?.propre.couronnes ?? []) {
+          c.objet.rotation.z = Math.sin(horloge * 1.3 + c.phase) * c.ampli;
+          c.objet.rotation.x = Math.sin(horloge * 0.9 + c.phase * 1.7) * c.ampli * 0.6;
+        }
         bouge = true;
       }
       if (bouge || aDessiner) {
@@ -879,9 +1162,12 @@ export default function Jardin3D({ jardin, ambiance, onIndisponible }: Props) {
       matieres,
       lumieres: { ciel, cle, contre, ambiante, terrasse },
       halo,
-      fonds,
+      ciel: cielDuFond,
       maquette: null,
-      ambiance: "jour",
+      t: 0,
+      cible: 0,
+      soleil: new THREE.Vector3(0, 15, 19),
+      reduit,
       redessiner,
     };
     relancer();
@@ -893,10 +1179,9 @@ export default function Jardin3D({ jardin, ambiance, onIndisponible }: Props) {
       taille.disconnect();
       controles.dispose();
       const m = moteur.current;
-      if (m?.maquette) liberer(m.maquette.groupe);
+      if (m?.maquette) liberer(m.maquette);
       matieres.textures.forEach((t) => t.dispose());
-      fonds.jour.dispose();
-      fonds.soir.dispose();
+      cielDuFond.texture.dispose();
       Object.values(matieres).forEach((v) => v instanceof THREE.Material && v.dispose());
       composer?.passes.forEach((p) => p.dispose());
       composer?.dispose();
@@ -914,7 +1199,7 @@ export default function Jardin3D({ jardin, ambiance, onIndisponible }: Props) {
     if (!m) return;
     if (m.maquette) {
       m.scene.remove(m.maquette.groupe);
-      liberer(m.maquette.groupe);
+      liberer(m.maquette);
     }
     m.maquette = construireMaquette(jardin, m.matieres);
     m.scene.add(m.maquette.groupe);
@@ -940,21 +1225,24 @@ export default function Jardin3D({ jardin, ambiance, onIndisponible }: Props) {
     // le soleil vient de la gauche du regard, un peu de face : les ombres tombent
     // vers la droite, là où la caméra les voit
     const soleil = new THREE.Vector3(direction.x, 0, direction.z).normalize().applyAxisAngle(new THREE.Vector3(0, 1, 0), THREE.MathUtils.degToRad(-100));
-    m.lumieres.cle.position.set(centre.x + soleil.x * 19, 15, centre.z + soleil.z * 19);
+    m.soleil.set(centre.x + soleil.x * 19, 15, centre.z + soleil.z * 19);
     m.lumieres.contre.position.set(centre.x - direction.x * 20, 14, centre.z - direction.z * 20);
     m.lumieres.cle.target.position.set(centre.x, 0, centre.z);
     if (jardin.terrasse) m.lumieres.terrasse.position.set(jardin.terrasse.x, 2.2, jardin.terrasse.z);
-    appliquerAmbiance(m, m.ambiance);
+    appliquerAmbiance(m, m.t);
     m.controles.update();
     m.redessiner();
   }, [jardin]);
 
-  // Jour ou soir.
+  // Jour ou soir : la boucle joue le passage ; sans animations, il se fait d'un coup.
   useEffect(() => {
     const m = moteur.current;
     if (!m) return;
-    m.ambiance = ambiance;
-    appliquerAmbiance(m, ambiance);
+    m.cible = ambiance === "soir" ? 1 : 0;
+    if (m.reduit) {
+      m.t = m.cible;
+      appliquerAmbiance(m, m.t);
+    }
     m.redessiner();
   }, [ambiance]);
 

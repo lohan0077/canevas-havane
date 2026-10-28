@@ -387,6 +387,19 @@ côté, il éclaire la maison par l'arrière et les ombres disparaissent. Le mob
 pose que là où il ne touche ni la terrasse ni la margelle. Vérifié : sans WebGL, le plan
 2D reste ; avec « animations réduites », l'image ne bouge pas.
 
+**Le passage au soir se joue (29/10/2026)**, d'après le manoir « Golden Hour » de
+Thusatharan (dépôt `yihui-dev/awesome-opus5-5-videos`, regardé pour l'idée, aucun code
+repris). Le calculateur vit aujourd'hui dans `exemples/neuf-etes/_composants/Jardin3D.tsx`.
+En 1,8 s le soleil descend et rougit, chaque fenêtre s'allume à son heure sur un intérieur
+peint, la lumière des baies déborde au sol, les bornes du jardin et la piscine
+s'éclairent, les étoiles sortent ; le jour, la lumière danse au fond du bassin et les
+couronnes des arbres bougent au vent. Tout reste dessiné dans le navigateur. Le mobilier
+et les bornes partagent une seule liste de ce qui occupe le sol : un objet ajouté au jardin
+doit s'y inscrire, sinon une borne se pose dessus. Les reflets du fond passent par
+`onBeforeCompile` : l'occlusion ambiante ne les voit pas, ce qui est voulu (c'est de la
+lumière). Les deux tests se rejouent sur la compilation de production : changer de
+réglage le soir, et « animations réduites » (le soir arrive d'un coup, l'image reste fixe).
+
 ## Les 102 sites de démonstration — 21/10/2026
 
 **Un site par vidéo** des séries « Remplir l'agenda » et « Créer une marque » (51 métiers ×
