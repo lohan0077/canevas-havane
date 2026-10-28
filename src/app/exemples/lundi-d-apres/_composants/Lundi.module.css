@@ -1,0 +1,35 @@
+/* La soirée à l'envers : le lundi arrive d'abord, puis on remonte le temps, une heure
+   après l'autre. Chaque étape monte et s'allume avec un temps de retard. */
+.etape {
+  animation: monte 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.1) both;
+  animation-delay: calc(var(--rang) * 0.45s);
+}
+
+@keyframes monte {
+  from { opacity: 0; transform: translateY(26px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+
+/* La vapeur du café, et les bulles de la machine à café qui flottent. */
+.vapeur {
+  animation: vapeur 3.2s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+.bulle {
+  animation: flotte 5s ease-in-out infinite;
+  animation-delay: calc(var(--rang) * -1.6s);
+}
+
+@keyframes vapeur {
+  0%, 100% { opacity: 0.35; transform: translateY(0) scaleY(1); }
+  50% { opacity: 0.8; transform: translateY(-8px) scaleY(1.08); }
+}
+@keyframes flotte {
+  0%, 100% { transform: translateY(0) rotate(var(--angle)); }
+  50% { transform: translateY(-10px) rotate(var(--angle)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .etape, .vapeur, .bulle { animation: none; }
+  .bulle { transform: rotate(var(--angle)); }
+}

@@ -24,22 +24,30 @@
 // Sur une compilation locale : node outils/contraste.mjs http://localhost:3000
 
 import { chromium } from "playwright";
+import { readFileSync } from "node:fs";
 
 const origine = process.argv[2] ?? "https://canevas-havane.com";
 
-const pages = [
+// Ne mesurer qu'une partie : `node outils/contraste.mjs <origine> /exemples/mon-site`.
+const filtre = process.argv[3] ?? "";
+
+const pagesDuSite = [
   "/", "/expertise", "/tarifs", "/realisations", "/realisations/keo",
   "/realisations/edificia", "/blog", "/a-propos", "/contact",
-  "/mentions-legales", "/confidentialite", "/cgv", "/page-inexistante-404",
-  // Sites de démonstration filmés dans les vidéos : hors sitemap, mais publics.
-  "/exemples", "/exemples/premier-plongeon",
-  "/exemples/premier-plongeon/piscines", "/exemples/premier-plongeon/chantiers",
-  "/exemples/premier-plongeon/chantiers/coque-8x4", "/exemples/premier-plongeon/chantiers/coque-7x3-5",
-  "/exemples/premier-plongeon/chantiers/coque-5x2-5", "/exemples/premier-plongeon/entreprise",
-  "/exemples/premier-plongeon/prix", "/exemples/premier-plongeon/ma-date",
-  "/exemples/premier-plongeon/questions", "/exemples/premier-plongeon/contact",
-  "/exemples/premier-plongeon/mentions-legales", "/exemples/neuf-etes",
+  "/mentions-legales", "/confidentialite", "/cgv", "/bio", "/page-inexistante-404",
 ];
+// Sites de démonstration filmés dans les vidéos : hors sitemap, mais publics. La liste
+// vient de outils/registre-exemples.mjs ; les sous-pages générées (pages de chantier…)
+// sont trouvées en suivant les liens internes de chaque site, pendant la mesure.
+const pagesExemples = JSON.parse(readFileSync(new URL("./pages-exemples.json", import.meta.url), "utf8"));
+const pages = [...pagesDuSite, ...pagesExemples].filter((p) => p.startsWith(filtre));
+// Ne rien mesurer n'est pas réussir : une liste vide (filtre mal tapé, liste des
+// exemples régénérée à vide pendant qu'un autre la réécrit) doit échouer, pas
+// annoncer « 0 sous le seuil ».
+if (pages.length === 0) {
+  console.error(`Aucune page à mesurer${filtre ? ` pour « ${filtre} »` : ""} : relancer node outils/registre-exemples.mjs ?`);
+  process.exit(1);
+}
 
 const mesure = () => {
   // Résolution de n'importe quelle notation CSS (rgb, oklab, oklch, color-mix…)
@@ -147,36 +155,83 @@ const mesure = () => {
 const navigateur = await chromium.launch();
 let totalMesures = 0, totalEchecs = 0, totalDegrades = 0, totalDecoratifs = 0;
 
+// Quatre onglets à la fois : avec une centaine de sites de démonstration, la mesure
+// page par page prendrait une demi-heure.
+const ONGLETS = 4;
+const siteDe = (chemin) => chemin.match(/^\/exemples\/[^/]+/)?.[0] ?? null;
+
 for (const schema of ["light", "dark"]) {
   const contexte = await navigateur.newContext({
     colorScheme: schema,
     viewport: { width: 1280, height: 900 },
   });
-  const onglet = await contexte.newPage();
+  const file = [...pages];
+  const vues = new Set(file);
+  let occupes = 0;   // un onglet occupé peut encore ajouter des sous-pages à la file
 
-  for (const chemin of pages) {
-    const reponse = await onglet.goto(origine + chemin, { waitUntil: "networkidle", timeout: 45000 });
-    await onglet.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-    await onglet.waitForTimeout(1200);
-    await onglet.evaluate(() => window.scrollTo(0, 0));
-    await onglet.waitForTimeout(300);
+  const ouvrier = async () => {
+    const onglet = await contexte.newPage();
+    while (file.length || occupes) {
+      if (!file.length) { await new Promise((r) => setTimeout(r, 200)); continue; }
+      const chemin = file.shift();
+      occupes++;
+      const reponse = await onglet.goto(origine + chemin, { waitUntil: "networkidle", timeout: 45000 });
+      // Descente par paliers : un bloc qui apparaît en entrant à l'écran (Apparition,
+      // TitreRevele) reste invisible — donc non mesuré — si la page saute d'un coup
+      // en bas. On passe partout, puis on laisse finir les fondus.
+      await onglet.evaluate(async () => {
+        for (let y = 0; y < document.documentElement.scrollHeight; y += Math.round(innerHeight * 0.6)) {
+          window.scrollTo(0, y);
+          await new Promise((r) => setTimeout(r, 60));
+        }
+      });
+      await onglet.waitForTimeout(1400);
+      await onglet.evaluate(() => window.scrollTo(0, 0));
+      // Un en-tête qui change de couleur en haut de page (NavVerre) le fait en fondu :
+      // mesuré pendant le fondu, il donne une couleur qui n'existe qu'un instant. Une
+      // attente fixe ne suffit pas (en CI, la machine est plus lente) : on attend que
+      // plus aucune transition ne soit en cours, 5 s au plus.
+      await onglet.waitForTimeout(300);
+      await onglet.evaluate(async () => {
+        const limite = Date.now() + 5000;
+        const enCours = () => document.getAnimations().some((a) => a instanceof CSSTransition && a.playState === "running");
+        while (enCours() && Date.now() < limite) await new Promise((r) => setTimeout(r, 100));
+      });
 
-    const { mesures, echecs, decoratifs, degrades, exemplesDegrades } = await onglet.evaluate(mesure);
-    totalMesures += mesures;
-    totalEchecs += echecs.length;
-    totalDegrades += degrades;
-    totalDecoratifs += decoratifs;
-    console.log(
-      `${echecs.length === 0 ? "OK   " : "ECHEC"} [${schema}] ${chemin.padEnd(26)} HTTP ${reponse?.status()}  ${String(mesures).padStart(4)} mesures, ${echecs.length} sous le seuil, ${decoratifs} decoratifs exemptes, ${degrades} en degrade`,
-    );
-    if (degrades && exemplesDegrades.length) console.log(`      degrades : ${exemplesDegrades.join(" | ")}`);
-    for (const e of echecs) {
-      console.log(`      -> ${e.rapport}:1 (exige ${e.seuil}:1) ${e.px}px  ${e.effective} sur ${e.fond}  « ${e.txt} »`);
+      // Les sous-pages d'un site de démonstration, qu'aucune liste ne connaît d'avance.
+      const site = siteDe(chemin);
+      if (site) {
+        const liens = await onglet.evaluate((site) => [...document.querySelectorAll("a[href]")]
+          .map((a) => new URL(a.href).pathname.replace(/\/$/, ""))
+          .filter((p) => p.startsWith(site + "/") || p === site), site);
+        for (const l of liens) if (!vues.has(l) && l.startsWith(filtre)) { vues.add(l); file.push(l); }
+      }
+
+      const { mesures, echecs, decoratifs, degrades, exemplesDegrades } = await onglet.evaluate(mesure);
+      totalMesures += mesures;
+      totalEchecs += echecs.length;
+      totalDegrades += degrades;
+      totalDecoratifs += decoratifs;
+      const lignes = [
+        `${echecs.length === 0 ? "OK   " : "ECHEC"} [${schema}] ${chemin.padEnd(26)} HTTP ${reponse?.status()}  ${String(mesures).padStart(4)} mesures, ${echecs.length} sous le seuil, ${decoratifs} decoratifs exemptes, ${degrades} en degrade`,
+      ];
+      if (degrades && exemplesDegrades.length) lignes.push(`      degrades : ${exemplesDegrades.join(" | ")}`);
+      for (const e of echecs) {
+        lignes.push(`      -> ${e.rapport}:1 (exige ${e.seuil}:1) ${e.px}px  ${e.effective} sur ${e.fond}  « ${e.txt} »`);
+      }
+      console.log(lignes.join("\n"));
+      occupes--;
     }
-  }
+    await onglet.close();
+  };
+  await Promise.all(Array.from({ length: ONGLETS }, ouvrier));
   await contexte.close();
 }
 
 await navigateur.close();
 console.log(`\n=== TOTAL : ${totalMesures} textes mesures, ${totalEchecs} sous le seuil WCAG AA, ${totalDecoratifs} decoratifs exemptes (aria-hidden), ${totalDegrades} en degrade (a verifier a l'oeil) ===`);
+if (totalMesures === 0) {
+  console.error("Aucun texte mesuré : les pages sont-elles vides, ou le serveur ne répond-il pas ?");
+  process.exit(1);
+}
 process.exit(totalEchecs === 0 ? 0 : 1);

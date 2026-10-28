@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { adressesDeLaPage, breadcrumbJsonLd, jsonLdScript } from "@/lib/seo";
 import Link from "next/link";
 import Image from "next/image";
+import Positionnement from "@/components/Positionnement";
 
 export const metadata: Metadata = {
   title: "Expertise — Web, SEO & Acquisition",
@@ -62,6 +63,11 @@ export default function ExpertisePage() {
             L'alliance de la rigueur technique et de l'élégance artistique. <br className="hidden md:block" />
             Explorez nos piliers de création pour votre réussite.
           </p>
+        </div>
+
+        {/* Premier bloc : le positionnement, avant les trois expertises. */}
+        <div className="mb-24 md:mb-48">
+          <Positionnement />
         </div>
 
         {/* Services List */}

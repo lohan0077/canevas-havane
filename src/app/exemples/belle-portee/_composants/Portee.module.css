@@ -1,0 +1,43 @@
+/* Le flash de l'appareil photo, une fois, quand le mur apparaît. */
+.flash {
+  animation: flash .5s ease-out both;
+}
+@keyframes flash {
+  from { opacity: .95; }
+  to { opacity: 0; }
+}
+
+/* La poutre qui descend se poser au-dessus de l'ouverture. */
+.poutre {
+  animation: pose .5s cubic-bezier(.3, 1.4, .5, 1) both;
+}
+@keyframes pose {
+  from { transform: translateY(-40px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+/* Le mur, de plâtre : un grain très léger. */
+.platre {
+  background-color: #EFE8DA;
+  background-image:
+    radial-gradient(circle at 30% 40%, rgba(30, 42, 56, .035) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 70% 70%, rgba(30, 42, 56, .03) 0 1px, transparent 1.5px);
+  background-size: 13px 11px, 19px 17px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flash, .poutre { animation: none; }
+  .flash { opacity: 0; }
+}
+
+/* L'explication qui arrive sous la situation touchée. */
+.entree {
+  animation: entree .4s cubic-bezier(.2, .8, .2, 1) both;
+}
+@keyframes entree {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .entree { animation: none; }
+}

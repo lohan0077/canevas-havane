@@ -1,0 +1,44 @@
+/* Les mouvements de Reviens. — seulement des animations, aucune mise en page (une
+   feuille de module l'emporterait sur les classes Tailwind) : le point du laser qui suit
+   la gravure, l'outil qui flotte, le gros bouton qui respire, la ligne qui lit la plaque. */
+@keyframes laser {
+  0% { opacity: 1; filter: drop-shadow(0 0 10px #ffd27a); }
+  100% { opacity: 0; filter: drop-shadow(0 0 2px #ffd27a); }
+}
+.laser {
+  animation: laser 0.7s ease-out forwards;
+}
+@keyframes flotte {
+  0%, 100% { transform: translateY(0) rotate(-6deg); }
+  50% { transform: translateY(-12px) rotate(-4deg); }
+}
+.flotte {
+  animation: flotte 5s ease-in-out infinite;
+}
+@keyframes pouls {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(179, 74, 52, 0.6), 0 0 0 0 rgba(179, 74, 52, 0.35); }
+  60% { box-shadow: 0 0 0 26px rgba(179, 74, 52, 0), 0 0 0 52px rgba(179, 74, 52, 0); }
+}
+.pouls {
+  animation: pouls 2.2s ease-out infinite;
+}
+@keyframes balayage {
+  0% { top: 12%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 84%; opacity: 0; }
+}
+.balayage {
+  animation: balayage 1.2s ease-in-out infinite;
+}
+@keyframes tourne {
+  to { transform: rotate(360deg); }
+}
+.tourne {
+  animation: tourne 40s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .laser { animation: none; opacity: 0; }
+  .flotte { animation: none; transform: rotate(-6deg); }
+  .pouls, .balayage, .tourne { animation: none; }
+}

@@ -1,4 +1,11 @@
 import type { NextConfig } from "next";
+import { readFileSync } from "node:fs";
+
+// Les anciens sites de démonstration fondus dans le site de leur métier (une adresse
+// par vidéo, puis un site par métier) : écrit par outils/registre-exemples.mjs.
+const redirectionsExemples: { source: string; destination: string }[] = JSON.parse(
+  readFileSync(new URL("./outils/redirections-exemples.json", import.meta.url), "utf8"),
+);
 
 // Politique de sécurité du contenu.
 //
@@ -56,9 +63,18 @@ const nextConfig: NextConfig = {
   output: "standalone",
   compress: true,
   poweredByHeader: false,
+  // Pas de pastille « N » de Next en développement : les sites de démonstration sont
+  // filmés pour les vidéos, et elle apparaissait à l'image.
+  devIndicators: false,
+  // Pour un long chantier sur les sites de démonstration (ATELIER=1 npm run dev) : le
+  // cache disque de Turbopack en développement a déjà atteint 9 Go et rempli le disque.
+  ...(process.env.ATELIER ? { experimental: { turbopackFileSystemCacheForDev: false } } : {}),
   images: {
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 2678400, // 31 jours
+  },
+  async redirects() {
+    return redirectionsExemples.map((r) => ({ ...r, permanent: true }));
   },
   async headers() {
     return [

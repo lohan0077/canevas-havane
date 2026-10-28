@@ -1,0 +1,53 @@
+/* La signature se trace, comme à la main, quand elle apparaît. */
+@keyframes trace {
+  from { stroke-dashoffset: 1000; }
+  to { stroke-dashoffset: 0; }
+}
+
+.trait {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 0;
+  animation: trace 1.6s cubic-bezier(0.45, 0.05, 0.3, 1) 0.3s both;
+}
+
+@keyframes tampon {
+  from { opacity: 0; transform: rotate(-14deg) scale(1.8); }
+  to { opacity: 1; transform: rotate(-14deg) scale(1); }
+}
+
+.tampon {
+  animation: tampon 0.4s cubic-bezier(0.2, 0.8, 0.3, 1.2) 1.8s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trait,
+  .tampon {
+    animation: none;
+  }
+}
+
+/* L'arrivée des pots dans le coffret : chacun tombe à son tour, puis le prix se pose. */
+@keyframes tombe {
+  from { opacity: 0; transform: translateY(-28px) scale(1.06); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes etiquette {
+  from { opacity: 0; transform: rotate(-6deg) scale(1.4); }
+  to { opacity: 1; transform: rotate(-6deg) scale(1); }
+}
+
+.produit {
+  animation: tombe 0.55s cubic-bezier(0.2, 0.8, 0.3, 1.15) both;
+}
+
+.prix {
+  animation: etiquette 0.45s cubic-bezier(0.2, 0.8, 0.3, 1.1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .produit,
+  .prix {
+    animation: none;
+  }
+}
