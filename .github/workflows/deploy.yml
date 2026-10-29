@@ -15,7 +15,16 @@ jobs:
   # ─────────────────────────────────────────────────────────────────────
   verifications:
     name: Vérifications
-    runs-on: ubuntu-latest
+    # Système épinglé, comme les actions le sont par empreinte. `ubuntu-latest`
+    # bascule sur Ubuntu 26.04 entre le 19/10 et le 19/11/2026
+    # (actions/runner-images#14748) : Playwright et Chrome (contraste), gitleaks,
+    # Semgrep et Trivy changeraient de système sans qu'aucun commit ne le dise,
+    # et ce job est exigé pour fusionner dans `main`. Les runs jusqu'au 17/10/2026
+    # tournaient déjà sur `ubuntu-24.04` : l'épinglage ne change rien aujourd'hui.
+    # Y revenir : passer à `ubuntu-26.04` dans une PR dédiée, et seulement si ce
+    # job y est vert ; au plus tard quand GitHub annoncera le retrait de l'image
+    # 24.04 (il ne garde que les deux dernières LTS — attendu avec la 28.04).
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # étiquette v7.0.1 au 10/08/2026
         with:
@@ -144,7 +153,7 @@ jobs:
     name: Déploiement
     needs: verifications
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04 # même système que les vérifications — voir plus haut
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # étiquette v7.0.1 au 10/08/2026
