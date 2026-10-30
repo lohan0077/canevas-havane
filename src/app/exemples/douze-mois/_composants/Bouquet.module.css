@@ -1,0 +1,44 @@
+/* Le bouquet du jardin : une tige qui arrive pousse depuis le nœud, sa tête éclot ;
+   les autres glissent à leur nouvelle place. Rien ici ne touche une classe Tailwind
+   (une feuille de module passe avant toutes les couches) : seulement le mouvement. */
+.tige {
+  transition: d 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  stroke-dasharray: 260;
+  stroke-dashoffset: 0;
+  animation: pousser 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+}
+
+.place {
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.tete {
+  animation: eclore 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s backwards;
+}
+
+.papier {
+  transition: opacity 0.4s ease;
+}
+
+@keyframes pousser {
+  from {
+    stroke-dashoffset: 260;
+  }
+}
+
+@keyframes eclore {
+  from {
+    transform: scale(0.1) rotate(-40deg);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tige,
+  .place,
+  .tete,
+  .papier {
+    transition: none;
+    animation: none;
+  }
+}

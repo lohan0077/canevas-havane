@@ -18,7 +18,7 @@ export default function MentionsLegales() {
         <MentionsDemonstration
           site="douze-mois"
           entreprise="Douze Mois"
-          polices="Bodoni Moda, Manrope et Caveat"
+          polices="Instrument Serif, Bricolage Grotesque et Caveat"
           enPlus={
             <>
               <p>

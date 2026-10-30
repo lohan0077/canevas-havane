@@ -5,10 +5,10 @@ import { adressesDeLaPage } from "@/lib/seo";
 import Accordeon from "../_kit/Accordeon";
 import Apparition from "../_kit/Apparition";
 import PhotoCinema from "../_kit/PhotoCinema";
-import TitreRevele from "../_kit/TitreRevele";
-import { ACCENT_SOMBRE, AppelFinal, Bouton, Intitule, Surtitre, Titre } from "./_composants/Blocs";
+import { AppelFinal, Intitule, Surtitre, Titre } from "./_composants/Blocs";
 import Calendrier from "./_composants/Calendrier";
 import ChoixMessage from "./_composants/ChoixMessage";
+import JardinFleurs from "./_composants/JardinFleurs";
 import { DOSSIER, PHOTOS, QUESTIONS } from "./_composants/donnees";
 
 // Le site de Douze Mois, la boutique de fleurs des deux vidéos des fleuristes. Il garde
@@ -38,45 +38,13 @@ const PAGES = [
 export default function DouzeMois() {
   return (
     <main>
-      {/* ---------- Premier écran : un chardon doré sur le noir, le nom, l'heure limite ----------
-          La photo et le texte se partagent l'écran : le noir de la photo continue dans
-          celui de la section, et aucun mot ne se pose sur la fleur. */}
-      <section className="relative isolate grid min-h-[100svh] bg-[#050505] text-[var(--sur-sombre)] lg:grid-cols-[1.05fr_0.95fr]">
-        <div className="relative min-h-[46svh] overflow-hidden lg:min-h-0">
-          <PhotoCinema src={PHOTOS.chardon.src} alt="" priority origine="35% 40%" sizes="(min-width: 1024px) 55vw, 100vw" />
-          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-[linear-gradient(180deg,rgba(5,5,5,0)_0%,#050505_100%)] lg:inset-y-0 lg:left-auto lg:right-0 lg:h-auto lg:w-1/3 lg:bg-[linear-gradient(90deg,rgba(5,5,5,0)_0%,#050505_100%)]" />
-        </div>
-        <div className="relative flex flex-col justify-end gap-5 px-6 pb-12 pt-2 lg:justify-center lg:gap-7 lg:pb-16 lg:pl-4 lg:pr-[max(1.5rem,calc((100vw-72rem)/2+1.5rem))] lg:pt-36">
-          <Apparition><Surtitre clair>Fleurs de saison, rien d&apos;autre</Surtitre></Apparition>
-          <TitreRevele
-            as="h1"
-            auChargement
-            texte="Douze *Mois*"
-            className="text-[clamp(3.6rem,8.5vw,8.5rem)] font-normal leading-[0.9] tracking-[-0.03em] lg:[&>span:first-child]:block"
-            classeAccent={ACCENT_SOMBRE}
-          />
-          <TitreRevele
-            as="p"
-            auChargement
-            delai={300}
-            texte={"Commandé avant 14\u00a0h, *livré aujourd'hui.*"}
-            className="max-w-[30rem] scroll-mt-24 font-[family-name:var(--titres)] text-[clamp(1.75rem,2.8vw,2.5rem)] font-normal leading-[1.08] tracking-[-0.01em] text-balance [font-variant-numeric:lining-nums]"
-            classeAccent={ACCENT_SOMBRE}
-            id="heure"
-          />
-          <Apparition as="p" delai={600} className="max-w-[26rem] text-lg leading-relaxed">
-            Ce qui fleurit en France ce mois-ci, et la phrase sur la carte, écrite à la main.
-          </Apparition>
-          <Apparition delai={800} className="flex flex-wrap gap-3">
-            <Bouton href={`${DOSSIER}#choix`}>C&apos;est pour dire quoi&nbsp;?</Bouton>
-            <Bouton href={`${DOSSIER}#calendrier`} variante="contour">Le calendrier</Bouton>
-          </Apparition>
-        </div>
-      </section>
+      {/* ---------- Premier écran : le jardin des douze mois ---------- */}
+      <JardinFleurs />
 
       {/* ---------- 01. L'outil de la marque : le calendrier ---------- */}
-      <section id="calendrier" className="scroll-mt-16 bg-[var(--sombre)] text-[var(--sur-sombre)]">
-        <div className="mx-auto max-w-6xl space-y-14 px-6 py-28 md:py-40">
+      {/* Il prend la suite du jardin, sur la même nuit : un filet, et moins de vide au-dessus. */}
+      <section id="calendrier" className="scroll-mt-16 border-t border-white/10 bg-[var(--sombre)] text-[var(--sur-sombre)]">
+        <div className="mx-auto max-w-6xl space-y-14 px-6 pb-28 pt-20 md:pb-40 md:pt-28">
           <Intitule
             clair
             numero="01"
@@ -112,7 +80,7 @@ export default function DouzeMois() {
       <section className="relative isolate flex min-h-[88svh] flex-col justify-end overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
         <div className="absolute inset-x-0 top-0 h-[72%]">
           <PhotoCinema src={PHOTOS.dahliasJardin.src} alt="" origine="50% 45%" />
-          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-[linear-gradient(180deg,rgba(42,21,32,0)_0%,rgba(42,21,32,1)_100%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-[linear-gradient(180deg,rgba(25,18,48,0)_0%,rgba(25,18,48,1)_100%)]" />
         </div>
         <div className="relative mx-auto w-full max-w-6xl space-y-5 px-6 pb-16 pt-[60svh] md:pb-24">
           <Apparition><Surtitre clair>Octobre · les derniers dahlias</Surtitre></Apparition>

@@ -107,7 +107,7 @@ export default function ChoixMessage() {
               </div>
 
               <div id="carte" className="scroll-mt-24 space-y-3">
-                <div className="relative rounded-2xl border border-[var(--trait)] bg-[var(--fond)] px-6 py-5 [background-image:repeating-linear-gradient(transparent_0_37px,#EAD9CC_37px_38px)]">
+                <div className="relative rounded-2xl border border-[var(--trait)] bg-[var(--fond)] px-6 py-5 [background-image:repeating-linear-gradient(transparent_0_37px,#D9D1EC_37px_38px)]">
                   <label className="flex items-baseline gap-2 font-[family-name:var(--f-caveat)] text-2xl">
                     <span>Pour :</span>
                     <input

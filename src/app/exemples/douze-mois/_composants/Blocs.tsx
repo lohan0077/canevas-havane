@@ -4,12 +4,13 @@ import PhotoCinema from "../../_kit/PhotoCinema";
 import TitreRevele from "../../_kit/TitreRevele";
 import { DOSSIER, boutique } from "./donnees";
 
-// La langue visuelle de Douze Mois, version « carrée » (24/10/2026) : un herbier de
-// musée, tenu court. Le romain et l'italique de Bodoni pour les titres, en graisse
-// normale ; Inter pour lire ; la prune, la crème, et le jaune mimosa seulement pour le
+// La langue visuelle de Douze Mois, version « carrée » (24/10/2026), et son identité du
+// 30/10/2026 : le jardin à l'heure bleue. Le romain et l'italique d'Instrument Serif pour
+// les titres ; Bricolage Grotesque pour lire ; la nuit d'iris, le papier glycine, le
+// rose pivoine des mots en relief, et le vert tige seulement pour le
 // bouton principal et quelques détails. Une échelle de texte, une grille, partout.
 
-/** Le relief d'un titre : l'italique de Bodoni, en berry sur fond clair, en mimosa sur fond sombre. */
+/** Le relief d'un titre : l'italique, en rose pivoine sur fond clair, en vert tige sur fond sombre. */
 export const ACCENT_CLAIR = "italic font-normal text-[var(--accent-texte)]";
 export const ACCENT_SOMBRE = "italic font-normal text-[var(--accent)]";
 
@@ -129,7 +130,7 @@ export function EnTetePage({
   return (
     <section className="relative isolate flex min-h-[64svh] flex-col overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
       <PhotoCinema src={photo.src} alt="" priority origine={origine} className="opacity-70" />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(42,21,32,0.55)_0%,rgba(42,21,32,0.35)_38%,rgba(42,21,32,0.94)_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(25,18,48,0.55)_0%,rgba(25,18,48,0.35)_38%,rgba(25,18,48,0.94)_100%)]" />
       <div className="relative mx-auto flex w-full max-w-6xl flex-1 flex-col justify-end gap-7 px-6 pb-14 pt-36 md:pb-20">
         <Apparition><Surtitre clair>{surtitre}</Surtitre></Apparition>
         <TitreRevele

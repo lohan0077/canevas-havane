@@ -39,7 +39,7 @@ export default function EcrireCarte() {
         ))}
       </div>
       <div className="space-y-4 lg:sticky lg:top-28">
-        <div id="apercu-carte" className="min-h-[240px] rounded-2xl border border-[var(--trait)] bg-[var(--carte)] p-8 [background-image:repeating-linear-gradient(transparent_0_41px,#EAD9CC_41px_42px)]">
+        <div id="apercu-carte" className="min-h-[240px] rounded-2xl border border-[var(--trait)] bg-[var(--carte)] p-8 [background-image:repeating-linear-gradient(transparent_0_41px,#D9D1EC_41px_42px)]">
           <p className="font-[family-name:var(--f-caveat)] text-[38px] leading-[1.1] break-words" aria-live="polite">{texte || "…"}</p>
         </div>
         <label className="block space-y-2">
