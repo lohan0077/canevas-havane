@@ -56,7 +56,7 @@ export default async function Projet({ params }: { params: Promise<{ slug: strin
             as="h1"
             auChargement
             texte={p.titre}
-            className="max-w-4xl font-[family-name:var(--titres)] text-[clamp(2.75rem,6vw,5.25rem)] font-normal leading-[1] tracking-[-0.02em] text-balance"
+            className="max-w-4xl font-[family-name:var(--titres)] text-[clamp(2.75rem,6vw,5.25rem)] font-medium leading-[0.98] tracking-[-0.045em] text-balance"
           />
           <dl data-film="faits" className="grid overflow-hidden rounded-2xl bg-[var(--fond)] text-[var(--encre)] sm:grid-cols-3">
             {FAITS.map((f, i) => (
@@ -83,7 +83,7 @@ export default async function Projet({ params }: { params: Promise<{ slug: strin
           <div className="grid grid-cols-2 gap-4 sm:gap-6">
             {[false, true].map((apres) => (
               <Apparition as="figure" key={String(apres)} delai={apres ? 150 : 0} className="space-y-3">
-                <div className={`overflow-hidden rounded-2xl ${apres ? "bg-[#F6E2B8]" : "bg-[#E8DCC6]"}`}>
+                <div className={`overflow-hidden rounded-2xl ${apres ? "bg-[#F7E3DD]" : "bg-[#DEDBD3]"}`}>
                   <Maison modele={p.modele} apres={apres} decor className="block h-auto w-full" libelle={apres ? `Après : ${p.apres}` : `Avant, ${p.annee} : ${p.avant}`} />
                 </div>
                 <figcaption className="space-y-0.5">
@@ -135,7 +135,7 @@ export default async function Projet({ params }: { params: Promise<{ slug: strin
               ))}
               <li className="flex items-baseline justify-between gap-4 py-4 font-[family-name:var(--titres)] text-2xl">
                 <span>Total des travaux, TTC</span>
-                <span className="tabular-nums text-[var(--accent)]">{p.budget}</span>
+                <span className="tabular-nums text-[var(--accent-clair)]">{p.budget}</span>
               </li>
             </ul>
             <p className="text-[15px] leading-relaxed">Montants TTC d&apos;exemple. Honoraires de l&apos;architecte en plus : {p.honoraires}</p>
@@ -158,7 +158,7 @@ export default async function Projet({ params }: { params: Promise<{ slug: strin
               {PROJETS.filter((x) => x.slug !== p.slug).map((x) => (
                 <li key={x.slug}>
                   <Link href={`${DOSSIER}/projets/${x.slug}`} className="group grid grid-cols-[5.5rem_1fr_auto] items-center gap-5 py-5">
-                    <span className="block overflow-hidden rounded-xl bg-[#E8DCC6]">
+                    <span className="block overflow-hidden rounded-xl bg-[#DEDBD3]">
                       <Maison modele={x.modele} apres className="block h-auto w-full" />
                     </span>
                     <span>

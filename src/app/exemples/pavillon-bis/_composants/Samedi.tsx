@@ -17,7 +17,7 @@ export default function Samedi() {
   const libres = HEURES.length - pris.length;
 
   return (
-    <div data-film="samedi" className="space-y-5 rounded-2xl border border-[var(--trait)] bg-[var(--carte)] p-5 shadow-[0_40px_90px_-50px_rgba(38,50,44,0.55)] sm:p-8">
+    <div data-film="samedi" className="space-y-5 rounded-2xl border border-[var(--trait)] bg-[var(--carte)] p-5 shadow-[0_40px_90px_-50px_rgba(21,24,28,0.45)] sm:p-8">
       <div className="flex items-baseline justify-between gap-4">
         <p className="text-[13px] font-medium uppercase tracking-[0.16em] text-[var(--doux)]">Les vrais créneaux</p>
         <p className="text-[13px] font-medium text-[var(--doux)]">{libres} libres</p>
@@ -50,9 +50,9 @@ export default function Samedi() {
               aria-pressed={choisi}
               data-film={`heure-${h.replace(/\s/g, "")}`}
               onClick={() => setHeure(h)}
-              className={`rounded-2xl border-2 px-2 py-3 text-center transition-all duration-300 ${occupe ? "border-transparent bg-[var(--fond)] text-[var(--doux)]" : choisi ? "scale-[1.04] border-[#A63F2A] bg-[#F6E2B8]" : "border-[var(--trait)] bg-[var(--carte)] hover:border-[var(--encre)]"}`}
+              className={`rounded-2xl border-2 px-2 py-3 text-center transition-all duration-300 ${occupe ? "border-transparent bg-[var(--fond)] text-[var(--doux)]" : choisi ? "scale-[1.04] border-[var(--accent)] bg-[#F7E3DD]" : "border-[var(--trait)] bg-[var(--carte)] hover:border-[var(--encre)]"}`}
             >
-              <span className={`block font-[family-name:var(--titres)] text-[21px] font-normal tabular-nums ${occupe ? "line-through decoration-1" : ""}`}>{h}</span>
+              <span className={`block font-[family-name:var(--titres)] text-[21px] font-medium tracking-[-0.03em] tabular-nums ${occupe ? "line-through decoration-1" : ""}`}>{h}</span>
               <span className={`mt-1 inline-block rounded-full px-2 py-0.5 text-[12px] font-medium ${occupe ? "bg-[var(--doux)] text-[var(--carte)]" : "bg-[var(--accent)] text-[var(--sur-accent)]"}`}>
                 {occupe ? "Réservé" : "Libre"}
               </span>
@@ -67,7 +67,7 @@ export default function Samedi() {
 
       <div data-film="reservation" className="space-y-4 rounded-2xl bg-[var(--fond)] p-5 sm:p-6">
         <p className="text-[13px] font-medium uppercase tracking-[0.16em] text-[var(--accent-texte)]">{samedi.libelle} · matin</p>
-        <p className="font-[family-name:var(--titres)] text-[28px] font-normal leading-tight">Trente minutes pour ton projet</p>
+        <p className="font-[family-name:var(--titres)] text-[28px] font-medium leading-tight tracking-[-0.035em]">Trente minutes pour ton projet</p>
         <p className="text-[var(--doux)]">
           {heure ? `${heure} · ` : "Choisis une heure · "}
           {lieu === "agence" ? "à l'agence" : "en visio"} · {agence.prixSamedi}, exemple
@@ -80,7 +80,7 @@ export default function Samedi() {
           ))}
         </div>
         {reserve ? (
-          <div role="status" className="space-y-1 rounded-2xl border-2 border-[#A63F2A] bg-[var(--carte)] p-4">
+          <div role="status" className="space-y-1 rounded-2xl border-2 border-[var(--accent)] bg-[var(--carte)] p-4">
             <p className="text-lg font-medium">Réservé : samedi, {heure}</p>
             <p className="text-[14px] text-[var(--doux)]">Démonstration : rien n&apos;est envoyé, rien n&apos;est enregistré.</p>
             <button type="button" onClick={() => { setReserve(false); setHeure(null); }} className="pt-1 text-[14px] font-medium underline underline-offset-4">

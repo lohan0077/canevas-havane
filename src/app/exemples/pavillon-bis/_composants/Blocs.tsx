@@ -4,18 +4,29 @@ import Apparition from "../../_kit/Apparition";
 import TitreRevele from "../../_kit/TitreRevele";
 import { DOSSIER, agence } from "./donnees";
 
-/** Les classes d'un mot en relief dans un titre : l'italique de Fraunces, en brique ou en ocre. */
-export const ACCENT_CLAIR = "italic font-normal text-[var(--accent-texte)]";
-export const ACCENT_SOMBRE = "italic font-normal text-[var(--accent)]";
+/**
+ * Les classes d'un mot en relief dans un titre : l'italique d'Instrument Serif, la voix
+ * de la « deuxième version », en vermillon foncé (sur fond clair) ou en vermillon clair (sur
+ * l'anthracite). Un peu plus grand que la grotesque, dont l'œil est plus haut.
+ */
+export const ACCENT_CLAIR = "font-[family-name:var(--serif)] italic font-normal tracking-[-0.01em] text-[1.08em] leading-[0.9] text-[var(--accent-texte)]";
+export const ACCENT_SOMBRE = "font-[family-name:var(--serif)] italic font-normal tracking-[-0.01em] text-[1.08em] leading-[0.9] text-[var(--accent-clair)]";
 
-/** Le monogramme : un « B » dans une arche ocre, et le nom en Outfit (la Futura de la marque). */
+/**
+ * La marque : un pignon dessiné en deux moitiés — à gauche le trait de la maison d'hier,
+ * à droite l'aplat vermillon de sa deuxième version — et le nom, « bis » en italique.
+ */
 export function Marque() {
   return (
     <span className="flex items-center gap-2.5">
-      <span aria-hidden="true" className="grid h-9 w-8 place-items-center rounded-t-full rounded-b-md bg-[var(--accent)] pt-1 font-[family-name:var(--texte)] text-[18px] font-medium text-[var(--sur-accent)]">
-        B
+      <svg aria-hidden="true" viewBox="0 0 28 28" className="h-8 w-8 shrink-0">
+        <path d="M14 3 L3 12 V25 H14 Z" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+        <path d="M14 3 L25 12 V25 H14 Z" fill="var(--accent)" />
+        <path d="M14 3 V25" stroke="currentColor" strokeWidth="1.8" />
+      </svg>
+      <span className="whitespace-nowrap font-[family-name:var(--texte)] text-[19px] font-semibold tracking-[-0.03em]">
+        Pavillon <span className="font-[family-name:var(--serif)] text-[1.15em] font-normal italic tracking-normal">bis</span>
       </span>
-      <span className="whitespace-nowrap font-[family-name:var(--texte)] text-[19px] font-medium tracking-[-0.01em]">Pavillon Bis</span>
     </span>
   );
 }
@@ -29,7 +40,7 @@ export function Surtitre({ children, clair = false }: { children: React.ReactNod
   );
 }
 
-/** Le titre d'un écran, révélé mot à mot, en Fraunces de graisse normale. */
+/** Le titre d'un écran, révélé mot à mot : Archivo serrée, l'italique pour ce qui change. */
 export function Titre({
   texte,
   clair = false,
@@ -52,13 +63,13 @@ export function Titre({
     <TitreRevele
       as={as}
       texte={texte}
-      className={`font-[family-name:var(--titres)] font-normal tracking-[-0.02em] text-balance ${tailles} ${className}`}
+      className={`font-[family-name:var(--titres)] font-medium tracking-[-0.04em] text-balance ${tailles} ${className}`}
       classeAccent={clair ? ACCENT_SOMBRE : ACCENT_CLAIR}
     />
   );
 }
 
-/** Un bouton-lien en pilule ; la flèche avance au survol. Un plein (l'ocre), un en contour fin. */
+/** Un bouton-lien en pilule ; la flèche avance au survol. Un plein (le vermillon), un en contour fin. */
 export function Bouton({
   href,
   children,
@@ -77,7 +88,7 @@ export function Bouton({
   return (
     <Link
       href={href}
-      className={`group inline-flex h-12 items-center gap-3 rounded-full px-6 font-[family-name:var(--texte)] text-[15px] font-medium transition-colors ${styles}`}
+      className={`group inline-flex h-12 items-center gap-3 rounded-full px-6 font-[family-name:var(--texte)] text-[15px] font-semibold transition-colors ${styles}`}
     >
       {children}
       <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -86,8 +97,8 @@ export function Bouton({
 }
 
 /**
- * Le haut de chaque page intérieure : sapin, comme l'accueil (l'en-tête flottant
- * l'attend), une photo sous un voile si on en donne une, et un titre fin.
+ * Le haut de chaque page intérieure : anthracite, comme l'accueil (l'en-tête flottant
+ * l'attend), une photo sous un voile si on en donne une, et un titre serré.
  */
 export function EnTetePage({
   surtitre,
@@ -107,7 +118,7 @@ export function EnTetePage({
       {photo && (
         <>
           <Image src={photo.src} alt="" fill priority sizes="100vw" className="object-cover opacity-45" />
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(38,50,44,0.55)_0%,rgba(38,50,44,0.75)_55%,rgba(38,50,44,0.96)_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(21,24,28,0.6)_0%,rgba(21,24,28,0.78)_55%,rgba(21,24,28,0.96)_100%)]" />
         </>
       )}
       <div className="relative mx-auto flex w-full max-w-6xl flex-1 flex-col justify-end gap-7 px-6 pb-14 pt-36 md:pb-20">
@@ -116,7 +127,7 @@ export function EnTetePage({
           as="h1"
           auChargement
           texte={titre}
-          className="max-w-4xl font-[family-name:var(--titres)] text-[clamp(2.75rem,6vw,5.25rem)] font-normal leading-[1] tracking-[-0.02em] text-balance"
+          className="max-w-4xl font-[family-name:var(--titres)] text-[clamp(2.75rem,6vw,5.25rem)] font-medium leading-[0.98] tracking-[-0.045em] text-balance"
           classeAccent={ACCENT_SOMBRE}
         />
         {children && (

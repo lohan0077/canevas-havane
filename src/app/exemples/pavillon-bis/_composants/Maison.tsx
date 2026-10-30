@@ -10,7 +10,7 @@ const C = {
   toit: "#B24A2E",
   crepi: "#F1E6CF",
   volet: "#6B4A2F",
-  trait: "#26322C",
+  trait: "#1B1F24",
   bois: "#C98F3A",
   boisFonce: "#A9762C",
   vitre: "#A9CBD0",
@@ -18,7 +18,7 @@ const C = {
   herbe: "#7C9A6B",
   haie: "#4F6B4A",
   garage: "#B9AC93",
-  soleil: "#E3B04B",
+  soleil: "#F2A896",
 };
 
 function Fenetre({ x, y, l = 22, h = 18, volets = true, vitre = C.vitre }: { x: number; y: number; l?: number; h?: number; volets?: boolean; vitre?: string }) {
@@ -47,7 +47,7 @@ function Bardage({ x, y, l, h }: { x: number; y: number; l: number; h: number })
 function Decor() {
   return (
     <g>
-      <circle cx="152" cy="34" r="22" fill={C.soleil} opacity="0.9" />
+      <circle cx="152" cy="34" r="22" fill={C.soleil} opacity="0.55" />
       <rect x="0" y="116" width="200" height="14" fill={C.herbe} />
       <rect x="2" y="104" width="26" height="12" rx="6" fill={C.haie} />
       <rect x="176" y="106" width="22" height="10" rx="5" fill={C.haie} />

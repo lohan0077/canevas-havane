@@ -47,7 +47,7 @@ export default function TaMaison() {
   const etape = ajout > 0 ? 3 : choix ? 2 : 1;
 
   return (
-    <div data-film="application" className="overflow-hidden rounded-2xl border border-[var(--trait)] bg-[var(--carte)] shadow-[0_30px_70px_-50px_rgba(38,50,44,0.5)]">
+    <div data-film="application" className="overflow-hidden rounded-2xl border border-[var(--trait)] bg-[var(--carte)] shadow-[0_30px_70px_-50px_rgba(21,24,28,0.45)]">
       {/* La barre de l'application : son nom, et les trois temps. */}
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--trait)] px-5 py-4 sm:px-8">
         <p className="font-[family-name:var(--texte)] text-[15px] font-medium">Ta maison, deuxième version</p>
@@ -66,8 +66,8 @@ export default function TaMaison() {
       <div className="grid lg:grid-cols-[1.08fr_0.92fr]">
         {/* 1. Ta maison ressemble à laquelle ? */}
         <div className="space-y-5 p-5 sm:p-8 lg:border-r lg:border-[var(--trait)]">
-          <p className="font-[family-name:var(--titres)] text-[clamp(1.7rem,3vw,2.3rem)] font-normal leading-[1.05] tracking-[-0.02em]">
-            Ta maison ressemble à <em className="font-normal text-[var(--accent-texte)]">laquelle&nbsp;?</em>
+          <p className="font-[family-name:var(--titres)] text-[clamp(1.7rem,3vw,2.3rem)] font-medium leading-[1.05] tracking-[-0.035em]">
+            Ta maison ressemble à <em className="font-[family-name:var(--serif)] text-[1.08em] font-normal tracking-normal text-[var(--accent-texte)]">laquelle&nbsp;?</em>
           </p>
           <div role="radiogroup" aria-label="Ta maison" data-film="modeles" className="grid grid-cols-3 gap-2.5">
             {PROJETS.map((p) => {
@@ -81,7 +81,7 @@ export default function TaMaison() {
                   data-film={`modele-${p.modele}`}
                   onClick={() => choisir(p.modele)}
                   className={`group rounded-2xl border-2 p-2 pb-3 text-center transition-all duration-300 ${
-                    actif ? "-translate-y-1 border-[var(--encre)] bg-[var(--fond)] shadow-[0_8px_0_#E3B04B]" : "border-[var(--trait)] bg-[var(--fond)] hover:-translate-y-0.5 hover:border-[var(--encre)]"
+                    actif ? "-translate-y-1 border-[var(--encre)] bg-[var(--fond)] shadow-[0_8px_0_var(--accent)]" : "border-[var(--trait)] bg-[var(--fond)] hover:-translate-y-0.5 hover:border-[var(--encre)]"
                   }`}
                 >
                   <Maison modele={p.modele} className="block h-auto w-full" />
@@ -94,10 +94,10 @@ export default function TaMaison() {
 
           {projet ? (
             <figure key={projet.modele} data-film="avant-apres" className="space-y-3">
-              <div className="relative overflow-hidden rounded-2xl border-2 border-[var(--encre)] bg-[#E8DCC6]">
+              <div className="relative overflow-hidden rounded-2xl border-2 border-[var(--encre)] bg-[#DEDBD3]">
                 <Maison modele={projet.modele} decor className="block h-auto w-full" libelle={`Avant, ${projet.annee} : ${projet.avant}`} />
                 {/* Le rideau : l'après recouvre l'avant jusqu'à la ligne. */}
-                <div className={`absolute inset-0 bg-[#F6E2B8] ${balayage ? "transition-[clip-path] duration-[1500ms] ease-[cubic-bezier(0.65,0,0.25,1)]" : ""}`} style={{ clipPath: `inset(0 0 0 ${rideau}%)` }}>
+                <div className={`absolute inset-0 bg-[#F7E3DD] ${balayage ? "transition-[clip-path] duration-[1500ms] ease-[cubic-bezier(0.65,0,0.25,1)]" : ""}`} style={{ clipPath: `inset(0 0 0 ${rideau}%)` }}>
                   <Maison modele={projet.modele} apres decor className="block h-auto w-full" libelle={`Après : ${projet.apres}`} />
                 </div>
                 <span aria-hidden="true" className={`absolute inset-y-0 w-[3px] -translate-x-1/2 bg-[var(--encre)] ${balayage ? "transition-[left] duration-[1500ms] ease-[cubic-bezier(0.65,0,0.25,1)]" : ""}`} style={{ left: `${rideau}%` }}>
@@ -143,8 +143,8 @@ export default function TaMaison() {
 
         {/* 2 et 3. Tes mètres carrés, et la réponse. */}
         <div data-film="calcul" className="space-y-5 border-t border-[var(--trait)] p-5 sm:p-8 lg:border-t-0">
-          <p className="font-[family-name:var(--titres)] text-[clamp(1.7rem,3vw,2.3rem)] font-normal leading-[1.05] tracking-[-0.02em]">
-            Architecte <em className="font-normal text-[var(--accent-texte)]">ou pas&nbsp;?</em>
+          <p className="font-[family-name:var(--titres)] text-[clamp(1.7rem,3vw,2.3rem)] font-medium leading-[1.05] tracking-[-0.035em]">
+            Architecte <em className="font-[family-name:var(--serif)] text-[1.08em] font-normal tracking-normal text-[var(--accent-texte)]">ou pas&nbsp;?</em>
           </p>
           <div className="relative rounded-2xl bg-[var(--fond)] px-3 pt-3">
             <Elevation maison={maison} ajout={ajout} />
@@ -160,7 +160,7 @@ export default function TaMaison() {
           <Curseur etiquette="Tu agrandis de combien ?" valeur={ajout} min={0} max={MAX_AJOUT} pas={1} changer={setAjout} film="ajout" />
           <p className={`flex items-baseline justify-between rounded-2xl px-4 py-3 transition-colors duration-500 ${total > SEUIL ? "bg-[var(--sombre)] text-[var(--sur-sombre)]" : "bg-[var(--fond)]"}`}>
             <span className="font-medium">Au total</span>
-            <span data-film="total" className="font-[family-name:var(--titres)] text-[30px] font-normal tabular-nums">{total}&nbsp;m²</span>
+            <span data-film="total" className="font-[family-name:var(--titres)] text-[30px] font-medium tracking-[-0.03em] tabular-nums">{total}&nbsp;m²</span>
           </p>
           <Reponse maison={maison} ajout={ajout} />
           <p className="text-[13px] leading-relaxed text-[var(--doux)]">

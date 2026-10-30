@@ -4,11 +4,11 @@ import Link from "next/link";
 import { adressesDeLaPage } from "@/lib/seo";
 import Accordeon from "../_kit/Accordeon";
 import Apparition from "../_kit/Apparition";
-import TitreRevele from "../_kit/TitreRevele";
-import { ACCENT_SOMBRE, AppelFinal, Bouton, Surtitre, Titre } from "./_composants/Blocs";
+import { AppelFinal, Bouton, Surtitre, Titre } from "./_composants/Blocs";
+import Carrousel from "./_composants/Carrousel";
 import Maison from "./_composants/Maison";
 import TaMaison from "./_composants/TaMaison";
-import { DOSSIER, LOTISSEMENT, PROJETS, QUESTIONS, VISITE, agence, photos } from "./_composants/donnees";
+import { DOSSIER, LOTISSEMENT, PROJETS, QUESTIONS, VISITE, photos } from "./_composants/donnees";
 
 // L'accueil de Pavillon Bis, l'agence d'architecture des deux vidéos des architectes. Un
 // seul outil (« Remplir l'agenda » : « Sur l'accueil, un seul outil. Ta maison fait
@@ -16,7 +16,8 @@ import { DOSSIER, LOTISSEMENT, PROJETS, QUESTIONS, VISITE, agence, photos } from
 // la marque : « Ta maison ressemble à laquelle ? » — et montre ce qu'on a fait de la même.
 //
 // Version « carrée » (24/10/2026) : une idée par écran, sept écrans, une grille et une
-// échelle de texte communes. La règle des 150 m², la méthode et les honoraires vivent sur
+// échelle de texte communes. Depuis le 30/10/2026, le premier écran est la maquette 3D
+// des trois pavillons, où l'on entre voir l'avant et l'après (Carrousel.tsx). La règle des 150 m², la méthode et les honoraires vivent sur
 // la page du samedi ; le lotissement se joue sur la page du n° 14. Les éléments filmés
 // par les deux vidéos (data-film de l'outil) sont gardés.
 export const metadata: Metadata = {
@@ -44,28 +45,8 @@ function Intitule({ numero, surtitre, titre, texte, clair = false }: { numero: s
 export default function PavillonBis() {
   return (
     <main>
-      {/* ---------- Premier écran : le lotissement, plein cadre ---------- */}
-      <section className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
-        <Image src={photos.lotissement.src} alt={photos.lotissement.alt} fill priority sizes="100vw" className="object-cover object-[40%_60%]" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(38,50,44,0.6)_0%,rgba(38,50,44,0.25)_24%,rgba(38,50,44,0.7)_52%,rgba(38,50,44,0.95)_100%)]" />
-        <div className="relative mx-auto flex w-full max-w-6xl flex-1 flex-col justify-end gap-8 px-6 pb-14 pt-36 md:pb-20">
-          <Apparition><Surtitre clair>{agence.metier}</Surtitre></Apparition>
-          <TitreRevele
-            as="h1"
-            auChargement
-            texte="Ta maison, *deuxième version.*"
-            className="max-w-4xl font-[family-name:var(--titres)] text-[clamp(3.4rem,8vw,7.5rem)] font-normal leading-[0.95] tracking-[-0.03em] text-balance"
-            classeAccent={ACCENT_SOMBRE}
-          />
-          <Apparition as="p" delai={450} className="max-w-[26rem] text-lg leading-relaxed">
-            On ne fait que les pavillons des années 70. Le tien a déjà une jumelle qu&apos;on a transformée.
-          </Apparition>
-          <Apparition delai={650} className="flex flex-wrap gap-3">
-            <Bouton href={`${DOSSIER}#outil`}>Architecte ou pas&nbsp;?</Bouton>
-            <Bouton href={`${DOSSIER}/visite-du-14`} variante="contour">Samedi, le n°&nbsp;14</Bouton>
-          </Apparition>
-        </div>
-      </section>
+      {/* ---------- Premier écran : les trois pavillons, et l'on entre ---------- */}
+      <Carrousel />
 
       {/* ---------- 01. Le seul outil : ta maison, et architecte ou pas ---------- */}
       <section id="outil" className="scroll-mt-20">
@@ -84,7 +65,7 @@ export default function PavillonBis() {
       {/* ---------- Une phrase, une photo : pas du neuf ---------- */}
       <section className="relative isolate flex min-h-[88svh] items-end overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
         <Image src={photos.salon.src} alt="" fill sizes="100vw" className="object-cover object-[50%_60%] opacity-90" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(38,50,44,0.05)_0%,rgba(38,50,44,0.3)_45%,rgba(38,50,44,0.93)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(21,24,28,0.08)_0%,rgba(21,24,28,0.35)_45%,rgba(21,24,28,0.94)_100%)]" />
         <div className="relative mx-auto w-full max-w-6xl space-y-5 px-6 pb-16 md:pb-24">
           <Apparition><Surtitre clair>Pas du neuf</Surtitre></Apparition>
           <Titre texte="Pas de villa blanche sur un terrain vide : *les pavillons des années 70,* et rien d'autre." clair className="max-w-3xl" />
@@ -105,15 +86,15 @@ export default function PavillonBis() {
             {PROJETS.map((p, i) => (
               <Apparition as="li" key={p.slug} delai={i * 110}>
                 <Link href={`${DOSSIER}/projets/${p.slug}`} className="group grid grid-cols-[7.5rem_1fr] items-center gap-5 md:block md:space-y-5">
-                  <span className="block overflow-hidden rounded-xl bg-[#F6E2B8] md:rounded-2xl">
+                  <span className="block overflow-hidden rounded-xl bg-[#2C333B] md:rounded-2xl">
                     <Maison modele={p.modele} apres decor className="block h-auto w-full transition-transform duration-700 group-hover:scale-[1.03]" />
                   </span>
                   <span className="block space-y-2">
                     <span className="block text-[12px] font-medium uppercase tracking-[0.2em]">{p.nom} · {p.annee}</span>
-                    <span className="block font-[family-name:var(--titres)] text-[1.35rem] leading-[1.1] md:text-[1.75rem]">{p.titre}</span>
+                    <span className="block font-[family-name:var(--titres)] text-[1.35rem] font-medium leading-[1.08] tracking-[-0.03em] md:text-[1.75rem]">{p.titre}</span>
                     <span className="flex items-center justify-between gap-3 text-[15px]">
                       <span>{p.budget} · {p.duree}</span>
-                      <span aria-hidden="true" className="text-[var(--accent)] transition-transform group-hover:translate-x-1">→</span>
+                      <span aria-hidden="true" className="text-[var(--accent-clair)] transition-transform group-hover:translate-x-1">→</span>
                     </span>
                   </span>
                 </Link>
@@ -139,7 +120,7 @@ export default function PavillonBis() {
             </Apparition>
           </div>
           <Apparition delai={150}>
-            <ul aria-hidden="true" className="grid grid-cols-6 gap-2 rounded-2xl bg-[#CFDDBF] p-5 sm:p-7">
+            <ul aria-hidden="true" className="grid grid-cols-6 gap-2 rounded-2xl bg-[#DCE0DE] p-5 sm:p-7">
               {Array.from({ length: 24 }, (_, k) => (
                 <li key={k} className={k === 13 ? "relative z-10 scale-125 rounded-lg bg-[var(--carte)] p-0.5 shadow-lg" : "p-0.5"}>
                   <Maison modele="sous-sol" apres={k === 13} className="block h-auto w-full" />

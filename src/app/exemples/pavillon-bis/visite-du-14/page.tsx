@@ -69,13 +69,13 @@ export default function VisiteDu14() {
           <Apparition delai={150} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <figure className="space-y-2">
-                <div className="overflow-hidden rounded-2xl bg-[#E8DCC6]">
+                <div className="overflow-hidden rounded-2xl bg-[#DEDBD3]">
                   <Maison modele="sous-sol" decor className="block h-auto w-full" libelle="Les voisins : un pavillon de 1976 sur sous-sol, garage en bas" />
                 </div>
                 <figcaption className="text-[15px]">Les voisins</figcaption>
               </figure>
               <figure className="space-y-2">
-                <div className="overflow-hidden rounded-2xl bg-[#F6E2B8]">
+                <div className="overflow-hidden rounded-2xl bg-[#F7E3DD]">
                   <Maison modele="sous-sol" apres decor className="block h-auto w-full" libelle="Le n° 14 après : le sous-sol devenu séjour, une grande baie sur le jardin" />
                 </div>
                 <figcaption className="text-[15px]">Le n° 14</figcaption>
