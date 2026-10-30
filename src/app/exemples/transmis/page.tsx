@@ -5,9 +5,11 @@ import { adressesDeLaPage } from "@/lib/seo";
 import Accordeon from "../_kit/Accordeon";
 import Apparition from "../_kit/Apparition";
 import TitreRevele from "../_kit/TitreRevele";
-import { ACCENT_SOMBRE, AppelFinal, Bouton, CartesMenu, Intitule, Surtitre, Titre } from "./_composants/Blocs";
+import { ACCENT_SOMBRE, AppelFinal, Bouton, CartesMenu, Intitule, Surtitre, TEINTE, Titre } from "./_composants/Blocs";
+import CarrouselPlats from "./_composants/CarrouselPlats";
 import EnvoiRecette from "./_composants/EnvoiRecette";
 import Invites from "./_composants/Invites";
+import InvitesExpress from "./_composants/InvitesExpress";
 import { DOSSIER, ETAPES, MARIAGES, MENU_EXEMPLE, QUESTIONS, euros, photos, prixParPersonne } from "./_composants/donnees";
 
 // L'accueil de Transmis. « Créer une marque » : « Sur le site, un seul bouton : envoie ta
@@ -17,7 +19,9 @@ import { DOSSIER, ETAPES, MARIAGES, MENU_EXEMPLE, QUESTIONS, euros, photos, prix
 //
 // Version « carrée » (24/10/2026) : sept écrans, une idée par écran, une grille et une
 // échelle de texte communes. Le carnet d'essais, la carte de table, la dégustation et le
-// détail des prix vivent sur leurs pages.
+// détail des prix vivent sur leurs pages. Depuis le 30/10/2026, le premier écran est un
+// carrousel des plats de famille (CarrouselPlats) ; le titre, l'envoi de la recette et
+// « combien d'invités ? » restent posés dessus.
 export const metadata: Metadata = {
   title: "Transmis — traiteur, site de démonstration",
   description:
@@ -31,31 +35,27 @@ const PHOTOS_ETAPES = [photos.papier, photos.mains, photos.ragout, photos.poisso
 export default function Transmis() {
   return (
     <main>
-      {/* ---------- Premier écran : la page du cahier, plein cadre ---------- */}
-      <section className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
-        <Image src={photos.papier.src} alt="" fill priority sizes="100vw" className="object-cover object-[35%_50%] opacity-70" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(22,41,31,0.72)_0%,rgba(22,41,31,0.4)_40%,rgba(22,41,31,0.94)_100%)]" />
-        <div className="relative mx-auto flex w-full max-w-6xl flex-1 flex-col justify-end gap-8 px-6 pb-16 pt-36 md:pb-24">
-          <Apparition><Surtitre clair>Transmis · maison de traiteur</Surtitre></Apparition>
-          <TitreRevele
-            as="h1"
-            auChargement
-            texte="Le plat de ta grand-mère, *servi à 120.*"
-            className="max-w-5xl text-[clamp(3.25rem,8.5vw,7.5rem)] font-normal leading-[0.98] tracking-[-0.025em] text-balance"
-            classeAccent={ACCENT_SOMBRE}
-          />
-          <div className="grid gap-8 lg:grid-cols-[minmax(0,30rem)_auto] lg:items-end lg:justify-between">
-            <Apparition as="p" delai={450} className="text-lg leading-relaxed">
+      {/* ---------- Premier écran : les plats de famille, en carrousel ---------- */}
+      <CarrouselPlats
+        titre={
+          <div className="space-y-5 lg:space-y-7">
+            <Apparition><Surtitre clair>Transmis · maison de traiteur</Surtitre></Apparition>
+            <TitreRevele
+              as="h1"
+              auChargement
+              texte="Le plat de ta grand-mère, *servi à 120.*"
+              className="max-w-[7em] font-[family-name:var(--titres)] text-[clamp(2.3rem,9.8vw,5.6rem)] font-normal leading-[1] tracking-[-0.012em]"
+              classeAccent={ACCENT_SOMBRE}
+            />
+            <Apparition as="p" delai={450} className="hidden max-w-[30rem] text-lg leading-relaxed sm:block">
               Une recette, ça ne s&apos;achète pas : ça se transmet. Envoie la page du cahier, on la refait en cuisine, tu viens
               goûter, et le jour J, on la sert à tous tes invités.
             </Apparition>
-            <Apparition delai={650} className="flex flex-wrap gap-3">
-              <Bouton href={`${DOSSIER}#recette`}>Envoyer ma recette</Bouton>
-              <Bouton href={`${DOSSIER}#invites`} variante="contour">Combien d&apos;invités&nbsp;?</Bouton>
-            </Apparition>
           </div>
-        </div>
-      </section>
+        }
+        invites={<Apparition delai={650}><InvitesExpress /></Apparition>}
+        appel={<Apparition delai={750}><Bouton href={`${DOSSIER}#recette`} className="w-full justify-center gap-2 whitespace-nowrap px-4 sm:w-auto sm:gap-3 sm:px-6">Envoyer ma recette</Bouton></Apparition>}
+      />
 
       {/* ---------- 01. Un seul bouton : envoie ta recette ---------- */}
       <section id="recette" className="scroll-mt-24">
@@ -68,7 +68,7 @@ export default function Transmis() {
               guise de mesure. C&apos;est elle qu&apos;on veut.
             </Apparition>
           </div>
-          <Apparition delai={150} className="rounded-2xl border border-[var(--trait)] bg-[#F3EAD7] p-4 sm:p-6">
+          <Apparition delai={150} className={`rounded-2xl border border-[var(--trait)] ${TEINTE} p-4 sm:p-6`}>
             <EnvoiRecette />
           </Apparition>
         </div>
@@ -102,7 +102,7 @@ export default function Transmis() {
       {/* ---------- Une phrase, une photo : les dix secondes de silence ---------- */}
       <section id="silence" className="relative isolate flex min-h-[88svh] items-end overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
         <Image src={photos.sauce.src} alt="" fill sizes="100vw" className="object-cover object-[50%_22%] opacity-80" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(22,41,31,0.15)_0%,rgba(22,41,31,0.5)_42%,rgba(22,41,31,0.96)_78%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(31,16,25,0.15)_0%,rgba(31,16,25,0.5)_42%,rgba(31,16,25,0.96)_78%)]" />
         <div className="relative mx-auto w-full max-w-6xl space-y-5 px-6 pb-16 md:pb-24">
           <Apparition><Surtitre clair>Le jour J</Surtitre></Apparition>
           <Titre texte="On ne vend pas un repas. On vend *dix secondes de silence,* quand le plat de ta grand-mère arrive." clair className="max-w-3xl" />

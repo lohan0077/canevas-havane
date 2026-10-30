@@ -17,7 +17,7 @@ export default function MentionsLegales() {
       <MentionsDemonstration
         site="transmis"
         entreprise="Transmis"
-        polices="Playfair Display, Inter et Caveat"
+        polices="DM Serif Display, Outfit et Caveat"
         enPlus={
           <>
             <p>

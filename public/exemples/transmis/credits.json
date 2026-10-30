@@ -47,5 +47,40 @@
     "source": "Unsplash",
     "licence": "Licence Unsplash",
     "page": "https://unsplash.com/fr/photos/dessert-aux-fruits-rouges-a-lassiette-W7b8Sqb7PG8"
+  },
+  {
+    "fichier": "plat-pot-au-feu.webp",
+    "auteur": "Anat Landa",
+    "source": "Pexels",
+    "licence": "Licence Pexels",
+    "page": "https://www.pexels.com/photo/steaming-bowl-of-hearty-meat-and-potatoes-38431290/"
+  },
+  {
+    "fichier": "plat-blanquette.webp",
+    "auteur": "Valeria Boltneva",
+    "source": "Pexels",
+    "licence": "Licence Pexels",
+    "page": "https://www.pexels.com/photo/creamy-mushroom-and-bacon-soup-in-ceramic-bowl-29653180/"
+  },
+  {
+    "fichier": "plat-couscous.webp",
+    "auteur": "Layla Azeroual",
+    "source": "Pexels",
+    "licence": "Licence Pexels",
+    "page": "https://www.pexels.com/photo/delicious-moroccan-couscous-with-vegetables-and-meat-29594950/"
+  },
+  {
+    "fichier": "plat-basquaise.webp",
+    "auteur": "Amine İspir",
+    "source": "Pexels",
+    "licence": "Licence Pexels",
+    "page": "https://www.pexels.com/photo/delicious-dinner-with-meat-15597768/"
+  },
+  {
+    "fichier": "plat-tarte.webp",
+    "auteur": "Lucy Bryce",
+    "source": "Pexels",
+    "licence": "Licence Pexels",
+    "page": "https://www.pexels.com/photo/sweet-cake-with-apple-slices-20462704/"
   }
 ]

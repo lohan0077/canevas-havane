@@ -27,7 +27,7 @@ export default function Mariages() {
             <Apparition as="li" key={m.slug} delai={i * 110}>
               <Link href={`${DOSSIER}/mariages/${m.slug}`} className="group grid grid-cols-[96px_1fr] items-center gap-5 py-6 sm:grid-cols-[180px_1fr_auto] sm:gap-8">
                 <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-                  <Image src={m.photo.src} alt={m.photo.alt} fill sizes="180px" className="object-cover" />
+                  <Image src={m.photo.src} alt={m.photo.alt} fill sizes="180px" className="object-cover" style={{ objectPosition: m.photo.centre }} />
                 </div>
                 <div className="space-y-1.5">
                   <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">Mariage n° {m.numero} · {m.menu.saison.toLowerCase()}</p>

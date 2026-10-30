@@ -41,7 +41,7 @@ export default function Invites({ depart = 60 }: { depart?: number }) {
       </div>
 
       <div aria-live="polite" className="space-y-1 rounded-xl bg-[var(--sombre)] p-5 text-[var(--sur-sombre)]">
-        <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[#E9C46A]">Prix par personne · exemple</p>
+        <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[#E7A574]">Prix par personne · exemple</p>
         <p data-film="prix" className="font-[family-name:var(--titres)] text-[60px] leading-none tabular-nums">
           {euros(prix)} <span className="align-middle font-[family-name:var(--texte)] text-[18px]">TTC</span>
         </p>

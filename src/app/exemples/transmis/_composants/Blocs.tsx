@@ -4,16 +4,22 @@ import Apparition from "../../_kit/Apparition";
 import TitreRevele from "../../_kit/TitreRevele";
 import { DOSSIER, entreprise, type Menu, type Plat, type Photo, type Question } from "./donnees";
 
-/** Le mot en relief dans un titre : l'italique de Playfair, sauce tomate sur la crème, moutarde sur le vert. */
+/** Le mot en relief dans un titre : l'italique de DM Serif Display, cuivre foncé sur la porcelaine, cuivre clair sur l'aubergine. */
 export const ACCENT_CLAIR = "italic text-[var(--accent-texte)]";
-export const ACCENT_SOMBRE = "italic text-[#E9C46A]";
+export const ACCENT_SOMBRE = "italic text-[#E7A574]";
 
-/** Le nom : un « T » dans un rond de sauce tomate, et Transmis en italique. */
+/** La porcelaine teintée des encarts (la page du cahier, les rappels) : un rose à peine gris. */
+export const TEINTE = "bg-[#EEE6E6]";
+
+/** Le voile d'aubergine posé sur les photos, du haut vers le bas. */
+export const VOILE_HAUT_BAS = "bg-[linear-gradient(180deg,rgba(31,16,25,0.62)_0%,rgba(31,16,25,0.45)_40%,rgba(31,16,25,0.95)_100%)]";
+
+/** Le nom : un « T » de DM Serif dans un rond de cuivre, et Transmis en italique. */
 export function Marque() {
   return (
     <span className="flex items-center gap-2.5">
-      <span aria-hidden="true" className="grid h-9 w-9 place-items-center rounded-full bg-[var(--accent)] font-[family-name:var(--titres)] text-[20px] italic text-[var(--sur-accent)]">T</span>
-      <span className="whitespace-nowrap font-[family-name:var(--titres)] text-[22px] italic leading-none">Transmis</span>
+      <span aria-hidden="true" className="grid h-9 w-9 place-items-center rounded-full bg-[var(--accent)] pb-0.5 font-[family-name:var(--titres)] text-[21px] italic text-[var(--sur-accent)] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.18)]">T</span>
+      <span className="whitespace-nowrap font-[family-name:var(--titres)] text-[24px] italic leading-none">Transmis</span>
     </span>
   );
 }
@@ -27,14 +33,14 @@ export function Surtitre({ children, clair = false }: { children: React.ReactNod
   );
 }
 
-/** Un bouton-lien en pilule : plein (la sauce tomate) ou au trait fin. */
-export function Bouton({ href, children, variante = "plein" }: { href: string; children: React.ReactNode; variante?: "plein" | "contour" }) {
+/** Un bouton-lien en pilule : plein (le cuivre) ou au trait fin. */
+export function Bouton({ href, children, variante = "plein", className = "" }: { href: string; children: React.ReactNode; variante?: "plein" | "contour"; className?: string }) {
   const styles = {
     plein: "bg-[var(--accent)] text-[var(--sur-accent)]",
     contour: "border border-current/30 hover:bg-[color-mix(in_oklab,currentColor_8%,transparent)]",
   }[variante];
   return (
-    <Link href={href} className={`group inline-flex h-12 items-center gap-3 rounded-full px-6 text-[15px] font-medium transition-colors ${styles}`}>
+    <Link href={href} className={`group inline-flex h-12 items-center gap-3 rounded-full px-6 text-[15px] font-medium transition-colors ${styles} ${className}`}>
       {children}
       <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">→</span>
     </Link>
@@ -63,7 +69,7 @@ export function Titre({
     <TitreRevele
       as={as}
       texte={texte}
-      className={`font-[family-name:var(--titres)] font-normal tracking-[-0.02em] text-balance ${tailles} ${className}`}
+      className={`font-[family-name:var(--titres)] font-normal tracking-[-0.008em] text-balance ${tailles} ${className}`}
       classeAccent={clair ? ACCENT_SOMBRE : ACCENT_CLAIR}
     />
   );
@@ -88,7 +94,7 @@ export function Intitule({ numero, surtitre, titre, texte, clair = false }: { nu
 
 /**
  * Le haut de chaque page intérieure : sombre, comme l'accueil (l'en-tête flottant
- * l'attend), une photo sous un voile vert, un titre fin en très grand.
+ * l'attend), une photo sous un voile d'aubergine, un titre fin en très grand.
  */
 export function EnTetePage({
   surtitre,
@@ -96,7 +102,7 @@ export function EnTetePage({
   children,
   photo,
   niveau = "h1",
-  origine = "50% 50%",
+  origine,
 }: {
   surtitre: React.ReactNode;
   titre: string;
@@ -109,8 +115,8 @@ export function EnTetePage({
     <section className="relative isolate flex min-h-[64svh] flex-col overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
       {photo && (
         <>
-          <Image src={photo.src} alt="" fill priority sizes="100vw" className="object-cover opacity-60" style={{ objectPosition: origine }} />
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(22,41,31,0.6)_0%,rgba(22,41,31,0.45)_40%,rgba(22,41,31,0.94)_100%)]" />
+          <Image src={photo.src} alt="" fill preload loading="eager" sizes="100vw" className="object-cover opacity-60" style={{ objectPosition: origine ?? photo.centre ?? "50% 50%" }} />
+          <div className={`absolute inset-0 ${VOILE_HAUT_BAS}`} />
         </>
       )}
       <div className="relative mx-auto flex w-full max-w-6xl flex-1 flex-col justify-end gap-7 px-6 pb-14 pt-36 md:pb-20">
@@ -119,7 +125,7 @@ export function EnTetePage({
           as={niveau}
           auChargement
           texte={titre}
-          className="max-w-4xl font-[family-name:var(--titres)] text-[clamp(2.75rem,6vw,5.25rem)] font-normal leading-[1] tracking-[-0.02em] text-balance"
+          className="max-w-4xl font-[family-name:var(--titres)] text-[clamp(2.75rem,6vw,5.25rem)] font-normal leading-[1.02] tracking-[-0.01em] text-balance"
           classeAccent={ACCENT_SOMBRE}
         />
         {children && (
@@ -156,7 +162,7 @@ export function CartesMenu({ menu, empile = false }: { menu: Menu; empile?: bool
   return (
     <ol className={`grid gap-3 ${empile ? "" : "md:grid-cols-3"}`}>
       {plats.map(([titre, p, famille], i) => (
-        <Apparition as="li" key={titre} delai={i * 120} className={`flex flex-col gap-2 rounded-2xl border text-[var(--encre)] ${empile ? "p-5" : "p-6"} ${famille ? "border-[var(--accent)] bg-[#FFFCF3]" : "border-[var(--trait)] bg-[var(--carte)]"}`}>
+        <Apparition as="li" key={titre} delai={i * 120} className={`flex flex-col gap-2 rounded-2xl border text-[var(--encre)] ${empile ? "p-5" : "p-6"} ${famille ? "border-[var(--accent)] bg-[#FBF4F0]" : "border-[var(--trait)] bg-[var(--carte)]"}`}>
           <p className={`text-[12px] font-medium uppercase tracking-[0.2em] ${famille ? "text-[var(--accent-texte)]" : "text-[var(--doux)]"}`}>{titre}</p>
           <h3 className="font-[family-name:var(--titres)] text-[24px] font-normal leading-tight">{p.nom}</h3>
           <p className="leading-relaxed text-[var(--doux)]">{p.detail}</p>

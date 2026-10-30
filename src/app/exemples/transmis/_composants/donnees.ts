@@ -32,7 +32,8 @@ export const NAVIGATION = [
   { href: `${DOSSIER}/prix`, libelle: "Le prix" },
 ];
 
-export type Photo = { src: string; largeur: number; hauteur: number; alt: string };
+/** `centre` : le point à garder au cadrage quand la photo est rognée (object-position). */
+export type Photo = { src: string; largeur: number; hauteur: number; alt: string; centre?: string };
 
 export const photos = {
   papier: { src: `${DOSSIER}/papier.webp`, largeur: 1300, hauteur: 867, alt: "De vieilles pages écrites à la main, à l'encre, sur un papier jauni" },
@@ -42,6 +43,12 @@ export const photos = {
   artichaut: { src: `${DOSSIER}/artichaut.webp`, largeur: 1200, hauteur: 800, alt: "Une assiette blanche d'artichauts rôtis et d'herbes, vue de dessus sur un fond bleu nuit" },
   poisson: { src: `${DOSSIER}/poisson.webp`, largeur: 1000, hauteur: 1500, alt: "Un filet de bar à la peau dorée sur un velouté vert, des courgettes et des pommes grenaille" },
   framboises: { src: `${DOSSIER}/framboises.webp`, largeur: 1200, hauteur: 800, alt: "Un crémeux rose entouré de framboises et de miettes de crumble, sur une assiette blanche" },
+  // Les plats du premier écran : une seule campagne, lumière chaude, fonds sombres.
+  potAuFeu: { src: `${DOSSIER}/plat-pot-au-feu.webp`, largeur: 2000, hauteur: 3000, alt: "Deux mains tendent un bol fumant de bœuf mijoté, de carottes et de pommes de terre, sur un fond sombre", centre: "50% 58%" },
+  blanquette: { src: `${DOSSIER}/plat-blanquette.webp`, largeur: 2000, hauteur: 2998, alt: "Une cuillère soulève des morceaux nappés d'une sauce à la crème et des champignons, au-dessus d'un bol blanc" },
+  couscous: { src: `${DOSSIER}/plat-couscous.webp`, largeur: 1600, hauteur: 2844, alt: "Une assiette de couscous vue de près : semoule, pois chiches, carottes, courgettes, poivron et viande", centre: "50% 55%" },
+  basquaise: { src: `${DOSSIER}/plat-basquaise.webp`, largeur: 2400, hauteur: 2400, alt: "Du sel tombe en pluie sur une assiette de poulet aux poivrons rouges et aux oignons, dans la pénombre", centre: "50% 78%" },
+  tarte: { src: `${DOSSIER}/plat-tarte.webp`, largeur: 1600, hauteur: 2133, alt: "Une tarte fine aux pommes vue de dessus, les lamelles dorées posées en rosace" },
 } satisfies Record<string, Photo>;
 
 /** « 7 200 € » : espace fine insécable pour les milliers, insécable avant €. */
@@ -162,18 +169,68 @@ export type Mariage = {
 export const MARIAGES: Mariage[] = [
   {
     slug: "100-invites", numero: 12, invites: 100, menu: menu("juin", PLATS_DE_FAMILLE.basquaise), date: "samedi 19 juin 2027", lieu: "une grange, au bord d'une rivière",
-    titre: "100 invités, menu de juin", transmis: "Le poulet basquaise de Mamie Odette, écrit en 1975", photo: photos.framboises,
+    titre: "100 invités, menu de juin", transmis: "Le poulet basquaise de Mamie Odette, écrit en 1975", photo: photos.basquaise,
     recit: "Cent invités, une grange, et une demande : que les assiettes arrivent toutes ensemble. Vingt maîtres d'hôtel, un signal du chef, cent assiettes posées en même temps — et dix secondes de silence.",
   },
   {
     slug: "140-invites", numero: 14, invites: 140, menu: menu("septembre", PLATS_DE_FAMILLE.couscous), date: "samedi 18 septembre 2027", lieu: "un jardin, sous une tente",
-    titre: "140 invités, menu de septembre", transmis: "Le couscous de Baba Saïd, roulé à la main depuis 1971", photo: photos.poisson,
+    titre: "140 invités, menu de septembre", transmis: "Le couscous de Baba Saïd, roulé à la main depuis 1971", photo: photos.couscous,
     recit: "Un mariage de fin d'été, sous une tente. La semoule roulée la veille, le bouillon servi à part, comme chez Baba Saïd.",
   },
   {
     slug: "60-invites", numero: 15, invites: 60, menu: menu("octobre", PLATS_DE_FAMILLE.potaufeu), date: "samedi 9 octobre 2027", lieu: "une salle de village",
-    titre: "60 invités, menu d'octobre", transmis: "Le pot-au-feu de Pépé Marcel, depuis 1958", photo: photos.artichaut,
+    titre: "60 invités, menu d'octobre", transmis: "Le pot-au-feu de Pépé Marcel, depuis 1958", photo: photos.potAuFeu,
     recit: "Soixante invités, une seule grande table. Le pot-au-feu servi à l'assiette, la moutarde sur la table, la tarte découpée devant tout le monde.",
+  },
+];
+
+// ---------- Le carrousel du premier écran ----------
+
+export type PlatCarrousel = {
+  id: string;
+  nom: string;
+  court: string;      // le nom sous la vignette, sur ordinateur
+  carte: string;      // le menu où le site le sert
+  legende: string;    // une phrase : la recette de famille, servie à beaucoup
+  lien: string;       // la partie du site qui en parle
+  libelleLien: string;
+  photo: Photo;
+  tel: string;        // cadrage sur téléphone (object-position)
+  monteTel?: string;  // sur téléphone, la photo s'agrandit vers le haut d'autant : pour remonter un plat posé trop bas
+  monteOrdi?: string; // la même chose sur ordinateur
+  ordi: string;       // cadrage sur ordinateur
+};
+
+/**
+ * Les plats que le site sert déjà, dans ses menus et ses pages de mariage. Les années et
+ * les détails viennent des recettes et des menus ci-dessus : rien de nouveau n'est
+ * affirmé ici.
+ */
+export const PLATS_CARROUSEL: PlatCarrousel[] = [
+  {
+    id: "pot-au-feu", nom: PLATS_DE_FAMILLE.potaufeu.nom, court: "Pot-au-feu", carte: "Menu d'octobre",
+    legende: "La recette de Pépé Marcel, depuis 1958, servie à l'assiette à toute la tablée.",
+    lien: `${DOSSIER}/mariages/60-invites`, libelleLien: "Voir ce mariage", photo: photos.potAuFeu, tel: "50% 50%", ordi: "50% 88%",
+  },
+  {
+    id: "blanquette", nom: PLATS_DE_FAMILLE.blanquette.nom, court: "Blanquette", carte: "Menu de juin",
+    legende: "La page de Mamie Jo, refaite en cuisine jusqu'à ce qu'elle dise « c'est ça ».",
+    lien: `${DOSSIER}/de-la-recette-a-la-table`, libelleLien: "Le carnet d'essais", photo: photos.blanquette, tel: "40% 30%", ordi: "45% 48%",
+  },
+  {
+    id: "couscous", nom: PLATS_DE_FAMILLE.couscous.nom, court: "Couscous", carte: "Menu de septembre",
+    legende: "La semoule roulée à la main, comme chez Baba Saïd. Le bouillon servi à part.",
+    lien: `${DOSSIER}/mariages/140-invites`, libelleLien: "Voir ce mariage", photo: photos.couscous, tel: "50% 45%", ordi: "50% 50%",
+  },
+  {
+    id: "basquaise", nom: PLATS_DE_FAMILLE.basquaise.nom, court: "Basquaise", carte: "Menu de juin",
+    legende: "La recette de Mamie Odette, écrite en 1975 : poivrons, tomates, piment doux.",
+    lien: `${DOSSIER}/mariages/100-invites`, libelleLien: "Voir ce mariage", photo: photos.basquaise, tel: "50% 80%", ordi: "50% 75%", monteTel: "35%", monteOrdi: "60%",
+  },
+  {
+    id: "tarte", nom: "La tarte fine aux pommes", court: "Tarte fine", carte: "Menu d'octobre · dessert",
+    legende: "Pâte feuilletée, pommes du verger, caramel au beurre salé : découpée devant tout le monde.",
+    lien: `${DOSSIER}/mariages/60-invites#menu`, libelleLien: "Voir ce menu", photo: photos.tarte, tel: "50% 50%", ordi: "50% 50%",
   },
 ];
 
