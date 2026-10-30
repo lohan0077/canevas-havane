@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { Lisere, Surtitre, Titre } from "./Blocs";
+import { Lisere, Titre } from "./Blocs";
 import nuages from "./Ciel.module.css";
 import { DOSSIER } from "./donnees";
 import {
@@ -329,11 +329,10 @@ export default function Ouverture() {
       />
       <div className="mx-auto grid max-w-6xl gap-x-14 gap-y-6 px-5 pb-14 pt-[5.5rem] [grid-template-areas:'texte'_'cadran'_'appel'] sm:px-6 lg:min-h-[calc(100svh-5rem)] lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:content-center lg:gap-y-10 lg:pb-16 lg:pt-28 lg:[grid-template-areas:'texte_cadran'_'appel_cadran']">
         <div className="space-y-4 [grid-area:texte] lg:space-y-7 lg:self-end">
-          <div className="hidden sm:block">
-            <Surtitre>Pompes à chaleur et solaire · Exemple-Ville</Surtitre>
-          </div>
-          <Titre as="h1" id="ouverture-titre" texte="L'Heure *Dite.*" taille="geant" auChargement />
+          <Titre as="h1" id="ouverture-titre" texte="L'Heure Dite." taille="geant" />
           <p className="max-w-[27rem] text-[15px] leading-relaxed text-[var(--doux)] sm:text-lg">
+            {/* Le métier, dit dans la phrase ; sur téléphone, le premier écran garde sa place pour le cadran. */}
+            <span className="hidden sm:inline">Pompes à chaleur et panneaux solaires, à Exemple-Ville. </span>
             Tu choisis l&apos;heure de l&apos;appel, on appelle à cette heure-là. Et ton toit, lui, te dit l&apos;heure de la machine.
           </p>
         </div>
@@ -403,7 +402,7 @@ export default function Ouverture() {
                 <div className="col-span-2 row-start-2 min-w-0 space-y-1.5 sm:col-span-1 sm:col-start-2 sm:row-start-1">
                   <Jauge n={prod} />
                   <p className="text-[13px] leading-snug text-[var(--doux)] sm:text-sm">
-                    Exemple · ton toit donne <strong className="font-semibold text-[var(--encre)]">{mots}</strong>
+                    Exemple : ton toit donne <strong className="font-semibold text-[var(--encre)]">{mots}</strong>
                   </p>
                 </div>
                 <div className="flex shrink-0 gap-1.5 sm:col-start-3 sm:row-start-1">
@@ -417,12 +416,11 @@ export default function Ouverture() {
               </div>
               <Link
                 href={`${DOSSIER}/rendez-vous#appel-${appel.id}`}
-                className="group mt-4 flex h-12 items-center justify-between gap-3 rounded-full bg-[var(--accent)] pl-5 pr-2 text-[15px] font-semibold text-[var(--sur-accent)] transition-transform active:scale-[0.99]"
+                className="mt-4 flex h-12 items-center justify-center rounded-full bg-[var(--accent)] px-5 text-[15px] font-semibold text-[var(--sur-accent)] transition-transform active:scale-[0.99]"
               >
                 <span>
                   Être appelé à <span className="tabular-nums">{appel.libelle}</span>
                 </span>
-                <span aria-hidden="true" className="grid h-9 w-9 place-items-center rounded-full bg-white/15 transition-transform duration-300 group-hover:translate-x-0.5">→</span>
               </Link>
               <p className="mt-2.5 text-[12px] leading-snug text-[var(--doux)]">
                 Toit plein sud, en été : lance la machine vers {enHeure(HEURE_MACHINE)}. Forme indicative, pas une mesure.
@@ -433,7 +431,8 @@ export default function Ouverture() {
 
         {/* ---------- Les heures d'appel : un toucher, et l'aiguille y va ---------- */}
         <div className="space-y-3 [grid-area:appel] lg:self-start">
-          <p className="flex items-center gap-2 text-[12px] font-medium uppercase tracking-[0.18em] text-[var(--doux)]">
+          {/* La légende des points verts du cadran : ce sont nos heures d'appel. */}
+          <p className="flex items-center gap-2 text-[15px] font-medium">
             <span aria-hidden="true" className="h-2.5 w-2.5 rounded-full border-2 border-[var(--carte)] bg-[var(--accent)] ring-1 ring-[var(--accent)]" />
             Nos heures d&apos;appel
           </p>

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Curseur, Elevation, MAX_AJOUT, MAX_MAISON, Reponse } from "./Calcul";
+import { APRES } from "./Blocs";
 import Maison from "./Maison";
 import { DOSSIER, PROJETS, SEUIL, projetDe, type Modele } from "./donnees";
 
@@ -67,7 +68,7 @@ export default function TaMaison() {
         {/* 1. Ta maison ressemble à laquelle ? */}
         <div className="space-y-5 p-5 sm:p-8 lg:border-r lg:border-[var(--trait)]">
           <p className="font-[family-name:var(--titres)] text-[clamp(1.7rem,3vw,2.3rem)] font-medium leading-[1.05] tracking-[-0.035em]">
-            Ta maison ressemble à <em className="font-[family-name:var(--serif)] text-[1.08em] font-normal tracking-normal text-[var(--accent-texte)]">laquelle&nbsp;?</em>
+            Ta maison ressemble à laquelle&nbsp;?
           </p>
           <div role="radiogroup" aria-label="Ta maison" data-film="modeles" className="grid grid-cols-3 gap-2.5">
             {PROJETS.map((p) => {
@@ -103,7 +104,7 @@ export default function TaMaison() {
                 <span aria-hidden="true" className={`absolute inset-y-0 w-[3px] -translate-x-1/2 bg-[var(--encre)] ${balayage ? "transition-[left] duration-[1500ms] ease-[cubic-bezier(0.65,0,0.25,1)]" : ""}`} style={{ left: `${rideau}%` }}>
                   <span className="absolute left-1/2 top-1/2 grid h-9 w-9 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-[var(--encre)] text-[14px] text-[var(--fond)]">↔</span>
                 </span>
-                <span className="absolute left-3 top-3 rounded-full bg-[var(--sombre)] px-3 py-1 text-[12px] font-medium text-[var(--sur-sombre)]">Avant · {projet.annee}</span>
+                <span className="absolute left-3 top-3 rounded-full bg-[var(--sombre)] px-3 py-1 text-[12px] font-medium text-[var(--sur-sombre)]">Avant, {projet.annee}</span>
                 <span className="absolute right-3 top-3 rounded-full bg-[var(--accent)] px-3 py-1 text-[12px] font-medium text-[var(--sur-accent)]">Après</span>
                 <input
                   type="range"
@@ -117,20 +118,20 @@ export default function TaMaison() {
               </div>
               <figcaption className="grid gap-3 sm:grid-cols-2">
                 <span className="block rounded-2xl bg-[var(--fond)] px-4 py-3">
-                  <span className="block text-[12px] font-medium uppercase tracking-[0.14em] text-[var(--accent-texte)]">Avant</span>
+                  <span className="block text-[15px] font-semibold text-[var(--doux)]">Avant</span>
                   <span className="block text-[15px] font-medium leading-snug">{projet.avant}</span>
                 </span>
                 <span className="block rounded-2xl bg-[var(--fond)] px-4 py-3">
-                  <span className="block text-[12px] font-medium uppercase tracking-[0.14em] text-[var(--accent-texte)]">Après</span>
+                  <span className={`block text-[18px] leading-tight text-[var(--accent-texte)] ${APRES}`}>Après</span>
                   <span className="block text-[15px] font-medium leading-snug">{projet.apres}</span>
                 </span>
               </figcaption>
               <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[var(--trait)] px-4 py-3">
                 <span className="text-[15px]">
-                  <strong className="font-medium">{projet.budget}</strong> · {projet.duree} · projet d&apos;exemple
+                  <strong className="font-medium">{projet.budget}</strong>, {projet.duree}, projet d&apos;exemple
                 </span>
                 <Link href={`${DOSSIER}/projets/${projet.slug}`} className="text-[15px] font-medium text-[var(--accent-texte)] underline-offset-4 hover:underline">
-                  La page du projet →
+                  Voir la page du projet
                 </Link>
               </div>
             </figure>
@@ -144,11 +145,11 @@ export default function TaMaison() {
         {/* 2 et 3. Tes mètres carrés, et la réponse. */}
         <div data-film="calcul" className="space-y-5 border-t border-[var(--trait)] p-5 sm:p-8 lg:border-t-0">
           <p className="font-[family-name:var(--titres)] text-[clamp(1.7rem,3vw,2.3rem)] font-medium leading-[1.05] tracking-[-0.035em]">
-            Architecte <em className="font-[family-name:var(--serif)] text-[1.08em] font-normal tracking-normal text-[var(--accent-texte)]">ou pas&nbsp;?</em>
+            Architecte ou pas&nbsp;?
           </p>
           <div className="relative rounded-2xl bg-[var(--fond)] px-3 pt-3">
             <Elevation maison={maison} ajout={ajout} />
-            <p className="pointer-events-none absolute left-4 top-3 rounded-full bg-[var(--carte)] px-2.5 py-1 text-[12px] font-medium">Existant · {maison}&nbsp;m²</p>
+            <p className="pointer-events-none absolute left-4 top-3 rounded-full bg-[var(--carte)] px-2.5 py-1 text-[12px] font-medium">Existant : {maison}&nbsp;m²</p>
             {ajout > 0 && (
               <p className="pointer-events-none absolute right-4 top-3 rounded-full bg-[var(--accent)] px-2.5 py-1 text-[12px] font-medium text-[var(--sur-accent)]">+ {ajout}&nbsp;m²</p>
             )}

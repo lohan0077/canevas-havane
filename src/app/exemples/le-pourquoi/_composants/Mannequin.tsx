@@ -144,7 +144,7 @@ export default function Mannequin({ entete }: { entete: React.ReactNode }) {
         {/* Sous le mannequin, jamais par-dessus : la consigne et les deux boutons pour tourner
             (sur téléphone, ils sont au-dessus des zones). */}
         <div className="flex min-h-11 items-center justify-between gap-3 pt-1 max-lg:hidden">
-          <p className="text-[13px] font-medium text-[#B9C0E0]">{actif ? "Glissez pour tourner · touchez une zone" : "Touchez une zone"}</p>
+          <p className="text-[13px] font-medium text-[#B9C0E0]">{actif ? "Glissez pour tourner, touchez une zone." : "Touchez une zone."}</p>
           {actif && <BoutonsTourner pilote={pilote} />}
         </div>
       </div>
@@ -153,7 +153,7 @@ export default function Mannequin({ entete }: { entete: React.ReactNode }) {
       <div className="mt-6 space-y-6 lg:col-start-1 lg:row-start-2 lg:mt-12 lg:self-start xl:col-start-3 xl:row-start-1 xl:mt-0 xl:self-center">
         <div className="space-y-3">
           <div className="flex min-h-11 items-center justify-between gap-3">
-            <p id="lp-zones" className="text-[12px] font-semibold uppercase tracking-[0.2em]">Touchez une zone</p>
+            <p id="lp-zones" className="text-[15px] font-semibold">Touchez une zone</p>
             {/* Sur téléphone, les boutons pour tourner sont ici, au-dessus des zones. */}
             {actif && (
               <div className="lg:hidden">
@@ -193,14 +193,14 @@ export default function Mannequin({ entete }: { entete: React.ReactNode }) {
             </p>
             <div className="grid gap-5 sm:grid-cols-2 sm:gap-8 xl:grid-cols-1 xl:gap-5">
               <div className="space-y-2">
-                <p className="flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.18em] text-[#AEB8FF]">
+                <p className="flex items-center gap-2 text-[15px] font-semibold text-[#AEB8FF]">
                   <span aria-hidden="true" className="grid h-4 w-4 place-items-center rounded-full bg-[#AEB8FF] text-[10px] text-[var(--sombre)]">✓</span>
                   Ce que je fais
                 </p>
                 <p className="text-[16px] leading-relaxed">{zone.fais}</p>
               </div>
               <div className="space-y-2">
-                <p className="flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.18em] text-[#AEB8FF]">
+                <p className="flex items-center gap-2 text-[15px] font-semibold text-[#AEB8FF]">
                   <span aria-hidden="true" className="grid h-4 w-4 place-items-center rounded-full border border-[#AEB8FF] text-[9px]">✕</span>
                   Ce que je ne fais pas
                 </p>
@@ -208,9 +208,8 @@ export default function Mannequin({ entete }: { entete: React.ReactNode }) {
               </div>
             </div>
             <div className="flex flex-wrap items-baseline gap-x-5 gap-y-2 text-[15px]">
-              <Link href={zone.lien.href} className="group inline-flex items-baseline gap-2 font-semibold underline decoration-white/40 underline-offset-[5px] transition-colors hover:decoration-current">
+              <Link href={zone.lien.href} className="font-semibold underline decoration-white/40 underline-offset-[5px] transition-colors hover:decoration-current">
                 {zone.aVenir ? zone.lien.libelle : `Lire : ${zone.lien.libelle}`}
-                <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">→</span>
               </Link>
               {zone.aVenir && <span>{zone.aVenir}</span>}
             </div>

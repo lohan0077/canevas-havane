@@ -15,7 +15,7 @@ export default function Pied() {
           <p className="leading-relaxed">{agence.adresse}</p>
         </div>
         <div className="space-y-3">
-          <p className="text-[12px] font-medium uppercase tracking-[0.2em]">Le samedi</p>
+          <p className="font-[family-name:var(--titres)] text-lg font-medium tracking-[-0.03em]">Le samedi</p>
           <p className="leading-relaxed">Trente minutes, le premier samedi matin de chaque mois, à l&apos;agence ou en visio.</p>
           <p className="font-medium tabular-nums">{agence.telephone}</p>
         </div>

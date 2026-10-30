@@ -4,9 +4,8 @@ import Link from "next/link";
 import { adressesDeLaPage } from "@/lib/seo";
 import Accordeon from "../_kit/Accordeon";
 import Apparition from "../_kit/Apparition";
-import TitreRevele from "../_kit/TitreRevele";
 import Agenda from "./_composants/Agenda";
-import { ACCENT_SOMBRE, AppelFinal, Bouton, Intitule, Surtitre, Titre } from "./_composants/Blocs";
+import { AppelFinal, Bouton, Intitule, Titre } from "./_composants/Blocs";
 import ListeNon from "./_composants/ListeNon";
 import Mannequin from "./_composants/Mannequin";
 import { DOSSIER, cabinet, gestes, photos, questions, questionsHebdo, seanceAdulte } from "./_composants/donnees";
@@ -16,7 +15,8 @@ import { DOSSIER, cabinet, gestes, photos, questions, questionsHebdo, seanceAdul
 // l'agenda » : ce que je ne fais pas, le prix en gros, les créneaux de 7 h et de 20 h.
 //
 // Version « carrée » (24/10/2026) : une idée par écran, sept écrans, une grille et une
-// échelle de texte communes. Depuis le 30/10/2026, le premier écran est un mannequin de
+// échelle de texte communes. Passe « frontend-design » (30/10/2026) : ni numéros devant
+// des écrans qui ne se suivent pas, ni surtitres, ni mots en relief dans les titres. Depuis le 30/10/2026, le premier écran est un mannequin de
 // bois en 3D (_composants/Mannequin.tsx) : on touche une zone, la page répond. La séance pas à pas, les tarifs et toutes les questions
 // vivent sur /seance-et-prix. Les cibles filmées par les vidéos (#gestes h2,
 // [data-geste]) sont gardées ; les autres sont sur les pages intérieures. Aucune photo
@@ -40,47 +40,35 @@ export default function LePourquoi() {
         <Mannequin
           entete={
             <div className="space-y-4 sm:space-y-6">
-              <Apparition><Surtitre clair>{cabinet.titre} · {cabinet.ville}</Surtitre></Apparition>
-              <TitreRevele
-                as="h1"
-                auChargement
-                texte={"Pourquoi\u202f?"}
-                className="text-[clamp(4.25rem,12vw,8.75rem)] font-normal leading-[0.86] tracking-[-0.025em] xl:text-[6.75rem]"
-              />
-              <TitreRevele
-                as="p"
-                auChargement
-                delai={300}
-                texte="L'ostéopathie, *expliquée.* Chaque geste a sa page, ce que je ne fais pas est écrit, le prix est affiché."
-                className="max-w-[30rem] font-[family-name:var(--titres)] text-[clamp(1.2rem,2vw,1.6rem)] leading-[1.22] xl:text-[1.45rem]"
-                classeAccent={ACCENT_SOMBRE}
-              />
+              <h1 className="text-[clamp(4.25rem,12vw,8.75rem)] font-normal leading-[0.86] tracking-[-0.025em] xl:text-[6.75rem]">
+                Pourquoi ?
+              </h1>
+              <p className="max-w-[30rem] font-[family-name:var(--titres)] text-[clamp(1.2rem,2vw,1.6rem)] leading-[1.22] xl:text-[1.45rem]">
+                L&apos;ostéopathie, expliquée. Chaque geste a sa page, ce que je ne fais pas est écrit, le prix est affiché.
+              </p>
               <Apparition delai={600} className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-1">
                 <Bouton href={`${DOSSIER}/rendez-vous`} variante="clair">Prendre rendez-vous</Bouton>
                 {/* Sur téléphone, le mannequin passe d'abord : les gestes sont juste dessous. */}
                 <Link
                   href={`${DOSSIER}#gestes`}
-                  className="group inline-flex h-12 items-center gap-2 px-1 text-[15px] font-semibold underline decoration-white/40 underline-offset-[6px] transition-colors hover:decoration-current max-sm:hidden"
+                  className="inline-flex h-12 items-center px-1 text-[15px] font-semibold underline decoration-white/40 underline-offset-[6px] transition-colors hover:decoration-current max-sm:hidden"
                 >
                   Voir les gestes
-                  <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                 </Link>
               </Apparition>
               <Apparition as="p" delai={700} className="text-[13px] text-[#B9C0E0] sm:text-[14px]">
-                Séance adulte · {seanceAdulte.duree} · {seanceAdulte.prix} (prix d&apos;exemple) · dès 7 h
+                {cabinet.titre} à {cabinet.ville}. Séance adulte de {seanceAdulte.duree}, {seanceAdulte.prix} (prix d&apos;exemple), dès 7 h.
               </Apparition>
             </div>
           }
         />
       </section>
 
-      {/* ---------- 01. Les gestes : une page chacun, une question par semaine ---------- */}
+      {/* ---------- Les gestes : une page chacun, une question par semaine ---------- */}
       <section id="gestes" className="scroll-mt-24">
         <div className="mx-auto max-w-6xl space-y-14 px-6 py-28 md:py-40">
           <Intitule
-            numero="01"
-            surtitre="Les gestes"
-            titre="Chaque geste a *sa page.*"
+            titre="Chaque geste a sa page."
             texte="Ce que je fais, pourquoi, et ce que ça ne promet pas. Chaque semaine, une question de patient et sa réponse filmée — jamais un patient à l'image."
           />
           <ol className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
@@ -90,7 +78,7 @@ export default function LePourquoi() {
                 <>
                   <span className="text-[13px] tabular-nums text-[var(--doux)]">Semaine {q.n}</span>
                   <span className="font-[family-name:var(--titres)] text-[clamp(1.35rem,2.4vw,1.9rem)] leading-[1.2]">{q.q}</span>
-                  <span className="text-[13px] text-[var(--doux)] sm:text-right">{g ? "Lire la page →" : `À venir · ${q.date}`}</span>
+                  <span className={`text-[13px] sm:text-right ${g ? "font-semibold text-[var(--accent-texte)] underline-offset-4 group-hover:underline" : "text-[var(--doux)]"}`}>{g ? "Lire la page" : `À venir, le ${q.date}`}</span>
                 </>
               );
               return (
@@ -109,14 +97,12 @@ export default function LePourquoi() {
         </div>
       </section>
 
-      {/* ---------- 02. Ce que je ne fais pas ---------- */}
+      {/* ---------- Ce que je ne fais pas ---------- */}
       <section id="non" className="scroll-mt-24 bg-[var(--sombre)] text-[var(--sur-sombre)]">
         <div className="mx-auto max-w-6xl space-y-14 px-6 py-28 md:py-40">
           <Intitule
             clair
-            numero="02"
-            surtitre="Comme tout ostéopathe"
-            titre="Ce que je ne fais *pas.*"
+            titre="Ce que je ne fais pas, comme tout ostéopathe."
             texte="La page la plus importante du site. Une limite dite, c'est une surprise de moins — et c'est souvent ce qui décide à réserver."
           />
           <ListeNon />
@@ -130,18 +116,16 @@ export default function LePourquoi() {
           <Image src={photos.table.src} alt={photos.table.alt} fill sizes="(min-width: 1152px) 1104px, 100vw" className="object-cover object-[50%_62%]" />
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(11,16,56,0)_35%,rgba(11,16,56,0.9)_100%)]" />
           <div className="absolute inset-x-0 bottom-0 space-y-4 p-7 md:p-12">
-            <Apparition><Surtitre clair>Sur la table</Surtitre></Apparition>
-            <Titre texte="Vous avez le droit de demander *pourquoi.*" clair className="max-w-2xl" />
+            <Titre texte="Sur la table, vous avez le droit de demander pourquoi." className="max-w-2xl" />
           </div>
         </div>
       </section>
 
-      {/* ---------- 03. Le rendez-vous, et le prix ---------- */}
+      {/* ---------- Le rendez-vous, et le prix ---------- */}
       <section id="rendez-vous" className="scroll-mt-24">
         <div className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:py-40 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <div className="space-y-6 lg:sticky lg:top-28">
-            <Apparition><Surtitre>03 — Rendez-vous</Surtitre></Apparition>
-            <Titre texte="Le créneau, *avant ou après le travail.*" />
+            <Titre texte="Le créneau, avant ou après le travail." />
             <Apparition as="p" delai={150} className="max-w-[26rem] text-lg leading-relaxed text-[var(--doux)]">
               Dès 7 h et jusqu&apos;à 20 h 45, sans poser sa journée. Un nom et un téléphone : on ne
               vous demande pas pourquoi vous venez.
@@ -149,13 +133,13 @@ export default function LePourquoi() {
             <Apparition delai={250}>
               <dl className="grid grid-cols-2 gap-6 border-t border-[var(--trait)] pt-6">
               <div>
-                <dt className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">Séance adulte</dt>
-                <dd className="mt-2 font-[family-name:var(--titres)] text-4xl tabular-nums">{seanceAdulte.prix}</dd>
-                <dd className="text-[15px] text-[var(--doux)]">{seanceAdulte.duree} · prix d&apos;exemple</dd>
+                <dt className="text-[15px] font-semibold">Séance adulte</dt>
+                <dd className="mt-1 font-[family-name:var(--titres)] text-4xl tabular-nums">{seanceAdulte.prix}</dd>
+                <dd className="text-[15px] text-[var(--doux)]">{seanceAdulte.duree}, prix d&apos;exemple</dd>
               </div>
               <div>
-                <dt className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">À chaque séance</dt>
-                <dd className="mt-2 font-[family-name:var(--titres)] text-4xl">Facture</dd>
+                <dt className="text-[15px] font-semibold">À chaque séance</dt>
+                <dd className="mt-1 font-[family-name:var(--titres)] text-4xl">Facture</dd>
                 <dd className="text-[15px] text-[var(--doux)]">pour votre mutuelle</dd>
               </div>
               </dl>
@@ -170,16 +154,15 @@ export default function LePourquoi() {
         </div>
       </section>
 
-      {/* ---------- 04. Questions ---------- */}
+      {/* ---------- Questions ---------- */}
       <section id="questions" className="scroll-mt-24 bg-[var(--carte)]">
         <div className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:py-40 lg:grid-cols-[0.8fr_1.2fr]">
           <div className="space-y-6">
-            <Apparition><Surtitre>04 — Questions</Surtitre></Apparition>
-            <Titre texte="Ce qu'on me demande *le plus.*" />
+            <Titre texte="Ce qu'on me demande le plus." />
           </div>
           <Apparition delai={150} className="space-y-8">
             <Accordeon questions={QUESTIONS_ACCUEIL.map((q) => ({ question: q.q, reponse: q.r }))} />
-            <Bouton href={`${DOSSIER}/seance-et-prix#questions`} variante="contour">Toutes les questions</Bouton>
+            <Bouton href={`${DOSSIER}/seance-et-prix#questions`} variante="contour">Lire toutes les questions</Bouton>
           </Apparition>
         </div>
       </section>

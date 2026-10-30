@@ -17,7 +17,7 @@ export default function Pied() {
           </p>
         </div>
         <div className="space-y-3 text-[15px]">
-          <p className="text-[12px] font-medium uppercase tracking-[0.2em]">Nous joindre</p>
+          <p className="font-[family-name:var(--titres)] text-lg font-bold tracking-[-0.02em]">Nous joindre</p>
           <p className="font-medium tabular-nums">{entreprise.telephone}</p>
           <p>Du lundi au samedi, aux heures dites</p>
           <p>{entreprise.adresse}</p>

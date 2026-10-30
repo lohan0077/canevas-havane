@@ -14,7 +14,7 @@ export default function MentionsLegales() {
   return (
     <main>
       {/* Le haut sombre que l'en-tête attend ; le titre de la page est plus bas. */}
-      <EnTetePage surtitre="Mentions légales" titre="Un cabinet *fictif.*" titreBalise="p">
+      <EnTetePage titre="Un cabinet fictif." titreBalise="p">
         {cabinet.nom} n&apos;existe pas : la praticienne, l&apos;adresse, les prix et les créneaux
         sont inventés pour les vidéos de Canevas Havane.
       </EnTetePage>

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { adressesDeLaPage } from "@/lib/seo";
 import Accordeon from "../../_kit/Accordeon";
 import Apparition from "../../_kit/Apparition";
-import { Affiche, AppelFinal, Appli, EnTetePage, LaRegle, Surtitre, Titre } from "../_composants/Blocs";
+import { Affiche, AppelFinal, Appli, EnTetePage, LaRegle, Titre } from "../_composants/Blocs";
 import Creneau from "../_composants/Creneau";
 import { ETAPES, QUESTIONS, entreprise } from "../_composants/donnees";
 
@@ -35,7 +35,7 @@ const REGLES = [
 export default function RendezVous() {
   return (
     <main>
-      <EnTetePage surtitre="Ta demande de devis" titre={"Quand veux-tu *qu'on t'appelle ?*"}>
+      <EnTetePage titre={"Quand veux-tu qu'on t'appelle ?"}>
         Prends ton créneau, comme chez le coiffeur. On t&apos;appelle à ce moment-là, pas une minute avant, et seulement
         pour ton devis.
       </EnTetePage>
@@ -47,7 +47,7 @@ export default function RendezVous() {
           ))}
         </Apparition>
         <Apparition>
-          <Appli titre="Ton appel" note="exemple · rien n'est envoyé">
+          <Appli titre="Ton appel" note="exemple, rien n'est envoyé">
             <Creneau />
           </Appli>
         </Apparition>
@@ -57,18 +57,17 @@ export default function RendezVous() {
 
       <section className="mx-auto max-w-6xl space-y-14 px-6 py-28 md:py-40">
         <div className="space-y-5">
-          <Apparition><Surtitre>Pourquoi ces règles</Surtitre></Apparition>
-          <Titre texte="La loi fixe un cadre. *On choisit l'heure dedans.*" className="max-w-3xl" />
+          <Titre texte="La loi fixe un cadre. On choisit l'heure dedans." className="max-w-3xl" />
         </div>
-        <ol className="grid gap-10 md:grid-cols-3 md:gap-6">
-          {REGLES.map((r, i) => (
-            <Apparition as="li" key={r.titre} delai={i * 120} className="space-y-3 border-t border-[var(--trait)] pt-5">
-              <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">{String(i + 1).padStart(2, "0")}</p>
+        {/* Trois règles qui valent ensemble, pas une suite : pas de numéros. */}
+        <ul className="grid gap-10 md:grid-cols-3 md:gap-6">
+          {REGLES.map((r) => (
+            <li key={r.titre} className="space-y-3 border-t-2 border-[var(--encre)] pt-5">
               <h2 className="font-[family-name:var(--titres)] text-2xl font-bold tracking-[-0.025em]">{r.titre}</h2>
               <p className="leading-relaxed text-[var(--doux)]">{r.texte}</p>
-            </Apparition>
+            </li>
           ))}
-        </ol>
+        </ul>
         <p className="max-w-2xl text-[15px] leading-relaxed text-[var(--doux)]">
           Sur un vrai site, ta demande servirait seulement à t&apos;appeler, et sa trace serait gardée trois ans, comme
           l&apos;exige le code de la consommation. Ici, c&apos;est une démonstration : rien n&apos;est envoyé, rien n&apos;est enregistré.
@@ -83,13 +82,12 @@ export default function RendezVous() {
         <div className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:py-40 lg:grid-cols-2 lg:items-start">
           <div className="space-y-10">
             <div className="space-y-5">
-              <Apparition><Surtitre>Ensuite</Surtitre></Apparition>
-              <Titre texte="De l'heure dite *à ton premier midi.*" />
+              <Titre texte="De l'heure dite à ton premier midi." />
             </div>
             <ol className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
               {ETAPES.map((e) => (
                 <Apparition as="li" key={e.titre} className="grid gap-1 py-5 sm:grid-cols-[11rem_1fr] sm:gap-6">
-                  <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">{e.moment}</p>
+                  <p className="text-[15px] font-medium text-[var(--accent-texte)]">{e.moment}</p>
                   <div className="space-y-1">
                     <h3 className="font-[family-name:var(--titres)] text-xl font-bold tracking-[-0.025em]">{e.titre}</h3>
                     <p className="text-[15px] leading-relaxed text-[var(--doux)]">{e.texte}</p>
@@ -98,11 +96,9 @@ export default function RendezVous() {
               ))}
             </ol>
           </div>
-          <div className="space-y-6">
-            <Apparition><Surtitre>L&apos;affiche du lancement</Surtitre></Apparition>
-            <Apparition delai={150}>
-              <Affiche />
-            </Apparition>
+          <div className="space-y-4">
+            <Affiche />
+            <p className="mx-auto max-w-md text-[15px] text-[var(--doux)]">L&apos;affiche du lancement.</p>
           </div>
         </div>
       </section>

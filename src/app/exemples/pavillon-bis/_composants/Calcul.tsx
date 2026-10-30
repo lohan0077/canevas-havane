@@ -69,7 +69,7 @@ export function Reponse({ maison, ajout }: { maison: number; ajout: number }) {
         <div className="space-y-2 rounded-2xl bg-[var(--accent)] p-5 text-[var(--sur-accent)] sm:p-6">
           <p className="text-[14px] font-medium">Au-delà de {SEUIL}&nbsp;m², avec permis de construire</p>
           <p className="font-[family-name:var(--titres)] text-[clamp(2rem,4vw,2.6rem)] font-medium leading-[1.02] tracking-[-0.04em]">Architecte obligatoire</p>
-          <p className="text-[13px]">Code de l&apos;urbanisme, art. R431-2 · pour un particulier qui construit pour lui-même</p>
+          <p className="text-[13px]">Code de l&apos;urbanisme, art. R431-2, pour un particulier qui construit pour lui-même.</p>
         </div>
       )}
       {(v === "libre" || v === "declaration") && (

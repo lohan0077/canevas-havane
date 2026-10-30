@@ -19,7 +19,7 @@ export default function Samedi() {
   return (
     <div data-film="samedi" className="space-y-5 rounded-2xl border border-[var(--trait)] bg-[var(--carte)] p-5 shadow-[0_40px_90px_-50px_rgba(21,24,28,0.45)] sm:p-8">
       <div className="flex items-baseline justify-between gap-4">
-        <p className="text-[13px] font-medium uppercase tracking-[0.16em] text-[var(--doux)]">Les vrais créneaux</p>
+        <p className="font-[family-name:var(--titres)] text-[20px] font-medium tracking-[-0.03em]">Les vrais créneaux</p>
         <p className="text-[13px] font-medium text-[var(--doux)]">{libres} libres</p>
       </div>
       <div role="tablist" aria-label="Le samedi" className="grid grid-cols-2 gap-2">
@@ -66,11 +66,13 @@ export default function Samedi() {
       </p>
 
       <div data-film="reservation" className="space-y-4 rounded-2xl bg-[var(--fond)] p-5 sm:p-6">
-        <p className="text-[13px] font-medium uppercase tracking-[0.16em] text-[var(--accent-texte)]">{samedi.libelle} · matin</p>
+        <p className="text-[15px] font-semibold text-[var(--accent-texte)]">{samedi.libelle}, le matin</p>
         <p className="font-[family-name:var(--titres)] text-[28px] font-medium leading-tight tracking-[-0.035em]">Trente minutes pour ton projet</p>
         <p className="text-[var(--doux)]">
-          {heure ? `${heure} · ` : "Choisis une heure · "}
-          {lieu === "agence" ? "à l'agence" : "en visio"} · {agence.prixSamedi}, exemple
+          {heure
+            ? `${heure}, ${lieu === "agence" ? "à l'agence" : "en visio"}. `
+            : `Choisis une heure. ${lieu === "agence" ? "À l'agence" : "En visio"}, `}
+          {agence.prixSamedi} (exemple).
         </p>
         <div role="radiogroup" aria-label="Où" className="grid grid-cols-2 gap-2">
           {(["agence", "visio"] as const).map((l) => (

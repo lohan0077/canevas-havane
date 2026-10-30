@@ -12,12 +12,12 @@ export const cabinet = {
   nom: "Le Pourquoi",
   praticienne: "Inès T.",
   titre: "Ostéopathe D.O.",
-  diplome: "Diplôme d'ostéopathe (D.O.), établissement agréé — exemple",
+  diplome: "Diplôme d'ostéopathe (D.O.), établissement agréé (exemple)",
   adeli: "00 000 000 0",
   adresse: "12 rue de l'Exemple, 2e étage",
   ville: "Saint-Exemple",
   telephone: "01 99 00 31 58",
-  horaires: "Du lundi au vendredi, de 7 h à 20 h 45 · le samedi, de 8 h à 13 h",
+  horaires: "Du lundi au vendredi, de 7 h à 20 h 45 ; le samedi, de 8 h à 13 h.",
 };
 
 export const NAVIGATION = [

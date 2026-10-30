@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../_kit/Apparition";
-import { AppelFinal, Bouton, EnTetePage, Surtitre, Titre } from "../_composants/Blocs";
+import { AppelFinal, Bouton, EnTetePage, Titre } from "../_composants/Blocs";
 import { DOSSIER, POMPES, VISITE, photos } from "../_composants/donnees";
 
 export const metadata: Metadata = {
@@ -28,7 +28,7 @@ const DEROULE = [
 export default function PompesAChaleur() {
   return (
     <main>
-      <EnTetePage surtitre="Nos pompes à chaleur" titre="De la chaleur *prise dehors.*" photo={photos.unite} origine="70% 40%">
+      <EnTetePage titre="De la chaleur prise dehors." photo={photos.unite} origine="70% 40%">
         Une pompe à chaleur prend les calories de l&apos;air extérieur, même froid, et les fait entrer chez toi. Il y en a
         trois sortes ; la bonne dépend de ta maison, pas d&apos;un catalogue.
       </EnTetePage>
@@ -38,7 +38,6 @@ export default function PompesAChaleur() {
           {POMPES.map((p, i) => (
             <Apparition as="li" key={p.nom} className="grid gap-6 py-10 md:grid-cols-[0.8fr_1.2fr_auto] md:items-start">
               <div className="space-y-2">
-                <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">{String(i + 1).padStart(2, "0")}</p>
                 <h2 className="font-[family-name:var(--titres)] text-[clamp(1.9rem,3.2vw,2.75rem)] font-bold leading-[1.05] tracking-[-0.035em]">{p.nom}</h2>
                 <p className="font-[family-name:var(--titres)] text-xl font-semibold tracking-[-0.02em] text-[var(--accent-texte)]">{p.phrase}</p>
               </div>
@@ -53,7 +52,7 @@ export default function PompesAChaleur() {
               <p className="md:text-right">
                 <span className="text-sm">À partir de</span>
                 <span className="block whitespace-nowrap font-[family-name:var(--titres)] text-4xl font-extrabold tracking-[-0.03em] tabular-nums">{p.prix}</span>
-                <span className="block text-sm text-[var(--doux)]">TTC, pose comprise · exemple</span>
+                <span className="block text-sm text-[var(--doux)]">TTC, pose comprise, exemple</span>
               </p>
             </Apparition>
           ))}
@@ -67,8 +66,7 @@ export default function PompesAChaleur() {
       <section className="bg-[var(--sombre)] text-[var(--sur-sombre)]">
         <div className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:py-40 lg:grid-cols-2 lg:items-start">
           <div className="space-y-6">
-            <Apparition><Surtitre clair>À la visite</Surtitre></Apparition>
-            <Titre texte="On mesure *avant de proposer.*" clair />
+            <Titre texte="À la visite, on mesure avant de proposer." />
           </div>
           <ul className="divide-y divide-white/15 border-y border-white/15 text-lg">
             {VISITE.map((v, i) => (
@@ -81,8 +79,7 @@ export default function PompesAChaleur() {
       <section className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:grid-cols-[1.1fr_0.9fr] md:items-center md:py-40">
         <div className="space-y-8">
           <div className="space-y-5">
-            <Apparition><Surtitre>Comment ça se passe</Surtitre></Apparition>
-            <Titre texte="De ton appel à ta première *soirée au chaud.*" />
+            <Titre texte="De ton appel à ta première soirée au chaud." />
           </div>
           <ol className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
             {DEROULE.map((d, i) => (

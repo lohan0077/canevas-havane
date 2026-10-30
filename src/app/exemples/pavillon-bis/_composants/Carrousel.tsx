@@ -3,8 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import TitreRevele from "../../_kit/TitreRevele";
-import { ACCENT_SOMBRE, Surtitre } from "./Blocs";
+import { APRES } from "./Blocs";
 import Maison from "./Maison";
 import { DOSSIER, PROJETS, agence } from "./donnees";
 import { SEUILS } from "./scene/etapes";
@@ -22,7 +21,6 @@ const Pavillons3D = dynamic(() => import("./Pavillons3D"), { ssr: false, loading
 
 const MODELES = PROJETS.map((p) => p.modele);
 const reduit = () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const deux = (n: number) => String(n).padStart(2, "0");
 
 export default function Carrousel() {
   const [index, setIndex] = useState(0);
@@ -151,16 +149,11 @@ export default function Carrousel() {
         {/* ---------- En haut : le titre, ou la maison où l'on est ---------- */}
         <header className="pointer-events-auto lg:col-start-1 lg:row-start-1">
           <div className={dedans ? "hidden" : "space-y-3 lg:space-y-6"}>
-            <Surtitre clair>{agence.metier}</Surtitre>
-            <TitreRevele
-              as="h1"
-              auChargement
-              texte="Ta maison, *deuxième version.*"
-              className="font-[family-name:var(--titres)] text-[clamp(2.3rem,10.4vw,3.2rem)] font-medium leading-[0.98] tracking-[-0.045em] lg:max-w-[11ch] lg:text-[clamp(3.6rem,5.4vw,5.6rem)] lg:leading-[0.95]"
-              classeAccent={ACCENT_SOMBRE}
-            />
+            <h1 className="font-[family-name:var(--titres)] text-[clamp(2.3rem,10.4vw,3.2rem)] font-medium leading-[0.98] tracking-[-0.045em] lg:max-w-[11ch] lg:text-[clamp(3.6rem,5.4vw,5.6rem)] lg:leading-[0.95]">
+              {agence.signature}
+            </h1>
             <p className="max-w-[24rem] text-[14px] leading-snug text-[var(--doux-sombre)] sm:text-[17px] sm:leading-relaxed lg:text-lg">
-              On ne fait que les pavillons des années 70. Le tien a déjà une jumelle qu&apos;on a transformée.
+              Agence d&apos;architecture : on ne fait que les pavillons des années 70. Le tien a déjà une jumelle qu&apos;on a transformée.
             </p>
           </div>
           {dedans && (
@@ -169,12 +162,12 @@ export default function Carrousel() {
                 <button
                   type="button"
                   onClick={sortir}
-                  className="inline-flex min-h-10 items-center gap-2 rounded-full border border-white/20 bg-[color-mix(in_oklab,var(--sombre)_88%,transparent)] px-4 text-[14px] font-medium transition-colors hover:bg-white/10"
+                  className="inline-flex min-h-10 items-center rounded-full border border-white/20 bg-[color-mix(in_oklab,var(--sombre)_88%,transparent)] px-4 text-[14px] font-medium transition-colors hover:bg-white/10"
                 >
-                  <span aria-hidden="true">←</span> Sortir
+                  Sortir
                 </button>
-                <p className="text-[12px] font-medium uppercase tracking-[0.16em] text-[var(--doux-sombre)]">
-                  {p.nom} · {p.annee} · exemple
+                <p className="text-[14px] text-[var(--doux-sombre)]">
+                  {p.nom}, {p.annee} (exemple)
                 </p>
               </div>
               <p className="font-[family-name:var(--titres)] text-[clamp(1.45rem,6.4vw,2.1rem)] font-medium leading-[1.04] tracking-[-0.035em] lg:text-[clamp(2.2rem,3.2vw,3rem)]">
@@ -208,16 +201,16 @@ export default function Carrousel() {
               <div className="space-y-3.5 sm:space-y-4">
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0 space-y-1">
-                    <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--doux-sombre)] sm:text-[12px] sm:tracking-[0.2em]">
+                    <p className="text-[14px] text-[var(--doux-sombre)] sm:text-[15px]">
                       Ta maison ressemble à laquelle&nbsp;?
                     </p>
                     <p className="font-[family-name:var(--titres)] text-[1.6rem] font-medium leading-tight tracking-[-0.03em]">
-                      {p.nom} <span className="font-[family-name:var(--serif)] text-[1.1em] font-normal italic tracking-normal text-[var(--accent-clair)]">{p.annee}</span>
+                      {p.nom}, {p.annee}
                     </p>
                     <p className="text-[14px] leading-snug text-[var(--doux-sombre)]">{p.avant}</p>
                   </div>
                   <p aria-hidden="true" className="shrink-0 pt-0.5 font-[family-name:var(--titres)] text-[13px] font-medium tabular-nums text-[var(--doux-sombre)]">
-                    {deux(index + 1)} / {deux(MODELES.length)}
+                    {index + 1} sur {MODELES.length}
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
@@ -229,10 +222,9 @@ export default function Carrousel() {
                     type="button"
                     data-film="entrer"
                     onClick={entrer}
-                    className="group inline-flex h-12 min-w-0 flex-1 items-center justify-center gap-2.5 whitespace-nowrap rounded-full bg-[var(--accent)] px-4 text-[15px] font-semibold text-[var(--sur-accent)] transition-transform hover:scale-[1.02]"
+                    className="inline-flex h-12 min-w-0 flex-1 items-center justify-center whitespace-nowrap rounded-full bg-[var(--accent)] px-4 text-[15px] font-semibold text-[var(--sur-accent)] transition-transform hover:scale-[1.02]"
                   >
                     Entrer dans la maison
-                    <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
                   </button>
                   <button type="button" onClick={() => aller(1)} aria-label="Maison suivante" className="grid h-12 w-12 shrink-0 place-items-center rounded-full border border-white/20 text-lg transition-colors hover:bg-white/10">
                     <span aria-hidden="true">→</span>
@@ -286,7 +278,7 @@ export default function Carrousel() {
                           onClick={() => jouer(cote ? 1 : 0)}
                           className={`h-11 rounded-full text-[15px] font-semibold transition-colors duration-300 ${coche ? (cote ? "bg-[var(--accent)] text-[var(--sur-accent)]" : "bg-[var(--sur-sombre)] text-[var(--sombre)]") : "text-[var(--sur-sombre)] hover:bg-white/10"}`}
                         >
-                          {cote ? "Après" : `Avant · ${p.annee}`}
+                          {cote ? "Après" : `Avant, ${p.annee}`}
                         </button>
                       );
                     })}
@@ -309,9 +301,9 @@ export default function Carrousel() {
                     className="h-2 w-full cursor-pointer appearance-none rounded-full [&::-moz-range-thumb]:h-6 [&::-moz-range-thumb]:w-6 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-[3px] [&::-moz-range-thumb]:border-[var(--accent)] [&::-moz-range-thumb]:bg-[var(--sur-sombre)] [&::-webkit-slider-thumb]:h-6 [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-[3px] [&::-webkit-slider-thumb]:border-[var(--accent)] [&::-webkit-slider-thumb]:bg-[var(--sur-sombre)]"
                     style={{ background: `linear-gradient(90deg, var(--accent) ${valeur}%, rgba(255,255,255,0.18) ${valeur}%)` }}
                   />
-                  <span aria-hidden="true" className="hidden justify-between text-[12px] font-medium uppercase tracking-[0.18em] text-[var(--doux-sombre)] sm:flex">
+                  <span aria-hidden="true" className="hidden items-baseline justify-between text-[14px] text-[var(--doux-sombre)] sm:flex">
                     <span>{p.annee}</span>
-                    <span>Deuxième version</span>
+                    <span className={`${APRES} text-[17px] text-[var(--accent-clair)]`}>deuxième version</span>
                   </span>
                 </label>
                 {/* Sur téléphone, une seule ligne : l'étape où en est la maison. */}
@@ -338,13 +330,10 @@ export default function Carrousel() {
                 <Link
                   href={`${DOSSIER}/projets/${p.slug}`}
                   data-film="projet-meme"
-                  className="group flex items-center justify-between gap-3 rounded-2xl bg-white/[0.06] px-4 py-2.5 transition-colors hover:bg-white/10 sm:py-3"
+                  className="block rounded-2xl bg-white/[0.06] px-4 py-2.5 transition-colors hover:bg-white/10 sm:py-3"
                 >
-                  <span>
-                    <span className="block text-[15px] font-semibold">Ce qu&apos;on a fait de la même</span>
-                    <span className="block text-[13px] text-[var(--doux-sombre)]">{p.budget} · {p.duree} · exemple</span>
-                  </span>
-                  <span aria-hidden="true" className="text-lg text-[var(--accent-clair)] transition-transform group-hover:translate-x-1">→</span>
+                  <span className="block text-[15px] font-semibold underline decoration-white/30 underline-offset-4">Voir ce qu&apos;on a fait de la même</span>
+                  <span className="block text-[13px] text-[var(--doux-sombre)]">{p.budget}, {p.duree} (exemple)</span>
                 </Link>
               </div>
             )}

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { adressesDeLaPage } from "@/lib/seo";
 import Accordeon from "../../_kit/Accordeon";
 import Apparition from "../../_kit/Apparition";
-import { EnTetePage, Surtitre, Titre } from "../_composants/Blocs";
+import { EnTetePage, Titre } from "../_composants/Blocs";
 import Samedi from "../_composants/Samedi";
 import { ETAPES, HONORAIRES, LOI, QUESTIONS, agence, photos } from "../_composants/donnees";
 
@@ -39,18 +39,17 @@ const QUESTIONS_SAMEDI = [
 export default function RendezVous() {
   return (
     <main>
-      <EnTetePage surtitre="Un samedi matin par mois" titre="Trente minutes pour *ton projet.*" photo={photos.croquis}>
+      <EnTetePage titre="Trente minutes pour ton projet." photo={photos.croquis}>
         À l&apos;agence ou en visio, le premier samedi de chaque mois. On regarde ta maison, ton terrain,
         ton budget, et on te dit si le projet tient. {agence.prixSamedi} (exemple), déduits si tu nous
         confies ensuite une mission.
       </EnTetePage>
 
-      {/* ---------- 01. Les créneaux ---------- */}
+      {/* ---------- Les créneaux ---------- */}
       <section>
         <div className="mx-auto grid max-w-6xl gap-14 px-4 py-24 sm:px-6 md:py-36 lg:grid-cols-[0.8fr_1.2fr]">
           <div className="space-y-6 lg:pt-6">
-            <Apparition><Surtitre>01 — Avant de venir</Surtitre></Apparition>
-            <Titre texte="Ce qu'il faut *apporter.*" taille="moyen" />
+            <Titre texte="Ce qu'il faut apporter." taille="moyen" />
             <ul className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
               {AVANT.map((a) => (
                 <li key={a} className="py-4 text-lg">{a}</li>
@@ -64,14 +63,11 @@ export default function RendezVous() {
         </div>
       </section>
 
-      {/* ---------- 02. La règle, sans détour ---------- */}
+      {/* ---------- La règle, sans détour ---------- */}
       <section className="bg-[var(--sombre)] text-[var(--sur-sombre)]">
         <div className="mx-auto max-w-6xl space-y-14 px-6 py-28 md:py-40">
           <div className="grid gap-8 lg:grid-cols-[1fr_minmax(0,26rem)] lg:items-end">
-            <div className="space-y-5">
-              <Surtitre clair>02 — La règle, sans détour</Surtitre>
-              <Titre texte={"Au-delà de 150 m², avec permis : *architecte obligatoire.*"} clair />
-            </div>
+            <Titre texte={"Au-delà de 150 m², avec permis : architecte obligatoire."} />
             <p className="text-lg leading-relaxed">En dessous ? On te le dit aussi. Loi n° 77-2 du 3 janvier 1977, art. 3 et 4 ; code de l&apos;urbanisme, art. R431-2 et R*421-14.</p>
           </div>
           <ol className="grid gap-x-10 gap-y-2 md:grid-cols-2">
@@ -85,14 +81,11 @@ export default function RendezVous() {
         </div>
       </section>
 
-      {/* ---------- 03. Du samedi au chantier, et les honoraires ---------- */}
+      {/* ---------- Du samedi au chantier, et les honoraires ---------- */}
       <section>
         <div className="mx-auto grid max-w-6xl gap-16 px-6 py-28 md:py-40 lg:grid-cols-2">
           <div className="space-y-8">
-            <div className="space-y-5">
-              <Apparition><Surtitre>03 — Comment on travaille</Surtitre></Apparition>
-              <Titre texte="Du samedi *au chantier.*" taille="moyen" />
-            </div>
+            <Titre texte="Du samedi au chantier." taille="moyen" />
             <ol className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
               {ETAPES.map((e) => (
                 <li key={e.titre} className="space-y-1 py-5">
@@ -103,10 +96,7 @@ export default function RendezVous() {
             </ol>
           </div>
           <div className="space-y-8">
-            <div className="space-y-5">
-              <Apparition><Surtitre>04 — Honoraires</Surtitre></Apparition>
-              <Titre texte="Dits *avant* de commencer." taille="moyen" />
-            </div>
+            <Titre texte="Les honoraires, dits avant de commencer." taille="moyen" />
             <ul className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
               {HONORAIRES.map(([quoi, prix, note]) => (
                 <li key={quoi} className="flex items-baseline justify-between gap-6 py-5">
@@ -129,12 +119,11 @@ export default function RendezVous() {
         </div>
       </section>
 
-      {/* ---------- 05. Questions ---------- */}
+      {/* ---------- Questions ---------- */}
       <section className="border-t border-[var(--trait)] bg-[var(--carte)]">
         <div className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:py-36 lg:grid-cols-[0.8fr_1.2fr]">
           <div className="space-y-6">
-            <Apparition><Surtitre>05 — Questions</Surtitre></Apparition>
-            <Titre texte="Le samedi, *en pratique.*" taille="moyen" />
+            <Titre texte="Le samedi, en pratique." taille="moyen" />
           </div>
           <Apparition delai={150}>
             <Accordeon questions={QUESTIONS_SAMEDI} nom="samedi" />

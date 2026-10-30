@@ -39,9 +39,9 @@ export default function Lotissement() {
   return (
     <div data-film="lotissement" className="space-y-5">
       <div className="overflow-hidden rounded-2xl border-2 border-[var(--encre)] bg-[#D5DAD7]">
-        <p className="flex items-baseline justify-between gap-3 border-b-2 border-[var(--encre)] bg-[var(--carte)] px-4 py-3 text-[13px] font-medium uppercase tracking-[0.12em]">
-          <span>{nom} · {annee}</span>
-          <span>exemple</span>
+        <p className="flex items-baseline justify-between gap-3 border-b-2 border-[var(--encre)] bg-[var(--carte)] px-4 py-3 text-[15px] font-medium">
+          <span>{nom}, {annee}</span>
+          <span className="text-[13px] font-normal text-[var(--doux)]">exemple</span>
         </p>
         <ul
           className="grid gap-x-2 gap-y-1 bg-[linear-gradient(transparent_calc(50%-6px),#EEF0EF_calc(50%-6px),#EEF0EF_calc(50%+6px),transparent_calc(50%+6px))] p-3 sm:gap-x-3 sm:p-5"
@@ -84,10 +84,9 @@ export default function Lotissement() {
         type="button"
         data-film="transformer"
         onClick={() => setFait((f) => !f)}
-        className="inline-flex min-h-[56px] w-full items-center justify-center gap-3 rounded-full bg-[var(--encre)] px-7 font-[family-name:var(--texte)] text-[17px] font-medium text-[var(--fond)] transition-transform hover:scale-[1.02] sm:w-auto"
+        className="inline-flex min-h-[56px] w-full items-center justify-center rounded-full bg-[var(--encre)] px-7 font-[family-name:var(--texte)] text-[17px] font-medium text-[var(--fond)] transition-transform hover:scale-[1.02] sm:w-auto"
       >
         {fait ? "Revoir le lotissement d'origine" : `Transformer le n° ${transformee}`}
-        <span aria-hidden="true">{fait ? "↺" : "→"}</span>
       </button>
     </div>
   );

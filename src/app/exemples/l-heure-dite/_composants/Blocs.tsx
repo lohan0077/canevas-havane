@@ -1,19 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import Apparition from "../../_kit/Apparition";
-import TitreRevele from "../../_kit/TitreRevele";
 import { DOSSIER, FRANCE_RENOV, entreprise } from "./donnees";
 
 // Les pièces communes de L'Heure Dite. Identité « faïence et émail » (30/10/2026), tirée
 // de la photo de l'horloge : le blanc des carreaux, le vert d'émail du cadre et des
 // frises, le noir des chiffres, une touche de rouge pour la trotteuse. Archivo, une
 // grotesque de plaque émaillée, pour les titres ; Work Sans pour lire. Deux fonds qui
-// alternent (le blanc faïence, le noir d'aiguille), le vert réservé au bouton principal
-// et aux mots en relief ; la frise d'émail sépare les grands moments.
-
-/** Le mot en relief dans un titre : le vert d'émail (le vert clair sur fond noir). */
-export const ACCENT_SOMBRE = "text-[var(--vert-clair)]";
-export const ACCENT_CLAIR = "text-[var(--accent-texte)]";
+// alternent (le blanc faïence, le noir d'aiguille), le vert réservé au bouton principal,
+// au cadran et à la frise d'émail, qui sépare les grands moments. Passe « frontend-design »
+// (30/10/2026) : les titres se lisent d'un seul tenant, sans mot en vert ni surtitre en
+// capitales ; un bouton dit ce qu'il fait, sans flèche.
 
 /**
  * Le monogramme : l'horloge de la photo en miniature. Le cadre vert, le cadran blanc,
@@ -66,40 +63,30 @@ export function BandeauRenov() {
   return (
     <div id="france-renov" className="border-b border-[#9CC3D5] bg-[#E3EEF3] text-[#14324A]">
       <a href={FRANCE_RENOV.lien} rel="noopener noreferrer" className="mx-auto block max-w-6xl px-6 py-3 text-[14px] leading-snug sm:text-center">
-        <span className="font-medium">France Rénov&apos;</span>
-        <span aria-hidden="true"> · </span>
+        <span className="font-semibold">France Rénov&apos; :</span>{" "}
         <span className="underline underline-offset-2">{FRANCE_RENOV.message}</span>
       </a>
     </div>
   );
 }
 
-/** Le petit intitulé au-dessus d'un titre : une ligne discrète, en capitales espacées. */
-export function Surtitre({ children, clair = false }: { children: React.ReactNode; clair?: boolean }) {
-  return (
-    <p className={`text-[12px] font-medium uppercase tracking-[0.2em] ${clair ? "text-[var(--sur-sombre)]" : "text-[var(--doux)]"}`}>
-      {children}
-    </p>
-  );
-}
-
-/** Le titre d'un écran, révélé mot à mot ; `*mot*` passe en vert d'émail. */
+/**
+ * Le titre d'un écran, d'un seul tenant : Archivo serrée, noire sur la faïence, claire sur
+ * le noir (la couleur vient de la section). Le parti pris est la taille et la graisse, pas
+ * un mot mis à part.
+ */
 export function Titre({
   texte,
-  clair = false,
   taille = "grand",
-  as = "h2",
+  as: Balise = "h2",
   className = "",
   id,
-  auChargement = false,
 }: {
   texte: string;
-  clair?: boolean;
   taille?: "geant" | "grand" | "moyen";
   as?: "h1" | "h2" | "h3" | "p";
   className?: string;
   id?: string;
-  auChargement?: boolean;
 }) {
   const tailles = {
     geant: "text-[clamp(3rem,7vw,6.25rem)] leading-[0.92] font-extrabold tracking-[-0.045em]",
@@ -107,18 +94,13 @@ export function Titre({
     moyen: "text-[clamp(1.8rem,3vw,2.5rem)] leading-[1.08] font-bold tracking-[-0.03em]",
   }[taille];
   return (
-    <TitreRevele
-      as={as}
-      id={id}
-      auChargement={auChargement}
-      texte={texte}
-      className={`font-[family-name:var(--titres)] text-balance ${tailles} ${className}`}
-      classeAccent={clair ? ACCENT_SOMBRE : ACCENT_CLAIR}
-    />
+    <Balise id={id} className={`font-[family-name:var(--titres)] text-balance ${tailles} ${className}`}>
+      {texte}
+    </Balise>
   );
 }
 
-/** Un bouton-lien en pilule : plein (l'orange) ou en contour fin ; la flèche avance au survol. */
+/** Un bouton-lien en pilule : plein (le vert d'émail), en contour fin, ou clair. */
 export function Bouton({ href, children, variante = "plein" }: { href: string; children: React.ReactNode; variante?: "plein" | "contour" | "clair" }) {
   const styles = {
     plein: "bg-[var(--accent)] text-[var(--sur-accent)]",
@@ -126,9 +108,8 @@ export function Bouton({ href, children, variante = "plein" }: { href: string; c
     clair: "bg-[var(--fond)] text-[var(--encre)]",
   }[variante];
   return (
-    <Link href={href} className={`group inline-flex h-12 items-center gap-3 rounded-full px-6 text-[15px] font-medium transition-colors ${styles}`}>
+    <Link href={href} className={`inline-flex h-12 items-center rounded-full px-6 text-[15px] font-medium transition-colors ${styles}`}>
       {children}
-      <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">→</span>
     </Link>
   );
 }
@@ -150,18 +131,17 @@ export function Appli({ titre, note, children, className = "" }: { titre: string
 }
 
 /**
- * Le haut de chaque page intérieure : sombre, un titre fin, et derrière lui une photo
+ * Le haut de chaque page intérieure : sombre, un grand titre, et derrière lui une photo
  * assez large pour le plein cadre (jamais agrandie) sous un voile vert ; sans photo, le
- * fond sombre seul.
+ * fond sombre seul. Le titre et sa phrase disent de quoi parle la page : pas d'intitulé
+ * au-dessus.
  */
 export function EnTetePage({
-  surtitre,
   titre,
   children,
   photo,
   origine = "50% 50%",
 }: {
-  surtitre: React.ReactNode;
   titre: string;
   children?: React.ReactNode;
   photo?: { src: string; alt: string };
@@ -180,8 +160,7 @@ export function EnTetePage({
         <div aria-hidden="true" className="absolute inset-0 opacity-[0.07] [background-image:linear-gradient(#fff_1px,transparent_1px),linear-gradient(90deg,#fff_1px,transparent_1px)] [background-size:84px_84px] [mask-image:linear-gradient(180deg,#000,transparent_85%)]" />
       )}
       <div className="relative mx-auto flex w-full max-w-6xl flex-1 flex-col justify-end gap-7 px-6 pb-14 pt-36 md:pb-20">
-        <Apparition><Surtitre clair>{surtitre}</Surtitre></Apparition>
-        <Titre as="h1" texte={titre} clair taille="geant" className="max-w-4xl" />
+        <Titre as="h1" texte={titre} taille="geant" className="max-w-4xl" />
         {children && (
           <Apparition delai={400} className="max-w-xl text-lg leading-relaxed text-[var(--sur-sombre)]">
             {children}
@@ -202,8 +181,7 @@ export function LaRegle() {
     <section className="bg-[var(--sombre)] text-[var(--sur-sombre)]">
       <div className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:py-40 lg:grid-cols-2 lg:items-end">
         <div className="space-y-6">
-          <Apparition><Surtitre clair>La règle, pour tous</Surtitre></Apparition>
-          <Titre texte="Pour ces travaux, personne n'a le droit de *te démarcher.*" clair />
+          <Titre texte="Pour ces travaux, personne n'a le droit de te démarcher." />
           <Apparition as="p" delai={150} className="max-w-[26rem] text-lg leading-relaxed text-[var(--sur-sombre)]">
             Téléphone, SMS, e-mail, réseaux sociaux : la prospection d&apos;un particulier pour une pompe à chaleur ou des
             panneaux solaires est interdite à tous les professionnels, sauf contrat en cours (C. consom., art. L223-1 et
@@ -212,7 +190,7 @@ export function LaRegle() {
         </div>
         <Apparition delai={250} className="space-y-5 border-t border-white/20 pt-8 lg:border-l lg:border-t-0 lg:pl-12 lg:pt-0">
           <p className="font-[family-name:var(--titres)] text-[clamp(1.8rem,3vw,2.5rem)] font-bold leading-[1.08] tracking-[-0.03em]">
-            Tout le monde subit cette règle. Nous, on va <em className="not-italic text-[var(--vert-clair)]">plus loin qu&apos;elle.</em>
+            Tout le monde subit cette règle. Nous, on va plus loin qu&apos;elle.
           </p>
           <p className="max-w-[26rem] text-lg leading-relaxed text-[var(--sur-sombre)]">
             La loi permet de rappeler celui qui l&apos;a demandé, dans les cinq jours ouvrables. Nous, on te laisse choisir
@@ -231,14 +209,14 @@ export function Affiche() {
       <Lisere />
       <div className="p-7 sm:p-9">
         <p className="font-[family-name:var(--titres)] text-[44px] font-extrabold leading-[0.98] tracking-[-0.045em]">
-          Vous choisissez <em className="not-italic text-[var(--accent-texte)]">l&apos;heure.</em>
+          Vous choisissez l&apos;heure.
         </p>
         <p className="mt-4 text-xl">On appelle à cette heure-là.</p>
         <p className="mt-6 text-sm leading-relaxed text-[var(--doux)]">
           Pour ces travaux, le démarchage est interdit à tous les professionnels (C. consom., art. L223-1 et L223-8).
         </p>
         <p className="mt-6 flex items-center gap-2 text-sm font-medium">
-          <Monogramme className="h-7 w-7" /> L&apos;Heure Dite · pompes à chaleur et solaire
+          <Monogramme className="h-7 w-7" /> L&apos;Heure Dite, pompes à chaleur et solaire
         </p>
       </div>
       <p className="bg-[#E3EEF3] px-7 py-4 text-[13px] leading-snug text-[#14324A] sm:px-9">{FRANCE_RENOV.message}</p>
@@ -251,10 +229,10 @@ export function AppelFinal() {
   return (
     <section className="border-t border-[var(--trait)]">
       <div className="mx-auto max-w-3xl space-y-8 px-6 py-28 text-center md:py-40">
-        <Apparition><Surtitre>Comme chez le coiffeur</Surtitre></Apparition>
-        <Titre texte={"À quelle *heure ?*"} />
+        <Titre texte={"À quelle heure ?"} />
         <Apparition as="p" delai={150} className="mx-auto max-w-lg text-lg leading-relaxed text-[var(--doux)]">
-          Choisis le jour et l&apos;heure de ton appel. On appelle à ce moment-là, pas avant, et seulement pour ton devis.
+          Comme chez le coiffeur : choisis le jour et l&apos;heure de ton appel. On appelle à ce moment-là, pas avant, et
+          seulement pour ton devis.
         </Apparition>
         <Apparition delai={250} className="flex flex-col items-center gap-4">
           <Bouton href={`${DOSSIER}/rendez-vous`}>Choisir mon heure</Bouton>

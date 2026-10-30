@@ -30,7 +30,7 @@ export const DOSSIER = "/exemples/pavillon-bis";
 export const agence = {
   nom: "Pavillon Bis",
   signature: "Ta maison, deuxième version.",
-  metier: "Architecture · pavillons des années 70",
+  metier: "Architecture des pavillons des années 70",
   adresse: "12 rue de l'Exemple, 00000 Ville-Exemple",
   telephone: "01 99 00 96 14",
   prixSamedi: "40 € TTC",

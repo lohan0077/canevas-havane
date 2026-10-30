@@ -40,11 +40,16 @@ export default async function PageGeste({ params }: { params: Promise<{ geste: s
 
   return (
     <main>
-      <EnTetePage surtitre={<>Geste n° {g.numero} · <Link href={`${DOSSIER}#gestes`} className="underline underline-offset-4">tous les gestes</Link></>} titre={g.question} photo={photos[g.photo]}>
+      <EnTetePage
+        retour={<Link href={`${DOSSIER}#gestes`} className="underline decoration-white/40 underline-offset-4 hover:decoration-current">Tous les gestes</Link>}
+        titre={g.question}
+        photo={photos[g.photo]}
+      >
         <p>Ce que Google suggère : « {g.recherche} »</p>
       </EnTetePage>
 
       <div className="mx-auto max-w-6xl space-y-6 px-6 py-20 md:py-28">
+        {/* Trois blocs qui se répondent, pas une suite : pas de numéros. */}
         {BLOCS.map((b, i) => (
           <Apparition
             as="section"
@@ -55,10 +60,7 @@ export default async function PageGeste({ params }: { params: Promise<{ geste: s
               i === 2 ? "bg-[var(--sombre)] text-[var(--sur-sombre)]" : "border border-[var(--trait)] bg-[var(--carte)]"
             }`}
           >
-            <div className="space-y-3">
-              <p className={`text-[12px] font-medium uppercase tracking-[0.2em] ${i === 2 ? "text-[#AEB8FF]" : "text-[var(--doux)]"}`}>{String(i + 1).padStart(2, "0")}</p>
-              <h2 className="text-[clamp(2rem,3.4vw,2.75rem)] font-normal leading-[1.05] tracking-[-0.02em] text-balance">{b.titre}</h2>
-            </div>
+            <h2 className="text-[clamp(2rem,3.4vw,2.75rem)] font-normal leading-[1.05] tracking-[-0.02em] text-balance">{b.titre}</h2>
             <div className="space-y-4 text-lg leading-relaxed">
               {g[b.cle].map((t) => <p key={t}>{t}</p>)}
             </div>
@@ -72,18 +74,18 @@ export default async function PageGeste({ params }: { params: Promise<{ geste: s
       </div>
 
       <section className="mx-auto max-w-6xl space-y-6 px-6 pb-28">
-        <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">Les autres gestes</p>
+        <h2 className="text-2xl font-normal">Les autres gestes</h2>
         <ul className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
           {autres.map((a) => (
             <li key={a.slug}>
-              <Link href={`${DOSSIER}/gestes/${a.slug}`} className="group flex items-center justify-between gap-4 py-5">
+              <Link href={`${DOSSIER}/gestes/${a.slug}`} className="group flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 py-5">
                 <span className="font-[family-name:var(--titres)] text-[clamp(1.35rem,2.4vw,1.9rem)]">{a.question}</span>
-                <span aria-hidden="true" className="text-[var(--accent-texte)] transition-transform group-hover:translate-x-1">→</span>
+                <span className="text-[15px] font-semibold text-[var(--accent-texte)] underline-offset-4 group-hover:underline">Lire la page</span>
               </Link>
             </li>
           ))}
         </ul>
-        <p className="text-[var(--doux)]">{cabinet.praticienne}, ostéopathe D.O. — {cabinet.diplome}.</p>
+        <p className="text-[var(--doux)]">{cabinet.praticienne}, ostéopathe D.O. {cabinet.diplome}.</p>
       </section>
 
       <AppelFinal />

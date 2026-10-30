@@ -122,7 +122,7 @@ export default function Creneau() {
           </p>
           <p className="text-lg">Pas avant. Et seulement pour ton devis.</p>
           <p className="text-sm">
-            {j.long[0].toUpperCase() + j.long.slice(1)} {j.quantieme} {j.mois}, {h.parle} · Démonstration : rien n'est envoyé, rien n'est enregistré.
+            {j.long[0].toUpperCase() + j.long.slice(1)} {j.quantieme} {j.mois}, {h.parle}. Démonstration : rien n'est envoyé, rien n'est enregistré.
           </p>
           <button type="button" onClick={() => setPret(false)} className="pt-1 text-sm font-medium underline underline-offset-4">
             Changer de créneau
