@@ -11,7 +11,7 @@ import CompteARebours from "./_composants/CompteARebours";
 import Creneaux from "./_composants/Creneaux";
 import FilmChantier from "./_composants/FilmChantier";
 import Jardin from "./_composants/Jardin";
-import Ouverture from "./_composants/Ouverture";
+import Remplissage from "./_composants/Remplissage";
 import { DOSSIER, chantiers, photos, questions } from "./_composants/donnees";
 
 // Le site de Neuf Étés, la marque de piscines des deux vidéos des piscinistes. Il
@@ -53,9 +53,9 @@ function Intitule({ numero, surtitre, titre, texte, clair = false }: { numero: s
 export default function NeufEtes() {
   return (
     <main>
-      {/* ---------- Premier écran : l'ouverture vidéo, en quatre chapitres ---------- */}
+      {/* ---------- Premier écran : la piscine qui se remplit ---------- */}
       <div className="flex h-[100svh] min-h-[560px] flex-col">
-        <Ouverture />
+        <Remplissage />
       </div>
 
       {/* ---------- 01. L'outil de la marque : combien d'étés ---------- */}
