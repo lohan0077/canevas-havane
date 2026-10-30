@@ -10,12 +10,14 @@ import { GTAOPass } from "three/examples/jsm/postprocessing/GTAOPass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 import { mergeVertices } from "three/examples/jsm/utils/BufferGeometryUtils.js";
+import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 import type { Jardin, Rect } from "./jardin-geometrie";
 
-// Le jardin du visiteur en maquette d'architecte, d'après le rendu du configurateur de
-// Kéo (vue « maquette ») : un socle avec sa coupe de terre, la maison en deux volumes,
-// un bassin creusé et carrelé dont l'eau bouge, la vie autour (haie, arbres, transats,
-// parasol, table, bornes). Lumière de studio, reflets d'environnement, et sur ordinateur
+// Le jardin du visiteur en maquette d'architecte : un socle de pierre sombre, la maison
+// en deux volumes, un bassin creusé dont l'eau laisse voir le fond, la vie autour
+// (haie taillée, arbres, transats, parasol, table, bornes). Depuis le 30/10/2026, les
+// matières sont celles de l'ouverture du site (mosaïque claire, travertin, eau qui
+// réfracte, feuillages peints) : la maquette ne fait plus jouet à côté d'elle. Lumière de studio, reflets d'environnement, et sur ordinateur
 // occlusion ambiante et halo. Deux ambiances, et le passage de l'une à l'autre se
 // joue : le soleil descend et rougit, puis chaque fenêtre s'allume à son tour, les
 // bornes du jardin et la piscine s'éclairent, les étoiles sortent. Le jour, la
@@ -58,16 +60,20 @@ function pointille(ctx: CanvasRenderingContext2D, l: number, h: number, n: numbe
   }
 }
 
-/** Pelouse tondue : bandes alternées et grain d'herbe. Un motif = 4 m. */
+/** Pelouse tondue : bandes à peine marquées et brins d'herbe. Un motif = 4 m. */
 const texturePelouse = () =>
   toile(512, 512, (ctx) => {
-    ctx.fillStyle = "#5b9447";
+    ctx.fillStyle = "#557a37";
     ctx.fillRect(0, 0, 512, 512);
     for (let i = 0; i < 4; i++) {
-      ctx.fillStyle = i % 2 ? "rgba(255,255,210,0.07)" : "rgba(0,40,0,0.06)";
+      ctx.fillStyle = i % 2 ? "rgba(255,255,210,0.05)" : "rgba(0,30,0,0.05)";
       ctx.fillRect(i * 128, 0, 128, 512);
     }
-    pointille(ctx, 512, 512, 9000, () => (Math.random() < 0.5 ? "rgba(20,60,15,0.18)" : "rgba(190,230,140,0.14)"), () => 0.6 + Math.random() * 1.4);
+    for (let i = 0; i < 24000; i++) {
+      const v = Math.random();
+      ctx.fillStyle = v > 0.5 ? `rgba(170,200,100,${(v - 0.5) * 0.45})` : `rgba(25,45,15,${(0.5 - v) * 0.45})`;
+      ctx.fillRect(Math.random() * 512, Math.random() * 512, 1, 2 + Math.random() * 3);
+    }
   });
 
 /** Lames de bois avec leurs joints, dans le sens de la largeur du motif. Un motif = 1 m. */
@@ -91,26 +97,36 @@ const textureLames = () =>
     }
   });
 
-/** Carrelage de bassin : carreaux de 12,5 cm, joints clairs. Un motif = 1 m. */
+/** Mosaïque de bassin : carreaux de 5 cm, presque blancs ; c'est l'eau qui bleuit.
+    Un motif = 1 m. */
 const textureCarreaux = (fond: string, joint: string) =>
-  toile(256, 256, (ctx) => {
+  toile(400, 400, (ctx) => {
     ctx.fillStyle = joint;
-    ctx.fillRect(0, 0, 256, 256);
-    for (let x = 0; x < 8; x++)
-      for (let y = 0; y < 8; y++) {
+    ctx.fillRect(0, 0, 400, 400);
+    for (let x = 0; x < 20; x++)
+      for (let y = 0; y < 20; y++) {
         ctx.fillStyle = fond;
-        ctx.globalAlpha = 0.9 + Math.random() * 0.1;
-        ctx.fillRect(x * 32 + 1.5, y * 32 + 1.5, 29, 29);
+        ctx.globalAlpha = 0.86 + Math.random() * 0.14;
+        ctx.fillRect(x * 20 + 1, y * 20 + 1, 18, 18);
       }
     ctx.globalAlpha = 1;
   });
 
-/** Pierre claire des margelles et du parvis, en dalles. Un motif = 2 m. */
+/** Travertin des margelles et du parvis, veiné, en dalles. Un motif = 2 m. */
 const texturePierre = (base: string) =>
   toile(256, 256, (ctx) => {
     ctx.fillStyle = base;
     ctx.fillRect(0, 0, 256, 256);
-    pointille(ctx, 256, 256, 2600, () => (Math.random() < 0.5 ? "rgba(0,0,0,0.05)" : "rgba(255,255,255,0.07)"), () => 0.5 + Math.random() * 1.6);
+    pointille(ctx, 256, 256, 2600, () => (Math.random() < 0.5 ? "rgba(70,50,30,0.06)" : "rgba(255,250,240,0.08)"), () => 0.5 + Math.random() * 1.6);
+    for (let i = 0; i < 22; i++) {
+      ctx.strokeStyle = `rgba(140,115,85,${0.08 + Math.random() * 0.1})`;
+      ctx.lineWidth = 0.5 + Math.random();
+      const y = Math.random() * 256;
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.bezierCurveTo(85, y + (Math.random() - 0.5) * 16, 170, y + (Math.random() - 0.5) * 16, 256, y + (Math.random() - 0.5) * 6);
+      ctx.stroke();
+    }
     ctx.strokeStyle = "rgba(0,0,0,0.12)";
     ctx.lineWidth = 1.5;
     for (let i = 0; i <= 256; i += 64) {
@@ -123,14 +139,29 @@ const texturePierre = (base: string) =>
     }
   });
 
-/** Coupe de terre du socle : strates horizontales. */
-const textureTerre = () =>
+/** Le chant du socle : une pierre sombre, à peine litée, comme une base de maquette. */
+const texturePlinthe = () =>
   toile(256, 256, (ctx) => {
-    ["#4a3b2e", "#5b4837", "#6a5440", "#56442f"].forEach((c, i) => {
+    ["#2f2b27", "#35302b", "#2c2824", "#322d29"].forEach((c, i) => {
       ctx.fillStyle = c;
       ctx.fillRect(0, i * 64, 256, 64);
     });
-    pointille(ctx, 256, 256, 1600, () => `rgba(${Math.random() < 0.5 ? "0,0,0" : "255,240,220"},0.08)`, () => 0.6 + Math.random() * 2);
+    pointille(ctx, 256, 256, 1600, () => `rgba(${Math.random() < 0.5 ? "0,0,0" : "255,240,220"},0.05)`, () => 0.6 + Math.random() * 2);
+  });
+
+/** Un feuillage vu de près : des feuilles claires et sombres sur un fond vert. */
+const textureFeuillage = (fond: string, clair: string) =>
+  toile(256, 256, (ctx) => {
+    ctx.fillStyle = fond;
+    ctx.fillRect(0, 0, 256, 256);
+    for (let i = 0; i < 1800; i++) {
+      ctx.fillStyle = Math.random() > 0.55 ? clair : "rgba(0,0,0,.28)";
+      ctx.globalAlpha = 0.25 + Math.random() * 0.45;
+      ctx.beginPath();
+      ctx.ellipse(Math.random() * 256, Math.random() * 256, 2 + Math.random() * 4, 1 + Math.random() * 2, Math.random() * Math.PI, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
   });
 
 /** L'intérieur d'une pièce vu du jardin, le soir : plafonnier, rideaux, meubles en ombre. */
@@ -387,11 +418,17 @@ type Matieres = ReturnType<typeof creerMatieres>;
 function creerMatieres() {
   const pelouse = texturePelouse();
   const lames = textureLames();
-  const carreaux = textureCarreaux("#7fcde2", "#d4eef5");
-  const carreauxFond = textureCarreaux("#4fb2cf", "#a9dcea");
-  const pierre = texturePierre("#ece5d8");
-  const parvis = texturePierre("#cfc8bb");
-  const terre = textureTerre();
+  const carreaux = textureCarreaux("#e8f3f5", "#c4d8dc");
+  const carreauxFond = textureCarreaux("#dcedf0", "#bcd3d8");
+  const pierre = texturePierre("#e3d7c3");
+  const parvis = texturePierre("#cbbda6");
+  const plinthe = texturePlinthe();
+  const bardage = textureLames();
+  bardage.rotation = Math.PI / 2;
+  bardage.repeat.set(3, 3);
+  const feuilles = textureFeuillage("#3f6a33", "#86a85a");
+  const feuillesClaires = textureFeuillage("#557d3c", "#a7c47a");
+  const feuillesHaie = textureFeuillage("#2f4f28", "#6f9148");
   const vaguelettes = textureVaguelettes();
   const interieur = textureInterieur();
   const nappe = textureNappe();
@@ -425,40 +462,45 @@ function creerMatieres() {
       polygonOffsetFactor: -2,
     });
   return {
-    textures: [pelouse, lames, carreaux, carreauxFond, pierre, parvis, terre, vaguelettes, interieur, nappe, caustiques],
+    textures: [pelouse, lames, bardage, carreaux, carreauxFond, pierre, parvis, plinthe, feuilles, feuillesClaires, feuillesHaie, vaguelettes, interieur, nappe, caustiques],
     vaguelettes,
     interieur,
     temps,
     fondLumineux,
     pelouse: new THREE.MeshStandardMaterial({ map: pelouse, roughness: 0.95 }),
     parvis: new THREE.MeshStandardMaterial({ map: parvis, roughness: 0.9 }),
-    terre: new THREE.MeshStandardMaterial({ map: terre, roughness: 1 }),
+    plinthe: new THREE.MeshStandardMaterial({ map: plinthe, roughness: 0.85 }),
     bois: new THREE.MeshStandardMaterial({ map: lames, roughness: 0.75 }),
     boisChant: new THREE.MeshStandardMaterial({ color: "#7a5434", roughness: 0.8 }),
     pierre: new THREE.MeshStandardMaterial({ map: pierre, roughness: 0.6 }),
     carreaux: new THREE.MeshStandardMaterial({ map: carreaux, roughness: 0.35, side: THREE.DoubleSide, emissive: "#0f6d8c", emissiveIntensity: 0 }),
     carreauxFond: fondDuBassin,
-    eau: new THREE.MeshStandardMaterial({
+    // Une eau qui réfracte : on voit le fond à travers, bleui par la profondeur.
+    eau: new THREE.MeshPhysicalMaterial({
       emissive: "#17a9dc",
       emissiveIntensity: 0,
-      color: "#1b9cc4",
-      roughness: 0.03,
+      color: "#e6fbff",
+      roughness: 0.04,
       metalness: 0,
-      transparent: true,
-      opacity: 0.62,
+      transmission: 1,
+      thickness: 1.2,
+      ior: 1.333,
+      attenuationColor: new THREE.Color("#2aa7c2"),
+      attenuationDistance: 1.6,
       normalMap: vaguelettes,
-      normalScale: new THREE.Vector2(0.25, 0.25),
-      envMapIntensity: 1.4,
+      normalScale: new THREE.Vector2(0.3, 0.3),
+      envMapIntensity: 1.3,
     }),
     enduit: new THREE.MeshStandardMaterial({ color: "#eee8de", roughness: 0.92 }),
-    enduitAnnexe: new THREE.MeshStandardMaterial({ color: "#d9d1c4", roughness: 0.92 }),
+    // l'annexe en bardage de bois à claire-voie : les lames, tournées à la verticale
+    enduitAnnexe: new THREE.MeshStandardMaterial({ map: bardage, roughness: 0.8 }),
     toit: new THREE.MeshStandardMaterial({ color: "#3d434b", roughness: 0.6, metalness: 0.2 }),
     gravier: new THREE.MeshStandardMaterial({ color: "#a39f97", roughness: 1 }),
     menuiserie: new THREE.MeshStandardMaterial({ color: "#2a2f35", roughness: 0.45, metalness: 0.4 }),
-    vitre: new THREE.MeshStandardMaterial({ color: "#24384a", roughness: 0.04, metalness: 0.7, envMapIntensity: 1.6 }),
-    haie: new THREE.MeshStandardMaterial({ color: "#3d6b37", roughness: 0.95 }),
-    feuillage: new THREE.MeshStandardMaterial({ color: "#4a7d40", roughness: 0.9 }),
-    feuillageClair: new THREE.MeshStandardMaterial({ color: "#5f9149", roughness: 0.9 }),
+    vitre: new THREE.MeshStandardMaterial({ color: "#3d5560", roughness: 0.05, metalness: 0.35, envMapIntensity: 1.6 }),
+    haie: new THREE.MeshStandardMaterial({ map: feuillesHaie, bumpMap: feuillesHaie, bumpScale: 2, roughness: 0.95 }),
+    feuillage: new THREE.MeshStandardMaterial({ map: feuilles, bumpMap: feuilles, bumpScale: 1.5, roughness: 0.9 }),
+    feuillageClair: new THREE.MeshStandardMaterial({ map: feuillesClaires, bumpMap: feuillesClaires, bumpScale: 1.5, roughness: 0.9 }),
     tronc: new THREE.MeshStandardMaterial({ color: "#6b4a33", roughness: 0.9 }),
     blanc: new THREE.MeshStandardMaterial({ color: "#f1eee8", roughness: 0.6 }),
     coussin: new THREE.MeshStandardMaterial({ color: "#F6C445", roughness: 0.85 }),
@@ -591,10 +633,13 @@ function arbre(x: number, z: number, taille: number, m: Matieres, propre: Propre
   g.add(couronne);
   propre.couronnes.push({ objet: couronne, phase: x * 1.7 + z * 0.9, ampli: 0.026 + taille * 0.012 });
   const touffes: [number, number, number, number][] = [
-    [0, 2.6, 0, 1.25],
-    [0.7, 2.25, 0.3, 0.9],
-    [-0.6, 2.35, -0.35, 0.95],
-    [0.1, 3.25, -0.2, 0.85],
+    [0, 2.55, 0, 0.95],
+    [0.75, 2.3, 0.3, 0.7],
+    [-0.65, 2.35, -0.35, 0.72],
+    [0.25, 3.2, -0.25, 0.68],
+    [-0.35, 2.95, 0.5, 0.62],
+    [0.55, 2.85, -0.6, 0.58],
+    [-0.15, 2.05, 0.7, 0.55],
   ];
   touffes.forEach(([dx, dy, dz, r], i) => {
     const t = new THREE.Mesh(boule(r * taille, x + z + i * 2.3), i % 2 ? m.feuillageClair : m.feuillage);
@@ -682,25 +727,20 @@ function potEtBuisson(m: Matieres) {
   return g;
 }
 
-/** Une rangée de haie le long d'un segment, en boules irrégulières. */
+/** Une haie taillée le long d'un segment : un volume net aux arêtes adoucies, et des
+    feuilles peintes en relief. Un motif de feuillage = 1 m. */
 function haie(x1: number, z1: number, x2: number, z2: number, m: Matieres) {
-  const longueur = Math.hypot(x2 - x1, z2 - z1);
-  const n = Math.max(2, Math.round(longueur / 0.42));
-  const inst = new THREE.InstancedMesh(boule(0.58, x1 + z2, 2), m.haie, n);
-  const mat = new THREE.Matrix4();
-  for (let i = 0; i < n; i++) {
-    const t = i / (n - 1);
-    const s = 0.85 + ((i * 37) % 10) / 28;
-    mat.compose(
-      new THREE.Vector3(x1 + (x2 - x1) * t, 0.62 * s, z1 + (z2 - z1) * t),
-      new THREE.Quaternion().setFromEuler(new THREE.Euler(i * 0.7, i * 1.3, i * 0.4)),
-      new THREE.Vector3(s, s * 1.35, s),
-    );
-    inst.setMatrixAt(i, mat);
-  }
-  inst.castShadow = true;
-  inst.receiveShadow = true;
-  return inst;
+  const longueur = Math.hypot(x2 - x1, z2 - z1) + 0.8;
+  const hauteur = 1.45;
+  const geo = new RoundedBoxGeometry(longueur, hauteur, 0.8, 3, 0.16);
+  const uv = geo.attributes.uv as THREE.BufferAttribute;
+  for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getX(i) * longueur, uv.getY(i) * hauteur);
+  const h = new THREE.Mesh(geo, m.haie);
+  h.position.set((x1 + x2) / 2, hauteur / 2, (z1 + z2) / 2);
+  h.rotation.y = -Math.atan2(z2 - z1, x2 - x1);
+  h.castShadow = true;
+  h.receiveShadow = true;
+  return h;
 }
 
 /* ============================ la maquette ============================ */
@@ -712,7 +752,7 @@ function construireMaquette(j: Jardin, m: Matieres): Maquette {
   const propre: Propre = { fenetres: [], couronnes: [], matieres: [] };
   const versX = j.maison.x === 0 ? 0 : Math.sign(j.maison.x);
 
-  // Le socle : jardin + maison + une marge de parvis, et sa coupe de terre.
+  // Le socle : jardin + maison + une marge de parvis, posés sur une pierre sombre.
   const marge = 1.8;
   const minX = Math.min(-j.largeur / 2, j.maison.x - j.maison.largeur / 2) - marge;
   const maxX = Math.max(j.largeur / 2, j.maison.x + j.maison.largeur / 2) + marge;
@@ -735,7 +775,7 @@ function construireMaquette(j: Jardin, m: Matieres): Maquette {
     const geo = new THREE.PlaneGeometry(l, epaisseur);
     const uv = geo.attributes.uv as THREE.BufferAttribute;
     for (let i = 0; i < uv.count; i++) uv.setXY(i, (uv.getX(i) * l) / 3, uv.getY(i) * 0.9);
-    const face = new THREE.Mesh(geo, m.terre);
+    const face = new THREE.Mesh(geo, m.plinthe);
     face.position.set(x, -epaisseur / 2, z);
     face.rotation.y = r;
     groupe.add(face);
