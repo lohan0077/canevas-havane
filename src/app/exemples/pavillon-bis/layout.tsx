@@ -12,17 +12,17 @@ import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 // L'identité (30/10/2026) : celle d'une agence d'aujourd'hui qui reprend des maisons
 // d'hier. Le béton clair et l'anthracite des menuiseries neuves, un seul vermillon
 // franc — le rouge du crayon d'architecte, celui des corrections sur le calque —
-// réservé au geste principal ; Archivo, une
-// grotesque d'architecte, pour les titres et le texte, et l'italique d'Instrument Serif
+// réservé au geste principal ; Sora, une
+// géométrique d'architecte, pour les titres et le texte, et l'italique de DM Serif Display
 // pour la « deuxième version ». Les couleurs des années 70 (tuiles, crépi, volets
 // bruns) n'appartiennent qu'aux maisons d'avant, dans les dessins et la maquette.
 export default function PavillonBisLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
       entreprise="Pavillon Bis"
-      titres="archivo"
-      texte="archivo"
-      autres={["instrument"]}
+      titres="sora"
+      texte="sora"
+      autres={["dmSerif"]}
       couleurs={{
         fond: "#EEF0EF",
         encre: "#121417",
@@ -40,7 +40,7 @@ export default function PavillonBisLayout({ children }: { children: React.ReactN
           lisibles sur l'anthracite, et l'italique de la deuxième version. */}
       <div
         className="contents"
-        style={{ "--accent-clair": "#FF907A", "--doux-sombre": "#A3AAB0", "--serif": "var(--f-instrument)" } as React.CSSProperties}
+        style={{ "--accent-clair": "#FF907A", "--doux-sombre": "#A3AAB0", "--serif": "var(--f-dmserif)" } as React.CSSProperties}
       >
         <NavVerre
           accueil={DOSSIER}

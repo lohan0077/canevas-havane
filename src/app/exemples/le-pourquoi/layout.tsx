@@ -7,7 +7,7 @@ import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 // Le gabarit du site Le Pourquoi, cabinet d'ostéopathie imaginaire filmé dans les deux
 // vidéos des ostéopathes. Identité du 30/10/2026 : le bleu de nuit d'un studio photo,
 // la porcelaine d'un cabinet net, et le bois clair du mannequin du premier écran comme
-// seule chaleur. Instrument Serif pour les titres (son italique fait la mise en relief,
+// seule chaleur. Newsreader pour les titres (son italique fait la mise en relief,
 // et la voix du patient), Manrope pour lire. Le bleu outremer ne sert qu'au bouton
 // principal et à de petits détails ; sur fond sombre, il cède la place à la pervenche.
 // Chaque page s'ouvre sur un écran sombre : l'en-tête flottant y est clair.
@@ -15,7 +15,7 @@ export default function LePourquoiLayout({ children }: { children: React.ReactNo
   return (
     <Cadre
       entreprise="Le Pourquoi"
-      titres="instrument"
+      titres="newsreader"
       texte="manrope"
       couleurs={{
         fond: "#F4F5FA",

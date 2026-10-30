@@ -5,7 +5,7 @@ import TitreRevele from "../../_kit/TitreRevele";
 import { DOSSIER, agence } from "./donnees";
 
 /**
- * Les classes d'un mot en relief dans un titre : l'italique d'Instrument Serif, la voix
+ * Les classes d'un mot en relief dans un titre : l'italique de DM Serif Display, la voix
  * de la « deuxième version », en vermillon foncé (sur fond clair) ou en vermillon clair (sur
  * l'anthracite). Un peu plus grand que la grotesque, dont l'œil est plus haut.
  */
@@ -40,7 +40,7 @@ export function Surtitre({ children, clair = false }: { children: React.ReactNod
   );
 }
 
-/** Le titre d'un écran, révélé mot à mot : Archivo serrée, l'italique pour ce qui change. */
+/** Le titre d'un écran, révélé mot à mot : Sora, l'italique pour ce qui change. */
 export function Titre({
   texte,
   clair = false,

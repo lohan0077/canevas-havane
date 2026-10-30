@@ -15,7 +15,7 @@ export default function MentionsLegales() {
       <MentionsDemonstration
         site="pavillon-bis"
         entreprise="Pavillon Bis"
-        polices="Archivo et Instrument Serif"
+        polices="Sora et DM Serif Display"
         enPlus={
           <>
             <p>

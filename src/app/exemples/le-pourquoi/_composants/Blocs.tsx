@@ -5,15 +5,15 @@ import TitreRevele from "../../_kit/TitreRevele";
 import { DOSSIER, cabinet, type Photo } from "./donnees";
 
 // Version « carrée » (24/10/2026), habillée le 30/10/2026 : une échelle de texte, une
-// grille, des boutons fins. Titres en Instrument Serif ; la mise en relief est son
+// grille, des boutons fins. Titres en Newsreader ; la mise en relief est son
 // italique — outremer sur la porcelaine, pervenche sur le bleu de nuit.
 
-/** Les classes d'un mot en relief dans un titre : l'italique d'Instrument Serif. La
+/** Les classes d'un mot en relief dans un titre : l'italique de Newsreader. La
     pervenche #AEB8FF tient 9,7:1 sur le bleu de nuit. */
 export const ACCENT_CLAIR = "italic font-normal text-[var(--accent-texte)]";
 export const ACCENT_SOMBRE = "italic font-normal text-[#AEB8FF]";
 
-/** Le monogramme : un « ? » italique dans un rond outremer, et le nom en Instrument Serif. */
+/** Le monogramme : un « ? » italique dans un rond outremer, et le nom en Newsreader. */
 export function Marque() {
   return (
     <span className="flex items-center gap-2.5">
