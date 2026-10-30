@@ -229,7 +229,7 @@ export default function SeptSoirs({ children }: { children: React.ReactNode }) {
                   </span>
                   <span
                     aria-hidden="true"
-                    className={`text-center text-[11px] font-semibold uppercase tracking-[0.18em] transition-colors sm:text-[12px] ${
+                    className={`text-center text-[12px] font-semibold transition-colors sm:text-[13px] ${
                       i === actif ? "text-[var(--sur-sombre)]" : "text-[var(--doux)] group-hover:text-[var(--sur-sombre)]"
                     }`}
                   >

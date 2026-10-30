@@ -1,14 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import Apparition from "../../_kit/Apparition";
-import FondVivant from "../../_kit/FondVivant";
-import PhotoCinema from "../../_kit/PhotoCinema";
-import TitreRevele from "../../_kit/TitreRevele";
-import { ANNEE, DOSSIER, entreprise, gammes, lundi, premiereSemaineLibre, type Chantier, type Gamme, type Photo } from "./donnees";
-
-/** Les classes d'un mot en relief dans un titre : l'italique d'Arvo, en bleu d'eau ou en soleil. */
-export const ACCENT_CLAIR = "italic font-normal text-[var(--accent-texte)]";
-export const ACCENT_SOMBRE = "italic font-normal text-[var(--accent)]";
+import { ANNEE, DOSSIER, entreprise, lundi, premiereSemaineLibre, type Chantier, type Photo } from "./donnees";
 
 /** Le monogramme « 9 » dans son rond, et le nom. */
 export function Marque() {
@@ -25,15 +17,6 @@ export function Monogramme({ className = "" }: { className?: string }) {
     <span aria-hidden="true" className={`grid shrink-0 place-items-center rounded-full bg-[var(--accent)] font-[family-name:var(--titres)] font-normal text-[var(--sur-accent)] ${className}`}>
       9
     </span>
-  );
-}
-
-/** Le petit intitulé au-dessus d'un titre : une ligne discrète, en capitales espacées. */
-export function Surtitre({ children, clair = false }: { children: React.ReactNode; clair?: boolean }) {
-  return (
-    <p className={`text-[12px] font-medium uppercase tracking-[0.2em] ${clair ? "text-[var(--sur-sombre)]" : "text-[var(--doux)]"}`}>
-      {children}
-    </p>
   );
 }
 
@@ -58,7 +41,7 @@ export function Vague({ couleur, className = "" }: { couleur: string; className?
   );
 }
 
-/** Un bouton-lien en pilule, avec sa flèche qui avance au survol. */
+/** Un bouton-lien en pilule. Son libellé dit ce qui se passe : un verbe, pas de flèche. */
 export function Bouton({
   href,
   children,
@@ -80,24 +63,24 @@ export function Bouton({
     <Link
       href={href}
       data-film={film}
-      className={`group inline-flex h-12 items-center gap-3 rounded-full px-6 text-[15px] font-medium transition-colors ${styles}`}
+      className={`inline-flex h-12 items-center rounded-full px-6 text-[15px] font-medium transition-colors ${styles}`}
     >
       {children}
-      <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">→</span>
     </Link>
   );
 }
 
-/** Le titre d'une section, révélé mot à mot. */
+/**
+ * Le titre d'une section : un seul tenant, en Fraunces romain. Aucun mot mis en
+ * relief, aucune révélation mot à mot ; c'est la taille qui fait la hiérarchie.
+ */
 export function Titre({
   texte,
-  clair = false,
   taille = "grand",
   as = "h2",
   className = "",
 }: {
   texte: string;
-  clair?: boolean;
   taille?: "geant" | "grand" | "moyen";
   as?: "h1" | "h2" | "h3" | "p";
   className?: string;
@@ -107,29 +90,22 @@ export function Titre({
     grand: "text-[clamp(2.25rem,4.4vw,3.75rem)] leading-[1.05]",
     moyen: "text-[clamp(1.9rem,3.2vw,2.75rem)] leading-[1.1]",
   }[taille];
-  return (
-    <TitreRevele
-      as={as}
-      texte={texte}
-      className={`font-normal tracking-[-0.02em] text-balance ${tailles} ${className}`}
-      classeAccent={clair ? ACCENT_SOMBRE : ACCENT_CLAIR}
-    />
-  );
+  const Balise = as;
+  return <Balise className={`font-normal tracking-[-0.02em] text-balance ${tailles} ${className}`}>{texte}</Balise>;
 }
 
 /**
  * Le haut de chaque page intérieure : sombre, comme l'accueil (l'en-tête flottant
- * l'attend), une photo qui respire sous un voile bleu nuit, un titre en très grand.
+ * l'attend), une photo fixe sous un voile bleu nuit, un titre en très grand. Le seul
+ * moment animé du site reste la piscine de l'accueil : ici, rien ne bouge seul.
  */
 export function EnTetePage({
-  surtitre,
   titre,
   children,
   photo,
   actions,
   origine,
 }: {
-  surtitre: React.ReactNode;
   titre: string;
   children?: React.ReactNode;
   photo?: Photo;
@@ -140,107 +116,22 @@ export function EnTetePage({
     <section className="relative isolate flex min-h-[64svh] flex-col overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
       {photo ? (
         <>
-          <PhotoCinema src={photo.src} alt="" priority origine={origine} className="opacity-70" />
+          <Image src={photo.src} alt="" fill priority sizes="100vw" className="object-cover opacity-70" style={{ objectPosition: origine }} />
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(13,52,70,0.55)_0%,rgba(13,52,70,0.35)_38%,rgba(13,52,70,0.94)_100%)]" />
         </>
       ) : (
-        <>
-          <FondVivant couleurs={["#0D3446", "#176F8C", "#C99A2E"]} />
-          <div className="absolute inset-0 bg-[var(--sombre)]/45" />
-        </>
+        // Sans photo : la lumière d'un bassin le soir, peinte une fois pour toutes.
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[radial-gradient(110%_80%_at_88%_0%,rgba(23,111,140,0.85)_0%,transparent_60%),radial-gradient(80%_60%_at_0%_100%,rgba(201,154,46,0.3)_0%,transparent_65%)]"
+        />
       )}
       <div className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col justify-end gap-7 px-5 pb-14 pt-36 sm:px-8 md:pb-20">
-        <Apparition><Surtitre clair>{surtitre}</Surtitre></Apparition>
-        <TitreRevele
-          as="h1"
-          auChargement
-          texte={titre}
-          className="max-w-4xl text-[clamp(2.75rem,6vw,5.25rem)] font-normal leading-[1] tracking-[-0.02em] text-balance"
-          classeAccent={ACCENT_SOMBRE}
-        />
-        {children && (
-          <Apparition delai={400} className="max-w-xl text-lg leading-relaxed text-[var(--sur-sombre)]">
-            {children}
-          </Apparition>
-        )}
-        {actions && (
-          <Apparition delai={600} className="flex flex-wrap gap-3">
-            {actions}
-          </Apparition>
-        )}
+        <h1 className="max-w-4xl text-[clamp(2.75rem,6vw,5.25rem)] font-normal leading-[1] tracking-[-0.02em] text-balance">{titre}</h1>
+        {children && <div className="max-w-xl text-lg leading-relaxed text-[var(--sur-sombre)]">{children}</div>}
+        {actions && <div className="flex flex-wrap gap-3">{actions}</div>}
       </div>
     </section>
-  );
-}
-
-/** Une section de page, bornée et aérée. */
-export function Section({
-  children,
-  id,
-  className = "",
-  fond = "",
-}: {
-  children: React.ReactNode;
-  id?: string;
-  className?: string;
-  fond?: string;
-}) {
-  return (
-    <section id={id} className={`scroll-mt-24 ${fond}`}>
-      <div className={`mx-auto max-w-7xl px-5 py-24 sm:px-8 md:py-32 ${className}`}>{children}</div>
-    </section>
-  );
-}
-
-/** La carte d'une coque : sa photo, son nom, ses dimensions, son prix « à partir de ». */
-export function CarteGamme({ gamme, grande = false, titre = "h3" }: { gamme: Gamme; grande?: boolean; titre?: "h2" | "h3" }) {
-  const Balise = titre;
-  return (
-    <Link
-      href={`${DOSSIER}/piscines#${gamme.id}`}
-      className={`group relative flex h-full flex-col justify-end overflow-hidden rounded-[2rem] bg-[var(--sombre)] p-6 text-[var(--sur-sombre)] sm:p-7 ${grande ? "min-h-[420px] md:min-h-[560px]" : "min-h-[300px] md:min-h-[268px]"}`}
-    >
-      <Image
-        src={gamme.photo.src}
-        alt={gamme.photo.alt}
-        fill
-        sizes={grande ? "(min-width: 768px) 50vw, 100vw" : "(min-width: 768px) 25vw, 100vw"}
-        className="object-cover opacity-75 transition-transform duration-[1.4s] ease-out group-hover:scale-[1.06]"
-      />
-      <span className="absolute inset-0 bg-[linear-gradient(180deg,rgba(13,52,70,0)_25%,rgba(13,52,70,0.93)_100%)]" />
-      <span className="absolute right-5 top-5 rounded-full bg-[var(--sombre)]/85 px-3 py-1.5 font-[family-name:var(--titres)] text-sm font-normal backdrop-blur">
-        Coque {gamme.coque}{" "}m
-      </span>
-      <span className="relative space-y-1.5">
-        <Balise className={`font-bold leading-none tracking-[-0.02em] ${grande ? "text-5xl md:text-6xl" : "text-3xl"}`}>{gamme.nom}</Balise>
-        <span className="block text-[15px] text-[var(--sur-sombre)]">Jardin de {gamme.jardin}</span>
-        <span className="flex items-center gap-2 pt-2 font-[family-name:var(--titres)] text-[15px] font-normal text-[var(--accent)]">
-          À partir de {gamme.apartir}
-          <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-        </span>
-      </span>
-    </Link>
-  );
-}
-
-/** Les quatre coques en « bento » : la plus demandée en grand, les trois autres autour. */
-export function GrilleGammes({ titre = "h3" }: { titre?: "h2" | "h3" }) {
-  const [petit, classique, famille, grand] = gammes;
-  return (
-    <ul className="grid gap-4 md:grid-cols-4 md:grid-rows-2">
-      <Apparition as="li" de="zoom" className="md:col-span-2 md:row-span-2">
-        <CarteGamme gamme={famille} grande titre={titre} />
-      </Apparition>
-      <Apparition as="li" de="zoom" delai={120} className="md:col-span-2">
-        <CarteGamme gamme={grand} titre={titre} />
-      </Apparition>
-      <Apparition as="li" de="zoom" delai={220}>
-        <CarteGamme gamme={classique} titre={titre} />
-      </Apparition>
-      <Apparition as="li" de="zoom" delai={320}>
-        <CarteGamme gamme={petit} titre={titre} />
-      </Apparition>
-    </ul>
   );
 }
 
@@ -251,10 +142,10 @@ export function CarteChantier({ chantier, titre = "h3" }: { chantier: Chantier; 
     <Link
       href={`${DOSSIER}/chantiers/${chantier.slug}`}
       data-chantier={chantier.slug}
-      className="group block h-full overflow-hidden rounded-[2rem] border border-[var(--trait)] bg-[var(--carte)] transition-shadow hover:shadow-[0_30px_60px_-36px_rgba(18,68,90,0.55)]"
+      className="group block h-full overflow-hidden rounded-[2rem] border border-[var(--trait)] bg-[var(--carte)]"
     >
       <span className="relative block aspect-[4/3] overflow-hidden">
-        <Image src={chantier.photo.src} alt={chantier.photo.alt} fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover transition-transform duration-[1.4s] ease-out group-hover:scale-[1.05]" />
+        <Image src={chantier.photo.src} alt={chantier.photo.alt} fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover" />
         <span className="absolute left-4 top-4 rounded-full bg-[var(--carte)] px-3 py-1.5 font-[family-name:var(--titres)] text-sm font-normal text-[var(--encre)]">
           Chantier n° {chantier.numero}
         </span>
@@ -265,37 +156,33 @@ export function CarteChantier({ chantier, titre = "h3" }: { chantier: Chantier; 
           <span className="whitespace-nowrap font-[family-name:var(--titres)] font-normal">{chantier.duree}</span>
         </span>
         <Balise className="text-[1.75rem] font-bold leading-tight tracking-[-0.02em]">{chantier.titre}</Balise>
-        <span className="flex items-center gap-2 pt-1 font-[family-name:var(--titres)] text-[15px] font-normal text-[var(--accent-texte)]">
-          Le chantier, filmé jour par jour
-          <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+        <span className="block pt-1 font-[family-name:var(--titres)] text-[15px] font-normal text-[var(--accent-texte)] underline decoration-1 underline-offset-4 group-hover:decoration-2">
+          Voir le film du chantier
         </span>
       </span>
     </Link>
   );
 }
 
-/** Le dernier écran de chaque page : la prochaine semaine libre, sur le fond animé de la marque. */
+/** Le dernier écran de chaque page : la prochaine semaine libre. */
 export function AppelFinal() {
-  const date = lundi(ANNEE, premiereSemaineLibre).toLocaleDateString("fr-FR", { day: "numeric", month: "long", timeZone: "UTC" });
+  const date = lundi(ANNEE, premiereSemaineLibre).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
   return (
     <section className="border-t border-[var(--trait)]">
       <div className="mx-auto max-w-3xl space-y-8 px-6 py-28 text-center md:py-36">
-        <Apparition><Surtitre>Saison {ANNEE}</Surtitre></Apparition>
-        <TitreRevele
-          texte={`Prochaine semaine libre : *semaine ${premiereSemaineLibre}.*`}
-          className="text-[clamp(2.25rem,4.4vw,3.75rem)] font-normal leading-[1.05] tracking-[-0.02em] text-balance"
-          classeAccent={ACCENT_CLAIR}
-        />
-        <Apparition as="p" delai={150} className="mx-auto max-w-lg text-lg leading-relaxed text-[var(--doux)]">
+        <h2 className="text-[clamp(2.25rem,4.4vw,3.75rem)] font-normal leading-[1.05] tracking-[-0.02em] text-balance">
+          Prochaine semaine libre&nbsp;: semaine {premiereSemaineLibre}.
+        </h2>
+        <p className="mx-auto max-w-lg text-lg leading-relaxed text-[var(--doux)]">
           À partir du {date}. Les semaines de printemps partent les premières : ce sont
           celles qui mènent au premier dimanche de juillet.
-        </Apparition>
-        <Apparition delai={250} className="flex flex-col items-center gap-4">
+        </p>
+        <div className="flex flex-col items-center gap-4">
           <Bouton href={`${DOSSIER}/ma-date`}>Choisir ma semaine</Bouton>
           <p className="text-[15px] text-[var(--doux)]">
             Ou par téléphone : <span className="font-medium tabular-nums text-[var(--encre)]">{entreprise.telephone}</span>
           </p>
-        </Apparition>
+        </div>
       </div>
     </section>
   );

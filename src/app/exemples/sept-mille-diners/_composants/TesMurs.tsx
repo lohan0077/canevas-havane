@@ -56,7 +56,7 @@ export default function TesMurs() {
             { id: "mur-2", libelle: "Mur 2", valeur: mur2, changer: setMur2, aide: "vide si droite" },
           ].map((c) => (
             <label key={c.id} className="block rounded-2xl border border-[var(--trait)] bg-[var(--fond)] px-4 py-3 focus-within:border-[var(--encre)]">
-              <span className="block text-xs font-medium uppercase tracking-[0.16em] text-[var(--doux)]">{c.libelle}</span>
+              <span className="block text-[14px] font-medium text-[var(--doux)]">{c.libelle}</span>
               <span className="flex items-baseline gap-1">
                 <input
                   id={c.id}
@@ -75,7 +75,7 @@ export default function TesMurs() {
         </div>
 
         <fieldset>
-          <legend className="mb-2 text-xs font-medium uppercase tracking-[0.16em] text-[var(--doux)]">La gamme</legend>
+          <legend className="mb-2 text-[14px] font-medium text-[var(--doux)]">La gamme</legend>
           <div className="grid grid-cols-3 gap-2">
             {GAMMES.map((x) => (
               <button
@@ -130,10 +130,10 @@ export default function TesMurs() {
               </svg>
             </div>
             <p className="text-lg">
-              Une cuisine {l2 > 0 ? "en L" : "droite"} · {metres(lineaire)} linéaires · {n1 + n2} meubles bas
+              Une cuisine {l2 > 0 ? "en L" : "droite"} : {metres(lineaire)} linéaires, {n1 + n2} meubles bas.
             </p>
             <div className="space-y-1 rounded-2xl bg-[var(--sombre)] p-5 text-[var(--sur-sombre)]" data-film="fourchette">
-              <p className="text-xs font-medium uppercase tracking-[0.16em]">Fourchette TTC · pose comprise · exemple</p>
+              <p className="text-[14px] font-medium">Fourchette d&apos;exemple, TTC, pose comprise</p>
               <p className="whitespace-nowrap font-[family-name:var(--titres)] text-[1.75rem] lining-nums tabular-nums sm:text-4xl">
                 {euros(arrondi(lineaire * g.min))} – {euros(arrondi(lineaire * g.max))}
               </p>

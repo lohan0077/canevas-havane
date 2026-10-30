@@ -527,6 +527,13 @@ export default function Bassin3D({ onPret, onIndisponible }: Props) {
   useEffect(() => {
     const el = conteneur.current;
     if (!el) return;
+    // WebGL testé avant three : sans lui, three écrit trois erreurs en console avant
+    // d'abandonner. Le repli (l'affiche, le plan 2D) suffit, en silence.
+    const essai = document.createElement("canvas");
+    if (!(essai.getContext("webgl2") ?? essai.getContext("webgl"))) {
+      onIndisponible();
+      return;
+    }
     let rendu: THREE.WebGLRenderer;
     try {
       rendu = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });

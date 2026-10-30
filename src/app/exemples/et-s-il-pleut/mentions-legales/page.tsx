@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function MentionsLegales() {
   return (
     <main>
-      <EnTetePage surtitre="À savoir" titre="Une wedding planner *qui n'existe pas.*" photo={photos.fenetre} />
+      <EnTetePage titre="Une wedding planner qui n'existe pas." photo={photos.fenetre} />
       <MentionsDemonstration
         site="et-s-il-pleut"
         entreprise="Et s'il pleut"

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../_kit/Apparition";
-import { EnTetePage, Surtitre, Titre } from "../_composants/Blocs";
+import { EnTetePage, Titre } from "../_composants/Blocs";
 import Formulaire from "../_composants/Formulaire";
 import { entreprise, photos } from "../_composants/donnees";
 
@@ -14,14 +14,13 @@ export const metadata: Metadata = {
 export default function Contact() {
   return (
     <main>
-      <EnTetePage surtitre="Contact" titre={"Une question\u00a0? *Appelle-nous.*"} photo={photos.mosaiqueEtBois}>
+      <EnTetePage titre={"Une question\u00a0? Appelle-nous."} photo={photos.mosaiqueEtBois}>
         Ou écris ici : on répond le jour même, en semaine. Pour un projet précis, le plus rapide
         reste de réserver la visite technique.
       </EnTetePage>
 
       <section className="mx-auto grid max-w-7xl gap-12 px-5 py-24 sm:px-8 md:py-32 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="space-y-8">
-          <Apparition><Surtitre>Nous trouver</Surtitre></Apparition>
           <Apparition as="div" className="space-y-6 rounded-[2.5rem] bg-[var(--sombre)] p-8 text-[var(--sur-sombre)] sm:p-10">
             <dl className="space-y-6">
               <div>
@@ -41,14 +40,14 @@ export default function Contact() {
                 <dd className="space-y-1">
                   {entreprise.horaires.map((h) => (
                     <span key={h.jours} className="block">
-                      <span className="font-bold">{h.jours}</span> · {h.heures}
+                      <span className="font-bold">{h.jours}</span>&nbsp;: {h.heures}
                     </span>
                   ))}
                 </dd>
               </div>
               <div>
                 <dt className="text-[15px]">Zone</dt>
-                <dd>{entreprise.zone.join(", ")} · {entreprise.rayon}</dd>
+                <dd>{entreprise.zone.join(", ")}, dans un rayon de {entreprise.rayon}.</dd>
               </div>
             </dl>
           </Apparition>
@@ -57,14 +56,14 @@ export default function Contact() {
           </p>
         </div>
         <div className="space-y-6">
-          <Titre texte="Écrire *à l'équipe.*" taille="moyen" />
+          <Titre texte="Écrire à l'équipe." taille="moyen" />
           <Formulaire
             champs={[
               { nom: "nom", libelle: "Ton nom", requis: true, autocomplete: "name" },
               { nom: "telephone", libelle: "Ton téléphone", type: "tel", requis: true, autocomplete: "tel" },
               { nom: "message", libelle: "Ton message", type: "textarea", requis: true },
             ]}
-            bouton="Envoyer"
+            bouton="Envoyer le message"
             confirmation="Message bien reçu"
           />
         </div>

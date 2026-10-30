@@ -42,7 +42,7 @@ export default function Remplissage() {
       {/* L'invitation à toucher l'eau, posée au-dessus du bassin une fois rempli. */}
       {!sans3D && (
         <p
-          className={`pointer-events-none absolute left-1/2 top-[34%] z-10 -translate-x-1/2 rounded-full border border-white/25 bg-[#0D3446]/85 px-4 py-2 shadow-[0_8px_24px_rgba(5,20,30,.35)] text-[11px] font-semibold uppercase tracking-[0.2em] text-white backdrop-blur-md transition-opacity delay-[8000ms] duration-1000 motion-reduce:hidden lg:left-[66%] lg:top-[62%] ${pret ? "opacity-100" : "opacity-0"}`}
+          className={`pointer-events-none absolute left-1/2 top-[34%] z-10 -translate-x-1/2 rounded-full border border-white/25 bg-[#0D3446]/85 px-4 py-2 shadow-[0_8px_24px_rgba(5,20,30,.35)] text-[13px] font-semibold text-white backdrop-blur-md transition-opacity delay-[8000ms] duration-1000 motion-reduce:hidden lg:left-[66%] lg:top-[62%] ${pret ? "opacity-100" : "opacity-0"}`}
           aria-hidden="true"
         >
           <span className="[@media(pointer:coarse)]:hidden">Passe la souris sur l&apos;eau</span>
@@ -51,15 +51,18 @@ export default function Remplissage() {
       )}
 
       <div className="pointer-events-none relative z-10 mx-auto flex h-full max-w-6xl flex-col justify-end px-6 pb-28 md:pb-16 lg:pb-20">
-        <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#CFE6EE]">Piscines familiales</p>
-        <h1 className="mt-4 text-[2.6rem] font-normal leading-[1.02] tracking-[-0.01em] text-white sm:text-6xl lg:text-7xl">
+        <h1 className="text-[2.6rem] font-normal leading-[1.02] tracking-[-0.01em] text-white sm:text-6xl lg:text-7xl">
           Il te reste
           <br />
-          <span className="text-[var(--accent)]">combien d&apos;étés&nbsp;?</span>
+          combien d&apos;étés&nbsp;?
         </h1>
-        <p className="mt-5 hidden max-w-md text-base leading-relaxed text-[#E4EEF1] sm:block md:text-lg">
-          Entre l&apos;âge de tes enfants : le site compte les étés qu&apos;il te reste avec eux, à la maison.
-          Neuf Étés construit l&apos;endroit où ils vont se passer.
+        {/* Sur téléphone, une ligne courte laisse voir l'eau ; la phrase entière ensuite. */}
+        <p className="mt-5 max-w-md text-base leading-relaxed text-[#E4EEF1] md:text-lg">
+          <span className="sm:hidden">Piscines familiales en Drôme-Ardèche.</span>
+          <span className="hidden sm:inline">
+            Entre l&apos;âge de tes enfants : le site compte les étés qu&apos;il te reste avec eux, à la maison.
+            Neuf Étés construit l&apos;endroit où ils vont se passer : des piscines familiales, en Drôme-Ardèche.
+          </span>
         </p>
         <div className="pointer-events-auto mt-8 flex flex-wrap items-center gap-3">
           <Link
@@ -73,7 +76,7 @@ export default function Remplissage() {
             href="#prix"
             className="rounded-full border border-white/40 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
           >
-            Ton jardin fait combien&nbsp;?
+            Calculer pour mon jardin
           </Link>
         </div>
       </div>

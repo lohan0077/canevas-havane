@@ -51,7 +51,7 @@ export default function Bascule({ grand = false }: { grand?: boolean }) {
           <div className="esp-averse" />
         </div>
         <p className="absolute bottom-3 left-3 rounded-full bg-[var(--sombre)] px-3.5 py-1.5 text-xs font-semibold text-[var(--sur-sombre)]">
-          Samedi 11 septembre 2027 · exemple
+          Exemple : samedi 11 septembre 2027
         </p>
         <p aria-live="polite" className="absolute right-3 top-3 flex items-center gap-2 rounded-full bg-[var(--carte)] px-3.5 py-1.5 text-sm font-semibold text-[var(--encre)] shadow-[0_6px_18px_-8px_rgba(25,26,40,0.5)]">
           <span key={pluie ? "p" : "s"} className="esp-ligne flex items-center gap-2">
@@ -87,9 +87,9 @@ export default function Bascule({ grand = false }: { grand?: boolean }) {
         <ol className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
           {MOMENTS.map((m, i) => (
             <li key={m.moment} className="grid grid-cols-[86px_1fr] items-baseline gap-3 py-3">
-              <span className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--doux)]">
+              <span className="text-[14px] font-semibold text-[var(--doux)]">
                 {m.moment}
-                <span className="block font-medium normal-case tracking-normal tabular-nums">{m.heure.replace(/ /g, " ")}</span>
+                <span className="block font-medium tabular-nums">{m.heure.replace(/ /g, " ")}</span>
               </span>
               <span className="relative block min-h-[1.6em] font-[family-name:var(--titres)] text-[20px] leading-snug">
                 <span

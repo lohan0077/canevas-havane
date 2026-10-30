@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../_kit/Apparition";
-import { AppelFinal, Bouton, PORCELAINE, Surtitre, Titre } from "../_composants/Blocs";
+import { AppelFinal, Bouton, PORCELAINE, Titre } from "../_composants/Blocs";
 import { DOSSIER, QUESTIONS_GUIDE } from "../_composants/donnees";
 
 export const metadata: Metadata = {
@@ -20,9 +20,9 @@ export default function ChoisirSonCuisiniste() {
     <main>
       <section data-film="guide" className="relative isolate flex min-h-[64svh] flex-col bg-[var(--sombre)] text-[var(--sur-sombre)]">
         <div className="relative mx-auto flex w-full max-w-6xl flex-1 flex-col justify-end gap-7 px-6 pb-14 pt-36 md:pb-20">
-          <Apparition><Surtitre clair>Le guide</Surtitre></Apparition>
-          <Titre as="h1" texte="Comment choisir un bon cuisiniste." taille="geant" className="max-w-4xl" auChargement />
-          <Titre as="p" id="meme-si" texte="*Même si ce n'est pas nous.*" taille="moyen" auChargement />
+          <Titre as="h1" texte="Comment choisir un bon cuisiniste." taille="geant" className="max-w-4xl" />
+          {/* La ligne entière en italique de laiton : un parti pris sur toute la phrase, pas sur un mot. */}
+          <Titre as="p" id="meme-si" texte="Même si ce n'est pas nous." taille="moyen" className="italic text-[var(--accent-texte)]" />
           <Apparition delai={500} className="max-w-xl text-lg leading-relaxed text-[var(--sur-sombre)]">
             Vous verrez peut-être trois magasins, et vous repartirez avec trois plans. Pour les comparer, posez les mêmes
             questions à tous ceux que vous verrez. Nous compris. On ne dit rien des autres : on dit seulement ce que, nous,
@@ -52,7 +52,7 @@ export default function ChoisirSonCuisiniste() {
 
       <section>
         <div className="mx-auto grid max-w-6xl gap-10 px-6 py-28 md:py-40 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
-          <Titre texte={"Ce qu'on ne fera pas : *dire du mal des autres.*"} />
+          <Titre texte={"Ce qu'on ne fera pas : dire du mal des autres."} />
           <div className="space-y-6">
             <p className="max-w-[26rem] text-lg leading-relaxed text-[var(--doux)]">
               Ce guide ne compare personne, et ne nomme aucune enseigne. Les questions sont bonnes partout ; à vous de juger

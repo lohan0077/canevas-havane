@@ -12,7 +12,7 @@ export default function Pied() {
           <p className="max-w-xs leading-relaxed">Cuisines sur mesure. On vend des dîners ; les meubles sont fournis.</p>
         </div>
         <div className="space-y-3">
-          <p className="text-[12px] font-medium uppercase tracking-[0.2em]">L&apos;atelier</p>
+          <p className="font-[family-name:var(--titres)] text-xl italic">L&apos;atelier</p>
           <p className="leading-relaxed">
             {maison.adresse}, {maison.ville}
             <br />

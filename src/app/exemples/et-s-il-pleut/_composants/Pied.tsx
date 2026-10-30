@@ -18,7 +18,7 @@ export default function Pied() {
           </p>
         </div>
         <div className="space-y-3">
-          <p className="text-[12px] font-semibold uppercase tracking-[0.2em]">À savoir</p>
+          <p className="font-[family-name:var(--titres)] text-xl italic">À savoir</p>
           <p className="leading-relaxed">Prix TTC d&apos;exemple. Premier rendez-vous gratuit.</p>
           <p className="leading-relaxed">Aucune photo de mariés sur ce site : leurs images leur appartiennent. Aucune prévision météo non plus : le ciel, on le regarde à J-7, ensemble.</p>
         </div>

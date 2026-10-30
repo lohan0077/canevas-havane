@@ -85,13 +85,9 @@ export const photos = {
   reflets: photo("reflets", 1080, 1920, "Reflets du soleil sur l'eau d'une piscine", "Jana Kowalewicz", "VpQJwAmwhbs"),
 } satisfies Record<string, Photo>;
 
-/** Les quatre vidéos de l'ouverture (Pexels), et leurs auteurs. */
-export const videos = [
-  { fichier: "ete.mp4", sujet: "le plongeon", auteur: "Marc Espejo" },
-  { fichier: "jardin.mp4", sujet: "le jardin vu du ciel", auteur: "Marc Espejo" },
-  { fichier: "chantier.mp4", sujet: "le chantier", auteur: "Giwrgos Lamp" },
-  { fichier: "mise-en-eau.mp4", sujet: "le volet qui s'ouvre sur l'eau", auteur: "Marc Van den Broeck" },
-];
+/** La vidéo Pexels du chantier vu du ciel (page d'un chantier), et son auteur. Les
+    trois autres vidéos de l'ancienne ouverture ont été retirées avec elle (30/10/2026). */
+export const videos = [{ fichier: "chantier.mp4", sujet: "le chantier", auteur: "Giwrgos Lamp" }];
 
 /* ---------- Les coques ---------- */
 
@@ -265,7 +261,7 @@ export const photosDeChantier = [photos.terrassement, photos.engins, photos.avan
 /* ---------- L'équipe, les engagements, la méthode ---------- */
 
 export const equipe = [
-  { initiales: "JM", nom: "Julien Marchal", role: "Fondateur · conduite de chantier", phrase: "Présent sur chaque chantier, le premier et le dernier jour." },
+  { initiales: "JM", nom: "Julien Marchal", role: "Fondateur, conduite de chantier", phrase: "Présent sur chaque chantier, le premier et le dernier jour." },
   { initiales: "SB", nom: "Sarah Benali", role: "Visites techniques et devis", phrase: "Elle vient chez toi, mesure, et te dit ce qui rentre vraiment." },
   { initiales: "TR", nom: "Thomas Roux", role: "Chef de pose", phrase: "Douze ans de coques posées, et le niveau vérifié deux fois." },
 ];

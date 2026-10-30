@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 
-/** « 11/09/2027 » → « 11 · 09 · 2027 » : l'étiquette se lit comme un faire-part. */
-const enPoints = (saisie: string) => saisie.trim().replace(/\s*[/.-]\s*/g, " · ");
+/** « 11/09/2027 » devient « 11.09.2027 » : l'étiquette se lit comme un faire-part. */
+const enPoints = (saisie: string) => saisie.trim().replace(/\s*[/.-]\s*/g, ".");
 
 /**
  * Les cent parapluies jaunes : les prénoms des mariés et la date, sur l'étiquette qui

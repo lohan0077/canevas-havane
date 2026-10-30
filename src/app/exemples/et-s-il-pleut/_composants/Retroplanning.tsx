@@ -7,7 +7,7 @@ const MOIS = ["janvier", "fevrier", "mars", "avril", "mai", "juin", "juillet", "
 const MOIS_COURTS = ["Janv.", "Févr.", "Mars", "Avr.", "Mai", "Juin", "Juil.", "Août", "Sept.", "Oct.", "Nov.", "Déc."];
 const JOURS = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
 
-/** « 11 septembre 2027 », « samedi 11 septembre 2027 » ou « 11/09/2027 » → une date, ou null. */
+/** Lit « 11 septembre 2027 », « samedi 11 septembre 2027 » ou « 11/09/2027 » : une date, ou null. */
 function lire(saisie: string): Date | null {
   const n = saisie.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/^(lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche)\s+/, "").trim();
   let j: number, m: number, a: number;
@@ -90,7 +90,7 @@ export default function Retroplanning() {
   return (
     <div data-film="retroplanning" className="space-y-5 rounded-[1.75rem] border border-[var(--trait)] bg-[var(--carte)] p-5 shadow-[0_40px_80px_-50px_rgba(0,0,0,0.6)] sm:p-8">
       <label htmlFor="esp-date" className="block space-y-2">
-        <span className="block text-xs font-semibold uppercase tracking-[0.18em] text-[var(--doux)]">Date du mariage</span>
+        <span className="block text-[15px] font-semibold text-[var(--doux)]">Date du mariage</span>
         <input
           id="esp-date"
           type="text"

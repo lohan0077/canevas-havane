@@ -130,7 +130,7 @@ export default function CalculEtes() {
         >
           Compter mes étés
         </button>
-        <p className="text-center text-[14px]">Calcul fait sur ton téléphone · rien n&apos;est enregistré ni envoyé.</p>
+        <p className="text-center text-[14px]">Le calcul reste sur ton téléphone : rien n&apos;est enregistré ni envoyé.</p>
         {erreur && (
           <p role="alert" className="rounded-2xl bg-[var(--fond)] px-4 py-3 text-center font-bold text-[#9B2C10]">
             Indique au moins un âge, entre 0 et 17 ans.
@@ -140,7 +140,7 @@ export default function CalculEtes() {
 
       {resultat && (
         <div role="status" data-film="resultat" className="border-t border-white/15 bg-[#0A2A39] px-6 pb-8 pt-7 sm:px-8">
-          <p className="font-[family-name:var(--titres)] text-sm font-normal uppercase tracking-[0.16em] text-[var(--accent)]">Il te reste</p>
+          <p className="font-[family-name:var(--titres)] text-xl font-normal text-[var(--accent)]">Il te reste</p>
           <Apparition as="p" de="zoom" className="mt-2 font-[family-name:var(--titres)] text-[clamp(4.5rem,13vw,7.5rem)] font-normal leading-[0.9] tracking-[-0.015em] tabular-nums">
             {resultat.tous} {resultat.tous > 1 ? "étés" : "été"}
           </Apparition>

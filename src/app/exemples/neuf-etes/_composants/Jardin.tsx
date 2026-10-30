@@ -178,10 +178,10 @@ export default function Jardin() {
         <div className="rounded-[1.75rem] bg-[var(--sombre)] p-5 sm:p-6" aria-live="polite" data-film="prix-jardin">
           {coque ? (
             <div className="space-y-1.5">
-              <p className="text-[15px]">La piscine qui rentre · gamme {coque.nom}</p>
+              <p className="text-[15px]">La piscine qui rentre, gamme {coque.nom}</p>
               <p className="font-[family-name:var(--titres)] text-[1.7rem] font-normal leading-tight sm:text-[2rem]">Coque {coque.coque}{" "}m</p>
               <p className="font-[family-name:var(--titres)] text-2xl font-normal tabular-nums text-[var(--accent)]">{coque.prix} TTC</p>
-              <p className="text-[14px]">Pose comprise · prix d&apos;exemple</p>
+              <p className="text-[14px]">Pose comprise, prix d&apos;exemple</p>
             </div>
           ) : (
             <div className="space-y-1.5">

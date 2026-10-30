@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../_kit/Apparition";
-import { AppelFinal, EnTetePage, Surtitre, Titre } from "../_composants/Blocs";
+import { AppelFinal, EnTetePage, Titre } from "../_composants/Blocs";
 import Coulisses from "../_composants/Coulisses";
 import { photos } from "../_composants/donnees";
 
@@ -23,17 +23,16 @@ const REGLES = [
 export default function PageCoulisses() {
   return (
     <main>
-      <EnTetePage surtitre="Sur nos réseaux" titre="Pas de couchers de soleil. *Les coulisses.*" photo={photos.chaises} origine="50% 55%">
+      <EnTetePage titre="Pas de couchers de soleil. Les coulisses." photo={photos.chaises} origine="50% 55%">
         Ce qu&apos;une wedding planner fait vraiment, c&apos;est ce que personne ne voit. Alors on le
-        montre — après coup, et avec l&apos;accord des mariés.
+        montre sur nos réseaux — après coup, et avec l&apos;accord des mariés.
       </EnTetePage>
 
       <section className="mx-auto grid max-w-6xl gap-16 px-6 py-28 md:py-40 lg:grid-cols-2 lg:items-center">
         <div className="space-y-6">
-          <Apparition><Surtitre>Un épisode d&apos;exemple</Surtitre></Apparition>
-          <Titre texte={"14 h 10 : *l'arche n'est pas là.*"} />
+          <Titre texte={"14\u00a0h\u00a010\u00a0: l'arche n'est pas là."} />
           <p className="max-w-[26rem] text-lg leading-relaxed text-[var(--doux)]">
-            14 h 40 : montée. Les mariés n&apos;ont rien vu. Touche le téléphone pour passer d&apos;un plan à
+            Un épisode d&apos;exemple. 14 h 40 : montée. Les mariés n&apos;ont rien vu. Touche le téléphone pour passer d&apos;un plan à
             l&apos;autre.
           </p>
         </div>
@@ -42,19 +41,15 @@ export default function PageCoulisses() {
 
       <section className="bg-[var(--sombre)] text-[var(--sur-sombre)]">
         <div className="mx-auto max-w-6xl space-y-14 px-6 py-28 md:py-40">
-          <div className="space-y-5">
-            <Apparition><Surtitre clair>Pour filmer</Surtitre></Apparition>
-            <Titre texte="Nos trois *règles.*" clair />
-          </div>
-          <ol className="grid gap-10 md:grid-cols-3">
+          <Titre texte="Nos trois règles pour filmer." />
+          <ul className="grid gap-10 md:grid-cols-3">
             {REGLES.map((r, i) => (
               <Apparition as="li" key={r.titre} delai={i * 120} className="space-y-3 border-t border-white/20 pt-5">
-                <p className="text-[12px] font-medium uppercase tracking-[0.2em]">0{i + 1}</p>
-                <h2 className="font-[family-name:var(--titres)] text-2xl font-normal">{r.titre}</h2>
+                <h3 className="font-[family-name:var(--titres)] text-2xl font-normal">{r.titre}</h3>
                 <p className="leading-relaxed">{r.texte}</p>
               </Apparition>
             ))}
-          </ol>
+          </ul>
         </div>
       </section>
 
@@ -63,7 +58,7 @@ export default function PageCoulisses() {
           <Image src={photos.arche.src} alt={photos.arche.alt} fill sizes="(min-width: 1024px) 460px, 100vw" className="object-cover" />
         </Apparition>
         <div className="space-y-6">
-          <Titre texte="À 15 h, *tout est en place.*" />
+          <Titre texte={"À 15\u00a0h, tout est en place."} />
           <p className="max-w-[26rem] text-lg leading-relaxed text-[var(--doux)]">L&apos;arche, les chaises, les fleurs. Ce que les invités voient en arrivant, c&apos;est la fin de notre journée — et le début de la leur.</p>
         </div>
       </section>

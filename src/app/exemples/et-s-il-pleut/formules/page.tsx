@@ -3,7 +3,7 @@ import Image from "next/image";
 import { adressesDeLaPage } from "@/lib/seo";
 import Accordeon from "../../_kit/Accordeon";
 import Apparition from "../../_kit/Apparition";
-import { AppelFinal, EnTetePage, Surtitre, Titre } from "../_composants/Blocs";
+import { AppelFinal, EnTetePage, Titre } from "../_composants/Blocs";
 import { FORMULES, QUESTIONS, euros, photos } from "../_composants/donnees";
 
 export const metadata: Metadata = {
@@ -23,7 +23,7 @@ const PRESTATAIRES = QUESTIONS.filter((q) => q.question.startsWith("Vous travail
 export default function PageFormules() {
   return (
     <main>
-      <EnTetePage surtitre="Les prix" titre="Trois formules. *Deux versions chacune.*" photo={photos.soir}>
+      <EnTetePage titre="Trois formules. Deux versions chacune." photo={photos.soir}>
         Affichés ici, pas dans un PDF envoyé trois jours plus tard. Le plan B est compris dans
         chacune. Le devis précis suit le premier rendez-vous, gratuit.
       </EnTetePage>
@@ -32,13 +32,14 @@ export default function PageFormules() {
         {FORMULES.map((f, i) => {
           const fort = i === 1;
           return (
-            // L'apparition enveloppe la carte : la carte garde ses propres transitions (survol).
             <Apparition key={f.id} delai={i * 120}>
-            <article id={`formule-${f.id}`} className={`h-full space-y-5 rounded-[1.75rem] p-7 transition-[translate,box-shadow] duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)] hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:translate-y-0 sm:p-9 ${fort ? "bg-[var(--sombre)] text-[var(--sur-sombre)] shadow-[0_40px_80px_-40px_rgba(25,26,40,0.7)]" : "border border-[var(--trait)] bg-[var(--carte)] hover:shadow-[0_30px_60px_-40px_rgba(25,26,40,0.5)]"}`}>
-              <p className={`text-[12px] font-semibold uppercase tracking-[0.2em] ${fort ? "" : "text-[var(--doux)]"}`}>0{i + 1} — {f.sous}</p>
-              <h2 className="font-[family-name:var(--titres)] text-[2rem] font-normal leading-tight">{f.titre}</h2>
+            <article id={`formule-${f.id}`} className={`h-full space-y-5 rounded-[1.75rem] p-7 sm:p-9 ${fort ? "bg-[var(--sombre)] text-[var(--sur-sombre)] shadow-[0_40px_80px_-40px_rgba(25,26,40,0.7)]" : "border border-[var(--trait)] bg-[var(--carte)]"}`}>
+              <div className="space-y-1">
+                <h2 className="font-[family-name:var(--titres)] text-[2rem] font-normal leading-tight">{f.titre}</h2>
+                <p className={`text-[15px] font-semibold ${fort ? "" : "text-[var(--doux)]"}`}>{f.sous}</p>
+              </div>
               <p className={`font-[family-name:var(--titres)] text-4xl italic ${fort ? "text-[var(--accent)]" : ""}`}>dès {euros(f.prix)}</p>
-              <p className={`text-[15px] ${fort ? "" : "text-[var(--doux)]"}`}>TTC · prix d&apos;exemple · plan B compris</p>
+              <p className={`text-[15px] ${fort ? "" : "text-[var(--doux)]"}`}>TTC, prix d&apos;exemple, plan B compris.</p>
               <ul className={`space-y-2.5 border-t pt-5 ${fort ? "border-white/20" : "border-[var(--trait)]"}`}>
                 {f.compris.map((c) => (
                   <li key={c} className="leading-relaxed">{c}</li>
@@ -53,8 +54,8 @@ export default function PageFormules() {
       <section className="bg-[var(--carte)]">
         <div className="mx-auto grid max-w-6xl gap-16 px-6 py-28 md:py-40 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div className="space-y-6">
-            <Apparition><Surtitre>Ce qui n&apos;est pas dedans</Surtitre></Apparition>
-            <Titre texte="Pas de marge, *pas de commission.*" />
+            <Titre texte="Pas de marge, pas de commission." />
+            <p className="text-lg font-semibold">Ce qui n&apos;est pas dans le prix&nbsp;:</p>
             <ul className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
               {PAS_COMPRIS.map((p) => (
                 <li key={p} className="py-4 text-lg leading-relaxed text-[var(--doux)]">{p}</li>

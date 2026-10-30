@@ -1,7 +1,7 @@
 /*
- * Les mouvements propres à « Et s'il pleut » : la petite ombrelle qui s'ouvre devant
- * chaque intitulé (l'écho des parapluies du premier écran), l'averse fine sur les
- * photos, les boutons, les listes qui entrent une ligne après l'autre.
+ * Les mouvements propres à « Et s'il pleut » : l'averse fine, les boutons, les listes
+ * qui entrent une ligne après l'autre. Hors du premier écran, rien ne bouge seul :
+ * seuls les gestes du visiteur (basculer, déplier, taper une date) animent la page.
  * Même règle que le kit : tout est dans la couche `components`, une classe Tailwind
  * posée sur le même élément l'emporte. Avec « animations réduites », rien ne bouge et
  * tout est montré dans son état final.
@@ -24,19 +24,7 @@
   .esp-rond:active { transform: scale(0.94); }
   .esp-rond:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
-  /* ---- L'ombrelle des intitulés : fermée, elle s'ouvre quand l'intitulé apparaît ---- */
-  .esp-ombrelle { display: inline-block; flex-shrink: 0; overflow: visible; }
-  .esp-ombrelle .esp-toile {
-    transform-box: view-box;
-    transform-origin: 12px 3px;
-    transform: scaleX(0.14) scaleY(1.12);
-    transition: transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
-    transition-delay: calc(var(--kit-delai, 0ms) + 180ms);
-  }
-  [data-vu] .esp-ombrelle .esp-toile,
-  .esp-ombrelle[data-vu] .esp-toile { transform: none; }
-
-  /* ---- Les boutons-liens : le jaune s'éclaire, la flèche avance, le bouton se soulève ---- */
+  /* ---- Les boutons-liens : le jaune s'éclaire, le bouton se soulève ---- */
   .esp-bouton {
     transition: background-color 0.35s, box-shadow 0.45s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
   }
@@ -48,8 +36,6 @@
     box-shadow: 0 16px 36px -14px color-mix(in oklab, var(--accent) 85%, transparent);
   }
   .esp-bouton[data-variante="ardoise"]:hover { box-shadow: 0 16px 36px -16px color-mix(in oklab, var(--sombre) 80%, transparent); }
-  .esp-bouton .esp-fleche { transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1); }
-  .esp-bouton:hover .esp-fleche { transform: translateX(5px); }
 
   /* ---- Un lien souligné qui se trace de gauche à droite ---- */
   .esp-trait {
@@ -80,6 +66,9 @@
     opacity: 0.8;
   }
   @keyframes esp-pluie { to { background-position: -40px 160px; } }
+  /* Figée : sur les photos des pages, la pluie se voit sans tomber. */
+  .esp-averse[data-fixe]::before,
+  .esp-averse[data-fixe]::after { animation: none; }
 
   /* ---- Une liste qui entre ligne après ligne (rétroplanning, devis) : --i donne le rang ---- */
   .esp-ligne { animation: esp-entre 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: calc(var(--i, 0) * 55ms); }
@@ -106,31 +95,15 @@
     100% { rotate: 4deg; }
   }
 
-  /* ---- Le grand parapluie de la fin de page : il s'ouvre en entrant à l'écran ---- */
-  .esp-grand-parapluie .esp-toile {
-    transform-box: view-box;
-    transform-origin: 60px 12px;
-    transform: scaleX(0.1) scaleY(1.18);
-    transition: transform 1.2s cubic-bezier(0.34, 1.45, 0.64, 1) 0.25s;
-  }
-  .esp-grand-parapluie .esp-goutte { opacity: 0; transform: translate3d(0, -6px, 0); transition: opacity 0.6s, transform 0.8s; transition-delay: calc(0.9s + var(--i, 0) * 90ms); }
-  [data-vu] .esp-grand-parapluie .esp-toile { transform: none; }
-  [data-vu] .esp-grand-parapluie .esp-goutte { opacity: 1; transform: none; }
-
   @media (prefers-reduced-motion: reduce) {
-    .esp-ombrelle .esp-toile,
-    .esp-grand-parapluie .esp-toile { transform: none !important; transition: none !important; }
-    .esp-grand-parapluie .esp-goutte { opacity: 1 !important; transform: none !important; transition: none !important; }
     .esp-averse::before,
     .esp-averse::after,
     .esp-ligne,
     .esp-balance { animation: none !important; }
     .esp-bouton,
-    .esp-bouton .esp-fleche,
     .esp-deplie,
     .esp-trait { transition: none !important; }
-    .esp-bouton:hover,
-    .esp-bouton:hover .esp-fleche { transform: none; }
+    .esp-bouton:hover { transform: none; }
   }
 }
 

@@ -3,7 +3,7 @@ import Image from "next/image";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../_kit/Apparition";
 import Creneaux from "../../_kit/Creneaux";
-import { AppelFinal, Appli, EnTetePage, PORCELAINE, Surtitre, Titre } from "../_composants/Blocs";
+import { AppelFinal, Appli, EnTetePage, PORCELAINE, Titre } from "../_composants/Blocs";
 import TesMurs from "../_composants/TesMurs";
 import { COMPRIS, CRENEAUX_COTES, GAMMES, PAS_COMPRIS, euros, photos } from "../_composants/donnees";
 
@@ -17,20 +17,20 @@ export const metadata: Metadata = {
 export default function TesMursPage() {
   return (
     <main>
-      <EnTetePage surtitre="Prix cuisine sur mesure avec pose" titre="Tes murs, *ton prix.*">
-        Mesure le long du mur, d&apos;un angle à l&apos;autre. Un seul mur : laisse le second vide, la cuisine sera droite.
+      <EnTetePage titre="Tes murs, ton prix.">
+        Le prix d&apos;une cuisine sur mesure, pose comprise. Mesure le long du mur, d&apos;un angle à l&apos;autre. Un seul mur : laisse le second vide, la cuisine sera droite.
         Deux murs : elle sera en L. La fourchette est TTC, pose comprise.
       </EnTetePage>
 
       <section className={PORCELAINE}>
       <div className="mx-auto grid max-w-6xl gap-10 px-6 py-20 md:py-28 lg:grid-cols-[1.4fr_0.6fr]">
         <Apparition>
-          <Appli adresse="Sept Mille Dîners · tes murs, ton prix" etape="Deux longueurs">
+          <Appli adresse="Tes murs, ton prix" etape="Deux longueurs">
             <TesMurs />
           </Appli>
         </Apparition>
         <Apparition delai={150} className="space-y-4 self-start">
-          <Surtitre>Le mètre linéaire</Surtitre>
+          <h2 className="font-[family-name:var(--titres)] text-2xl font-normal">Le prix au mètre linéaire</h2>
           <ul className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
             {GAMMES.map((g) => (
               <li key={g.id} className="space-y-0.5 py-3">
@@ -41,7 +41,7 @@ export default function TesMursPage() {
             ))}
           </ul>
           <p className="text-sm leading-relaxed text-[var(--doux)]">
-            TTC, pose comprise, hors électroménager · exemple. Pour une cuisine en L de 5,60 m en laqué : 11&nbsp;000 – 14&nbsp;000 €.
+            Prix d&apos;exemple, TTC, pose comprise, hors électroménager. Pour une cuisine en L de 5,60 m en laqué : 11&nbsp;000 – 14&nbsp;000 €.
           </p>
         </Apparition>
       </div>
@@ -50,7 +50,7 @@ export default function TesMursPage() {
       <section className="bg-[var(--sombre)] text-[var(--sur-sombre)]">
         <div className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:grid-cols-2 md:py-40">
           <div className="space-y-8">
-            <Titre texte="Ce que la fourchette *comprend.*" taille="moyen" />
+            <Titre texte="Ce que la fourchette comprend." taille="moyen" />
             <ul className="divide-y divide-white/15 border-y border-white/15 text-lg">
               {COMPRIS.map((x, i) => (
                 <Apparition as="li" key={x} delai={i * 70} className="flex gap-4 py-3.5">
@@ -60,7 +60,7 @@ export default function TesMursPage() {
             </ul>
           </div>
           <div className="space-y-8">
-            <Titre texte="Ce qu'elle *ne comprend pas.*" taille="moyen" />
+            <Titre texte="Ce qu'elle ne comprend pas." taille="moyen" />
             <ul className="divide-y divide-white/15 border-y border-white/15 text-lg">
               {PAS_COMPRIS.map((x, i) => (
                 <Apparition as="li" key={x} delai={i * 70} className="flex gap-4 py-3.5">
@@ -79,8 +79,7 @@ export default function TesMursPage() {
       <section id="cotes" className={`scroll-mt-20 ${PORCELAINE}`}>
       <div className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:py-40 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="space-y-6">
-          <Apparition><Surtitre>Étape suivante</Surtitre></Apparition>
-          <Titre texte="La prise de cotes, *chez toi.*" />
+          <Titre texte={"Étape suivante\u00a0: la prise de cotes, chez toi."} />
           <Apparition as="p" delai={150} className="max-w-[26rem] text-lg leading-relaxed text-[var(--doux)]">
             Une heure, mètre en main, avec Mathieu, qui dessinera ton plan. C&apos;est après elle que vient le devis, ligne par
             ligne, avec le prix ferme et la date de pose.

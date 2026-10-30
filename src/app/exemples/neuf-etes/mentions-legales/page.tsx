@@ -13,14 +13,14 @@ export const metadata: Metadata = {
 export default function MentionsLegales() {
   return (
     <main>
-      <EnTetePage surtitre="Mentions légales" titre="Une marque *fictive.*">
+      <EnTetePage titre="Une marque fictive.">
         {entreprise.nom} n&apos;existe pas : son nom, son équipe, ses prix, ses chantiers et ses
         dates sont inventés pour les vidéos de Canevas Havane.
       </EnTetePage>
       <MentionsDemonstration
         site="neuf-etes"
         entreprise="Neuf Étés"
-        polices="Arvo et DM Sans"
+        polices="Fraunces et Inter"
         enPlus={
           <>
             <p>
@@ -48,10 +48,11 @@ export default function MentionsLegales() {
               chantiers non.
             </p>
             <p>
-              Le premier écran est construit sur le modèle « Monolith Hero » de MotionSites,
-              utilisé sous licence. Ses vidéos viennent de Pexels, sous la licence Pexels :{" "}
-              {videos.map((v) => `${v.auteur} (${v.sujet})`).join(", ")}. Le jardin en 3D reprend
-              les principes du configurateur de Kéo.
+              La piscine du premier écran est une scène en 3D construite dans le navigateur ;
+              son image fixe en est une vue, pas une photo. Le film des pages de chantier vient
+              de Pexels, sous la licence Pexels :{" "}
+              {videos.filter((v) => v.fichier === "chantier.mp4").map((v) => `${v.auteur} (${v.sujet})`).join(", ")}.
+              Le jardin en 3D reprend les principes du configurateur de Kéo.
             </p>
           </>
         }

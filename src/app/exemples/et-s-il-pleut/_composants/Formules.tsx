@@ -12,7 +12,7 @@ export default function Formules() {
   return (
     <div data-film="tarifs" className="space-y-3">
       <ul className="space-y-3">
-        {FORMULES.map((f, i) => {
+        {FORMULES.map((f) => {
           const o = ouverte === f.id;
           return (
             <li key={f.id} className={`rounded-[1.5rem] border transition-[background-color,border-color,box-shadow] duration-500 ${o ? "border-[var(--sombre)] bg-[var(--sombre)] text-[var(--sur-sombre)] shadow-[0_30px_60px_-34px_rgba(25,26,40,0.7)]" : "border-[var(--trait)] bg-[var(--carte)] hover:border-[var(--encre)]"}`}>
@@ -23,12 +23,12 @@ export default function Formules() {
                 onClick={() => setOuverte(o ? null : f.id)}
                 className="w-full px-5 py-5 sm:px-7 grid grid-cols-[1fr_auto] items-center gap-x-4 gap-y-1 text-left"
               >
-                <span className={`text-xs font-semibold uppercase tracking-[0.18em] transition-colors duration-500 ${o ? "text-[var(--accent)]" : "text-[var(--accent-texte)]"}`}>0{i + 1} · {f.sous}</span>
-                <span aria-hidden="true" className={`row-span-2 grid h-10 w-10 place-items-center rounded-full border text-xl transition-[transform,border-color,background-color] duration-500 ease-[cubic-bezier(0.34,1.4,0.64,1)] ${o ? "rotate-45 border-[var(--accent)] bg-[var(--accent)] text-[var(--sur-accent)]" : "border-[var(--encre)]"}`}>+</span>
                 <span className="flex flex-wrap items-baseline justify-between gap-x-4">
                   <span className="font-[family-name:var(--titres)] text-[32px] leading-tight">{f.titre}</span>
                   <span className="font-[family-name:var(--titres)] text-[26px] italic tabular-nums whitespace-nowrap">dès {euros(f.prix)}</span>
                 </span>
+                <span aria-hidden="true" className={`row-span-2 grid h-10 w-10 place-items-center rounded-full border text-xl transition-[transform,border-color,background-color] duration-500 ease-[cubic-bezier(0.34,1.4,0.64,1)] ${o ? "rotate-45 border-[var(--accent)] bg-[var(--accent)] text-[var(--sur-accent)]" : "border-[var(--encre)]"}`}>+</span>
+                <span className={`text-[15px] font-semibold transition-colors duration-500 ${o ? "text-[var(--accent)]" : "text-[var(--accent-texte)]"}`}>{f.sous}</span>
               </button>
               {/* Le détail glisse au lieu de sauter ; fermé, il est masqué aux lecteurs d'écran. */}
               <div className="esp-deplie" data-ouvert={o} aria-hidden={!o} inert={!o}>
