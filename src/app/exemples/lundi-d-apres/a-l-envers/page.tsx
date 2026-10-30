@@ -37,9 +37,9 @@ export default function ALEnvers() {
         <ol className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
           {etapes.map((e, i) => (
             <Apparition as="li" key={e.heure} delai={i * 110} className="grid grid-cols-1 gap-2 py-6 sm:grid-cols-[8rem_1fr] sm:gap-8">
-              <p className={`font-[family-name:var(--titres)] text-[28px] leading-none tracking-[-0.03em] ${i === 0 ? "text-[var(--accent-texte)]" : ""}`}>{e.heure}</p>
+              <p className={`font-[family-name:var(--titres)] font-semibold text-[28px] leading-none tracking-[-0.03em] ${i === 0 ? "text-[var(--accent-texte)]" : ""}`}>{e.heure}</p>
               <div className="space-y-1">
-                <h2 className="font-[family-name:var(--titres)] text-[24px] font-normal leading-snug">{e.titre}</h2>
+                <h2 className="font-[family-name:var(--titres)] text-[24px] font-semibold leading-snug">{e.titre}</h2>
                 <p className="leading-relaxed text-[var(--doux)]">{e.texte}</p>
               </div>
             </Apparition>
@@ -68,7 +68,7 @@ export default function ALEnvers() {
           {METHODE.map((m, i) => (
             <Apparition as="li" key={m.titre} delai={i * 110} className="space-y-3 border-t border-[var(--trait)] pt-5">
               <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">0{i + 1}</p>
-              <h3 className="font-[family-name:var(--titres)] text-[24px] font-normal lowercase">{m.titre}</h3>
+              <h3 className="font-[family-name:var(--titres)] text-[24px] font-semibold lowercase">{m.titre}</h3>
               <p className="leading-relaxed text-[var(--doux)]">{m.texte}</p>
             </Apparition>
           ))}

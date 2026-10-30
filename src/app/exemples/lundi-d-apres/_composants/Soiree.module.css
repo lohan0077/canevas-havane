@@ -1,0 +1,61 @@
+/* La soirée rembobinée : les effets de magnétoscope du premier écran. Feuille de module,
+   donc hors couche : ces classes ne sont posées que sur des éléments qui n'en portent
+   aucune autre qui règle les mêmes propriétés. Les intensités viennent de variables que
+   la section écrit au défilement (--rembobine, --eclair, --nuit). */
+
+/* L'image, pendant le rembobinage : plus saturée, un peu floue, secouée. */
+.image {
+  filter: saturate(calc(1 + var(--rembobine, 0) * 0.9)) contrast(calc(1 + var(--rembobine, 0) * 0.15)) blur(calc(var(--rembobine, 0) * 1.6px));
+  transform: translate3d(calc(var(--secousse, 0) * 1px), 0, 0);
+}
+
+/* Les lignes de la bande, et la barre de défilement qui descend. */
+.bandes {
+  opacity: var(--rembobine, 0);
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.07) 0 1px, transparent 1px 3px),
+    linear-gradient(90deg, rgba(255, 61, 127, 0.12), transparent 30%, transparent 70%, rgba(92, 200, 255, 0.12));
+  mix-blend-mode: screen;
+  overflow: hidden;
+}
+.bandes::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 22%;
+  background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.16) 45%, rgba(255, 255, 255, 0.04) 60%, transparent);
+  animation: piste 0.7s linear infinite;
+}
+@keyframes piste {
+  from { transform: translate3d(0, -30%, 0); }
+  to { transform: translate3d(0, 480%, 0); }
+}
+
+/* L'éclair blanc du passage au lundi. */
+.eclair {
+  opacity: var(--eclair, 0);
+  background: radial-gradient(ellipse at 50% 45%, #fff 0%, rgba(244, 243, 248, 0.92) 45%, rgba(244, 243, 248, 0.75) 100%);
+}
+
+/* Les voiles de la nuit s'effacent au lundi : la carte de la question a son propre fond. */
+.voile {
+  opacity: var(--nuit, 1);
+}
+
+/* Le signe ◂◂ qui grossit au centre pendant le rembobinage. */
+.signe {
+  opacity: var(--rembobine, 0);
+  transform: scale(calc(0.85 + var(--rembobine, 0) * 0.15));
+}
+
+/* La barre de progression du ruban. */
+.ruban {
+  transform-origin: left center;
+  transform: scaleX(var(--p, 0));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bandes::after { animation: none; }
+}

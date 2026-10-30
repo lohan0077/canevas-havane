@@ -33,7 +33,7 @@ export default function Formats() {
           <ul className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
             {FORMATS.map((f) => (
               <li key={f.nom} className="py-4">
-                <p className="font-[family-name:var(--titres)] text-[22px] lowercase">{f.nom}</p>
+                <p className="font-[family-name:var(--titres)] font-semibold text-[22px] lowercase">{f.nom}</p>
                 <p className="text-[15px] text-[var(--doux)]">{f.prix} · exemple</p>
               </li>
             ))}
@@ -62,11 +62,11 @@ export default function Formats() {
             {FORMULES.map((f) => (
               <li key={f.nom} className="flex items-baseline justify-between gap-5 py-5">
                 <span>
-                  <span className="block font-[family-name:var(--titres)] text-[24px] lowercase">{f.nom}</span>
+                  <span className="block font-[family-name:var(--titres)] font-semibold text-[24px] lowercase">{f.nom}</span>
                   <span className="block text-[15px]">{f.detail}</span>
                 </span>
                 <span className="shrink-0 text-right">
-                  <span className="block font-[family-name:var(--titres)] text-[28px] tabular-nums">{euros(f.prix)}</span>
+                  <span className="block font-[family-name:var(--titres)] font-semibold text-[28px] tabular-nums">{euros(f.prix)}</span>
                   <span className="block text-[12px] font-medium uppercase tracking-[0.1em]">TTC · exemple</span>
                 </span>
               </li>
@@ -77,7 +77,7 @@ export default function Formats() {
         <ol className="divide-y divide-white/15 border-y border-white/15 self-start">
           {SOIREE_MARIAGE.map((m) => (
             <li key={m.heure} className="grid grid-cols-[4.5rem_1fr] gap-4 py-5">
-              <span className="font-[family-name:var(--titres)] text-[26px] leading-none">{m.heure}</span>
+              <span className="font-[family-name:var(--titres)] font-semibold text-[26px] leading-none">{m.heure}</span>
               <span>
                 <span className="block font-medium">{m.titre}</span>
                 <span className="block text-[15px] leading-relaxed">{m.texte}</span>

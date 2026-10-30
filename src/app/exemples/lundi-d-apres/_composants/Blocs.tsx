@@ -4,16 +4,28 @@ import Apparition from "../../_kit/Apparition";
 import TitreRevele from "../../_kit/TitreRevele";
 import type { Photo } from "./donnees";
 
-/** Le mot en relief dans un titre : l’italique de la police des titres, en corail (plus clair sur le café). */
-export const ACCENT_CLAIR = "italic text-[var(--accent-texte)]";
-export const ACCENT_SOMBRE = "italic text-[#FF8A6E]";
+/** Le mot en relief dans un titre : le rose de la marque (profond sur le blanc, néon sur la nuit). */
+export const ACCENT_CLAIR = "text-[var(--accent-texte)]";
+export const ACCENT_SOMBRE = "text-[#FF6B9C]";
 
-/** Le nom : un « l » dans un rond corail, et « lundi d'après » en bas de casse. */
+/** Le signe du rembobinage, deux pointes vers la gauche : la soirée se construit à l'envers. */
+export function Rembobine({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={className} fill="currentColor">
+      <path d="M11.5 5.2v13.6L2.6 12z" />
+      <path d="M21.4 5.2v13.6L12.5 12z" />
+    </svg>
+  );
+}
+
+/** Le nom : le signe du rembobinage dans un rond rose, et « lundi d'après » en bas de casse. */
 export function Marque() {
   return (
     <span className="flex items-center gap-2.5">
-      <span aria-hidden="true" className="grid h-9 w-9 place-items-center rounded-full bg-[var(--accent)] font-[family-name:var(--titres)] text-[19px] text-[var(--sur-accent)]">l</span>
-      <span className="whitespace-nowrap font-[family-name:var(--titres)] text-[21px] lowercase leading-none tracking-[-0.02em]">lundi d&apos;après</span>
+      <span aria-hidden="true" className="grid h-9 w-9 place-items-center rounded-full bg-[var(--accent)] text-[var(--sur-accent)]">
+        <Rembobine className="h-[15px] w-[15px] -translate-x-px" />
+      </span>
+      <span className="whitespace-nowrap font-[family-name:var(--titres)] text-[19px] font-semibold lowercase leading-none tracking-[-0.03em]">lundi d&apos;après</span>
     </span>
   );
 }
@@ -27,7 +39,7 @@ export function Surtitre({ children, clair = false }: { children: React.ReactNod
   );
 }
 
-/** Un bouton-lien en pilule : plein (le corail) ou au trait fin. */
+/** Un bouton-lien en pilule : plein (le rose), au trait fin, nuit ou blanc. */
 export function Bouton({
   href,
   children,
@@ -42,11 +54,10 @@ export function Bouton({
   const styles = {
     plein: "bg-[var(--accent)] text-[var(--sur-accent)]",
     contour: "border border-current/30 hover:bg-[color-mix(in_oklab,currentColor_8%,transparent)]",
-    // Sur le mur orange du premier écran, le corail se fondrait : le bouton principal y est café.
+    // Le bouton nuit, pour un fond clair où le rose ne suffirait pas à le détacher.
     cafe: "bg-[var(--sombre)] text-[var(--sur-sombre)]",
-    // Le second bouton du premier écran : plein crème sur téléphone, où il se pose sur le bas sombre
-    // de la photo ; au trait fin sur grand écran, où le mur est clair derrière lui.
-    clair: "bg-[var(--fond)] text-[var(--encre)] lg:border lg:border-current/30 lg:bg-transparent lg:text-current",
+    // Le bouton blanc, posé sur la nuit.
+    clair: "bg-[var(--fond)] text-[var(--encre)]",
   }[variante];
   return (
     <Link href={href} className={`group inline-flex h-12 items-center gap-3 rounded-full px-6 text-[15px] font-medium transition-colors ${styles} ${className}`}>
@@ -56,7 +67,7 @@ export function Bouton({
   );
 }
 
-/** Le titre d'un écran, révélé mot à mot, en bas de casse : toujours la même échelle, jamais en gras. */
+/** Le titre d'un écran, révélé mot à mot, en bas de casse : toujours la même échelle et la même graisse. */
 export function Titre({
   texte,
   clair = false,
@@ -78,7 +89,7 @@ export function Titre({
     <TitreRevele
       as={as}
       texte={texte}
-      className={`font-[family-name:var(--titres)] font-normal lowercase tracking-[-0.03em] text-balance ${tailles} ${className}`}
+      className={`font-[family-name:var(--titres)] font-semibold lowercase tracking-[-0.035em] text-balance ${tailles} ${className}`}
       classeAccent={clair ? ACCENT_SOMBRE : ACCENT_CLAIR}
     />
   );
@@ -102,8 +113,8 @@ export function Intitule({ numero, surtitre, titre, texte, clair = false }: { nu
 }
 
 /**
- * Le haut de chaque page intérieure : le café de la marque, une photo sous un voile qui
- * la laisse respirer, un titre fin en très grand.
+ * Le haut de chaque page intérieure : la nuit de la marque, une photo sous un voile qui
+ * la laisse respirer, un titre en très grand.
  */
 export function EnTetePage({
   surtitre,
@@ -125,7 +136,7 @@ export function EnTetePage({
       {photo && (
         <>
           <Image src={photo.src} alt="" fill priority sizes="(max-width: 1023px) 100vh, 100vw" className="object-cover opacity-70" style={{ objectPosition: origine }} />
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(42,25,15,0.55)_0%,rgba(42,25,15,0.3)_40%,rgba(42,25,15,0.92)_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(14,12,29,0.6)_0%,rgba(14,12,29,0.35)_40%,rgba(14,12,29,0.94)_100%)]" />
         </>
       )}
       <div className="relative mx-auto flex w-full max-w-6xl flex-1 flex-col justify-end gap-7 px-6 pb-14 pt-36 md:pb-20">
@@ -134,7 +145,7 @@ export function EnTetePage({
           as={niveau}
           auChargement
           texte={titre}
-          className="max-w-4xl font-[family-name:var(--titres)] text-[clamp(2.75rem,6vw,5.25rem)] font-normal lowercase leading-[1] tracking-[-0.035em] text-balance"
+          className="max-w-4xl font-[family-name:var(--titres)] text-[clamp(2.6rem,6vw,5.25rem)] font-semibold lowercase leading-[1] tracking-[-0.045em] text-balance"
           classeAccent={ACCENT_SOMBRE}
         />
         {children && (

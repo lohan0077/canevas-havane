@@ -41,7 +41,7 @@ export default function ReserverSamedi() {
                 }`}
               >
                 <span className="block text-[11px] uppercase tracking-[0.14em]">Samedi</span>
-                <span className="block font-[family-name:var(--titres)] text-[30px] leading-tight">{x.jour}</span>
+                <span className="block font-[family-name:var(--titres)] font-semibold text-[30px] leading-tight">{x.jour}</span>
                 <span className="block text-[13px]">{x.mois}</span>
                 <span className="mt-1 block text-[12px] font-medium uppercase tracking-[0.1em]">{fait ? "Bloqué ✓" : x.pris ? "Pris" : "Libre"}</span>
               </button>
@@ -55,7 +55,7 @@ export default function ReserverSamedi() {
         {s ? (
           <>
             <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--accent-texte)]">{majuscule(s.long)}</p>
-            <p className="font-[family-name:var(--titres)] text-[34px] lowercase leading-[0.95] tracking-[-0.03em]">
+            <p className="font-[family-name:var(--titres)] font-semibold text-[34px] lowercase leading-[0.95] tracking-[-0.03em]">
               Votre samedi est <span className="text-[var(--accent-texte)]">libre</span>
             </p>
             <div className="flex items-center justify-between gap-3">
@@ -71,7 +71,7 @@ export default function ReserverSamedi() {
             </p>
             {bloque === s.id ? (
               <div role="status" className="rounded-xl border border-[var(--accent)] p-4 space-y-1">
-                <p className="font-[family-name:var(--titres)] text-[24px] lowercase">{majuscule(s.long.replace(" 2027", ""))} : bloqué</p>
+                <p className="font-[family-name:var(--titres)] font-semibold text-[24px] lowercase">{majuscule(s.long.replace(" 2027", ""))} : bloqué</p>
                 <p className="text-[14px] text-[var(--doux)]">Démonstration : rien n&apos;est envoyé, rien n&apos;est enregistré. On vous appellerait pour lire ensemble le règlement de la salle.</p>
               </div>
             ) : (
@@ -81,7 +81,7 @@ export default function ReserverSamedi() {
             )}
           </>
         ) : (
-          <p className="font-[family-name:var(--titres)] text-[26px] lowercase leading-tight">touchez un samedi libre.</p>
+          <p className="font-[family-name:var(--titres)] font-semibold text-[26px] lowercase leading-tight">touchez un samedi libre.</p>
         )}
       </div>
     </div>

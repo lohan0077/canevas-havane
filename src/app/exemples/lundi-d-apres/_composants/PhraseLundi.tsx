@@ -68,7 +68,7 @@ export default function PhraseLundi() {
           }}
           rows={3}
           placeholder="« On ne savait pas que… »"
-          className="w-full resize-none rounded-xl bg-[var(--fond)] p-4 font-[family-name:var(--titres)] text-[22px] leading-snug placeholder:text-[var(--doux)]"
+          className="w-full resize-none rounded-xl bg-[var(--fond)] p-4 font-[family-name:var(--titres)] font-medium text-[22px] leading-snug placeholder:text-[var(--doux)]"
         />
         <div className="space-y-2">
           <p className="text-[13px] text-[var(--doux)]">Pas d&apos;idée&nbsp;? Prenez un exemple&nbsp;:</p>
@@ -109,9 +109,9 @@ export default function PhraseLundi() {
               >
                 <span aria-hidden="true" className={`relative z-10 grid h-6 w-6 shrink-0 translate-x-[3px] place-items-center rounded-full border-[3px] border-[var(--accent)] ${i === 0 ? "bg-[var(--accent)]" : "bg-[var(--fond)]"}`} />
                 <div className="space-y-1">
-                  <p className={`text-[12px] font-medium uppercase tracking-[0.16em] ${i === 0 ? "text-[#FFD9A0]" : "text-[var(--accent-texte)]"}`}>{e.heure}</p>
-                  <h3 className="font-[family-name:var(--titres)] text-[22px] font-normal leading-snug">{e.titre}</h3>
-                  <p className={`text-[15px] leading-relaxed ${i === 0 ? "text-[#D8C9B4]" : "text-[var(--doux)]"}`}>{e.texte}</p>
+                  <p className={`text-[12px] font-medium uppercase tracking-[0.16em] ${i === 0 ? "text-[#FF6B9C]" : "text-[var(--accent-texte)]"}`}>{e.heure}</p>
+                  <h3 className="font-[family-name:var(--titres)] text-[22px] font-semibold leading-snug">{e.titre}</h3>
+                  <p className={`text-[15px] leading-relaxed ${i === 0 ? "text-[#A9A5BF]" : "text-[var(--doux)]"}`}>{e.texte}</p>
                 </div>
               </li>
             ))}

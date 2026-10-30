@@ -44,7 +44,7 @@ export default function LaPhraseDuLundi() {
         <ul className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
           {EXEMPLES.map((x, i) => (
             <Apparition as="li" key={x.phrase} delai={i * 100} className="grid grid-cols-1 gap-2 py-7 md:grid-cols-[1fr_auto] md:items-baseline md:gap-10">
-              <p className="font-[family-name:var(--titres)] text-[clamp(1.6rem,3vw,2.4rem)] leading-[1.1] tracking-[-0.02em]">«&nbsp;{x.phrase}&nbsp;»</p>
+              <p className="font-[family-name:var(--titres)] font-semibold text-[clamp(1.6rem,3vw,2.4rem)] leading-[1.1] tracking-[-0.02em]">«&nbsp;{x.phrase}&nbsp;»</p>
               <p className="text-[15px] text-[var(--doux)]">{x.contexte} · exemple</p>
             </Apparition>
           ))}
@@ -61,7 +61,7 @@ export default function LaPhraseDuLundi() {
           {REGLES.map((r, i) => (
             <Apparition as="li" key={r.titre} delai={i * 110} className="space-y-3 border-t border-white/20 pt-5">
               <p className="text-[12px] font-medium uppercase tracking-[0.2em]">0{i + 1}</p>
-              <h2 className="font-[family-name:var(--titres)] text-[24px] font-normal lowercase">{r.titre}</h2>
+              <h2 className="font-[family-name:var(--titres)] text-[24px] font-semibold lowercase">{r.titre}</h2>
               <p className="leading-relaxed">{r.texte}</p>
             </Apparition>
           ))}

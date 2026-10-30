@@ -28,7 +28,7 @@ export default function SamedisLibresPage() {
           <Apparition as="ol" delai={150} className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
             {SOIREE_MARIAGE.map((m) => (
               <li key={m.heure} className="flex gap-4 py-3">
-                <span className="w-14 shrink-0 font-[family-name:var(--titres)] text-2xl text-[var(--accent-texte)]">{m.heure}</span>
+                <span className="w-14 shrink-0 font-[family-name:var(--titres)] font-semibold text-2xl text-[var(--accent-texte)]">{m.heure}</span>
                 <span className="font-medium">{m.titre}</span>
               </li>
             ))}

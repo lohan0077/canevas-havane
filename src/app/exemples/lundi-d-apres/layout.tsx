@@ -6,28 +6,32 @@ import SamedisLibres from "./_composants/SamedisLibres";
 import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 
 // Le site de Lundi d'Après, agence d'événements imaginaire (soirées d'entreprise et
-// mariages, DJ compris), filmé dans les deux vidéos de l'événementiel. Version « carrée »
-// (24/10/2026) : DM Sans en graisse normale et en bas de casse pour les titres, son italique
-// pour le mot en relief (la Futura de la marque, en plus douce), Inter pour lire ; le crème et le café de la
-// marque alternent, le corail est réservé au bouton principal et aux petits détails.
-// Chaque page se termine sur les samedis encore libres (« sur chaque page »).
+// mariages, DJ compris), filmé dans les deux vidéos de l'événementiel.
+//
+// L'identité (30/10/2026) tient en deux temps, comme la marque : la nuit de la soirée et
+// le lundi matin. La nuit (#0E0C1D, un noir d'encre à peine violet) porte le premier
+// écran, les bandes sombres et le pied ; le lundi est un blanc de papier froid (#F4F3F8),
+// jamais crème. Une seule couleur vive, le rose néon des projecteurs (#FF3D7F), réservée
+// aux aplats et aux boutons ; en texte sur le blanc, sa version profonde (#C4124F). Syne,
+// large et affichiste, pour les titres en bas de casse ; Space Grotesk pour lire, avec
+// ses chiffres de compteur. Chaque page se termine sur les samedis encore libres.
 export default function LundiDApresLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
       entreprise="Lundi d'Après"
-      titres="dmSans"
-      texte="inter"
+      titres="syne"
+      texte="spaceGrotesk"
       couleurs={{
-        fond: "#FFF4E6",
-        encre: "#3B2416",
-        doux: "#6B5040",
-        accent: "#FF6B4A",
-        surAccent: "#2A190F",
-        accentTexte: "#B8381F",
+        fond: "#F4F3F8",
+        encre: "#0E0C1D",
+        doux: "#55526A",
+        accent: "#FF3D7F",
+        surAccent: "#0E0C1D",
+        accentTexte: "#C4124F",
         carte: "#FFFFFF",
-        trait: "#EADBC6",
-        sombre: "#2A190F",
-        surSombre: "#FFF4E6",
+        trait: "#DEDCE8",
+        sombre: "#0E0C1D",
+        surSombre: "#F4F3F8",
       }}
     >
       <NavVerre

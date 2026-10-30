@@ -25,7 +25,7 @@ export default function SamedisLibres() {
           {SAMEDIS.map((s) => (
             <li key={s.id} className={`rounded-2xl border p-3 ${s.pris ? "border-[var(--trait)] text-[var(--doux)]" : "border-[var(--encre)]/30 bg-[var(--carte)]"}`}>
               <span className="block text-[11px] font-medium uppercase tracking-[0.14em]">Samedi</span>
-              <span className="block font-[family-name:var(--titres)] text-[30px] leading-tight">{s.jour}</span>
+              <span className="block font-[family-name:var(--titres)] font-semibold text-[30px] leading-tight">{s.jour}</span>
               <span className="block text-[13px]">{s.mois}</span>
               <span className={`mt-1 block text-[12px] font-medium uppercase tracking-[0.1em] ${s.pris ? "line-through" : "text-[var(--accent-texte)]"}`}>{s.pris ? "Pris" : "Libre"}</span>
             </li>
