@@ -191,23 +191,21 @@ export default function CarrouselPlats({ titre, invites, appel }: { titre: React
         <div className={`${s.legende} pointer-events-auto`} aria-live={enLecture ? "off" : "polite"} aria-atomic="true" onPointerEnter={(e) => e.pointerType === "mouse" && setSurvol(true)}
           onPointerLeave={() => setSurvol(false)}>
           <div key={plat.id} className="space-y-2 lg:space-y-2.5">
-            <p className={`${s.ligne} text-[11px] font-medium uppercase tracking-[0.18em] text-[#E7A574] sm:text-[12px] sm:tracking-[0.2em]`} style={{ "--i": 0 } as React.CSSProperties}>
-              <span className="tabular-nums">{String(actif + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}</span>
-              <span aria-hidden="true"> · </span>
-              <span className="sr-only">, </span>
+            <p className={`${s.ligne} text-[14px] text-[#E7A574] lg:text-[15px]`} style={{ "--i": 0 } as React.CSSProperties}>
+              <span className="sr-only">Plat {actif + 1} sur {total}, </span>
               {plat.carte}
             </p>
             <p className={`${s.ligne} font-[family-name:var(--titres)] text-[clamp(1.75rem,7.2vw,2.9rem)] italic leading-[1.04] text-balance`} style={{ "--i": 1 } as React.CSSProperties}>
-              <Link href={plat.lien} className="decoration-[#E7A574] decoration-1 underline-offset-[6px] hover:underline">
+              {/* Souligné d'emblée sur téléphone, où la ligne « Voir ce mariage » est masquée :
+                  c'est lui qui dit que le nom s'ouvre. */}
+              <Link href={plat.lien} className="underline decoration-[#E7A574] decoration-1 underline-offset-[6px] sm:no-underline sm:hover:underline">
                 {plat.nom}
-                <span aria-hidden="true" className="ml-2 inline-block align-middle font-[family-name:var(--texte)] text-[0.5em] not-italic text-[#E7A574] sm:hidden">→</span>
               </Link>
             </p>
             <p className={`${s.ligne} max-w-md text-[15px] leading-snug text-[var(--sur-sombre)] [@media(max-height:700px)]:hidden lg:text-[17px] lg:leading-relaxed`} style={{ "--i": 2 } as React.CSSProperties}>
               {plat.legende}{" "}
               <Link href={plat.lien} className="hidden whitespace-nowrap font-medium underline decoration-[#E7A574] underline-offset-4 sm:inline">
                 {plat.libelleLien}
-                <span aria-hidden="true"> →</span>
               </Link>
             </p>
           </div>

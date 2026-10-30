@@ -15,12 +15,10 @@ export default function EcrireCarte() {
   return (
     <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
       <div className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
-        {CARTES.map((c, i) => (
+        {CARTES.map((c) => (
           <div key={c.occasion} className="grid gap-4 py-6 sm:grid-cols-[180px_1fr]">
-            <h2 className="font-normal text-2xl leading-tight">
-              <span className="block text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)] [font-family:var(--texte)]">{String(i + 1).padStart(2, "0")}</span>
-              {c.occasion}
-            </h2>
+            {/* Des occasions, pas une suite : pas de numéros. */}
+            <h2 className="font-normal text-2xl leading-tight">{c.occasion}</h2>
             <ul className="flex flex-wrap gap-2">
               {c.phrases.map((p) => (
                 <li key={p}>
@@ -43,7 +41,7 @@ export default function EcrireCarte() {
           <p className="font-[family-name:var(--f-caveat)] text-[38px] leading-[1.1] break-words" aria-live="polite">{texte || "…"}</p>
         </div>
         <label className="block space-y-2">
-          <span className="text-[12px] font-medium uppercase tracking-[0.2em]">Ou écris la tienne</span>
+          <span className="text-[15px] font-medium">Ou écris la tienne</span>
           <textarea
             value={texte}
             onChange={(e) => setTexte(e.target.value.slice(0, LIMITE))}
@@ -52,7 +50,7 @@ export default function EcrireCarte() {
           />
         </label>
         <p className={`text-sm ${reste < 15 ? "font-medium text-[var(--accent-texte)]" : "text-[var(--doux)]"}`}>
-          {reste} signe{reste > 1 ? "s" : ""} restant{reste > 1 ? "s" : ""} sur la carte · rien n&apos;est envoyé
+          {reste} signe{reste > 1 ? "s" : ""} restant{reste > 1 ? "s" : ""} sur la carte. Rien n&apos;est envoyé.
         </p>
       </div>
     </div>

@@ -3,8 +3,7 @@
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import dynamic from "next/dynamic";
 import { getImageProps } from "next/image";
-import TitreRevele from "../../_kit/TitreRevele";
-import { ACCENT_CLAIR, Bouton, Rembobine } from "./Blocs";
+import { Bouton, Rembobine } from "./Blocs";
 import { ACCUEIL, DOSSIER, THEMES } from "./donnees";
 import s from "./Soiree.module.css";
 
@@ -157,19 +156,17 @@ function Legende({ c, fixe = false }: { c: Chapitre; fixe?: boolean }) {
   if (c.id === "fete")
     return (
       <div className="space-y-5 lg:space-y-6">
-        <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[#C9C5DC]">Lundi d&apos;Après · soirées d&apos;entreprise et mariages, DJ compris</p>
-        <TitreRevele
-          as="h1"
+        <p className="text-[15px] font-medium text-[#C9C5DC]">Lundi d&apos;Après, soirées d&apos;entreprise et mariages, DJ compris</p>
+        <h1
           id="soiree-titre"
-          auChargement
-          texte="ce dont vous parlerez *lundi.*"
-          classeAccent="text-[#FF6B9C]"
           className="font-[family-name:var(--titres)] text-[clamp(2.7rem,11.5vw,3.4rem)] font-semibold lowercase leading-[0.95] tracking-[-0.05em] lg:text-[clamp(3.4rem,5.3vw,5.4rem)]"
-        />
+        >
+          ce dont vous parlerez lundi.
+        </h1>
         <p className="max-w-md text-[17px] leading-relaxed lg:text-lg">{c.texte}</p>
         {!fixe && (
           <a href={`${DOSSIER}#question`} className="inline-flex min-h-11 items-center gap-2 text-[15px] font-medium underline decoration-[#FF6B9C] decoration-2 underline-offset-[6px]">
-            Aller à la question <span aria-hidden="true">↓</span>
+            Aller à la question
           </a>
         )}
       </div>
@@ -177,16 +174,16 @@ function Legende({ c, fixe = false }: { c: Chapitre; fixe?: boolean }) {
   if (c.id === "lundi")
     return (
       <div className="space-y-5 rounded-[28px] bg-[var(--fond)] p-6 text-[var(--encre)] shadow-[0_40px_80px_-40px_rgba(14,12,29,0.55)] sm:p-8 lg:p-10">
-        <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">
-          {c.heure} · {c.titre}
+        <p className="text-[15px] font-medium text-[var(--doux)]">
+          {c.heure}&nbsp;: {c.titre.charAt(0).toLowerCase() + c.titre.slice(1)}
         </p>
         <p className="font-[family-name:var(--titres)] text-[clamp(2.1rem,9vw,2.6rem)] font-semibold lowercase leading-[1] tracking-[-0.045em] lg:text-[clamp(2.8rem,4.2vw,4rem)]">
-          lundi, vos équipes <span className={ACCENT_CLAIR}>diront quoi&nbsp;?</span>
+          lundi, vos équipes diront quoi&nbsp;?
         </p>
         <p className="max-w-md text-[17px] leading-relaxed text-[var(--doux)]">{c.texte}</p>
         <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-          <Bouton href={`${DOSSIER}#question`} className="justify-center">Une seule question</Bouton>
-          <Bouton href={`${DOSSIER}/samedis-libres`} variante="contour" className="justify-center">Les samedis libres</Bouton>
+          <Bouton href={`${DOSSIER}#question`} className="justify-center">Écrire notre phrase</Bouton>
+          <Bouton href={`${DOSSIER}/samedis-libres`} variante="contour" className="justify-center">Voir les samedis libres</Bouton>
         </div>
       </div>
     );

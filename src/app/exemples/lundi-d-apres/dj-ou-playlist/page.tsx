@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../_kit/Apparition";
 import Questionnaire from "../../_kit/Questionnaire";
-import { EnTetePage, Section, Surtitre, Titre } from "../_composants/Blocs";
+import { EnTetePage, KIT_EN_CASSE_NORMALE, Section, Titre } from "../_composants/Blocs";
 import { photos } from "../_composants/donnees";
 
 // « Ensuite, une page qui répond honnêtement : DJ ou playlist. Même quand la réponse,
@@ -55,15 +55,15 @@ const PLAYLIST = [
 export default function DjOuPlaylist() {
   return (
     <main>
-      <EnTetePage surtitre="La vraie question des mariés" titre={"dj ou *playlist ?*"} photo={photos.micro} origine="50% 35%">
-        Un dîner calme à trente ? <strong className="font-medium">Prenez une playlist.</strong> Une piste pleine jusqu&apos;au bout ? Lisez
+      <EnTetePage titre={"dj ou playlist\u00a0?"} photo={photos.micro} origine="50% 35%">
+        Un dîner calme à trente&nbsp;? <strong className="font-medium">Prenez une playlist.</strong> Une piste pleine jusqu&apos;au bout&nbsp;? Lisez
         la suite.
       </EnTetePage>
 
       <Section id="reponse" className="grid grid-cols-1 gap-12 md:grid-cols-2">
         {PLAYLIST.map(([titre, lignes], i) => (
           <Apparition key={titre} delai={i * 120} className="space-y-5">
-            <Surtitre>{titre}</Surtitre>
+            <Titre texte={titre} taille="moyen" />
             <ul className="divide-y divide-[var(--trait)] border-y border-[var(--trait)] text-lg leading-relaxed">
               {lignes.map((l) => (
                 <li key={l} className="py-4">{l}</li>
@@ -75,13 +75,12 @@ export default function DjOuPlaylist() {
 
       <Section id="trancher" fond="bg-[var(--carte)] border-y border-[var(--trait)]" className="grid grid-cols-1 gap-16 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
         <div className="space-y-6">
-          <Apparition><Surtitre>Trois questions</Surtitre></Apparition>
-          <Titre texte="pour *trancher.*" />
+          <Titre texte="trois questions pour trancher." />
           <Apparition as="p" delai={150} className="max-w-md text-lg leading-relaxed text-[var(--doux)]">
             Une réponse honnête, même quand c&apos;est : pas besoin de nous.
           </Apparition>
         </div>
-        <Apparition delai={150}>
+        <Apparition delai={150} className={KIT_EN_CASSE_NORMALE}>
           <Questionnaire questions={QUESTIONS} resultats={RESULTATS} surtitreResultat="Notre réponse, honnête" mention="Tout se calcule sur votre téléphone : rien n'est envoyé." />
         </Apparition>
       </Section>

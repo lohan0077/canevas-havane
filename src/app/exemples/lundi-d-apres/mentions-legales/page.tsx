@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function MentionsLegales() {
   return (
     <main>
-      <EnTetePage surtitre="Mentions légales" titre="ce qui est inventé, *ce qui est vrai.*" niveau="p" />
+      <EnTetePage titre="ce qui est inventé, ce qui est vrai." niveau="p" />
       <MentionsDemonstration
         site="lundi-d-apres"
         entreprise="Lundi d'Après"

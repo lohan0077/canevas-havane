@@ -18,7 +18,7 @@ export default function Pied() {
           </p>
         </div>
         <div className="space-y-3">
-          <p className="text-[12px] font-medium uppercase tracking-[0.2em]">À savoir</p>
+          <p className="font-[family-name:var(--titres)] text-[20px] font-semibold lowercase leading-tight tracking-[-0.02em]">à savoir</p>
           <p className="max-w-xs leading-relaxed">Entreprises : prix hors taxes. Mariages : prix TTC. Tous sont des exemples.</p>
         </div>
         <ul className="space-y-2">

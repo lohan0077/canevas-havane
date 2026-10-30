@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../_kit/Apparition";
 import CalculPalier from "../../_kit/CalculPalier";
-import { AppelFinal, EnTetePage, HeureLimite, Surtitre, Titre } from "../_composants/Blocs";
+import { AppelFinal, EnTetePage, HeureLimite, KIT_EN_CASSE_NORMALE, Titre } from "../_composants/Blocs";
 import { PHOTOS, boutique } from "../_composants/donnees";
 
 export const metadata: Metadata = {
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default function Livraison() {
   return (
     <main>
-      <EnTetePage surtitre="Livraison" titre="On livre *nous-mêmes.*" photo={PHOTOS.velo} origine="50% 60%">
+      <EnTetePage titre="On livre nous-mêmes." photo={PHOTOS.velo} origine="50% 60%">
         À vélo-cargo dans la ville, en voiture au-delà, du mardi au samedi. Aucun réseau de
         livraison : c&apos;est la boutique qui sonne à la porte.
       </EnTetePage>
@@ -22,8 +22,7 @@ export default function Livraison() {
       <section>
         <div className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:py-40 lg:grid-cols-2">
           <div className="space-y-6">
-            <Apparition><Surtitre>Ma rue est-elle livrée&nbsp;?</Surtitre></Apparition>
-            <Titre texte={"À combien de la boutique *habite-t-il ?*"} />
+            <Titre texte={"À combien de la boutique habite-t-il\u00a0?"} />
             <Apparition as="p" delai={150} className="max-w-[26rem] text-lg leading-relaxed text-[var(--doux)]">
               Glisse jusqu&apos;à la distance : tu vois le tarif, et jusqu&apos;à quelle heure commander pour
               aujourd&apos;hui.
@@ -34,7 +33,7 @@ export default function Livraison() {
               <li className="py-4">Retrait en boutique : gratuit, {boutique.horaires.toLowerCase()}.</li>
             </Apparition>
           </div>
-          <Apparition className="lg:sticky lg:top-28 lg:self-start">
+          <Apparition className={`lg:sticky lg:top-28 lg:self-start ${KIT_EN_CASSE_NORMALE}`}>
             <CalculPalier
               etiquette="Distance de la boutique"
               unite="km"

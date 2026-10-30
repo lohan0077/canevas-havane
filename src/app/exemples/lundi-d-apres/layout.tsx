@@ -39,7 +39,7 @@ export default function LundiDApresLayout({ children }: { children: React.ReactN
         accueil={DOSSIER}
         marque={<Marque />}
         liens={NAVIGATION}
-        action={{ href: `${DOSSIER}/samedis-libres`, libelle: "Samedis libres" }}
+        action={{ href: `${DOSSIER}/samedis-libres`, libelle: "Bloquer ma date" }}
         surSombre
       />
       <div className="overflow-x-clip">{children}</div>

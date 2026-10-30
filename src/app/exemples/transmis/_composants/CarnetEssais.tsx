@@ -13,7 +13,9 @@ export default function CarnetEssais() {
 
   return (
     <div id="carnet" className="space-y-3">
-      <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">La blanquette de Mamie Jo · exemple</p>
+      <p className="text-[15px] text-[var(--doux)]">
+        <span className="font-[family-name:var(--titres)] text-[20px] italic text-[var(--encre)]">La blanquette de Mamie Jo</span>, en exemple
+      </p>
       <ol className="space-y-3">
         {ESSAIS.map((e, i) => {
           const dernier = i === ESSAIS.length - 1;

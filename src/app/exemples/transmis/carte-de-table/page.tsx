@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default function PageCarteDeTable() {
   return (
     <main>
-      <EnTetePage surtitre="Le jour J" titre="Sur chaque table, *une carte.*" photo={photos.papier}>
+      <EnTetePage titre="Le jour J, sur chaque table, une carte." photo={photos.papier}>
         D&apos;où vient le plat, et qui l&apos;a transmis. Écris-la : elle se compose à mesure. On n&apos;y met que ton histoire vraie.
       </EnTetePage>
       <Section>

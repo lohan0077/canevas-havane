@@ -215,7 +215,7 @@ export const PLATS_CARROUSEL: PlatCarrousel[] = [
   {
     id: "blanquette", nom: PLATS_DE_FAMILLE.blanquette.nom, court: "Blanquette", carte: "Menu de juin",
     legende: "La page de Mamie Jo, refaite en cuisine jusqu'à ce qu'elle dise « c'est ça ».",
-    lien: `${DOSSIER}/de-la-recette-a-la-table`, libelleLien: "Le carnet d'essais", photo: photos.blanquette, tel: "40% 30%", ordi: "45% 48%",
+    lien: `${DOSSIER}/de-la-recette-a-la-table`, libelleLien: "Lire le carnet d'essais", photo: photos.blanquette, tel: "40% 30%", ordi: "45% 48%",
   },
   {
     id: "couscous", nom: PLATS_DE_FAMILLE.couscous.nom, court: "Couscous", carte: "Menu de septembre",
@@ -228,7 +228,7 @@ export const PLATS_CARROUSEL: PlatCarrousel[] = [
     lien: `${DOSSIER}/mariages/100-invites`, libelleLien: "Voir ce mariage", photo: photos.basquaise, tel: "50% 80%", ordi: "50% 75%", monteTel: "35%", monteOrdi: "60%",
   },
   {
-    id: "tarte", nom: "La tarte fine aux pommes", court: "Tarte fine", carte: "Menu d'octobre · dessert",
+    id: "tarte", nom: "La tarte fine aux pommes", court: "Tarte fine", carte: "Menu d'octobre, au dessert",
     legende: "Pâte feuilletée, pommes du verger, caramel au beurre salé : découpée devant tout le monde.",
     lien: `${DOSSIER}/mariages/60-invites#menu`, libelleLien: "Voir ce menu", photo: photos.tarte, tel: "50% 50%", ordi: "50% 50%",
   },

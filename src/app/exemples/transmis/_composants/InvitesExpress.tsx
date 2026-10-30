@@ -23,10 +23,9 @@ export default function InvitesExpress({ depart = 120 }: { depart?: number }) {
       <div className="space-y-1.5">
         <Link
           href={`${DOSSIER}#invites`}
-          className="group inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-[var(--sur-sombre)] underline-offset-4 hover:underline"
+          className="text-[14px] font-medium text-[var(--sur-sombre)] underline decoration-white/30 underline-offset-4 hover:decoration-current"
         >
           Combien d&apos;invités&nbsp;?
-          <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">→</span>
         </Link>
         <div className="-ml-1.5 flex items-center gap-1">
           <button type="button" className={bouton} onClick={() => changer(-10)} disabled={n <= INVITES_MIN} aria-label="Dix invités de moins">
@@ -42,7 +41,7 @@ export default function InvitesExpress({ depart = 120 }: { depart?: number }) {
         </div>
       </div>
       <div aria-live="polite" className="ml-auto flex flex-col justify-center self-stretch border-l border-white/15 pl-4 text-right">
-        <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-[#E7A574]">Par personne</p>
+        <p className="text-[14px] font-medium text-[#E7A574]">Par personne</p>
         <p className="mt-1.5 whitespace-nowrap font-[family-name:var(--titres)] text-[28px] leading-none tabular-nums">
           {euros(prix)} <span className="font-[family-name:var(--texte)] text-[12px]">TTC</span>
         </p>

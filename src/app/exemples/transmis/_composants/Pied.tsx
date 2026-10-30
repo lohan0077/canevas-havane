@@ -17,7 +17,7 @@ export default function Pied() {
           </p>
         </div>
         <div className="space-y-3">
-          <p className="text-[12px] font-medium uppercase tracking-[0.2em]">À savoir</p>
+          <p className="font-[family-name:var(--titres)] text-[20px] leading-tight">À savoir</p>
           <p className="max-w-xs leading-relaxed">
             Prix TTC par personne, d&apos;exemple. Allergènes plat par plat. Aucune boisson alcoolisée.
           </p>

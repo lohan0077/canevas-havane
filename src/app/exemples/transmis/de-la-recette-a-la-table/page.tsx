@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../_kit/Apparition";
-import { AppelFinal, Bouton, EnTetePage, Section, Surtitre, Titre } from "../_composants/Blocs";
+import { AppelFinal, Bouton, EnTetePage, Section, Titre } from "../_composants/Blocs";
 import CarnetEssais from "../_composants/CarnetEssais";
 import { DOSSIER, ETAPES, photos } from "../_composants/donnees";
 
@@ -26,34 +26,31 @@ const PAS: [string, string][] = [
 export default function DeLaRecetteALaTable() {
   return (
     <main>
-      <EnTetePage surtitre="On la refait en cuisine" titre="Et c'est elle *qui valide.*" photo={photos.mains} origine="50% 35%">
+      <EnTetePage titre="On la refait en cuisine, et c'est elle qui valide." photo={photos.mains} origine="50% 35%">
         On refait la recette, essai après essai. Tu viens goûter, avec la personne qui te l&apos;a transmise si elle le peut. Tant
         qu&apos;elle ne dit pas «&nbsp;c&apos;est ça&nbsp;», on recommence.
       </EnTetePage>
 
       <Section className="grid gap-16 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
         <div className="space-y-6 lg:sticky lg:top-28">
-          <Apparition><Surtitre>Le carnet d&apos;essais</Surtitre></Apparition>
-          <Titre texte="Trois essais, *un tampon.*" />
-          <Apparition as="p" delai={150} className="max-w-md text-lg leading-relaxed text-[var(--doux)]">
-            Chaque essai, sa date, et ce qu&apos;a dit la personne qui l&apos;a transmise. Au troisième, c&apos;est elle qui valide.
-          </Apparition>
+          <Titre texte="Trois essais, un tampon." />
+          <p className="max-w-md text-lg leading-relaxed text-[var(--doux)]">
+            Le carnet d&apos;essais&nbsp;: chaque essai, sa date, et ce qu&apos;a dit la personne qui l&apos;a transmise. Au troisième,
+            c&apos;est elle qui valide.
+          </p>
         </div>
         <Apparition delai={150}><CarnetEssais /></Apparition>
       </Section>
 
       <Section fond="bg-[var(--sombre)] text-[var(--sur-sombre)]" className="space-y-14">
-        <div className="space-y-5">
-          <Apparition><Surtitre clair>De la page à la table</Surtitre></Apparition>
-          <Titre texte="Les quatre *temps.*" clair />
-        </div>
+        <Titre texte="De la page à la table, en quatre temps." clair />
         <ol className="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4 lg:gap-6">
           {ETAPES.map((e, i) => (
             <Apparition as="li" key={e.titre} delai={i * 90} className="space-y-4">
               <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
                 <Image src={PHOTOS_ETAPES[i].src} alt={PHOTOS_ETAPES[i].alt} fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover" />
               </div>
-              <p className="text-[13px] font-medium uppercase tracking-[0.16em]">Étape {i + 1}</p>
+              <p className="text-[15px]">Étape {i + 1}</p>
               <h2 className="font-[family-name:var(--titres)] text-xl font-normal leading-snug">{e.titre}</h2>
               <p className="text-[15px] leading-relaxed">{e.texte}</p>
             </Apparition>
@@ -63,15 +60,12 @@ export default function DeLaRecetteALaTable() {
 
       <Section>
         <div className="max-w-3xl space-y-10">
-        <div className="space-y-5">
-          <Apparition><Surtitre>Ce qu&apos;on ne fait pas</Surtitre></Apparition>
-          <Titre texte="Trois choses, *jamais.*" />
-        </div>
+        <Titre texte="Trois choses qu'on ne fait jamais." />
         <ul className="divide-y divide-[var(--trait)] border-y border-[var(--trait)] text-lg leading-relaxed">
-          {PAS.map(([non, pourquoi], i) => (
-            <Apparition as="li" key={non} delai={i * 110} className="py-5">
-              <span className="kit-barre">{non}</span>&nbsp;: <span className="text-[var(--doux)]">{pourquoi}</span>
-            </Apparition>
+          {PAS.map(([non, pourquoi]) => (
+            <li key={non} className="py-5">
+              <span className="line-through decoration-[var(--accent)] decoration-[0.09em]">{non}</span>&nbsp;: <span className="text-[var(--doux)]">{pourquoi}</span>
+            </li>
           ))}
         </ul>
         <Bouton href={`${DOSSIER}#recette`}>Envoyer ma recette</Bouton>

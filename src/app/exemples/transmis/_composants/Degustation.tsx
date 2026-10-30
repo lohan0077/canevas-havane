@@ -34,7 +34,7 @@ export default function Degustation() {
             }`}
           >
             <span className="block font-[family-name:var(--titres)] text-[24px] leading-tight">{x.jour}</span>
-            <span className="block text-[14px]">{x.heure} · pour deux · {x.pris ? "complet" : "libre"}</span>
+            <span className="block text-[14px]">{x.pris ? "Complet" : "Libre"} à {x.heure}, pour deux</span>
           </button>
         ))}
       </div>
@@ -49,7 +49,7 @@ export default function Degustation() {
         }}
       >
         <p className="font-[family-name:var(--titres)] text-[28px] leading-tight">
-          {c ? <>{c.jour}, {c.heure} · pour deux</> : "Choisis un samedi libre."}
+          {c ? <>{c.jour} à {c.heure}, pour deux</> : "Choisis un samedi libre."}
         </p>
         <label className="block space-y-2">
           <span className="block font-medium">Des allergies, un régime&nbsp;?</span>

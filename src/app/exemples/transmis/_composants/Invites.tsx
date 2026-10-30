@@ -17,7 +17,7 @@ export default function Invites({ depart = 60 }: { depart?: number }) {
     <div id="outil-invites" className="scroll-mt-24 space-y-6 rounded-2xl border border-[var(--trait)] bg-[var(--carte)] p-5 text-[var(--encre)] sm:p-7">
       <label className="block space-y-4">
         <span className="flex items-baseline justify-between gap-4">
-          <span className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">Combien d&apos;invités&nbsp;?</span>
+          <span className="font-[family-name:var(--titres)] text-[24px] leading-tight">Combien d&apos;invités&nbsp;?</span>
           <span className="font-[family-name:var(--titres)] text-[44px] leading-none tabular-nums">{n}</span>
         </span>
         <input
@@ -41,12 +41,12 @@ export default function Invites({ depart = 60 }: { depart?: number }) {
       </div>
 
       <div aria-live="polite" className="space-y-1 rounded-xl bg-[var(--sombre)] p-5 text-[var(--sur-sombre)]">
-        <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[#E7A574]">Prix par personne · exemple</p>
+        <p className="text-[15px] text-[#E7A574]">Prix par personne, en exemple</p>
         <p data-film="prix" className="font-[family-name:var(--titres)] text-[60px] leading-none tabular-nums">
           {euros(prix)} <span className="align-middle font-[family-name:var(--texte)] text-[18px]">TTC</span>
         </p>
         <p className="text-[15px] tabular-nums text-[var(--sur-sombre)]/90">
-          Total : {euros(prix * n)} TTC pour {n} invités · menu complet
+          Total : {euros(prix * n)} TTC pour {n} invités, menu complet
         </p>
       </div>
       <p className="text-[13px] leading-relaxed text-[var(--doux)]">

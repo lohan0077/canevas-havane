@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../../_kit/Apparition";
-import { AppelFinal, Bouton, CartesMenu, EnTetePage, Section, Surtitre, Titre } from "../../_composants/Blocs";
+import { AppelFinal, Bouton, CartesMenu, EnTetePage, Section, Titre } from "../../_composants/Blocs";
 import { DOSSIER, MARIAGES, euros, prixParPersonne } from "../../_composants/donnees";
 
 // « Ensuite, chaque mariage devient une page. Cent invités, menu de juin, prix par
@@ -35,7 +35,7 @@ export default async function PageMariage({ params }: { params: Promise<{ slug: 
 
   return (
     <main>
-      <EnTetePage surtitre={`Mariage n° ${m.numero} · exemple`} titre={m.titre.replace(/, (.*)$/, ", *$1.*")} photo={m.photo}>
+      <EnTetePage surtitre={`Mariage n° ${m.numero}, en exemple`} titre={`${m.titre}.`} photo={m.photo}>
         {m.recit}
       </EnTetePage>
 
@@ -52,7 +52,7 @@ export default async function PageMariage({ params }: { params: Promise<{ slug: 
               ["Le menu", m.menu.saison.replace("Menu ", "")],
             ].map(([k, v], i) => (
               <Apparition key={k} delai={i * 90} className="bg-[var(--carte)] p-5 sm:p-6">
-                <dt className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">{k}</dt>
+                <dt className="text-[15px] text-[var(--doux)]">{k}</dt>
                 <dd className="mt-1 font-[family-name:var(--titres)] text-[clamp(1.6rem,3vw,2.4rem)] leading-tight tabular-nums">{v}</dd>
               </Apparition>
             ))}
@@ -65,10 +65,7 @@ export default async function PageMariage({ params }: { params: Promise<{ slug: 
       </section>
 
       <Section id="menu" className="space-y-14">
-        <div className="space-y-5">
-          <Apparition><Surtitre>Plat par plat</Surtitre></Apparition>
-          <Titre texte={`${m.menu.saison}, *plat par plat.*`} />
-        </div>
+        <Titre texte={`${m.menu.saison}, plat par plat.`} />
         <CartesMenu menu={m.menu} />
         <p className="max-w-2xl text-[15px] leading-relaxed text-[var(--doux)]">
           Les allergènes sont indiqués pour chaque plat. Avant la commande, on demande les allergies et les régimes de chaque table.

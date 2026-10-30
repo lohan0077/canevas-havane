@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import TitreRevele from "../../_kit/TitreRevele";
 import { ACCENT_SOMBRE, Bouton } from "./Blocs";
 import Bouquet, { type TigeChoisie } from "./Bouquet";
 import { DOSSIER, MOIS } from "./donnees";
@@ -112,7 +111,7 @@ function Fiche({ espece, courant, mois, avecBouton, onAjouter, onFermer, plein }
             <span aria-hidden="true">+</span>
           </button>
         ) : (
-          <p className="text-[14px] font-semibold text-[var(--encre)]">De saison · clic pour l&apos;ajouter</p>
+          <p className="text-[14px] font-semibold text-[var(--encre)]">De saison&nbsp;: clique pour l&apos;ajouter.</p>
         )
       ) : (
         <p className="text-[15px] font-semibold text-[var(--accent-texte)]">
@@ -279,30 +278,26 @@ export default function JardinFleurs() {
       {/* ---------- Le nom, l'heure limite ---------- */}
       <div className="pointer-events-none relative z-10 mx-auto max-w-6xl px-5 pt-[84px] sm:px-6 lg:pt-[max(8rem,16svh)]">
         <div ref={texte} className="max-w-[30rem] space-y-3 lg:max-w-[31rem] lg:space-y-6">
-          <p className="hidden text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--sur-sombre)] lg:block">Fleurs de saison, rien d&apos;autre</p>
-          <TitreRevele
-            as="h1"
-            auChargement
-            texte="Douze *Mois*"
-            className="whitespace-nowrap text-[clamp(3.9rem,17vw,7rem)] font-normal leading-[0.86] tracking-[-0.02em]"
-            classeAccent={ACCENT_SOMBRE}
-          />
-          <TitreRevele
-            as="p"
-            auChargement
-            delai={250}
-            texte={"Commandé avant 14 h, *livré aujourd'hui.*"}
-            className="max-w-[22rem] scroll-mt-24 font-[family-name:var(--titres)] text-[clamp(1.55rem,2.6vw,2.4rem)] font-normal leading-[1.05] text-balance [font-variant-numeric:lining-nums] lg:max-w-[28rem]"
-            classeAccent={ACCENT_SOMBRE}
+          <p className="hidden text-[15px] font-medium text-[var(--sur-sombre)] lg:block">Fleurs de saison, rien d&apos;autre.</p>
+          {/* Le nom de la boutique, composé comme son logo : « Mois » en italique. */}
+          <h1 className="whitespace-nowrap text-[clamp(3.9rem,17vw,7rem)] font-normal leading-[0.86] tracking-[-0.02em]">
+            Douze <span className={ACCENT_SOMBRE}>Mois</span>
+          </h1>
+          <p
             id="heure"
-          />
+            className="max-w-[22rem] scroll-mt-24 font-[family-name:var(--titres)] text-[clamp(1.55rem,2.6vw,2.4rem)] font-normal leading-[1.05] [font-variant-numeric:lining-nums] lg:max-w-[28rem]"
+          >
+            {/* Sur ordinateur, l'heure limite et la promesse, une ligne chacune. */}
+            Commandé avant 14&nbsp;h, <br className="hidden lg:inline" />
+            livré aujourd&apos;hui.
+          </p>
           <div className="hidden space-y-7 pt-2 lg:block">
             <p className="max-w-[26rem] text-lg leading-relaxed">
               Promène-toi dans le jardin : chaque massif est un mois. Ce qui fleurit en France en {mois.nom.toLowerCase()} se cueille ; le reste attend son tour.
             </p>
             <div className="pointer-events-auto flex flex-wrap gap-3">
-              <Bouton href={`${DOSSIER}#choix`}>C&apos;est pour dire quoi&nbsp;?</Bouton>
-              <Bouton href={`${DOSSIER}#calendrier`} variante="contour">Le calendrier</Bouton>
+              <Bouton href={`${DOSSIER}#choix`}>Commander un bouquet</Bouton>
+              <Bouton href={`${DOSSIER}#calendrier`} variante="contour">Feuilleter le calendrier</Bouton>
             </div>
           </div>
         </div>
@@ -313,7 +308,7 @@ export default function JardinFleurs() {
           dans la barre de la composition, pour ne rien poser sur les fleurs. */}
       {!touche && !actif && large && (
         <p className="pointer-events-none absolute right-[max(1.5rem,calc((100vw-72rem)/2+1.5rem))] top-[max(7.5rem,15svh)] z-10 whitespace-nowrap rounded-full bg-[#251C45] px-4 py-2 text-[13px] font-medium text-[var(--sur-sombre)] shadow-lg">
-          {sans3D ? "Choisis une fleur dans la liste" : "Glisse pour marcher · clic sur une fleur du mois"}
+          {sans3D ? "Choisis une fleur dans la liste" : "Glisse pour marcher, clique sur une fleur du mois"}
         </p>
       )}
 
@@ -346,7 +341,7 @@ export default function JardinFleurs() {
           <div className="mb-2.5 flex items-center gap-3 rounded-2xl bg-[#251C45] p-2 pr-3 lg:hidden" data-film="composition">
             <Bouquet tiges={tiges} className="h-[74px] w-[60px] shrink-0" />
             <div className="min-w-0 flex-1">
-              <p className="text-[12px] font-medium uppercase tracking-[0.16em] text-[#C9BDEA]">Ta composition</p>
+              <p className="text-[14px] font-medium text-[#C9BDEA]">Ta composition</p>
               {tiges.length ? (
                 <p className="truncate text-[15px] leading-snug">{resume(tiges)}</p>
               ) : (
@@ -360,7 +355,7 @@ export default function JardinFleurs() {
                 <button type="button" onClick={() => setTiges((t) => t.slice(0, -1))} className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-white/25 text-[18px]" aria-label="Retirer la dernière tige">
                   <span aria-hidden="true">↶</span>
                 </button>
-                <Link href={`${DOSSIER}#choix`} className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[var(--accent)] text-[18px] font-semibold text-[var(--sur-accent)]" aria-label="Continuer : c'est pour dire quoi ?">
+                <Link href={`${DOSSIER}#choix`} className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[var(--accent)] text-[18px] font-semibold text-[var(--sur-accent)]" aria-label="Choisir le message">
                   <span aria-hidden="true">→</span>
                 </Link>
               </>
@@ -381,8 +376,8 @@ export default function JardinFleurs() {
 
             {/* La liste des fleurs : la même chose que le jardin, au doigt et au clavier */}
             <div className="min-w-0 flex-1">
-              <p id="liste-fleurs" className="mb-2 hidden text-[12px] font-medium uppercase tracking-[0.2em] text-[#C9BDEA] lg:block">
-                Les fleurs du jardin · de saison en {mois.nom.toLowerCase()}
+              <p id="liste-fleurs" className="mb-2 hidden text-[15px] font-medium text-[#C9BDEA] lg:block">
+                Les fleurs du jardin, de saison en {mois.nom.toLowerCase()}
               </p>
               <ul aria-label="Les fleurs du jardin" className="-mx-3 flex snap-x gap-2 overflow-x-auto px-3 pb-1 [scrollbar-width:none] lg:mx-0 lg:px-0 lg:[mask-image:linear-gradient(90deg,#000_88%,transparent)]">
                 {liste.map(({ espece, mois: m }) => {
@@ -407,7 +402,7 @@ export default function JardinFleurs() {
                       >
                         <span aria-hidden="true" className="h-2.5 w-2.5 rounded-full" style={{ background: couleurDans(espece, m) }} />
                         {espece.nom}
-                        <span aria-hidden="true" className={saison ? "text-[var(--accent)]" : ""}>{saison ? "+" : `· ${MOIS[prochainMois(espece, courant) - 1].court.toLowerCase()}`}</span>
+                        <span aria-hidden="true" className={saison ? "text-[var(--accent)]" : ""}>{saison ? "+" : `en ${MOIS[prochainMois(espece, courant) - 1].court.toLowerCase()}`}</span>
                       </button>
                     </li>
                   );
@@ -421,7 +416,7 @@ export default function JardinFleurs() {
       {/* ---------- La composition, en carte sur ordinateur ---------- */}
       <div ref={carte} className="absolute bottom-[6.75rem] right-[max(1.5rem,calc((100vw-72rem)/2+1.5rem))] z-10 hidden w-[17.5rem] rounded-3xl border border-white/10 bg-[#221A3D] p-5 lg:block" data-film="composition-carte">
         <div className="flex items-baseline justify-between gap-3">
-          <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[#C9BDEA]">Ta composition</p>
+          <p className="text-[15px] font-medium text-[#C9BDEA]">Ta composition</p>
           <p className="font-[family-name:var(--titres)] text-lg italic">{mois.nom}</p>
         </div>
         <Bouquet tiges={tiges} className={`mx-auto -mb-1 mt-1 w-[176px] transition-[height] duration-500 ${tiges.length ? "h-[220px]" : "h-[120px]"}`} />
@@ -438,8 +433,8 @@ export default function JardinFleurs() {
                 </li>
               ))}
             </ul>
-            <Link href={`${DOSSIER}#choix`} className="mt-4 flex h-11 items-center justify-between gap-2 rounded-full bg-[var(--accent)] px-5 text-[14px] font-semibold text-[var(--sur-accent)]">
-              Et c&apos;est pour dire quoi&nbsp;? <span aria-hidden="true">→</span>
+            <Link href={`${DOSSIER}#choix`} className="mt-4 flex h-11 items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-5 text-[14px] font-semibold text-[var(--sur-accent)]">
+              Choisir le message
             </Link>
             <button type="button" onClick={() => setTiges([])} className="mt-2.5 w-full text-center text-[13px] text-[#C9BDEA] underline underline-offset-4">Tout défaire</button>
           </>

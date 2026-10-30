@@ -24,7 +24,7 @@ export default function ChansonInterdite() {
           if (interdite.trim()) setNotee(interdite.trim());
         }}
       >
-        <label htmlFor="chanson-interdite" className="block text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">
+        <label htmlFor="chanson-interdite" className="block text-[15px] font-medium text-[var(--doux)]">
           La chanson à ne jamais passer
         </label>
         <div className="relative">
@@ -67,7 +67,7 @@ export default function ChansonInterdite() {
           if (voulue.trim()) setVoulueNotee(voulue.trim());
         }}
       >
-        <label htmlFor="chanson-voulue" className="block text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">
+        <label htmlFor="chanson-voulue" className="block text-[15px] font-medium text-[var(--doux)]">
           Et celle qui doit passer
         </label>
         <div className="flex gap-2">
@@ -85,7 +85,7 @@ export default function ChansonInterdite() {
       </form>
 
       <Link href={`${DOSSIER}/samedis-libres`} className="flex h-12 items-center justify-center rounded-full bg-[var(--encre)] text-[15px] font-medium text-[var(--fond)]">
-        Et votre date, elle est libre&nbsp;?
+        Voir si votre date est libre
       </Link>
     </div>
   );

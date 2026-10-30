@@ -4,7 +4,6 @@ import Link from "next/link";
 import { adressesDeLaPage } from "@/lib/seo";
 import Accordeon from "../_kit/Accordeon";
 import Apparition from "../_kit/Apparition";
-import PhotoCinema from "../_kit/PhotoCinema";
 import { AppelFinal, Intitule, Surtitre, Titre } from "./_composants/Blocs";
 import Calendrier from "./_composants/Calendrier";
 import ChoixMessage from "./_composants/ChoixMessage";
@@ -41,33 +40,29 @@ export default function DouzeMois() {
       {/* ---------- Premier écran : le jardin des douze mois ---------- */}
       <JardinFleurs />
 
-      {/* ---------- 01. L'outil de la marque : le calendrier ---------- */}
+      {/* ---------- L'outil de la marque : le calendrier ---------- */}
       {/* Il prend la suite du jardin, sur la même nuit : un filet, et moins de vide au-dessus. */}
       <section id="calendrier" className="scroll-mt-16 border-t border-white/10 bg-[var(--sombre)] text-[var(--sur-sombre)]">
         <div className="mx-auto max-w-6xl space-y-14 px-6 pb-28 pt-20 md:pb-40 md:pt-28">
           <Intitule
             clair
-            numero="01"
-            surtitre="Le calendrier"
-            titre="Tourne *les pages.*"
+            titre="Tourne les pages du calendrier."
             texte="En février, du mimosa. En mai, des pivoines. En septembre, des dahlias. Et pas de roses en janvier : en France, elles ne fleurissent pas dehors."
           />
           <Apparition delai={150}>
             <Calendrier />
           </Apparition>
           <Link href={`${DOSSIER}/calendrier`} className="inline-block text-[15px] underline underline-offset-4">
-            L&apos;année entière
+            Voir l&apos;année entière
           </Link>
         </div>
       </section>
 
-      {/* ---------- 02. L'outil de l'agenda : c'est pour dire quoi ? ---------- */}
+      {/* ---------- L'outil de l'agenda : c'est pour dire quoi ? ---------- */}
       <section id="choix" className="scroll-mt-20">
         <div className="mx-auto max-w-6xl space-y-14 px-6 py-28 md:py-40">
           <Intitule
-            numero="02"
-            surtitre="Ton bouquet"
-            titre={"C'est pour dire *quoi ?*"}
+            titre={"C'est pour dire quoi\u00a0?"}
             texte="Une question, pas quarante vignettes. Le bouquet suit la saison, la phrase est écrite à la main sur la carte : tu n'as qu'à signer."
           />
           <Apparition delai={150}>
@@ -79,22 +74,20 @@ export default function DouzeMois() {
       {/* ---------- Une photo, une phrase : des dahlias en terre, en octobre ---------- */}
       <section className="relative isolate flex min-h-[88svh] flex-col justify-end overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
         <div className="absolute inset-x-0 top-0 h-[72%]">
-          <PhotoCinema src={PHOTOS.dahliasJardin.src} alt="" origine="50% 45%" />
+          <Image src={PHOTOS.dahliasJardin.src} alt="" fill sizes="100vw" className="object-cover object-[50%_45%]" />
           <div className="absolute inset-x-0 bottom-0 h-1/2 bg-[linear-gradient(180deg,rgba(25,18,48,0)_0%,rgba(25,18,48,1)_100%)]" />
         </div>
         <div className="relative mx-auto w-full max-w-6xl space-y-5 px-6 pb-16 pt-[60svh] md:pb-24">
-          <Apparition><Surtitre clair>Octobre · les derniers dahlias</Surtitre></Apparition>
-          <Titre texte="Ce qui fleurit en France, ce mois-ci. *Le reste, on ne le vend pas.*" clair className="max-w-3xl" />
+          <Surtitre clair>En octobre, les derniers dahlias</Surtitre>
+          <Titre texte="Ce qui fleurit en France, ce mois-ci. Le reste, on ne le vend pas." clair className="max-w-3xl" />
         </div>
       </section>
 
-      {/* ---------- 03. La preuve : les pages de la boutique ---------- */}
+      {/* ---------- La preuve : les pages de la boutique ---------- */}
       <section className="bg-[var(--carte)]">
         <div className="mx-auto max-w-6xl space-y-14 px-6 py-28 md:py-40">
           <Intitule
-            numero="03"
-            surtitre="L'année"
-            titre="Douze mois, *une page chacun.*"
+            titre="Douze mois, une page chacun."
             texte="Le calendrier entier, le 14 février sans roses, les phrases pour la carte, et la livraison du jour."
           />
           <ul className="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4 lg:gap-6">
@@ -102,11 +95,10 @@ export default function DouzeMois() {
               <Apparition as="li" key={p.href} delai={i * 90}>
                 <Link href={p.href} className="group block space-y-4">
                   <span className="relative block aspect-[4/5] overflow-hidden rounded-2xl bg-[var(--sombre)]">
-                    <Image src={p.photo.src} alt={p.photo.alt} fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover transition-transform duration-[1.4s] ease-out group-hover:scale-[1.05]" />
+                    <Image src={p.photo.src} alt={p.photo.alt} fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover" />
                   </span>
-                  <span className="flex items-baseline justify-between gap-3 font-[family-name:var(--titres)] text-2xl leading-tight">
+                  <span className="block font-[family-name:var(--titres)] text-2xl leading-tight decoration-1 underline-offset-4 group-hover:underline">
                     {p.titre}
-                    <span aria-hidden="true" className="text-[var(--accent-texte)] transition-transform group-hover:translate-x-1">→</span>
                   </span>
                   <span className="block text-[15px] leading-relaxed text-[var(--doux)]">{p.texte}</span>
                 </Link>
@@ -116,12 +108,11 @@ export default function DouzeMois() {
         </div>
       </section>
 
-      {/* ---------- 04. Questions ---------- */}
+      {/* ---------- Questions ---------- */}
       <section id="questions" className="scroll-mt-24">
         <div className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:py-40 lg:grid-cols-[0.8fr_1.2fr]">
           <div className="space-y-6">
-            <Apparition><Surtitre>04 — Questions</Surtitre></Apparition>
-            <Titre texte="Avant de *signer.*" />
+            <Titre texte="Avant de signer." />
             <Apparition className="relative mt-6 hidden aspect-[4/5] overflow-hidden rounded-2xl lg:block">
               <Image src={PHOTOS.atelier.src} alt={PHOTOS.atelier.alt} fill sizes="30vw" className="object-cover" />
             </Apparition>

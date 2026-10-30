@@ -40,7 +40,7 @@ export default function TransmisLayout({ children }: { children: React.ReactNode
           accueil={DOSSIER}
           marque={<Marque />}
           liens={NAVIGATION}
-          action={{ href: `${DOSSIER}/degustation`, libelle: "Dégustation" }}
+          action={{ href: `${DOSSIER}/degustation`, libelle: "Venir goûter" }}
           surSombre
         />
         <div className="overflow-x-clip">{children}</div>

@@ -17,7 +17,7 @@ export default function Pied() {
           </p>
         </div>
         <div className="space-y-3">
-          <p className="text-[12px] font-medium uppercase tracking-[0.2em]">Horaires</p>
+          <p className="font-[family-name:var(--titres)] text-[22px] leading-tight">Horaires</p>
           <p className="leading-relaxed">{boutique.horaires}</p>
           <p className="leading-relaxed">{boutique.livraisons}</p>
         </div>

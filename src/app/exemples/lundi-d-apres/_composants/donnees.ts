@@ -126,9 +126,9 @@ export const FORMATS = [
 ];
 
 export const PALIERS_ENTREPRISE = [
-  { jusqua: 50, titre: "Une équipe", prix: "110 € HT par personne · exemple", detail: "Soirée d'entreprise jusqu'à 50 personnes : lieu, dîner, le moment de 23 h, le DJ, et nous." },
-  { jusqua: 150, titre: "Un étage entier", prix: "95 € HT par personne · exemple", detail: "Soirée d'entreprise de 60 à 150 personnes : lieu, dîner, le moment de 23 h, le DJ, et nous." },
-  { jusqua: 400, titre: "Toute l'entreprise", prix: "85 € HT par personne · exemple", detail: "Soirée d'entreprise de 160 à 400 personnes : lieu, dîner, le moment de 23 h, le DJ, et nous." },
+  { jusqua: 50, titre: "Une équipe", prix: "110 € HT par personne (exemple)", detail: "Soirée d'entreprise jusqu'à 50 personnes : lieu, dîner, le moment de 23 h, le DJ, et nous." },
+  { jusqua: 150, titre: "Un étage entier", prix: "95 € HT par personne (exemple)", detail: "Soirée d'entreprise de 60 à 150 personnes : lieu, dîner, le moment de 23 h, le DJ, et nous." },
+  { jusqua: 400, titre: "Toute l'entreprise", prix: "85 € HT par personne (exemple)", detail: "Soirée d'entreprise de 160 à 400 personnes : lieu, dîner, le moment de 23 h, le DJ, et nous." },
 ];
 
 /** Mariages : le DJ, prix TTC (exemple). */
