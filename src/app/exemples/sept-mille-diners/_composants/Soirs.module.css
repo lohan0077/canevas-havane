@@ -1,0 +1,48 @@
+/* Le carrousel d'ouverture : le travelling de chaque plan, la barre du jour qui se
+   remplit, la légende qui entre. Uniquement des animations et le transform qu'elles
+   pilotent : une feuille de module l'emporte sur Tailwind (voir CLAUDE.md), elle ne
+   touche donc à aucune propriété qu'une classe doit pouvoir changer.
+
+   Le travelling garde le même nom d'animation quand le plan passe de « actif » à
+   « sortant » : il continue sans à-coup pendant le fondu, et repart de zéro au repos. */
+@keyframes travelling {
+  from { transform: translate3d(var(--de-x), var(--de-y), 0) scale(var(--de-s)); }
+  to { transform: translate3d(var(--a-x), var(--a-y), 0) scale(var(--a-s)); }
+}
+@keyframes remplir {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes entre {
+  from { opacity: 0; transform: translate3d(0, 0.6em, 0); filter: blur(6px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+
+.plan {
+  transform: translate3d(var(--de-x), var(--de-y), 0) scale(var(--de-s));
+  will-change: transform;
+}
+[data-etat="actif"] > .plan,
+[data-etat="sortant"] > .plan {
+  animation: travelling var(--duree-plan) linear both;
+}
+
+.remplissage {
+  transform-origin: left center;
+  animation: remplir var(--duree) linear both;
+}
+
+.legende > * { animation: entre 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.legende > :nth-child(2) { animation-delay: 0.12s; }
+
+/* Pause : bouton, survol, focus clavier, carrousel hors de l'écran ou onglet caché. */
+[data-pause] .plan,
+[data-pause] .remplissage { animation-play-state: paused; }
+
+@media (prefers-reduced-motion: reduce) {
+  .plan,
+  [data-etat="actif"] > .plan,
+  [data-etat="sortant"] > .plan { animation: none; transform: scale(var(--a-s)); }
+  .remplissage { animation: none; transform: none; }
+  .legende > * { animation: none; }
+}

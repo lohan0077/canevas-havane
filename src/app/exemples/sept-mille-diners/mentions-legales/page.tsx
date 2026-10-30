@@ -15,7 +15,7 @@ export default function MentionsLegales() {
       <MentionsDemonstration
         site="sept-mille-diners"
         entreprise="Sept Mille Dîners"
-        polices="Playfair Display et Inter"
+        polices="Playfair Display et Figtree"
         enPlus={
           <>
             <p>

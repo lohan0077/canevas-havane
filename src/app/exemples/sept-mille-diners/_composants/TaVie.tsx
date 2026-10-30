@@ -4,14 +4,19 @@ import { useState } from "react";
 import s from "./Diners.module.css";
 import { NOTES, QUESTIONS, type Reponses } from "./donnees";
 
-const ENCRE = "#2E2A26";
-const BOIS = "#D8C3A5";
-const TERRE = "#B5523B";
-const SAUGE = "#5B6B4E";
+// Les encres du plan (identité du 30/10/2026) : l'encre de nuit, le chêne clair des plans
+// de travail, le laiton du lave-vaisselle, l'inox du frigo.
+const ENCRE = "#141517";
+const BOIS = "#D9C9AE";
+const LAITON = "#C8A574";
+const INOX = "#8C9399";
 
-/** Le papier quadrillé de l'architecte, sous le plan. */
+/**
+ * Le papier quadrillé de l'architecte, sous le plan : clair dans les deux mondes (nuit
+ * et porcelaine), avec ses propres encres pour que le texte posé dessus reste lisible.
+ */
 export const QUADRILLAGE =
-  "bg-[#EFE6D7] [background-image:linear-gradient(rgba(46,42,38,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(46,42,38,0.07)_1px,transparent_1px)] [background-size:22px_22px]";
+  "[--encre:#141517] [--doux:#5C5A55] text-[var(--encre)] bg-[#F4F3F0] [background-image:linear-gradient(rgba(20,21,23,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(20,21,23,0.07)_1px,transparent_1px)] [background-size:22px_22px]";
 
 /** Le plan vu de dessus, qui change selon les trois réponses. */
 function Plan({ r }: { r: Reponses }) {
@@ -23,7 +28,7 @@ function Plan({ r }: { r: Reponses }) {
   const repLv = [lvX + lvW / 2, 86];
   return (
     <svg viewBox="0 0 360 300" className="w-full" role="img" aria-label={`Plan : ${NOTES.combien[r.combien].titre}, ${NOTES.cuisine[r.cuisine].titre}, ${NOTES.vaisselle[r.vaisselle].titre}`}>
-      <rect x="8" y="8" width="344" height="284" rx="6" fill="#FFFCF6" stroke={ENCRE} strokeWidth="5" />
+      <rect x="8" y="8" width="344" height="284" rx="6" fill="#FBFAF8" stroke={ENCRE} strokeWidth="5" />
       {/* Les plans de travail : le long du mur du haut et du mur de gauche. */}
       <rect x="10" y="10" width="340" height="52" fill={BOIS} />
       <rect x="10" y="62" width="52" height="190" fill={BOIS} />
@@ -34,10 +39,10 @@ function Plan({ r }: { r: Reponses }) {
         <circle cx="26" cy="126" r="8" /><circle cx="46" cy="126" r="8" /><circle cx="26" cy="150" r="8" /><circle cx="46" cy="150" r="8" />
       </g>
       {/* Frigo, au bout. */}
-      <rect x="10" y="252" width="52" height="38" fill={SAUGE} />
+      <rect x="10" y="252" width="52" height="38" fill={INOX} />
       {/* Lave-vaisselle. */}
-      <rect x={lvX} y="16" width={lvW} height="40" rx="3" fill={TERRE} />
-      <text x={lvX + lvW / 2} y="41" textAnchor="middle" fontSize="11" fontWeight="700" fill="#FFFFFF">LV</text>
+      <rect x={lvX} y="16" width={lvW} height="40" rx="3" fill={LAITON} />
+      <text x={lvX + lvW / 2} y="41" textAnchor="middle" fontSize="11" fontWeight="700" fill={ENCRE}>LV</text>
       {/* La table, selon le nombre. */}
       {r.combien === "2" && (
         <g>

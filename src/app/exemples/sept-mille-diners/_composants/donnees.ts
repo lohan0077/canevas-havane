@@ -44,6 +44,74 @@ export const photos = {
   salle: { src: "/exemples/sept-mille-diners/salle.webp", alt: "Une cuisine blanche ouverte sur une table ronde en bois et ses chaises" },
 };
 
+/* ---------- Le premier écran : une semaine de dîners, sept cuisines ---------- */
+
+/**
+ * Les sept soirs du carrousel d'ouverture, du lundi au dimanche : un dîner en train de
+ * se faire, chaque fois dans une autre cuisine. La légende dit le moment et la cuisine,
+ * rien d'autre : aucun chiffre, aucune promesse. Photos Pexels regardées une à une :
+ * aucune marque lisible (l'imprimé du tee-shirt de « noire mate » a été effacé).
+ * `mobile` et `bureau` : le point de l'image gardé au cadrage (object-position) ;
+ * `de` et `a` : le travelling — décalage en % de l'image, puis échelle.
+ */
+export type Soir = {
+  jour: string;
+  heure: string;
+  cuisine: string;
+  src: string;
+  alt: string;
+  portrait?: boolean;
+  mobile: string;
+  bureau: string;
+  de: [number, number, number];
+  a: [number, number, number];
+};
+
+export const SOIRS: Soir[] = [
+  {
+    jour: "Lundi", heure: "19 h 45", cuisine: "Une cuisine en merisier, une casserole qui fume.",
+    src: "/exemples/sept-mille-diners/diner-casserole.webp",
+    alt: "Une femme remue une casserole fumante, un verre de vin à la main, sous des placards en bois",
+    portrait: true, mobile: "62% 50%", bureau: "50% 24%", de: [0, 2, 1.1], a: [-2, -1, 1.02],
+  },
+  {
+    jour: "Mardi", heure: "20 h", cuisine: "Une cuisine noire mate, deux tabliers.",
+    src: "/exemples/sept-mille-diners/diner-noire-mate.webp",
+    alt: "Un couple en tablier noir rince des tomates dans une cuisine aux façades noires",
+    mobile: "64% 50%", bureau: "50% 40%", de: [2, 0, 1.03], a: [-2, 0, 1.1],
+  },
+  {
+    jour: "Mercredi", heure: "19 h 15", cuisine: "Une cuisine ouverte sur le salon. Les tomates d'abord.",
+    src: "/exemples/sept-mille-diners/diner-ouverte.webp",
+    alt: "Une femme en tablier coupe des tomates au-dessus des feux, dans une cuisine ouverte sur le salon",
+    mobile: "66% 50%", bureau: "50% 50%", de: [-1.5, 1, 1.1], a: [1.5, -1, 1.03],
+  },
+  {
+    jour: "Jeudi", heure: "20 h 05", cuisine: "Une cuisine de brique et de bois, les assiettes servies.",
+    src: "/exemples/sept-mille-diners/diner-brique.webp",
+    alt: "Un homme, un torchon sur l'épaule, sert des pâtes à une femme qui sourit, devant des vitrines en bois",
+    mobile: "56% 50%", bureau: "50% 40%", de: [0, -1.5, 1.03], a: [-1.5, 1, 1.1],
+  },
+  {
+    jour: "Vendredi", heure: "19 h 50", cuisine: "Un îlot au plan de bois, les verres déjà sortis.",
+    src: "/exemples/sept-mille-diners/diner-ilot.webp",
+    alt: "Une femme coupe des légumes sur un îlot en bois, des verres et des assiettes prêts pour le dîner",
+    mobile: "70% 50%", bureau: "50% 50%", de: [1.5, 0, 1.1], a: [-1.5, 0.5, 1.03],
+  },
+  {
+    jour: "Samedi", heure: "21 h 10", cuisine: "Une petite cuisine de ville, tout le monde debout.",
+    src: "/exemples/sept-mille-diners/diner-ville.webp",
+    alt: "Trois amies discutent, un verre à la main, dans une petite cuisine carrelée vue depuis la fenêtre",
+    mobile: "63% 50%", bureau: "50% 30%", de: [-1, -1, 1.03], a: [1, 1, 1.1],
+  },
+  {
+    jour: "Dimanche", heure: "20 h 15", cuisine: "Une grande table dans la cuisine, les bougies allumées.",
+    src: "/exemples/sept-mille-diners/diner-grande-table.webp",
+    alt: "Une famille dîne autour d'une table en bois éclairée aux bougies, dans la cuisine",
+    mobile: "58% 50%", bureau: "50% 45%", de: [0, 1.5, 1.1], a: [0, -1.5, 1.03],
+  },
+];
+
 /* ---------- Ta vie, ton plan : trois questions ---------- */
 
 export type Reponses = { combien: "2" | "4" | "6"; cuisine: "moi" | "deux" | "tous"; vaisselle: "moi" | "enfants" | "personne" };

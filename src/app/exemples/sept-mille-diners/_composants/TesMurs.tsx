@@ -112,21 +112,21 @@ export default function TesMurs() {
           <>
             <div className={`rounded-2xl p-3 ${QUADRILLAGE}`}>
               <svg key={`${mur1}|${mur2}`} viewBox="0 0 320 230" className="w-full" role="img" aria-label={`Plan de la cuisine ${l2 > 0 ? "en L" : "droite"} : ${metres(l1!)}${l2 > 0 ? ` et ${metres(l2)}` : ""}, ${n1 + n2} meubles bas`}>
-                <path d={`M${X0 - 6} ${Y0 - 6} H${X0 + l1! * E + 6}`} stroke="#2E2A26" strokeWidth="5" strokeLinecap="round" />
-                {l2 > 0 && <path d={`M${X0 - 6} ${Y0 - 6} V${Y0 + l2 * E + 6}`} stroke="#2E2A26" strokeWidth="5" strokeLinecap="round" />}
-                {l2 > 0 && <rect x={X0} y={Y0} width={P - 2} height={P - 2} fill="#CDBFA8" />}
+                <path d={`M${X0 - 6} ${Y0 - 6} H${X0 + l1! * E + 6}`} stroke="#141517" strokeWidth="5" strokeLinecap="round" />
+                {l2 > 0 && <path d={`M${X0 - 6} ${Y0 - 6} V${Y0 + l2 * E + 6}`} stroke="#141517" strokeWidth="5" strokeLinecap="round" />}
+                {l2 > 0 && <rect x={X0} y={Y0} width={P - 2} height={P - 2} fill="#CFC6B6" />}
                 {meubles.map((m, i) => (
                   <g key={i} className={s.meuble} style={{ animationDelay: `${0.12 + i * 0.07}s` }}>
-                    <rect x={m.x} y={m.y} width={m.w} height={m.h} rx="2" fill={m.type === "frigo" ? "#5B6B4E" : "#D8B98F"} />
-                    {m.type === "evier" && <rect x={m.x + m.w * 0.18} y={m.y + m.h * 0.2} width={m.w * 0.64} height={m.h * 0.55} rx="4" fill="none" stroke="#2E2A26" strokeWidth="2" />}
+                    <rect x={m.x} y={m.y} width={m.w} height={m.h} rx="2" fill={m.type === "frigo" ? "#8C9399" : "#D9C9AE"} />
+                    {m.type === "evier" && <rect x={m.x + m.w * 0.18} y={m.y + m.h * 0.2} width={m.w * 0.64} height={m.h * 0.55} rx="4" fill="none" stroke="#141517" strokeWidth="2" />}
                     {m.type === "plaque" &&
                       [[0.3, 0.3], [0.7, 0.3], [0.3, 0.7], [0.7, 0.7]].map(([fx, fy]) => (
-                        <circle key={`${fx}${fy}`} cx={m.x + m.w * fx} cy={m.y + m.h * fy} r={m.w * 0.12} fill="none" stroke="#2E2A26" strokeWidth="1.8" />
+                        <circle key={`${fx}${fy}`} cx={m.x + m.w * fx} cy={m.y + m.h * fy} r={m.w * 0.12} fill="none" stroke="#141517" strokeWidth="1.8" />
                       ))}
                   </g>
                 ))}
-                <text x={X0 + (l1! * E) / 2} y={Y0 + P + 22} textAnchor="middle" fontSize="15" fontWeight="700" fill="#2E2A26">{metres(l1!)}</text>
-                {l2 > 0 && <text x={X0 + P + 12} y={Y0 + (l2 * E) / 2 + 20} fontSize="15" fontWeight="700" fill="#2E2A26">{metres(l2)}</text>}
+                <text x={X0 + (l1! * E) / 2} y={Y0 + P + 22} textAnchor="middle" fontSize="15" fontWeight="700" fill="#141517">{metres(l1!)}</text>
+                {l2 > 0 && <text x={X0 + P + 12} y={Y0 + (l2 * E) / 2 + 20} fontSize="15" fontWeight="700" fill="#141517">{metres(l2)}</text>}
               </svg>
             </div>
             <p className="text-lg">

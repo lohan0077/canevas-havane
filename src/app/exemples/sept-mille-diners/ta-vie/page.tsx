@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../_kit/Apparition";
-import { AppelFinal, Appli, Bouton, EnTetePage, Surtitre, Titre } from "../_composants/Blocs";
+import { AppelFinal, Appli, Bouton, EnTetePage, PORCELAINE, Surtitre, Titre } from "../_composants/Blocs";
 import TaVie from "../_composants/TaVie";
 import { DOSSIER, NOTES, photos } from "../_composants/donnees";
 
@@ -27,15 +27,17 @@ export default function PageTaVie() {
         décide chez toi, mètre en main.
       </EnTetePage>
 
-      <section id="outil" className="mx-auto max-w-6xl px-6 py-20 md:py-28">
-        <Apparition>
-          <Appli adresse="Sept Mille Dîners · ta vie, ton plan" etape="Trois questions">
-            <TaVie />
-          </Appli>
-        </Apparition>
+      <section id="outil" className={PORCELAINE}>
+        <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
+          <Apparition>
+            <Appli adresse="Sept Mille Dîners · ta vie, ton plan" etape="Trois questions">
+              <TaVie />
+            </Appli>
+          </Apparition>
+        </div>
       </section>
 
-      <section className="border-t border-[var(--trait)] bg-[var(--carte)]">
+      <section>
         <div className="mx-auto max-w-6xl space-y-14 px-6 py-28 md:py-40">
           <div className="space-y-5">
             <Apparition><Surtitre>Ce que chaque réponse change</Surtitre></Apparition>
@@ -45,10 +47,10 @@ export default function PageTaVie() {
             {RUBRIQUES.map((r, i) => (
               <Apparition key={r.cle} delai={i * 120} className="space-y-5">
                 <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-[var(--sombre)]">
-                  <Image src={r.photo.src} alt={r.photo.alt} fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover" />
+                  <Image src={r.photo.src} alt={r.photo.alt} fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover [filter:saturate(0.88)]" />
                 </div>
-                <h2 className="font-[family-name:var(--titres)] text-2xl font-normal">
-                  {r.titre} <span className="block text-lg italic text-[var(--accent-texte)]">{r.sous}</span>
+                <h2 className="font-[family-name:var(--titres)] text-[1.75rem] font-normal leading-tight">
+                  {r.titre} <span className="mt-1 block text-lg italic text-[var(--accent-texte)]">{r.sous}</span>
                 </h2>
                 <ul className="divide-y divide-[var(--trait)] border-t border-[var(--trait)]">
                   {Object.values(NOTES[r.cle]).map((n) => (

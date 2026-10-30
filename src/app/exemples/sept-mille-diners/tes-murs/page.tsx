@@ -3,7 +3,7 @@ import Image from "next/image";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../_kit/Apparition";
 import Creneaux from "../../_kit/Creneaux";
-import { AppelFinal, Appli, EnTetePage, Surtitre, Titre } from "../_composants/Blocs";
+import { AppelFinal, Appli, EnTetePage, PORCELAINE, Surtitre, Titre } from "../_composants/Blocs";
 import TesMurs from "../_composants/TesMurs";
 import { COMPRIS, CRENEAUX_COTES, GAMMES, PAS_COMPRIS, euros, photos } from "../_composants/donnees";
 
@@ -22,14 +22,15 @@ export default function TesMursPage() {
         Deux murs : elle sera en L. La fourchette est TTC, pose comprise.
       </EnTetePage>
 
-      <section className="mx-auto grid max-w-6xl gap-10 px-6 py-20 md:py-28 lg:grid-cols-[1.4fr_0.6fr]">
+      <section className={PORCELAINE}>
+      <div className="mx-auto grid max-w-6xl gap-10 px-6 py-20 md:py-28 lg:grid-cols-[1.4fr_0.6fr]">
         <Apparition>
           <Appli adresse="Sept Mille Dîners · tes murs, ton prix" etape="Deux longueurs">
             <TesMurs />
           </Appli>
         </Apparition>
         <Apparition delai={150} className="space-y-4 self-start">
-          <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">Le mètre linéaire</p>
+          <Surtitre>Le mètre linéaire</Surtitre>
           <ul className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
             {GAMMES.map((g) => (
               <li key={g.id} className="space-y-0.5 py-3">
@@ -43,22 +44,23 @@ export default function TesMursPage() {
             TTC, pose comprise, hors électroménager · exemple. Pour une cuisine en L de 5,60 m en laqué : 11&nbsp;000 – 14&nbsp;000 €.
           </p>
         </Apparition>
+      </div>
       </section>
 
       <section className="bg-[var(--sombre)] text-[var(--sur-sombre)]">
         <div className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:grid-cols-2 md:py-40">
           <div className="space-y-8">
-            <Titre texte="Ce que la fourchette *comprend.*" clair taille="moyen" />
+            <Titre texte="Ce que la fourchette *comprend.*" taille="moyen" />
             <ul className="divide-y divide-white/15 border-y border-white/15 text-lg">
               {COMPRIS.map((x, i) => (
                 <Apparition as="li" key={x} delai={i * 70} className="flex gap-4 py-3.5">
-                  <span aria-hidden="true" className="text-[#F0B49B]">✓</span>{x}
+                  <span aria-hidden="true" className="text-[var(--accent-texte)]">✓</span>{x}
                 </Apparition>
               ))}
             </ul>
           </div>
           <div className="space-y-8">
-            <Titre texte="Ce qu'elle *ne comprend pas.*" clair taille="moyen" />
+            <Titre texte="Ce qu'elle *ne comprend pas.*" taille="moyen" />
             <ul className="divide-y divide-white/15 border-y border-white/15 text-lg">
               {PAS_COMPRIS.map((x, i) => (
                 <Apparition as="li" key={x} delai={i * 70} className="flex gap-4 py-3.5">
@@ -74,7 +76,8 @@ export default function TesMursPage() {
         </div>
       </section>
 
-      <section id="cotes" className="scroll-mt-20 mx-auto grid max-w-6xl gap-14 px-6 py-28 md:py-40 lg:grid-cols-[0.9fr_1.1fr]">
+      <section id="cotes" className={`scroll-mt-20 ${PORCELAINE}`}>
+      <div className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:py-40 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="space-y-6">
           <Apparition><Surtitre>Étape suivante</Surtitre></Apparition>
           <Titre texte="La prise de cotes, *chez toi.*" />
@@ -97,9 +100,10 @@ export default function TesMursPage() {
             note={"Créneaux de la semaine du 26 octobre. Ceux marqués « Pris » le sont pour l'exemple."}
           />
         </Apparition>
+      </div>
       </section>
 
-      <AppelFinal />
+      <AppelFinal monde="nuit" />
     </main>
   );
 }

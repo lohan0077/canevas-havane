@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../_kit/Apparition";
-import { AppelFinal, EnTetePage, Surtitre, Titre } from "../_composants/Blocs";
+import { AppelFinal, EnTetePage, PORCELAINE, Surtitre, Titre } from "../_composants/Blocs";
 import Ticket from "../_composants/Ticket";
-import { DEROULE_DINER, photos } from "../_composants/donnees";
+import { DEROULE_DINER, SOIRS, photos } from "../_composants/donnees";
 
 export const metadata: Metadata = {
   title: "Le premier dîner — Sept Mille Dîners, site de démonstration",
@@ -23,12 +23,13 @@ const CONDITIONS = [
 export default function LePremierDiner() {
   return (
     <main>
-      <EnTetePage surtitre="Le soir de la pose" titre="Le premier dîner, *c'est nous.*">
+      <EnTetePage surtitre="Le soir de la pose" titre="Le premier dîner, *c'est nous.*" photo={SOIRS[6]} origine="60% 40%">
         Le soir de chaque pose, on cuisine le premier dîner. Chez toi, dans ta nouvelle cuisine. Et on te laisse les
         7&nbsp;299 autres.
       </EnTetePage>
 
-      <section className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:py-40 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+      <section className={PORCELAINE}>
+      <div className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:py-40 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
         <div className="space-y-10">
           <div className="space-y-5">
             <Apparition><Surtitre>Ce soir-là</Surtitre></Apparition>
@@ -37,7 +38,7 @@ export default function LePremierDiner() {
           <ol className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
             {DEROULE_DINER.map((d, i) => (
               <Apparition as="li" key={d.quand} delai={i * 120} className="grid gap-1 py-5 sm:grid-cols-[12rem_1fr] sm:gap-6">
-                <p className="font-[family-name:var(--titres)] text-xl italic text-[var(--accent-texte)]">{d.quand}</p>
+                <p className="font-[family-name:var(--titres)] text-xl italic">{d.quand}</p>
                 <p className="text-[17px] leading-relaxed [font-variant-numeric:lining-nums]">{d.quoi}</p>
               </Apparition>
             ))}
@@ -46,18 +47,19 @@ export default function LePremierDiner() {
         <Apparition delai={150}>
           <Ticket />
         </Apparition>
+      </div>
       </section>
 
       <section className="bg-[var(--sombre)] text-[var(--sur-sombre)]">
         <div className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:py-40 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <div className="space-y-5">
             <Apparition><Surtitre clair>Offert, et on dit comment</Surtitre></Apparition>
-            <Titre texte="Offert, *sans condition.*" clair />
+            <Titre texte="Offert, *sans condition.*" />
           </div>
           <ul className="divide-y divide-white/15 border-y border-white/15 text-lg leading-relaxed">
             {CONDITIONS.map((c, i) => (
               <Apparition as="li" key={c} delai={i * 120} className="flex gap-4 py-4">
-                <span aria-hidden="true" className="font-[family-name:var(--titres)] italic text-[#F0B49B]">{i + 1}.</span>
+                <span aria-hidden="true" className="font-[family-name:var(--titres)] italic text-[var(--accent-texte)]">{i + 1}.</span>
                 {c}
               </Apparition>
             ))}
@@ -65,7 +67,8 @@ export default function LePremierDiner() {
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:py-40 lg:grid-cols-2 lg:items-center">
+      <section className={PORCELAINE}>
+      <div className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:py-40 lg:grid-cols-2 lg:items-center">
         <div className="space-y-6">
           <Apparition><Surtitre>Chaque pose, filmée</Surtitre></Apparition>
           <Titre texte="Quatre jours. *Trente secondes.*" />
@@ -77,13 +80,14 @@ export default function LePremierDiner() {
         <div className="grid grid-cols-2 gap-4">
           {[photos.herbes, photos.service].map((p, i) => (
             <Apparition key={p.src} delai={i * 140} className="relative aspect-[3/4] overflow-hidden rounded-2xl bg-[var(--sombre)]">
-              <Image src={p.src} alt={p.alt} fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover" />
+              <Image src={p.src} alt={p.alt} fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover [filter:saturate(0.88)]" />
             </Apparition>
           ))}
         </div>
+      </div>
       </section>
 
-      <AppelFinal />
+      <AppelFinal monde="nuit" />
     </main>
   );
 }
