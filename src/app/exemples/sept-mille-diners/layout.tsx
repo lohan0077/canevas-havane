@@ -18,6 +18,7 @@ import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 export default function SeptMilleDinersLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
+      calme
       entreprise="Sept Mille Dîners"
       titres="playfair"
       texte="figtree"

@@ -18,6 +18,7 @@ export default function NeufEtesLayout({ children }: { children: React.ReactNode
   return (
     <div className="bg-[#0D3446] pb-[76px] lg:pb-0">
       <Cadre
+        calme
         entreprise="Neuf Étés"
         titres="fraunces"
         texte="inter"

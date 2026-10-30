@@ -16,6 +16,7 @@ import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 export default function TransmisLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
+      calme
       entreprise="Transmis"
       titres="dmSerif"
       texte="outfit"

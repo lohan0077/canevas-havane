@@ -14,6 +14,7 @@ import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 export default function DouzeMoisLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
+      calme
       entreprise="Douze Mois"
       titres="instrument"
       texte="bricolage"

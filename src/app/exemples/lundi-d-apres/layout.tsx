@@ -18,6 +18,7 @@ import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 export default function LundiDApresLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
+      calme
       entreprise="Lundi d'Après"
       titres="syne"
       texte="spaceGrotesk"

@@ -31,6 +31,7 @@ export default function Cadre({
   texte,
   autres = [],
   couleurs,
+  calme = false,
   children,
 }: {
   entreprise: string;
@@ -38,6 +39,9 @@ export default function Cadre({
   texte: NomPolice;
   autres?: NomPolice[];
   couleurs: Couleurs;
+  /** Un seul moment animé, le premier écran : ailleurs, les blocs sont là d'emblée
+      (`kit-calme`, mouvement.css). */
+  calme?: boolean;
   children: React.ReactNode;
 }) {
   const polices = [titres, texte, ...autres].map((n) => POLICES[n].variable).join(" ");
@@ -58,7 +62,7 @@ export default function Cadre({
 
   return (
     <div
-      className={`${polices} font-[family-name:var(--texte)] min-h-screen bg-[var(--fond)] text-[var(--encre)] [&_h1]:font-[family-name:var(--titres)] [&_h2]:font-[family-name:var(--titres)] [&_h3]:font-[family-name:var(--titres)] [&_h4]:font-[family-name:var(--titres)] [&_h5]:font-[family-name:var(--titres)] [&_h6]:font-[family-name:var(--titres)] [&_h1]:leading-[1.04] [&_h2]:leading-[1.08] [&_h3]:leading-[1.15]`}
+      className={`${polices} ${calme ? "kit-calme" : ""} font-[family-name:var(--texte)] min-h-screen bg-[var(--fond)] text-[var(--encre)] [&_h1]:font-[family-name:var(--titres)] [&_h2]:font-[family-name:var(--titres)] [&_h3]:font-[family-name:var(--titres)] [&_h4]:font-[family-name:var(--titres)] [&_h5]:font-[family-name:var(--titres)] [&_h6]:font-[family-name:var(--titres)] [&_h1]:leading-[1.04] [&_h2]:leading-[1.08] [&_h3]:leading-[1.15]`}
       style={variables}
     >
       <BandeauDemonstration entreprise={entreprise} />

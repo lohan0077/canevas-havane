@@ -15,6 +15,7 @@ import "./pluie.css";
 export default function EtSilPleutLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
+      calme
       entreprise="Et s'il pleut"
       titres="bodoni"
       texte="dmSans"

@@ -19,6 +19,7 @@ import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 export default function PavillonBisLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
+      calme
       entreprise="Pavillon Bis"
       titres="sora"
       texte="sora"

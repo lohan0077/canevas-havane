@@ -14,6 +14,7 @@ import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 export default function LePourquoiLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
+      calme
       entreprise="Le Pourquoi"
       titres="newsreader"
       texte="manrope"

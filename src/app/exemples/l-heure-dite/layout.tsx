@@ -16,6 +16,7 @@ import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 export default function LHeureDiteLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
+      calme
       entreprise="L'Heure Dite"
       titres="archivo"
       texte="workSans"
