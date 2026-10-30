@@ -48,8 +48,8 @@ export default function MentionsLegales() {
               chantiers non.
             </p>
             <p>
-              La piscine du premier écran est une scène en 3D construite dans le navigateur ;
-              son image fixe en est une vue, pas une photo. Le film des pages de chantier vient
+              La piscine du premier écran est une image de synthèse, rendue avec Blender : la
+              maison, le bassin et le jardin n&apos;existent pas, ce n&apos;est pas une photo. Le film des pages de chantier vient
               de Pexels, sous la licence Pexels :{" "}
               {videos.filter((v) => v.fichier === "chantier.mp4").map((v) => `${v.auteur} (${v.sujet})`).join(", ")}.
               Le jardin en 3D reprend les principes du configurateur de Kéo.

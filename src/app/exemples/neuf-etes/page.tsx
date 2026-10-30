@@ -48,9 +48,7 @@ export default function NeufEtes() {
   return (
     <main>
       {/* ---------- Premier écran : la piscine qui se remplit ---------- */}
-      <div className="flex h-[100svh] min-h-[560px] flex-col">
-        <Remplissage />
-      </div>
+      <Remplissage />
 
       {/* ---------- L'outil de la marque : combien d'étés ---------- */}
       <section id="etes" className="scroll-mt-24">

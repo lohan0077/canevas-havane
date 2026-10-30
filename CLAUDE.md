@@ -478,7 +478,7 @@ le site. Branche `heros-top10`, un commit par site.
 
 | Site | Premier écran | Polices (titres / texte) | Signature |
 |---|---|---|---|
-| Neuf Étés | piscine qui se remplit, eau qui réagit au doigt (3D) ; maquette du jardin refaite | Fraunces / Inter | bleu profond, jaune |
+| Neuf Étés | piscine qui se remplit au défilement : 96 images rendues dans Blender (pilote photoréaliste) ; maquette du jardin refaite | Fraunces / Inter | bleu profond, jaune |
 | Et s'il pleut | cérémonie sous la pluie, parapluies qui s'ouvrent un à un (3D) | Bodoni Moda / DM Sans | gris lavande, jaune, violet |
 | Sept Mille Dîners | carrousel « une semaine de dîners, sept cuisines » (photos) | Playfair Display / Figtree | nuit, porcelaine, laiton |
 | L'Heure Dite | toit-horloge : l'aiguille fait tourner le soleil (3D) | Archivo / Work Sans | faïence, noir, vert émail |
@@ -504,6 +504,16 @@ le site. Branche `heros-top10`, un commit par site.
   les pixels réels par des scripts restés hors dépôt (`~/Ateliers/heros-captures/`).
 - **Les vidéos du top 10 filment encore les anciens sites** : à refilmer. Les
   `data-film` existants ont été gardés.
+- **Le pilote photoréaliste (Neuf Étés, 30/10/2026).** La revue honnête l'a dit : la 3D
+  construite dans le navigateur plafonne au rendu « maquette ». Le premier écran de Neuf
+  Étés est donc devenu une suite de 96 images rendues dans Blender (Cycles), que le
+  défilement fait avancer, comme la référence Ciao Energy. Source :
+  `outils/blender/piscine-neuf-etes.py` (une commande en tête du fichier, ~35 min pour les
+  deux cadrages) ; sortie dans `public/exemples/neuf-etes/piscine/`. Trois pièges : un
+  ciel physique trop fort aplatit tout (le soleil fait la lumière, le ciel presque
+  éteint) ; des feuilles en particules faites à la va-vite font pire que des volumes
+  nets ; l'eau n'est belle qu'avec une lueur turquoise sous la surface, sinon le fond
+  à l'ombre paraît noir. Le reste des neuf sites attend de voir ce pilote.
 - **Leçon d'atelier** : un serveur de développement Next 16 ouvert par `127.0.0.1` au
   lieu de `localhost` bloque les composants chargés à la demande, sans aucune erreur —
   la 3D ne s'affiche jamais. Toujours `localhost`.
