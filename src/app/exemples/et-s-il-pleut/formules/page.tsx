@@ -32,16 +32,19 @@ export default function PageFormules() {
         {FORMULES.map((f, i) => {
           const fort = i === 1;
           return (
-            <Apparition as="article" key={f.id} id={`formule-${f.id}`} delai={i * 120} className={`space-y-5 rounded-2xl p-7 sm:p-9 ${fort ? "bg-[var(--sombre)] text-[var(--sur-sombre)]" : "border border-[var(--trait)] bg-[var(--carte)]"}`}>
-              <p className={`text-[12px] font-medium uppercase tracking-[0.2em] ${fort ? "" : "text-[var(--doux)]"}`}>0{i + 1} — {f.sous}</p>
+            // L'apparition enveloppe la carte : la carte garde ses propres transitions (survol).
+            <Apparition key={f.id} delai={i * 120}>
+            <article id={`formule-${f.id}`} className={`h-full space-y-5 rounded-[1.75rem] p-7 transition-[translate,box-shadow] duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)] hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:translate-y-0 sm:p-9 ${fort ? "bg-[var(--sombre)] text-[var(--sur-sombre)] shadow-[0_40px_80px_-40px_rgba(25,26,40,0.7)]" : "border border-[var(--trait)] bg-[var(--carte)] hover:shadow-[0_30px_60px_-40px_rgba(25,26,40,0.5)]"}`}>
+              <p className={`text-[12px] font-semibold uppercase tracking-[0.2em] ${fort ? "" : "text-[var(--doux)]"}`}>0{i + 1} — {f.sous}</p>
               <h2 className="font-[family-name:var(--titres)] text-[2rem] font-normal leading-tight">{f.titre}</h2>
-              <p className="font-[family-name:var(--titres)] text-4xl italic">dès {euros(f.prix)}</p>
+              <p className={`font-[family-name:var(--titres)] text-4xl italic ${fort ? "text-[var(--accent)]" : ""}`}>dès {euros(f.prix)}</p>
               <p className={`text-[15px] ${fort ? "" : "text-[var(--doux)]"}`}>TTC · prix d&apos;exemple · plan B compris</p>
               <ul className={`space-y-2.5 border-t pt-5 ${fort ? "border-white/20" : "border-[var(--trait)]"}`}>
                 {f.compris.map((c) => (
                   <li key={c} className="leading-relaxed">{c}</li>
                 ))}
               </ul>
+            </article>
             </Apparition>
           );
         })}
@@ -57,7 +60,7 @@ export default function PageFormules() {
                 <li key={p} className="py-4 text-lg leading-relaxed text-[var(--doux)]">{p}</li>
               ))}
             </ul>
-            <Accordeon questions={PRESTATAIRES} />
+            <Accordeon questions={PRESTATAIRES} className="esp-questions" />
           </div>
           <Apparition className="relative aspect-[4/5] overflow-hidden rounded-2xl">
             <Image src={photos.chaises.src} alt={photos.chaises.alt} fill sizes="(min-width: 1024px) 460px, 100vw" className="object-cover" />

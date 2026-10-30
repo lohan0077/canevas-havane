@@ -6,9 +6,11 @@ import Accordeon from "../_kit/Accordeon";
 import Apparition from "../_kit/Apparition";
 import PhotoCinema from "../_kit/PhotoCinema";
 import TitreRevele from "../_kit/TitreRevele";
+import Affiche from "./_composants/Affiche";
 import Bascule from "./_composants/Bascule";
 import { ACCENT_SOMBRE, AppelFinal, Bouton, Surtitre, Titre } from "./_composants/Blocs";
 import Formules from "./_composants/Formules";
+import PremierEcran from "./_composants/PremierEcran";
 import Retroplanning from "./_composants/Retroplanning";
 import { DOSSIER, QUESTIONS, photos } from "./_composants/donnees";
 
@@ -51,42 +53,35 @@ function Intitule({ numero, surtitre, titre, texte, clair = false }: { numero: s
 export default function EtSilPleut() {
   return (
     <main>
-      {/* ---------- Premier écran : un parapluie jaune sur l'eau, la question ---------- */}
-      <section className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
-        {/* Le parapluie posé sur l'eau, cadré bas : il flotte au-dessus du titre. */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="kit-parallaxe absolute -inset-[8%]">
-            <Image
-              src={photos.lac.src}
-              alt=""
-              fill
-              priority
-              sizes="100vw"
-              className="kit-cinema-img object-cover object-[50%_84%] opacity-75"
-              style={{ "--kit-origine": "45% 62%" } as React.CSSProperties}
-            />
-          </div>
-        </div>
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(47,59,76,0.75)_0%,rgba(47,59,76,0.15)_30%,rgba(47,59,76,0.35)_55%,rgba(47,59,76,0.97)_88%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-3/5 bg-[linear-gradient(180deg,transparent,rgba(47,59,76,0.7)_45%)] sm:hidden" />
-        <div className="relative mx-auto flex w-full max-w-6xl flex-1 flex-col justify-end gap-7 px-6 pb-14 pt-36 md:pb-20">
-          <Apparition><Surtitre clair>Wedding planner · Rouen et la Normandie</Surtitre></Apparition>
-          <TitreRevele
-            as="h1"
-            auChargement
-            texte={"Et s'il *pleut ?*"}
-            className="text-[clamp(3.6rem,10vw,8.5rem)] font-normal leading-[0.95] tracking-[-0.03em]"
-            classeAccent={ACCENT_SOMBRE}
-          />
-          <Apparition as="p" delai={450} className="max-w-[26rem] text-lg leading-relaxed">
-            C&apos;est prévu. Chaque mariage en deux versions, soleil ou pluie — et les deux dans le
-            même devis.
-          </Apparition>
+      {/* ---------- Premier écran : la cérémonie sous la pluie, les parapluies qui s'ouvrent ---------- */}
+      <PremierEcran
+        affiche={<Affiche />}
+        afficheFinale={<Affiche finale />}
+        action={
           <Apparition delai={650}>
             <Bouton href={`${DOSSIER}#deux-versions`}>Voir les deux versions</Bouton>
           </Apparition>
-        </div>
-      </section>
+        }
+      >
+        <Apparition>
+          {/* Une pastille de verre : le petit texte reste lisible quoi que la scène montre derrière. */}
+          <p className="inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-[color-mix(in_oklab,var(--sombre)_74%,transparent)] px-4 py-2 text-[13px] font-medium tracking-[0.02em] backdrop-blur-md">
+            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
+            Wedding planner · Rouen et la Normandie
+          </p>
+        </Apparition>
+        <TitreRevele
+          as="h1"
+          auChargement
+          texte={"Et s'il *pleut ?*"}
+          className="text-[clamp(3.6rem,10.5vw,9rem)] font-normal leading-[0.94] tracking-[-0.03em]"
+          classeAccent={ACCENT_SOMBRE}
+        />
+        <Apparition as="p" delai={450} className="max-w-[26rem] text-lg leading-relaxed">
+          C&apos;est prévu. Chaque mariage en deux versions, soleil ou pluie — et les deux dans le
+          même devis.
+        </Apparition>
+      </PremierEcran>
 
       {/* ---------- 01. L'outil de la marque : chaque mariage en deux versions ---------- */}
       <section id="deux-versions" className="scroll-mt-24">
@@ -124,8 +119,9 @@ export default function EtSilPleut() {
 
       {/* ---------- Une phrase, une photo : le plan B ---------- */}
       <section className="relative isolate flex min-h-[88svh] items-end overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
-        <PhotoCinema src={photos.fenetre.src} alt="" origine="50% 50%" className="opacity-80" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(47,59,76,0.1)_0%,rgba(47,59,76,0.35)_45%,rgba(47,59,76,0.94)_100%)]" />
+        <PhotoCinema src={photos.fenetre.src} alt="" origine="50% 50%" parallaxe className="opacity-80" />
+        <div aria-hidden="true" className="esp-averse opacity-50" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,color-mix(in_oklab,var(--sombre)_10%,transparent)_0%,color-mix(in_oklab,var(--sombre)_40%,transparent)_45%,color-mix(in_oklab,var(--sombre)_95%,transparent)_100%)]" />
         <div className="relative mx-auto w-full max-w-6xl space-y-5 px-6 pb-16 md:pb-24">
           <Apparition><Surtitre clair>Ce qu&apos;on vend</Surtitre></Apparition>
           <Titre texte="On ne vend pas le mariage parfait. On vend *le plan B.*" clair className="max-w-3xl" />
@@ -147,8 +143,8 @@ export default function EtSilPleut() {
               {PAGES.map((p) => (
                 <li key={p.href}>
                   <Link href={p.href} className="group grid grid-cols-[1fr_auto] items-baseline gap-x-6 gap-y-1 py-5">
-                    <span className="font-[family-name:var(--titres)] text-2xl font-normal">{p.titre}</span>
-                    <span aria-hidden="true" className="text-[var(--accent-texte)] transition-transform group-hover:translate-x-1">→</span>
+                    <span className="font-[family-name:var(--titres)] text-2xl font-normal leading-tight"><span className="esp-trait">{p.titre}</span></span>
+                    <span aria-hidden="true" className="grid h-9 w-9 place-items-center self-center rounded-full border border-[var(--trait)] text-[var(--accent-texte)] transition-[transform,background-color,border-color,color] duration-500 ease-[cubic-bezier(0.34,1.4,0.64,1)] group-hover:translate-x-1 group-hover:border-[var(--sombre)] group-hover:bg-[var(--sombre)] group-hover:text-[var(--accent)]">→</span>
                     <span className="col-span-2 text-[15px] text-[var(--doux)]">{p.detail}</span>
                   </Link>
                 </li>
@@ -169,7 +165,7 @@ export default function EtSilPleut() {
             </Apparition>
           </div>
           <Apparition delai={150}>
-            <Accordeon questions={QUESTIONS.slice(0, 5)} />
+            <Accordeon questions={QUESTIONS.slice(0, 5)} className="esp-questions" />
           </Apparition>
         </div>
       </section>

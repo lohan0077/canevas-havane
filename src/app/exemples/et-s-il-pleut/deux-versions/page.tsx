@@ -38,14 +38,14 @@ export default function DeuxVersions() {
               <p className="px-4 py-3">Soleil</p>
               <p className="border-l border-white/20 px-4 py-3">Pluie</p>
             </div>
-            {MOMENTS.map((m) => (
-              <div key={m.moment} className="border-t border-white/20">
+            {MOMENTS.map((m, i) => (
+              <Apparition key={m.moment} delai={i * 80} className="border-t border-white/20">
                 <p className="px-4 pt-3 text-[12px] font-medium uppercase tracking-[0.2em]">{m.moment} · {m.heure}</p>
                 <div className="grid grid-cols-2">
                   <p className="px-4 pb-3 pt-1 font-[family-name:var(--titres)] text-lg leading-snug sm:text-2xl">{m.soleil}</p>
                   <p className="border-l border-white/20 px-4 pb-3 pt-1 font-[family-name:var(--titres)] text-lg italic leading-snug sm:text-2xl">{m.pluie}</p>
                 </div>
-              </div>
+              </Apparition>
             ))}
           </div>
         </div>
@@ -57,14 +57,14 @@ export default function DeuxVersions() {
           <Titre texte="Prévu, chiffré, *réservé.*" />
           <p className="max-w-[26rem] text-lg leading-relaxed text-[var(--doux)]">Le plan B a ses lignes dans le devis, comme le plan A. L&apos;annoncer sans le chiffrer, ce serait le promettre sans le tenir.</p>
           <ol className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
-            {PROTOCOLE.map((p) => (
-              <li key={p.quand} className="grid grid-cols-[96px_1fr] gap-3 py-4">
+            {PROTOCOLE.map((p, i) => (
+              <Apparition as="li" key={p.quand} delai={i * 90} className="grid grid-cols-[96px_1fr] gap-3 py-4">
                 <span className="font-[family-name:var(--titres)] text-xl italic">{p.quand}</span>
                 <span className="leading-relaxed text-[var(--doux)]">{p.texte}</span>
-              </li>
+              </Apparition>
             ))}
           </ol>
-          <Accordeon questions={BEAU} />
+          <Accordeon questions={BEAU} className="esp-questions" />
         </div>
         <Apparition><Devis /></Apparition>
       </section>

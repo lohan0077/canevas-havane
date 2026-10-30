@@ -1,0 +1,147 @@
+/*
+ * Les mouvements propres à « Et s'il pleut » : la petite ombrelle qui s'ouvre devant
+ * chaque intitulé (l'écho des parapluies du premier écran), l'averse fine sur les
+ * photos, les boutons, les listes qui entrent une ligne après l'autre.
+ * Même règle que le kit : tout est dans la couche `components`, une classe Tailwind
+ * posée sur le même élément l'emporte. Avec « animations réduites », rien ne bouge et
+ * tout est montré dans son état final.
+ */
+@layer components {
+  /* ---- Les boutons ronds du premier écran (rejouer, pause) : du verre sur la pluie ---- */
+  .esp-rond {
+    display: inline-grid;
+    place-items: center;
+    width: 2.625rem;
+    height: 2.625rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in oklab, var(--sur-sombre) 34%, transparent);
+    background: color-mix(in oklab, var(--sombre) 62%, transparent);
+    color: var(--sur-sombre);
+    backdrop-filter: blur(10px);
+    transition: background-color 0.3s, border-color 0.3s, transform 0.3s cubic-bezier(0.3, 1.5, 0.5, 1);
+  }
+  .esp-rond:hover { background: color-mix(in oklab, var(--sombre) 85%, transparent); border-color: var(--accent); }
+  .esp-rond:active { transform: scale(0.94); }
+  .esp-rond:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  /* ---- L'ombrelle des intitulés : fermée, elle s'ouvre quand l'intitulé apparaît ---- */
+  .esp-ombrelle { display: inline-block; flex-shrink: 0; overflow: visible; }
+  .esp-ombrelle .esp-toile {
+    transform-box: view-box;
+    transform-origin: 12px 3px;
+    transform: scaleX(0.14) scaleY(1.12);
+    transition: transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition-delay: calc(var(--kit-delai, 0ms) + 180ms);
+  }
+  [data-vu] .esp-ombrelle .esp-toile,
+  .esp-ombrelle[data-vu] .esp-toile { transform: none; }
+
+  /* ---- Les boutons-liens : le jaune s'éclaire, la flèche avance, le bouton se soulève ---- */
+  .esp-bouton {
+    transition: background-color 0.35s, box-shadow 0.45s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .esp-bouton:hover { transform: translateY(-2px); }
+  .esp-bouton:active { transform: translateY(0) scale(0.98); transition-duration: 0.12s; }
+  .esp-bouton:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+  .esp-bouton[data-variante="plein"]:hover {
+    background: color-mix(in oklab, var(--accent) 82%, white);
+    box-shadow: 0 16px 36px -14px color-mix(in oklab, var(--accent) 85%, transparent);
+  }
+  .esp-bouton[data-variante="ardoise"]:hover { box-shadow: 0 16px 36px -16px color-mix(in oklab, var(--sombre) 80%, transparent); }
+  .esp-bouton .esp-fleche { transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .esp-bouton:hover .esp-fleche { transform: translateX(5px); }
+
+  /* ---- Un lien souligné qui se trace de gauche à droite ---- */
+  .esp-trait {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 1px;
+    transition: background-size 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .esp-trait:hover, a:hover > .esp-trait, a:focus-visible > .esp-trait { background-size: 100% 1px; }
+
+  /* ---- L'averse : deux rideaux de traits fins, à deux vitesses, pour la profondeur ---- */
+  .esp-averse { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+  .esp-averse::before,
+  .esp-averse::after {
+    content: "";
+    position: absolute;
+    inset: -20% -10%;
+    background-image: repeating-linear-gradient(100deg, transparent 0 26px, rgba(255, 255, 255, 0.34) 26px 27.2px, transparent 27.2px 53px);
+    background-size: 160px 160px;
+    animation: esp-pluie 0.55s linear infinite;
+    mask-image: linear-gradient(180deg, transparent, #000 18%, #000 82%, transparent);
+  }
+  .esp-averse::after {
+    background-image: repeating-linear-gradient(98deg, transparent 0 40px, rgba(255, 255, 255, 0.2) 40px 40.8px, transparent 40.8px 79px);
+    background-size: 240px 240px;
+    animation-duration: 0.9s;
+    opacity: 0.8;
+  }
+  @keyframes esp-pluie { to { background-position: -40px 160px; } }
+
+  /* ---- Une liste qui entre ligne après ligne (rétroplanning, devis) : --i donne le rang ---- */
+  .esp-ligne { animation: esp-entre 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: calc(var(--i, 0) * 55ms); }
+  @keyframes esp-entre {
+    from { opacity: 0; transform: translate3d(0, 10px, 0); }
+  }
+
+  /* ---- Un contenu qui s'ouvre en glissant (les formules) ---- */
+  .esp-deplie {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .esp-deplie > * { overflow: hidden; min-height: 0; }
+  .esp-deplie[data-ouvert="true"] { grid-template-rows: 1fr; }
+
+  /* ---- L'étiquette du parapluie se balance quand on écrit dessus ---- */
+  .esp-balance { transform-origin: 12% 0; animation: esp-balance 1.1s cubic-bezier(0.3, 0.6, 0.3, 1); }
+  @keyframes esp-balance {
+    0% { rotate: 4deg; }
+    25% { rotate: -3deg; }
+    55% { rotate: 6deg; }
+    80% { rotate: 3deg; }
+    100% { rotate: 4deg; }
+  }
+
+  /* ---- Le grand parapluie de la fin de page : il s'ouvre en entrant à l'écran ---- */
+  .esp-grand-parapluie .esp-toile {
+    transform-box: view-box;
+    transform-origin: 60px 12px;
+    transform: scaleX(0.1) scaleY(1.18);
+    transition: transform 1.2s cubic-bezier(0.34, 1.45, 0.64, 1) 0.25s;
+  }
+  .esp-grand-parapluie .esp-goutte { opacity: 0; transform: translate3d(0, -6px, 0); transition: opacity 0.6s, transform 0.8s; transition-delay: calc(0.9s + var(--i, 0) * 90ms); }
+  [data-vu] .esp-grand-parapluie .esp-toile { transform: none; }
+  [data-vu] .esp-grand-parapluie .esp-goutte { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .esp-ombrelle .esp-toile,
+    .esp-grand-parapluie .esp-toile { transform: none !important; transition: none !important; }
+    .esp-grand-parapluie .esp-goutte { opacity: 1 !important; transform: none !important; transition: none !important; }
+    .esp-averse::before,
+    .esp-averse::after,
+    .esp-ligne,
+    .esp-balance { animation: none !important; }
+    .esp-bouton,
+    .esp-bouton .esp-fleche,
+    .esp-deplie,
+    .esp-trait { transition: none !important; }
+    .esp-bouton:hover,
+    .esp-bouton:hover .esp-fleche { transform: none; }
+  }
+}
+
+/*
+ * Les questions de l'accordéon du kit, dans le Didot : à 18 px, ses déliés disparaissent
+ * sur téléphone. On les grandit ici, sur ce site seulement (`!important` : une couche
+ * plus ancienne ne gagne qu'ainsi sur Tailwind).
+ */
+@layer components {
+  .esp-questions .kit-accordeon > summary > span:first-child { font-size: 1.3rem !important; line-height: 1.25 !important; }
+  @media (min-width: 768px) {
+    .esp-questions .kit-accordeon > summary > span:first-child { font-size: 1.6rem !important; }
+  }
+}
