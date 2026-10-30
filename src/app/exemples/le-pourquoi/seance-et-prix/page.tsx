@@ -27,7 +27,7 @@ export default function SeanceEtPrix() {
             <Apparition><Surtitre clair>Séance adulte · prix d&apos;exemple</Surtitre></Apparition>
             <h1 className="font-normal leading-[0.9] tracking-[-0.03em] tabular-nums">
               <TitreRevele as="p" auChargement texte={seanceAdulte.duree} className="text-[clamp(5rem,14vw,10.5rem)]" />
-              <TitreRevele as="p" auChargement delai={250} texte={seanceAdulte.prix} className="text-[clamp(5rem,14vw,10.5rem)] text-[#F0A07A]" />
+              <TitreRevele as="p" auChargement delai={250} texte={seanceAdulte.prix} className="text-[clamp(5rem,14vw,10.5rem)] text-[#AEB8FF]" />
             </h1>
             <Apparition delai={600}>
               <p id="facture" className="inline-flex h-12 items-center gap-3 rounded-full border border-white/30 px-6 text-[15px] font-medium">

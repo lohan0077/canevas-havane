@@ -4,22 +4,23 @@ import Apparition from "../../_kit/Apparition";
 import TitreRevele from "../../_kit/TitreRevele";
 import { DOSSIER, cabinet, type Photo } from "./donnees";
 
-// Version « carrée » (24/10/2026) : une échelle de texte, une grille, des boutons fins ;
-// ni grain, ni fond animé, ni lueur. Titres en Newsreader, en graisse normale ; la mise
-// en relief est son italique, à la couleur d'accent.
+// Version « carrée » (24/10/2026), habillée le 30/10/2026 : une échelle de texte, une
+// grille, des boutons fins. Titres en Instrument Serif ; la mise en relief est son
+// italique — outremer sur la porcelaine, pervenche sur le bleu de nuit.
 
-/** Les classes d'un mot en relief dans un titre : l'italique de Newsreader, à l'accent. */
+/** Les classes d'un mot en relief dans un titre : l'italique d'Instrument Serif. La
+    pervenche #AEB8FF tient 9,7:1 sur le bleu de nuit. */
 export const ACCENT_CLAIR = "italic font-normal text-[var(--accent-texte)]";
-export const ACCENT_SOMBRE = "italic font-normal text-[#F0A07A]";
+export const ACCENT_SOMBRE = "italic font-normal text-[#AEB8FF]";
 
-/** Le monogramme « ? » dans un rond, et le nom, dans la géométrique de la marque. */
+/** Le monogramme : un « ? » italique dans un rond outremer, et le nom en Instrument Serif. */
 export function Marque() {
   return (
     <span className="flex items-center gap-2.5">
-      <span aria-hidden="true" className="grid h-9 w-9 place-items-center rounded-full bg-[var(--accent)] font-[family-name:var(--f-outfit)] text-lg font-medium text-[var(--sur-accent)]">
+      <span aria-hidden="true" className="grid h-9 w-9 place-items-center rounded-full bg-[var(--accent)] pb-0.5 pr-0.5 font-[family-name:var(--titres)] text-[24px] italic leading-none text-[var(--sur-accent)]">
         ?
       </span>
-      <span className="whitespace-nowrap font-[family-name:var(--f-outfit)] text-[19px] font-medium tracking-[-0.02em]">Le Pourquoi</span>
+      <span className="whitespace-nowrap font-[family-name:var(--titres)] text-[23px] leading-none tracking-[-0.005em]">Le Pourquoi</span>
     </span>
   );
 }
@@ -33,15 +34,15 @@ export function Surtitre({ children, clair = false }: { children: React.ReactNod
   );
 }
 
-/** Un bouton-lien en pilule : un plein (l'accent), un en contour fin. */
+/** Un bouton-lien en pilule : un plein (l'accent), un en contour fin, un clair (sur le bleu de nuit). */
 export function Bouton({ href, children, variante = "plein" }: { href: string; children: React.ReactNode; variante?: "plein" | "contour" | "clair" }) {
   const styles = {
     plein: "bg-[var(--accent)] text-[var(--sur-accent)]",
     contour: "border border-current/30 hover:bg-[color-mix(in_oklab,currentColor_8%,transparent)]",
-    clair: "bg-[var(--fond)] text-[var(--encre)]",
+    clair: "bg-[var(--fond)] text-[var(--encre)] hover:bg-white",
   }[variante];
   return (
-    <Link href={href} className={`group inline-flex h-12 items-center gap-3 rounded-full px-6 text-[15px] font-medium transition-colors ${styles}`}>
+    <Link href={href} className={`group inline-flex h-12 items-center gap-3 rounded-full px-6 text-[15px] font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current ${styles}`}>
       {children}
       <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">→</span>
     </Link>

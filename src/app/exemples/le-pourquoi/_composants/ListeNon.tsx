@@ -14,7 +14,7 @@ export default function ListeNon({ detail = false }: { detail?: boolean }) {
           {detail ? (
             <details className="kit-accordeon group">
               <summary className="flex items-start gap-5 py-7">
-                <span aria-hidden="true" className="mt-3 w-6 shrink-0 text-[13px] font-medium tabular-nums text-[#F0A07A]">0{i + 1}</span>
+                <span aria-hidden="true" className="mt-3 w-6 shrink-0 text-[13px] font-medium tabular-nums text-[#AEB8FF]">0{i + 1}</span>
                 <span className="flex-1 font-[family-name:var(--titres)] text-[clamp(1.6rem,3.4vw,2.5rem)] font-normal leading-[1.15] tracking-[-0.01em]">
                   <span className="kit-barre">{n.titre}</span>
                 </span>
@@ -22,12 +22,12 @@ export default function ListeNon({ detail = false }: { detail?: boolean }) {
               </summary>
               <div className="space-y-3 pb-8 pl-11 pr-4 text-lg leading-relaxed text-[var(--sur-sombre)]">
                 <p>{n.texte}</p>
-                <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[#F0A07A]">{n.source}</p>
+                <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[#AEB8FF]">{n.source}</p>
               </div>
             </details>
           ) : (
             <p className="flex items-start gap-5 py-6">
-              <span aria-hidden="true" className="mt-3 w-6 shrink-0 text-[13px] font-medium tabular-nums text-[#F0A07A]">0{i + 1}</span>
+              <span aria-hidden="true" className="mt-3 w-6 shrink-0 text-[13px] font-medium tabular-nums text-[#AEB8FF]">0{i + 1}</span>
               <span className="font-[family-name:var(--titres)] text-[clamp(1.6rem,3.4vw,2.5rem)] font-normal leading-[1.15] tracking-[-0.01em]">
                 <span className="kit-barre">{n.titre}</span>
               </span>

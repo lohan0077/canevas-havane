@@ -21,7 +21,7 @@ export default function MentionsLegales() {
       <MentionsDemonstration
       site="le-pourquoi"
       entreprise="Le Pourquoi"
-      polices="Newsreader, Inter et Outfit"
+      polices="Instrument Serif et Manrope"
       enPlus={
         <>
           <p>

@@ -54,7 +54,7 @@ export default function Agenda({ depart = "mardi" }: { depart?: string }) {
             aria-pressed={j.id === jourId}
             onClick={() => choisirJour(j.id)}
             className={`min-h-12 rounded-xl text-[15px] font-medium transition-all duration-300 ${
-              j.id === jourId ? "bg-[var(--encre)] text-[var(--fond)] scale-[1.04]" : "bg-[var(--fond)] text-[var(--encre)] hover:bg-[#E9DFCF]"
+              j.id === jourId ? "bg-[var(--encre)] text-[var(--fond)] scale-[1.04]" : "bg-[var(--fond)] text-[var(--encre)] hover:bg-[#E6E9F5]"
             }`}
           >
             {j.court}
@@ -80,7 +80,7 @@ export default function Agenda({ depart = "mardi" }: { depart?: string }) {
                 c.pris
                   ? "border-transparent bg-[var(--fond)] text-[var(--doux)] line-through decoration-1"
                   : actif
-                    ? "border-[var(--accent)] bg-[#FBE7DC] text-[var(--encre)] scale-[1.03]"
+                    ? "border-[var(--accent)] bg-[#E9ECFF] text-[var(--encre)] scale-[1.03]"
                     : "border-[var(--trait)] bg-[var(--carte)] text-[var(--encre)] hover:border-[var(--encre)]"
               }`}
             >

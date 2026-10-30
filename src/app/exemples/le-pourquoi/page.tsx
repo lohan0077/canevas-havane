@@ -8,6 +8,7 @@ import TitreRevele from "../_kit/TitreRevele";
 import Agenda from "./_composants/Agenda";
 import { ACCENT_SOMBRE, AppelFinal, Bouton, Intitule, Surtitre, Titre } from "./_composants/Blocs";
 import ListeNon from "./_composants/ListeNon";
+import Mannequin from "./_composants/Mannequin";
 import { DOSSIER, cabinet, gestes, photos, questions, questionsHebdo, seanceAdulte } from "./_composants/donnees";
 
 // Le site des deux vidéos des ostéopathes. De « Créer une marque » : le nom, chaque
@@ -15,7 +16,8 @@ import { DOSSIER, cabinet, gestes, photos, questions, questionsHebdo, seanceAdul
 // l'agenda » : ce que je ne fais pas, le prix en gros, les créneaux de 7 h et de 20 h.
 //
 // Version « carrée » (24/10/2026) : une idée par écran, sept écrans, une grille et une
-// échelle de texte communes. La séance pas à pas, les tarifs et toutes les questions
+// échelle de texte communes. Depuis le 30/10/2026, le premier écran est un mannequin de
+// bois en 3D (_composants/Mannequin.tsx) : on touche une zone, la page répond. La séance pas à pas, les tarifs et toutes les questions
 // vivent sur /seance-et-prix. Les cibles filmées par les vidéos (#gestes h2,
 // [data-geste]) sont gardées ; les autres sont sur les pages intérieures. Aucune photo
 // de nuque ni de colonne vertébrale en grand : c'est ce que la voix reproche aux sites
@@ -33,34 +35,43 @@ const QUESTIONS_ACCUEIL = [0, 1, 2, 3, 6].map((i) => questions[i]);
 export default function LePourquoi() {
   return (
     <main>
-      {/* ---------- Premier écran : la question, posée en grand ---------- */}
-      <section className="relative flex min-h-[100svh] flex-col bg-[var(--sombre)] text-[var(--sur-sombre)]">
-        <div className="mx-auto grid w-full max-w-6xl flex-1 items-center gap-12 px-6 pb-16 pt-32 lg:grid-cols-[1.15fr_0.85fr] lg:pt-28">
-          <div className="space-y-8">
-            <Apparition><Surtitre clair>{cabinet.titre} · {cabinet.ville}</Surtitre></Apparition>
-            <TitreRevele
-              as="h1"
-              auChargement
-              texte={"Pourquoi ?"}
-              className="text-[clamp(4.5rem,13vw,10rem)] font-normal leading-[0.9] tracking-[-0.03em]"
-            />
-            <TitreRevele
-              as="p"
-              auChargement
-              delai={300}
-              texte="L'ostéopathie, *expliquée.* Chaque geste a sa page, ce que je ne fais pas est écrit, le prix est affiché."
-              className="max-w-[30rem] font-[family-name:var(--titres)] text-[clamp(1.4rem,2.2vw,1.8rem)] leading-[1.3]"
-              classeAccent={ACCENT_SOMBRE}
-            />
-            <Apparition delai={600} className="flex flex-wrap gap-3">
-              <Bouton href={`${DOSSIER}/rendez-vous`}>Prendre rendez-vous</Bouton>
-              <Bouton href={`${DOSSIER}#gestes`} variante="contour">Voir les gestes</Bouton>
-            </Apparition>
-          </div>
-          <Apparition delai={200} className="relative aspect-[3/2] overflow-hidden rounded-2xl lg:aspect-[4/5]">
-            <Image src={photos.attente.src} alt={photos.attente.alt} fill priority sizes="(min-width: 1024px) 420px, 100vw" className="object-cover" />
-          </Apparition>
-        </div>
+      {/* ---------- Premier écran : la question, et le mannequin de bois ---------- */}
+      <section className="relative isolate overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
+        <Mannequin
+          entete={
+            <div className="space-y-4 sm:space-y-6">
+              <Apparition><Surtitre clair>{cabinet.titre} · {cabinet.ville}</Surtitre></Apparition>
+              <TitreRevele
+                as="h1"
+                auChargement
+                texte={"Pourquoi\u202f?"}
+                className="text-[clamp(4.25rem,12vw,8.75rem)] font-normal leading-[0.86] tracking-[-0.025em] xl:text-[6.75rem]"
+              />
+              <TitreRevele
+                as="p"
+                auChargement
+                delai={300}
+                texte="L'ostéopathie, *expliquée.* Chaque geste a sa page, ce que je ne fais pas est écrit, le prix est affiché."
+                className="max-w-[30rem] font-[family-name:var(--titres)] text-[clamp(1.2rem,2vw,1.6rem)] leading-[1.22] xl:text-[1.45rem]"
+                classeAccent={ACCENT_SOMBRE}
+              />
+              <Apparition delai={600} className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-1">
+                <Bouton href={`${DOSSIER}/rendez-vous`} variante="clair">Prendre rendez-vous</Bouton>
+                {/* Sur téléphone, le mannequin passe d'abord : les gestes sont juste dessous. */}
+                <Link
+                  href={`${DOSSIER}#gestes`}
+                  className="group inline-flex h-12 items-center gap-2 px-1 text-[15px] font-semibold underline decoration-white/40 underline-offset-[6px] transition-colors hover:decoration-current max-sm:hidden"
+                >
+                  Voir les gestes
+                  <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                </Link>
+              </Apparition>
+              <Apparition as="p" delai={700} className="text-[13px] text-[#B9C0E0] sm:text-[14px]">
+                Séance adulte · {seanceAdulte.duree} · {seanceAdulte.prix} (prix d&apos;exemple) · dès 7 h
+              </Apparition>
+            </div>
+          }
+        />
       </section>
 
       {/* ---------- 01. Les gestes : une page chacun, une question par semaine ---------- */}
@@ -117,7 +128,7 @@ export default function LePourquoi() {
       <section className="bg-[var(--sombre)] px-6 pb-6 text-[var(--sur-sombre)] md:pb-10">
         <div className="relative mx-auto aspect-[4/5] max-w-6xl overflow-hidden rounded-2xl sm:aspect-[16/10]">
           <Image src={photos.table.src} alt={photos.table.alt} fill sizes="(min-width: 1152px) 1104px, 100vw" className="object-cover object-[50%_62%]" />
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(19,42,36,0)_35%,rgba(19,42,36,0.88)_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(11,16,56,0)_35%,rgba(11,16,56,0.9)_100%)]" />
           <div className="absolute inset-x-0 bottom-0 space-y-4 p-7 md:p-12">
             <Apparition><Surtitre clair>Sur la table</Surtitre></Apparition>
             <Titre texte="Vous avez le droit de demander *pourquoi.*" clair className="max-w-2xl" />

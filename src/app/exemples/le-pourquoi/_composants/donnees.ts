@@ -261,3 +261,67 @@ export const questions = [
     r: "Appelez ou annulez en ligne jusqu'à 24 heures avant. Le créneau revient dans l'agenda pour quelqu'un d'autre.",
   },
 ];
+
+/* ---------- Le mannequin du premier écran ----------
+   Cinq zones, et pour chacune la question telle qu'un patient la pose. Les réponses
+   sont reprises des pages du site (les gestes, la séance, ce que je ne fais pas) : le
+   premier écran n'ajoute aucune affirmation, ne nomme aucun symptôme à soigner et ne
+   dit pas quand consulter. Le dessin et la 3D des zones sont dans mannequin-forme.ts. */
+export type ZoneCorps = {
+  id: "tete" | "epaules" | "dos" | "ventre" | "basDuDos";
+  libelle: string;
+  question: string;
+  fais: string;
+  pasFais: string;
+  lien: { href: string; libelle: string };
+  /** Pas encore de page pour ce geste : la date de sa réponse filmée. */
+  aVenir?: string;
+};
+
+const geste = (slug: string) => gestes.find((g) => g.slug === slug)!;
+
+export const zonesCorps: ZoneCorps[] = [
+  {
+    id: "tete",
+    libelle: "Tête et nuque",
+    question: "Pourquoi vous me touchez la tête ?",
+    fais: geste("tete").fais[0],
+    pasFais: geste("tete").promet[0],
+    lien: { href: `${DOSSIER}/gestes/tete`, libelle: geste("tete").question },
+  },
+  {
+    id: "epaules",
+    libelle: "Épaules",
+    question: "Pourquoi ça a craqué ?",
+    fais: `${geste("craquer").fais[0]} Je vous demande votre accord avant.`,
+    // La seconde phrase de geste("craquer").fais[1].
+    pasFais: "Si vous ne voulez pas, je ne le fais pas : d'autres gestes existent, plus lents.",
+    lien: { href: `${DOSSIER}/gestes/craquer`, libelle: geste("craquer").question },
+  },
+  {
+    id: "dos",
+    libelle: "Dos",
+    question: "Pourquoi vous me faites pencher ?",
+    fais: `${seance[1].etape} ${seance[1].pourquoi}`,
+    pasFais: nonFais[1].texte,
+    lien: { href: `${DOSSIER}/seance-et-prix`, libelle: "La séance, étape par étape" },
+  },
+  {
+    id: "ventre",
+    libelle: "Ventre",
+    question: "Pourquoi vous appuyez sur mon ventre ?",
+    fais: geste("ventre").fais[0],
+    pasFais: geste("ventre").promet[0],
+    lien: { href: `${DOSSIER}/gestes/ventre`, libelle: geste("ventre").question },
+  },
+  {
+    id: "basDuDos",
+    libelle: "Bas du dos",
+    question: "Pourquoi vous touchez ailleurs que là où j'ai mal ?",
+    fais: `${jeFais[1]} ${jeFais[2]}`,
+    // La première phrase de nonFais[0].texte.
+    pasFais: "Je ne vous promettrai pas de guérison, ni un nombre de séances pour « régler » quoi que ce soit.",
+    lien: { href: `${DOSSIER}/ce-que-je-ne-fais-pas`, libelle: "Ce que je ne fais pas" },
+    aVenir: `Sa réponse filmée arrive le ${questionsHebdo[5].date}.`,
+  },
+];

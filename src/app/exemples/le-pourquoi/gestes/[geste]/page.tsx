@@ -56,7 +56,7 @@ export default async function PageGeste({ params }: { params: Promise<{ geste: s
             }`}
           >
             <div className="space-y-3">
-              <p className={`text-[12px] font-medium uppercase tracking-[0.2em] ${i === 2 ? "text-[#F0A07A]" : "text-[var(--doux)]"}`}>{String(i + 1).padStart(2, "0")}</p>
+              <p className={`text-[12px] font-medium uppercase tracking-[0.2em] ${i === 2 ? "text-[#AEB8FF]" : "text-[var(--doux)]"}`}>{String(i + 1).padStart(2, "0")}</p>
               <h2 className="text-[clamp(2rem,3.4vw,2.75rem)] font-normal leading-[1.05] tracking-[-0.02em] text-balance">{b.titre}</h2>
             </div>
             <div className="space-y-4 text-lg leading-relaxed">
