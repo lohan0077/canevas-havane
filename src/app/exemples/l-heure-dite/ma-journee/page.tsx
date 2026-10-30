@@ -46,7 +46,7 @@ export default function MaJournee() {
             {LIRE.map((l, i) => (
               <Apparition as="li" key={l.titre} delai={i * 120} className="space-y-1 py-5">
                 <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">{String(i + 1).padStart(2, "0")}</p>
-                <h2 className="font-[family-name:var(--titres)] text-2xl font-normal">{l.titre}</h2>
+                <h2 className="font-[family-name:var(--titres)] text-2xl font-bold tracking-[-0.025em]">{l.titre}</h2>
                 <p className="leading-relaxed text-[var(--doux)]">{l.texte}</p>
               </Apparition>
             ))}

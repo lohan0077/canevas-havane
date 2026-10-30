@@ -25,7 +25,7 @@ export default function PanneauxSolaires() {
           {POSE_SOLAIRE.map((p, i) => (
             <Apparition as="li" key={p.titre} delai={i * 120} className="space-y-3 border-t border-[var(--trait)] pt-5">
               <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">{String(i + 1).padStart(2, "0")}</p>
-              <h2 className="font-[family-name:var(--titres)] text-2xl font-normal">{p.titre}</h2>
+              <h2 className="font-[family-name:var(--titres)] text-2xl font-bold tracking-[-0.025em]">{p.titre}</h2>
               <p className="text-[17px] leading-relaxed text-[var(--doux)]">{p.texte}</p>
             </Apparition>
           ))}
@@ -43,10 +43,10 @@ export default function PanneauxSolaires() {
               {PANNEAUX.map((p) => (
                 <li key={p.taille} className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-4">
                   <span>
-                    <span className="block font-[family-name:var(--titres)] text-2xl">{p.taille}</span>
+                    <span className="block font-[family-name:var(--titres)] text-2xl font-bold tracking-[-0.025em]">{p.taille}</span>
                     <span className="block text-[15px]">{p.detail}</span>
                   </span>
-                  <span className="whitespace-nowrap font-[family-name:var(--titres)] text-3xl tabular-nums">{p.prix}</span>
+                  <span className="whitespace-nowrap font-[family-name:var(--titres)] text-3xl font-extrabold tracking-[-0.03em] tabular-nums">{p.prix}</span>
                 </li>
               ))}
             </ul>

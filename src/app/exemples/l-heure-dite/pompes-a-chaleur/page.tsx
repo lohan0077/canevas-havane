@@ -39,8 +39,8 @@ export default function PompesAChaleur() {
             <Apparition as="li" key={p.nom} className="grid gap-6 py-10 md:grid-cols-[0.8fr_1.2fr_auto] md:items-start">
               <div className="space-y-2">
                 <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">{String(i + 1).padStart(2, "0")}</p>
-                <h2 className="font-[family-name:var(--titres)] text-[clamp(1.9rem,3.2vw,2.75rem)] font-normal leading-[1.1]">{p.nom}</h2>
-                <p className="font-[family-name:var(--titres)] text-xl italic text-[var(--accent-texte)]">{p.phrase}</p>
+                <h2 className="font-[family-name:var(--titres)] text-[clamp(1.9rem,3.2vw,2.75rem)] font-bold leading-[1.05] tracking-[-0.035em]">{p.nom}</h2>
+                <p className="font-[family-name:var(--titres)] text-xl font-semibold tracking-[-0.02em] text-[var(--accent-texte)]">{p.phrase}</p>
               </div>
               <div className="space-y-3">
                 <p className="text-lg leading-relaxed">{p.texte}</p>
@@ -52,7 +52,7 @@ export default function PompesAChaleur() {
               </div>
               <p className="md:text-right">
                 <span className="text-sm">À partir de</span>
-                <span className="block whitespace-nowrap font-[family-name:var(--titres)] text-4xl tabular-nums">{p.prix}</span>
+                <span className="block whitespace-nowrap font-[family-name:var(--titres)] text-4xl font-extrabold tracking-[-0.03em] tabular-nums">{p.prix}</span>
                 <span className="block text-sm text-[var(--doux)]">TTC, pose comprise · exemple</span>
               </p>
             </Apparition>
@@ -87,7 +87,7 @@ export default function PompesAChaleur() {
           <ol className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
             {DEROULE.map((d, i) => (
               <Apparition as="li" key={d.quand} delai={i * 120} className="space-y-1 py-5">
-                <h3 className="font-[family-name:var(--titres)] text-xl font-normal">{d.quand}</h3>
+                <h3 className="font-[family-name:var(--titres)] text-xl font-bold tracking-[-0.025em]">{d.quand}</h3>
                 <p className="leading-relaxed text-[var(--doux)]">{d.quoi}</p>
               </Apparition>
             ))}

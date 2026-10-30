@@ -7,6 +7,7 @@ import Apparition from "../_kit/Apparition";
 import { AppelFinal, Appli, Bouton, Surtitre, Titre } from "./_composants/Blocs";
 import Creneau from "./_composants/Creneau";
 import Journee from "./_composants/Journee";
+import Ouverture from "./_composants/Ouverture";
 import { DOSSIER, PANNEAUX, POMPES, QUESTIONS, photos } from "./_composants/donnees";
 
 // L'accueil de L'Heure Dite. Il réunit les deux vidéos du métier : « Créer une marque »
@@ -16,7 +17,8 @@ import { DOSSIER, PANNEAUX, POMPES, QUESTIONS, photos } from "./_composants/donn
 // Rénov' tout en haut).
 //
 // Version « carrée » (24/10/2026) : sept écrans, une idée par écran, une grille et une
-// échelle de texte communes. La règle du démarchage et l'affiche vivent sur « Choisir mon
+// échelle de texte communes. Le premier écran est le toit-horloge (30/10/2026) : la
+// maison posée sur l'horloge de la photo, l'aiguille qui mène à l'heure d'appel. La règle du démarchage et l'affiche vivent sur « Choisir mon
 // heure », le détail des pompes et des panneaux sur leurs pages. Les éléments filmés
 // (#journee, #toit-*, #courbe, #heure, et le bandeau France Rénov' tout en haut) sont
 // gardés.
@@ -51,25 +53,8 @@ function Intitule({ numero, surtitre, titre, texte, clair = false }: { numero: s
 export default function LHeureDite() {
   return (
     <main>
-      {/* ---------- Premier écran : le nom, et l'horloge ---------- */}
-      <section className="flex min-h-[100svh] items-center bg-[var(--fond)]">
-        <div className="mx-auto grid w-full max-w-6xl gap-14 px-6 pb-16 pt-32 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-          <div className="space-y-8">
-            <Apparition><Surtitre>Pompes à chaleur et solaire · Exemple-Ville</Surtitre></Apparition>
-            <Titre as="h1" texte="L'Heure *Dite.*" taille="geant" />
-            <Apparition as="p" delai={300} className="max-w-[26rem] text-lg leading-relaxed text-[var(--doux)]">
-              Tu choisis l&apos;heure de l&apos;appel, on appelle à cette heure-là. Et ton toit, lui, te dit l&apos;heure de la
-              machine.
-            </Apparition>
-            <Apparition delai={450}>
-              <Bouton href={`${DOSSIER}/rendez-vous`}>Choisir mon heure</Bouton>
-            </Apparition>
-          </div>
-          <Apparition de="zoom" delai={150} className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-[var(--sombre)]">
-            <Image src={photos.horloge.src} alt={photos.horloge.alt} fill priority sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
-          </Apparition>
-        </div>
-      </section>
+      {/* ---------- Premier écran : le toit-horloge ---------- */}
+      <Ouverture />
 
       {/* ---------- 01. L'outil de la marque : l'heure de l'appel ---------- */}
       <section id="appel" className="scroll-mt-20 border-t border-[var(--trait)]">
@@ -112,7 +97,7 @@ export default function LHeureDite() {
       {/* ---------- Une phrase, une photo : midi. Pas les panneaux sous le ciel bleu, que la vidéo prête à tous les sites de solaire : le linge qui sèche, à l'heure où le toit produit. ---------- */}
       <section className="relative isolate flex min-h-[80svh] items-end overflow-hidden bg-[var(--sombre)] text-[var(--sur-sombre)]">
         <Image src={photos.linge.src} alt="" fill sizes="100vw" className="object-cover opacity-85" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(24,48,31,0)_0%,rgba(24,48,31,0.3)_45%,rgba(24,48,31,0.92)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(16,21,18,0)_0%,rgba(16,21,18,0.3)_45%,rgba(16,21,18,0.92)_100%)]" />
         <div className="relative mx-auto w-full max-w-6xl space-y-5 px-6 pb-16 md:pb-24">
           <Apparition><Surtitre clair>Ce qu&apos;on vend</Surtitre></Apparition>
           <Titre texte="Pas des économies. *Midi.*" clair className="max-w-3xl" />
@@ -132,7 +117,7 @@ export default function LHeureDite() {
             {INSTALLE.map((x, i) => (
               <Apparition as="li" key={x.nom} delai={i * 60}>
                 <Link href={x.href} className="group grid gap-1 py-5 sm:grid-cols-[1fr_1fr_auto_auto] sm:items-baseline sm:gap-8">
-                  <span className="font-[family-name:var(--titres)] text-2xl">{x.nom}</span>
+                  <span className="font-[family-name:var(--titres)] text-2xl font-bold tracking-[-0.03em]">{x.nom}</span>
                   <span className="text-[15px] text-[var(--doux)]">{x.detail}</span>
                   <span className="whitespace-nowrap text-[15px] tabular-nums">à partir de {x.prix} · exemple</span>
                   <span aria-hidden="true" className="hidden text-[var(--accent-texte)] transition-transform group-hover:translate-x-1 sm:inline">→</span>

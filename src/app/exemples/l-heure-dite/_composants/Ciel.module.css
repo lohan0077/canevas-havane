@@ -1,0 +1,44 @@
+/*
+ * Les nuages du ciel du toit-horloge : deux traînées blanches qui passent très
+ * lentement derrière le cadran, le jour seulement (l'opacité suit le soleil, posée par
+ * Ouverture). Rien d'autre ici : une feuille de module n'est rangée dans aucune couche
+ * et l'emporterait sur les classes Tailwind — on n'y écrit que ce qu'aucune classe ne
+ * touche. Avec « animations réduites », ils ne bougent pas.
+ */
+.nuage {
+  position: absolute;
+  left: -30%;
+  width: 52%;
+  aspect-ratio: 3 / 1;
+  background:
+    radial-gradient(22% 36% at 28% 60%, rgb(255 255 255 / 0.8), rgb(255 255 255 / 0)),
+    radial-gradient(28% 46% at 52% 50%, rgb(255 255 255 / 0.9), rgb(255 255 255 / 0)),
+    radial-gradient(20% 34% at 74% 60%, rgb(255 255 255 / 0.75), rgb(255 255 255 / 0));
+  animation: derive 110s linear infinite;
+  pointer-events: none;
+}
+
+.second {
+  width: 38%;
+  animation-duration: 150s;
+  animation-delay: -70s;
+}
+
+@keyframes derive {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(300%, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nuage {
+    animation: none;
+    transform: translate3d(120%, 0, 0);
+  }
+  .second {
+    transform: translate3d(200%, 0, 0);
+  }
+}

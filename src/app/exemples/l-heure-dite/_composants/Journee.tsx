@@ -131,7 +131,7 @@ export default function Journee({ titre = true }: { titre?: boolean }) {
     <div data-film="journee" className="space-y-6">
       {titre && (
         <div className="flex items-baseline justify-between gap-3">
-          <p className="font-[family-name:var(--titres)] text-xl">Ta journée</p>
+          <p className="font-[family-name:var(--titres)] text-xl font-bold tracking-[-0.02em]">Ta journée</p>
           <p className="text-sm text-[var(--doux)]">forme indicative</p>
         </div>
       )}
@@ -145,8 +145,8 @@ export default function Journee({ titre = true }: { titre?: boolean }) {
         <svg viewBox={`0 0 ${L} ${H}`} className="w-full h-auto block" role="img" aria-label={`Courbe de production d'une journée, toit ${o.nom}, ${s.nom.toLowerCase()}, ciel ${c.nom.toLowerCase()} : pic vers ${heure(cible.pic)}.`}>
           <defs>
             <linearGradient id="mp-aire" x1="0" x2="0" y1="0" y2="1">
-              <stop offset="0" stopColor="var(--accent)" stopOpacity="0.95" />
-              <stop offset="1" stopColor="var(--accent)" stopOpacity="0.12" />
+              <stop offset="0" stopColor="var(--soleil)" stopOpacity="0.95" />
+              <stop offset="1" stopColor="var(--soleil)" stopOpacity="0.14" />
             </linearGradient>
           </defs>
           {ETIQUETTES.map((e) => (
@@ -167,9 +167,9 @@ export default function Journee({ titre = true }: { titre?: boolean }) {
           {/* Le soleil, au-dessus du pic. */}
           <g transform={`translate(${X(vue.pic)} ${Math.min(soleilY, BAS) - 16})`} style={{ opacity: dessinee ? 1 : 0, transition: "opacity 500ms ease 1100ms" }}>
             {Array.from({ length: 8 }, (_, k) => (
-              <line key={k} x1="0" y1="-13" x2="0" y2="-17" stroke="var(--accent-texte)" strokeWidth="2" strokeLinecap="round" transform={`rotate(${k * 45})`} />
+              <line key={k} x1="0" y1="-13" x2="0" y2="-17" stroke="#D98A1A" strokeWidth="2" strokeLinecap="round" transform={`rotate(${k * 45})`} />
             ))}
-            <circle r="9" fill={gris ? "var(--doux)" : "var(--accent)"} stroke="var(--encre)" strokeWidth="1.5" />
+            <circle r="9" fill={gris ? "var(--doux)" : "var(--soleil)"} stroke="var(--encre)" strokeWidth="1.5" />
           </g>
           {/* L'heure que promène le curseur. */}
           <line x1={X(h)} x2={X(h)} y1={HAUT - 6} y2={BAS} stroke="var(--accent-texte)" strokeWidth="1.5" />
@@ -202,8 +202,8 @@ export default function Journee({ titre = true }: { titre?: boolean }) {
 
       <div id="conseil" role="status" className="rounded-2xl bg-[var(--sombre)] text-[var(--sur-sombre)] p-5 space-y-1.5">
         <p className="text-xs font-medium uppercase tracking-[0.16em]">Le conseil du jour</p>
-        <p className="font-[family-name:var(--titres)] text-[28px] leading-tight">
-          Lance la machine vers <span className="text-[var(--accent)] whitespace-nowrap">{heure(conseil)}</span>
+        <p className="font-[family-name:var(--titres)] text-[28px] font-bold leading-tight tracking-[-0.03em]">
+          Lance la machine vers <span className="text-[var(--vert-clair)] whitespace-nowrap">{heure(conseil)}</span>
         </p>
         <p className="text-sm">
           {gris

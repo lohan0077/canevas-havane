@@ -64,7 +64,7 @@ export default function RendezVous() {
           {REGLES.map((r, i) => (
             <Apparition as="li" key={r.titre} delai={i * 120} className="space-y-3 border-t border-[var(--trait)] pt-5">
               <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">{String(i + 1).padStart(2, "0")}</p>
-              <h2 className="font-[family-name:var(--titres)] text-2xl font-normal">{r.titre}</h2>
+              <h2 className="font-[family-name:var(--titres)] text-2xl font-bold tracking-[-0.025em]">{r.titre}</h2>
               <p className="leading-relaxed text-[var(--doux)]">{r.texte}</p>
             </Apparition>
           ))}
@@ -91,7 +91,7 @@ export default function RendezVous() {
                 <Apparition as="li" key={e.titre} className="grid gap-1 py-5 sm:grid-cols-[11rem_1fr] sm:gap-6">
                   <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">{e.moment}</p>
                   <div className="space-y-1">
-                    <h3 className="font-[family-name:var(--titres)] text-xl font-normal">{e.titre}</h3>
+                    <h3 className="font-[family-name:var(--titres)] text-xl font-bold tracking-[-0.025em]">{e.titre}</h3>
                     <p className="text-[15px] leading-relaxed text-[var(--doux)]">{e.texte}</p>
                   </div>
                 </Apparition>
