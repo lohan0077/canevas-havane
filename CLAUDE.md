@@ -468,6 +468,46 @@ Les anciennes adresses sont redirigées : `node outils/registre-exemples.mjs` é
   18/10 : le monter après le 01/11/2026, pas avant — une version d'une semaine dans la
   chaîne d'envoi d'e-mails est un risque plus grand qu'une faille hors d'atteinte.
 
+## Les premiers écrans du top 10 et leurs marques — 30/10/2026
+
+Lohan trouvait que les sites ne ressemblaient pas à de vraies marques : les dix avaient
+le même fond crème, un vert ou brun foncé et un accent chaud (la signature reconnue des
+pages faites par IA). Neuf ont été refaits (Pignon sur Pré n'était pas demandé) : **un
+premier écran mis en scène**, et **une identité propre** — palette et polices — sur tout
+le site. Branche `heros-top10`, un commit par site.
+
+| Site | Premier écran | Polices (titres / texte) | Signature |
+|---|---|---|---|
+| Neuf Étés | piscine qui se remplit, eau qui réagit au doigt (3D) ; maquette du jardin refaite | Fraunces / Inter | bleu profond, jaune |
+| Et s'il pleut | cérémonie sous la pluie, parapluies qui s'ouvrent un à un (3D) | Bodoni Moda / DM Sans | gris lavande, jaune, violet |
+| Sept Mille Dîners | carrousel « une semaine de dîners, sept cuisines » (photos) | Playfair Display / Figtree | nuit, porcelaine, laiton |
+| L'Heure Dite | toit-horloge : l'aiguille fait tourner le soleil (3D) | Archivo / Work Sans | faïence, noir, vert émail |
+| Le Pourquoi | mannequin de bois, une zone touchée = une question (3D) | Newsreader / Manrope | porcelaine, bleu de nuit, outremer |
+| Pavillon Bis | trois pavillons 70, on entre, avant / après (3D) | Sora, italique DM Serif Display | béton, anthracite, vermillon |
+| Transmis | carrousel des plats de famille (photos) | DM Serif Display / Outfit | aubergine, porcelaine, cuivre |
+| Lundi d'Après | la soirée rembobinée au défilement (3D) | Syne / Space Grotesk | nuit, rose néon |
+| Douze Mois | jardin de douze massifs, langage des fleurs, composition (3D) | Instrument Serif / Bricolage | glycine, nuit d'iris, vert tige |
+
+- **Une police de titre par site.** Construits en parallèle, quatre sites avaient pris
+  les mêmes (Bodoni + DM Sans trois fois) : c'est la marque qui disparaît. Avant d'en
+  choisir une, regarder ce tableau.
+- **Les règles de la 3D, tenues partout** : three.js seul, tout construit et peint dans
+  le navigateur, chargé à la demande ; une image ou un plan 2D tout de suite et sans
+  WebGL (WebGL est testé avant three, qui sinon écrit une erreur en console) ;
+  « animations réduites » = état final immobile ; post-traitement sur ordinateur seulement.
+- **Les affiches fixes** de Neuf Étés, Et s'il pleut et Lundi d'Après sont des vues de
+  leur propre scène 3D, pas des photos : rien à créditer, et leurs mentions le disent.
+- **`outils/contraste.mjs` coupe désormais les transitions avant de mesurer** : sur une
+  page chargée par la 3D, l'en-tête (`NavVerre`) était mesuré à mi-fondu une fois sur
+  trois (1:1 sur Et s'il pleut, une couleur qui n'existe qu'un instant).
+- **Ce que la mesure CSS ne voit pas** (texte sur une 3D ou une photo) a été mesuré sur
+  les pixels réels par des scripts restés hors dépôt (`~/Ateliers/heros-captures/`).
+- **Les vidéos du top 10 filment encore les anciens sites** : à refilmer. Les
+  `data-film` existants ont été gardés.
+- **Leçon d'atelier** : un serveur de développement Next 16 ouvert par `127.0.0.1` au
+  lieu de `localhost` bloque les composants chargés à la demande, sans aucune erreur —
+  la 3D ne s'affiche jamais. Toujours `localhost`.
+
 ## Après chaque fichier écrit — la commande complète
 
 ```bash

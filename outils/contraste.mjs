@@ -190,12 +190,21 @@ for (const schema of ["light", "dark"]) {
       // Un en-tête qui change de couleur en haut de page (NavVerre) le fait en fondu :
       // mesuré pendant le fondu, il donne une couleur qui n'existe qu'un instant. Une
       // attente fixe ne suffit pas (en CI, la machine est plus lente) : on attend que
-      // plus aucune transition ne soit en cours, 5 s au plus.
+      // plus aucune transition ne soit en cours, 6 s au plus. Sur une page chargée (une
+      // 3D qui tourne), le fondu avance par à-coups et l'attente seule ne suffisait pas
+      // (Et s'il pleut, 30/10/2026 : l'en-tête mesuré à mi-fondu, une fois sur trois).
+      // On coupe donc toutes les transitions avant de mesurer : chaque couleur saute à
+      // sa valeur finale, la seule qu'un visiteur voit plus d'un instant.
       await onglet.waitForTimeout(300);
+      await onglet.addStyleTag({ content: "*, *::before, *::after { transition: none !important; }" });
       await onglet.evaluate(async () => {
-        const limite = Date.now() + 5000;
+        const limite = Date.now() + 6000;
         const enCours = () => document.getAnimations().some((a) => a instanceof CSSTransition && a.playState === "running");
-        while (enCours() && Date.now() < limite) await new Promise((r) => setTimeout(r, 100));
+        let calme = 0;
+        while (calme < 4 && Date.now() < limite) {
+          await new Promise((r) => setTimeout(r, 100));
+          calme = enCours() ? 0 : calme + 1;
+        }
       });
 
       // Les sous-pages d'un site de démonstration, qu'aucune liste ne connaît d'avance.

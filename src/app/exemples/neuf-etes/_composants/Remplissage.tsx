@@ -42,7 +42,7 @@ export default function Remplissage() {
       {/* L'invitation à toucher l'eau, posée au-dessus du bassin une fois rempli. */}
       {!sans3D && (
         <p
-          className={`pointer-events-none absolute left-1/2 top-[34%] z-10 -translate-x-1/2 rounded-full border border-white/30 bg-[#0D3446]/55 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-white backdrop-blur-md transition-opacity delay-[8000ms] duration-1000 motion-reduce:hidden lg:left-[66%] lg:top-[62%] ${pret ? "opacity-100" : "opacity-0"}`}
+          className={`pointer-events-none absolute left-1/2 top-[34%] z-10 -translate-x-1/2 rounded-full border border-white/25 bg-[#0D3446]/85 px-4 py-2 shadow-[0_8px_24px_rgba(5,20,30,.35)] text-[11px] font-semibold uppercase tracking-[0.2em] text-white backdrop-blur-md transition-opacity delay-[8000ms] duration-1000 motion-reduce:hidden lg:left-[66%] lg:top-[62%] ${pret ? "opacity-100" : "opacity-0"}`}
           aria-hidden="true"
         >
           <span className="[@media(pointer:coarse)]:hidden">Passe la souris sur l&apos;eau</span>
