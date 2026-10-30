@@ -1,0 +1,196 @@
+/*
+ * Le carrousel des plats, au premier écran. Une feuille de module n'est rangée dans
+ * aucune couche : elle l'emporte sur Tailwind. On n'y écrit donc que ce qu'aucune
+ * classe Tailwind ne touche sur les mêmes éléments (visibilité, empilement, animations).
+ *
+ * Le passage d'un plat à l'autre : le nouveau plat s'ouvre comme un rideau (clip-path),
+ * sa photo glisse un peu à contre-sens puis respire (un zoom très lent) ; l'ancien
+ * s'assombrit et recule dessous. Le sens suit la navigation : « suivant » ouvre par la
+ * droite, « précédent » par la gauche.
+ */
+
+.diapo {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  visibility: hidden;
+  z-index: 0;
+}
+.diapo[data-etat="actif"] {
+  visibility: visible;
+  z-index: 2;
+  animation: rideau-suivant 1.35s cubic-bezier(0.76, 0, 0.18, 1) both;
+}
+.diapo[data-etat="actif"][data-sens="precedent"] { animation-name: rideau-precedent; }
+.diapo[data-etat="sortant"] {
+  visibility: visible;
+  z-index: 1;
+}
+
+/* Le cadre glisse (parallaxe du rideau) ; la photo, dedans, respire. */
+.cadre {
+  position: absolute;
+  inset: 0;
+}
+/* Un plat posé bas dans sa photo (l'assiette au premier plan) : le cadre s'agrandit vers
+   le haut, la photo avec, et le plat remonte au-dessus de la légende. Un réglage par
+   format, la fenêtre n'ayant pas la même forme. */
+.cadre { top: calc(-1 * var(--monte-tel, 0%)); }
+@media (min-width: 1024px) {
+  .cadre { top: calc(-1 * var(--monte-ordi, 0%)); }
+}
+.diapo[data-etat="actif"] .cadre { animation: glisse-suivant 1.35s cubic-bezier(0.76, 0, 0.18, 1) both; }
+.diapo[data-etat="actif"][data-sens="precedent"] .cadre { animation-name: glisse-precedent; }
+.diapo[data-etat="sortant"] .cadre { animation: recule-suivant 1.35s cubic-bezier(0.76, 0, 0.18, 1) both; }
+.diapo[data-etat="sortant"][data-sens="precedent"] .cadre { animation-name: recule-precedent; }
+
+/* Le cadrage de chaque plat : un point d'intérêt sur téléphone, un autre sur ordinateur.
+   La respiration zoome vers ce point. */
+.photo {
+  object-position: var(--tel, 50% 50%);
+  transform-origin: var(--tel, 50% 50%);
+}
+@media (min-width: 1024px) {
+  .photo {
+    object-position: var(--ordi, 50% 50%);
+    transform-origin: var(--ordi, 50% 50%);
+  }
+}
+.diapo[data-etat="actif"] .photo { animation: respire 11s cubic-bezier(0.2, 0.6, 0.3, 1) both; }
+/* L'ancien plat garde son cadrage du moment : sa respiration s'arrête où elle en était. */
+.diapo[data-etat="sortant"] .photo { animation: respire 11s cubic-bezier(0.2, 0.6, 0.3, 1) both paused; }
+
+@keyframes rideau-suivant {
+  from { clip-path: inset(0 0 0 100%); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes rideau-precedent {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes glisse-suivant {
+  from { transform: translate3d(14%, 0, 0); }
+  to { transform: none; }
+}
+@keyframes glisse-precedent {
+  from { transform: translate3d(-14%, 0, 0); }
+  to { transform: none; }
+}
+@keyframes recule-suivant {
+  from { transform: none; filter: brightness(1); }
+  to { transform: translate3d(-10%, 0, 0); filter: brightness(0.35); }
+}
+@keyframes recule-precedent {
+  from { transform: none; filter: brightness(1); }
+  to { transform: translate3d(10%, 0, 0); filter: brightness(0.35); }
+}
+@keyframes respire {
+  from { transform: scale(1.16); }
+  to { transform: scale(1.03); }
+}
+
+/* La jauge du plat en cours : elle se remplit pendant qu'il est à l'écran ; à la fin,
+   le carrousel passe au suivant (onAnimationEnd). En pause, elle s'arrête où elle est. */
+.jauge {
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+.onglet[data-actif] .jauge { animation: remplit var(--duree, 7s) linear both; }
+/* Les plats déjà vus, et le plat en cours quand rien ne défile : jauge pleine. */
+.jauge[data-rempli] { animation: none !important; transform: scaleX(1); }
+[data-lecture="non"] .onglet[data-actif] .jauge { animation-play-state: paused; }
+@keyframes remplit {
+  to { transform: scaleX(1); }
+}
+
+/* La légende du plat entre ligne par ligne, en sortant du flou. */
+.ligne {
+  animation: ligne 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc(var(--i, 0) * 80ms + 120ms);
+}
+@keyframes ligne {
+  from { opacity: 0; transform: translate3d(0, 0.6em, 0); filter: blur(8px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+
+/* Animations réduites : aucun mouvement automatique, le plat change d'un coup, la jauge
+   du plat en cours est pleine (il n'y a pas de défilement à attendre). */
+@media (prefers-reduced-motion: reduce) {
+  .diapo[data-etat="actif"],
+  .diapo[data-etat="actif"] .cadre,
+  .diapo[data-etat="actif"] .photo,
+  .diapo[data-etat="sortant"] .cadre,
+  .diapo[data-etat="sortant"] .photo,
+  .ligne { animation: none; }
+  .diapo[data-etat="sortant"] { visibility: hidden; }
+  .photo { transform: scale(1.03); }
+  .onglet[data-actif] .jauge { animation: none; transform: scaleX(1); }
+}
+
+/* ---------- La mise en page de ce qui est posé sur les photos ----------
+   Téléphone : le titre en haut, la photo libre au milieu, puis les traits de progression,
+   la légende, « combien d'invités », et le bouton à côté des flèches.
+   Ordinateur : titre puis actions à gauche ; légende puis onglets et flèches à droite,
+   sur la photo. */
+.scene {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto 1fr auto auto auto auto;
+  grid-template-areas:
+    "titre titre"
+    "vide vide"
+    "onglets onglets"
+    "legende legende"
+    "invites invites"
+    "appel commandes";
+  column-gap: 0.75rem;
+}
+.titre { grid-area: titre; position: relative; }
+.onglets { grid-area: onglets; margin-top: 1.25rem; }
+.legende { grid-area: legende; margin-top: 0.5rem; }
+.invites { grid-area: invites; margin-top: 1.1rem; }
+.appel { grid-area: appel; margin-top: 0.75rem; min-width: 0; }
+.commandes { grid-area: commandes; margin-top: 0.75rem; align-self: center; }
+
+/* Les fonds du téléphone : sous le titre (jusqu'en haut de l'écran), et sous tout le bas
+   de l'écran. Ils suivent la hauteur réelle des blocs, quelle que soit la taille du texte. */
+.fondHaut {
+  grid-row: 1;
+  grid-column: 1 / -1;
+  z-index: -1;
+  margin-bottom: -3rem;
+  background: linear-gradient(180deg, rgb(31 16 25 / 1) 0, rgb(31 16 25 / 0.93) calc(100% - 3rem), rgb(31 16 25 / 0.5) calc(100% - 1.5rem), rgb(31 16 25 / 0) 100%);
+}
+.fondBas {
+  grid-row: 3 / -1;
+  grid-column: 1 / -1;
+  z-index: -1;
+  margin-top: -1.5rem;
+  background: linear-gradient(180deg, rgb(31 16 25 / 0) 0, rgb(31 16 25 / 0.93) 3.5rem, rgb(31 16 25 / 1) 100%);
+}
+
+@media (min-width: 1024px) {
+  /* Deux colonnes : les onglets et les flèches partagent la même case, en bas à droite. */
+  .scene {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: 1fr auto auto auto;
+    grid-template-areas:
+      "titre ."
+      "titre legende"
+      "invites legende"
+      "appel barre";
+    column-gap: 3.5rem;
+  }
+  .titre { align-self: center; padding-bottom: 2.5rem; }
+  .onglets {
+    grid-area: barre;
+    margin-top: 0;
+    align-self: end;
+    padding: 1rem 10.5rem 0 0;
+    border-top: 1px solid rgb(255 255 255 / 0.15);
+  }
+  .commandes { grid-area: barre; margin-top: 0; align-self: end; justify-self: end; }
+  .legende { margin-top: 0; align-self: end; padding-bottom: 1.75rem; }
+  .invites { margin-top: 0; align-self: end; padding-bottom: 1rem; }
+  .appel { margin-top: 0; align-self: end; }
+}

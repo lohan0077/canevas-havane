@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../_kit/Apparition";
-import { AppelFinal, Appli, EnTetePage, Surtitre, Titre } from "../_composants/Blocs";
+import { AppelFinal, Appli, EnTetePage, Titre } from "../_composants/Blocs";
 import Journee from "../_composants/Journee";
 import { photos } from "../_composants/donnees";
 
@@ -29,7 +29,7 @@ const DECALER = [
 export default function MaJournee() {
   return (
     <main>
-      <EnTetePage surtitre="Ta journée" titre="Ton toit, *heure par heure.*">
+      <EnTetePage titre="Ton toit, heure par heure.">
         Dis où regarde ton toit. La courbe te montre quand il produit, et le conseil te dit quand lancer la machine.
         C&apos;est une forme indicative : la vraie, on la mesure chez toi.
       </EnTetePage>
@@ -41,24 +41,23 @@ export default function MaJournee() {
           </Appli>
         </Apparition>
         <div className="space-y-8 lg:sticky lg:top-28">
-          <Titre texte="Comment lire *la courbe.*" taille="moyen" />
-          <ol className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
-            {LIRE.map((l, i) => (
-              <Apparition as="li" key={l.titre} delai={i * 120} className="space-y-1 py-5">
-                <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">{String(i + 1).padStart(2, "0")}</p>
-                <h2 className="font-[family-name:var(--titres)] text-2xl font-normal">{l.titre}</h2>
+          <Titre texte="Comment lire la courbe." taille="moyen" />
+          {/* Les trois éléments du graphique, pas une suite : pas de numéros. */}
+          <ul className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
+            {LIRE.map((l) => (
+              <li key={l.titre} className="space-y-1 py-5">
+                <h2 className="font-[family-name:var(--titres)] text-2xl font-bold tracking-[-0.025em]">{l.titre}</h2>
                 <p className="leading-relaxed text-[var(--doux)]">{l.texte}</p>
-              </Apparition>
+              </li>
             ))}
-          </ol>
+          </ul>
         </div>
       </section>
 
       <section className="bg-[var(--sombre)] text-[var(--sur-sombre)]">
         <div className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:grid-cols-2 md:items-center md:py-40">
           <div className="space-y-6">
-            <Apparition><Surtitre clair>Ce que tu peux décaler</Surtitre></Apparition>
-            <Titre texte="Fais tourner la maison *pendant ton pic.*" clair />
+            <Titre texte="Fais tourner la maison pendant ton pic." />
             <ul className="divide-y divide-white/15 border-y border-white/15">
               {DECALER.map((d, i) => (
                 <Apparition as="li" key={d} delai={i * 100} className="py-3.5 text-lg">
@@ -74,8 +73,7 @@ export default function MaJournee() {
       </section>
 
       <section className="mx-auto max-w-3xl space-y-6 px-6 py-28 md:py-40">
-        <Apparition><Surtitre>D&apos;où vient cette forme</Surtitre></Apparition>
-        <Titre texte="Une cloche, *pas une promesse.*" />
+        <Titre texte="Une cloche, pas une promesse." />
         <Apparition as="p" delai={150} className="text-lg leading-relaxed text-[var(--doux)]">
           Un panneau donne le plus quand le soleil lui fait face. Plein sud, c&apos;est vers le midi solaire : entre 12 h et
           14 h à l&apos;heure légale en France, selon la saison et la longitude. La courbe de cette page est une cloche centrée

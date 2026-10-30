@@ -45,6 +45,13 @@
   }
   [data-vu] .kit-mot { opacity: 1; transform: none; filter: none; }
 
+  /* Un site « calme » (Cadre calme) garde un seul moment orchestré, son premier
+     écran : ses blocs et ses titres sont là d'emblée, sans fondu ni glissement à
+     chaque section — le réflexe générique des pages faites à la chaîne. */
+  .kit-calme .kit-apparait,
+  .kit-calme .kit-mot { opacity: 1; transform: none; filter: none; transition: none; }
+  .kit-calme .kit-apparait[data-de="rideau"] { clip-path: none; }
+
   /* Bandeau qui défile (composant Defilant). La seconde copie est décorative. */
   .kit-defilant {
     overflow: hidden;

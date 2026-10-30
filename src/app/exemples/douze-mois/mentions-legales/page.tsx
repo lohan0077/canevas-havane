@@ -13,12 +13,12 @@ export const metadata: Metadata = {
 export default function MentionsLegales() {
   return (
     <main>
-      <EnTetePage surtitre="Douze Mois" titre="Mentions *légales.*" photo={PHOTOS.hellebore} origine="50% 40%" />
+      <EnTetePage titre="Mentions légales." photo={PHOTOS.hellebore} origine="50% 40%" />
       <div className="[&_h1]:hidden [&_h2]:font-normal">
         <MentionsDemonstration
           site="douze-mois"
           entreprise="Douze Mois"
-          polices="Bodoni Moda, Manrope et Caveat"
+          polices="Instrument Serif, Bricolage Grotesque et Caveat"
           enPlus={
             <>
               <p>

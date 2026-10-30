@@ -4,8 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../../_kit/Apparition";
-import TitreRevele from "../../../_kit/TitreRevele";
-import { AppelFinal, Surtitre, Titre } from "../../_composants/Blocs";
+import { APRES, AppelFinal, Titre } from "../../_composants/Blocs";
 import Maison from "../../_composants/Maison";
 import { DOSSIER, PROJETS, SEUIL, photos } from "../../_composants/donnees";
 
@@ -52,16 +51,13 @@ export default async function Projet({ params }: { params: Promise<{ slug: strin
             <Link href={`${DOSSIER}#maisons`} className="underline underline-offset-4">Les maisons</Link>
             <span> / {p.nom}, {p.annee}</span>
           </Apparition>
-          <TitreRevele
-            as="h1"
-            auChargement
-            texte={p.titre}
-            className="max-w-4xl font-[family-name:var(--titres)] text-[clamp(2.75rem,6vw,5.25rem)] font-normal leading-[1] tracking-[-0.02em] text-balance"
-          />
+          <h1 className="max-w-4xl font-[family-name:var(--titres)] text-[clamp(2.75rem,6vw,5.25rem)] font-medium leading-[0.98] tracking-[-0.045em] text-balance">
+            {p.titre}
+          </h1>
           <dl data-film="faits" className="grid overflow-hidden rounded-2xl bg-[var(--fond)] text-[var(--encre)] sm:grid-cols-3">
             {FAITS.map((f, i) => (
               <Apparition key={f.libelle} delai={300 + i * 120} className={`space-y-1 px-6 py-5 ${i ? "border-t border-[var(--trait)] sm:border-l sm:border-t-0" : ""}`}>
-                <dt className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">{f.libelle}</dt>
+                <dt className="text-[15px] font-semibold text-[var(--doux)]">{f.libelle}</dt>
                 <dd className="font-[family-name:var(--titres)] text-[clamp(1.6rem,2.6vw,2.1rem)] leading-tight">{f.valeur}</dd>
                 <dd className="text-[14px] text-[var(--doux)]">{f.note}</dd>
               </Apparition>
@@ -74,20 +70,27 @@ export default async function Projet({ params }: { params: Promise<{ slug: strin
       <section>
         <div className="mx-auto max-w-6xl space-y-14 px-6 py-28 md:py-40">
           <div className="grid gap-8 lg:grid-cols-[1fr_minmax(0,26rem)] lg:items-end">
-            <div className="space-y-5">
-              <Apparition><Surtitre>01 — Avant, après</Surtitre></Apparition>
-              <Titre texte="La même maison, *deuxième version.*" />
-            </div>
+            <Titre texte="La même maison, deuxième version." />
             <Apparition as="p" delai={150} className="text-lg leading-relaxed text-[var(--doux)]">{p.resume}</Apparition>
           </div>
           <div className="grid grid-cols-2 gap-4 sm:gap-6">
             {[false, true].map((apres) => (
               <Apparition as="figure" key={String(apres)} delai={apres ? 150 : 0} className="space-y-3">
-                <div className={`overflow-hidden rounded-2xl ${apres ? "bg-[#F6E2B8]" : "bg-[#E8DCC6]"}`}>
+                <div className={`overflow-hidden rounded-2xl ${apres ? "bg-[#F7E3DD]" : "bg-[#DEDBD3]"}`}>
                   <Maison modele={p.modele} apres={apres} decor className="block h-auto w-full" libelle={apres ? `Après : ${p.apres}` : `Avant, ${p.annee} : ${p.avant}`} />
                 </div>
                 <figcaption className="space-y-0.5">
-                  <span className="block text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">{apres ? `Après · ${total} m²` : `Avant · ${p.annee} · ${p.existant} m²`}</span>
+                  <span className="block text-[15px] text-[var(--doux)]">
+                    {apres ? (
+                      <>
+                        <span className={`text-[18px] text-[var(--accent-texte)] ${APRES}`}>Après</span>, {total}&nbsp;m²
+                      </>
+                    ) : (
+                      <>
+                        <span className="font-semibold text-[var(--encre)]">Avant</span>, en {p.annee}, {p.existant}&nbsp;m²
+                      </>
+                    )}
+                  </span>
                   <span className="block text-[16px] leading-snug">{apres ? p.apres : p.avant}</span>
                 </figcaption>
               </Apparition>
@@ -98,7 +101,7 @@ export default async function Projet({ params }: { params: Promise<{ slug: strin
               <li key={d} className="py-4 text-lg">{d}</li>
             ))}
             <li className="py-4 text-[15px] text-[var(--doux)]">
-              {p.existant}&nbsp;m² + {p.cree}&nbsp;m² créés : {total}&nbsp;m² au total · seuil de {SEUIL}&nbsp;m² {total > SEUIL ? "dépassé" : "non dépassé"}.
+              {p.existant}&nbsp;m² + {p.cree}&nbsp;m² créés : {total}&nbsp;m² au total. Seuil de {SEUIL}&nbsp;m² {total > SEUIL ? "dépassé" : "non dépassé"}.
             </li>
           </ul>
         </div>
@@ -108,10 +111,7 @@ export default async function Projet({ params }: { params: Promise<{ slug: strin
       <section className="bg-[var(--sombre)] text-[var(--sur-sombre)]">
         <div className="mx-auto grid max-w-6xl gap-16 px-6 py-28 md:py-40 lg:grid-cols-2">
           <div className="space-y-8">
-            <div className="space-y-5">
-              <Surtitre clair>02 — Le calendrier</Surtitre>
-              <Titre texte={`${p.duree}, *étape par étape.*`} clair taille="moyen" />
-            </div>
+            <Titre texte={`${p.duree}, étape par étape.`} taille="moyen" />
             <ol className="divide-y divide-white/20 border-y border-white/20">
               {p.etapes.map((e) => (
                 <li key={e.quoi} className="flex items-baseline justify-between gap-4 py-4 text-lg">
@@ -122,10 +122,7 @@ export default async function Projet({ params }: { params: Promise<{ slug: strin
             </ol>
           </div>
           <div className="space-y-8">
-            <div className="space-y-5">
-              <Surtitre clair>03 — Le budget</Surtitre>
-              <Titre texte={`${p.budget}, *poste par poste.*`} clair taille="moyen" />
-            </div>
+            <Titre texte={`${p.budget}, poste par poste.`} taille="moyen" />
             <ul className="divide-y divide-white/20 border-y border-white/20">
               {p.postes.map((x) => (
                 <li key={x.poste} className="flex items-baseline justify-between gap-4 py-4 text-lg">
@@ -135,7 +132,7 @@ export default async function Projet({ params }: { params: Promise<{ slug: strin
               ))}
               <li className="flex items-baseline justify-between gap-4 py-4 font-[family-name:var(--titres)] text-2xl">
                 <span>Total des travaux, TTC</span>
-                <span className="tabular-nums text-[var(--accent)]">{p.budget}</span>
+                <span className="tabular-nums text-[var(--accent-clair)]">{p.budget}</span>
               </li>
             </ul>
             <p className="text-[15px] leading-relaxed">Montants TTC d&apos;exemple. Honoraires de l&apos;architecte en plus : {p.honoraires}</p>
@@ -150,22 +147,18 @@ export default async function Projet({ params }: { params: Promise<{ slug: strin
             <Image src={photo.src} alt={photo.alt} fill sizes="(min-width: 1024px) 480px, 100vw" className="object-cover" />
           </Apparition>
           <div className="space-y-8">
-            <div className="space-y-5">
-              <Apparition><Surtitre>04 — Les autres maisons</Surtitre></Apparition>
-              <Titre texte={"La tienne ressemble *à laquelle ?*"} taille="moyen" />
-            </div>
+            <Titre texte={"La tienne ressemble à laquelle ?"} taille="moyen" />
             <ul className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
               {PROJETS.filter((x) => x.slug !== p.slug).map((x) => (
                 <li key={x.slug}>
-                  <Link href={`${DOSSIER}/projets/${x.slug}`} className="group grid grid-cols-[5.5rem_1fr_auto] items-center gap-5 py-5">
-                    <span className="block overflow-hidden rounded-xl bg-[#E8DCC6]">
+                  <Link href={`${DOSSIER}/projets/${x.slug}`} className="group grid grid-cols-[5.5rem_1fr] items-center gap-5 py-5">
+                    <span className="block overflow-hidden rounded-xl bg-[#DEDBD3]">
                       <Maison modele={x.modele} apres className="block h-auto w-full" />
                     </span>
                     <span>
-                      <span className="block font-[family-name:var(--titres)] text-[1.4rem] leading-tight">{x.titre}</span>
-                      <span className="block text-[15px] text-[var(--doux)]">{x.budget} · {x.duree}</span>
+                      <span className="block font-[family-name:var(--titres)] text-[1.4rem] leading-tight decoration-[var(--accent)] decoration-2 underline-offset-[5px] group-hover:underline">{x.titre}</span>
+                      <span className="block text-[15px] text-[var(--doux)]">{x.budget}, {x.duree}</span>
                     </span>
-                    <span aria-hidden="true" className="text-[var(--accent-texte)] transition-transform group-hover:translate-x-1">→</span>
                   </Link>
                 </li>
               ))}

@@ -3,7 +3,7 @@ import Image from "next/image";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../_kit/Apparition";
 import Panier from "../../_kit/Panier";
-import { AppelFinal, EnTetePage, Surtitre, Titre } from "../_composants/Blocs";
+import { AppelFinal, EnTetePage, Titre } from "../_composants/Blocs";
 import { PHOTOS } from "../_composants/donnees";
 
 export const metadata: Metadata = {
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export default function SaintValentin() {
   return (
     <main>
-      <EnTetePage surtitre="Douze Mois · 14 février" titre={"Pas de roses. *Du mimosa.*"} photo={PHOTOS.mimosaLarge} origine="60% 40%">
+      <EnTetePage titre={"Le 14\u00a0février, pas de roses. Du mimosa."} photo={PHOTOS.mimosaLarge} origine="60% 40%">
         En février, ce qui fleurit en France, c&apos;est le mimosa. Les roses attendront juin. Pour
         la Saint-Valentin, on ne vendra donc pas une seule rose rouge.
       </EnTetePage>
@@ -29,8 +29,7 @@ export default function SaintValentin() {
             <Image src={PHOTOS.mimosaBranche.src} alt={PHOTOS.mimosaBranche.alt} fill sizes="(min-width: 1024px) 380px, 90vw" className="object-cover" />
           </Apparition>
           <div className="space-y-6">
-            <Apparition><Surtitre>L&apos;affiche de la vitrine</Surtitre></Apparition>
-            <Titre texte="Certains vont râler. *Tant mieux.*" />
+            <Titre texte="Certains vont râler. Tant mieux." />
             <Apparition as="p" delai={150} className="max-w-[26rem] text-lg leading-relaxed text-[var(--doux)]">
               Une seule affiche en vitrine, du jaune partout, et pas une rose rouge. Tant mieux&nbsp;: on
               parlera de la boutique. Et le premier mars, on dira au revoir au mimosa.
@@ -42,8 +41,7 @@ export default function SaintValentin() {
       <section className="bg-[var(--carte)]">
         <div className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:py-40 lg:grid-cols-2">
           <div className="space-y-6">
-            <Apparition><Surtitre>Réserver son mimosa</Surtitre></Apparition>
-            <Titre texte="Retrait le *samedi 13 février.*" />
+            <Titre texte={"Réserve ton mimosa pour le samedi 13\u00a0février."} />
             <Apparition as="p" delai={150} className="max-w-[26rem] text-lg leading-relaxed text-[var(--doux)]">
               Le 14 février 2027 tombe un dimanche : on prépare tout le samedi 13, à prendre en
               boutique de 9 h 30 à 19 h, ou livré dans la ville. Réserver aide à commander au

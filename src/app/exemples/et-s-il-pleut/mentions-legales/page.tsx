@@ -13,11 +13,11 @@ export const metadata: Metadata = {
 export default function MentionsLegales() {
   return (
     <main>
-      <EnTetePage surtitre="À savoir" titre="Une wedding planner *qui n'existe pas.*" photo={photos.fenetre} />
+      <EnTetePage titre="Une wedding planner qui n'existe pas." photo={photos.fenetre} />
       <MentionsDemonstration
         site="et-s-il-pleut"
         entreprise="Et s'il pleut"
-        polices="Bodoni Moda et Inter"
+        polices="Bodoni Moda et DM Sans"
         enPlus={
           <>
             <p>
@@ -41,6 +41,11 @@ export default function MentionsLegales() {
               photo ne montre de mariés ni d&apos;invités (Code civil, art. 9). L&apos;épisode des coulisses
               est un exemple écrit pour la démonstration : aucun vrai mariage, aucun prestataire
               nommé. La date du 11 septembre 2027 et les prénoms des parapluies sont des exemples.
+            </p>
+            <p>
+              L&apos;image du premier écran n&apos;est pas une photo : c&apos;est la scène en trois
+              dimensions du site, dessinée par le navigateur. Ses invités sont des silhouettes, sans
+              visage.
             </p>
             <p>
               L&apos;adresse est fictive ; le numéro {entreprise.telephone} appartient à une tranche que

@@ -11,11 +11,11 @@ export const metadata: Metadata = {
 
 export default function MentionsLegales() {
   return (
-    <main className="bg-[var(--sombre)] pt-24 text-[var(--sur-sombre)] [&_h1]:font-normal [&_h2]:font-normal">
+    <main className="bg-[var(--sombre)] pt-24 text-[var(--sur-sombre)] [&_h1]:font-medium [&_h1]:tracking-[-0.04em] [&_h2]:font-medium [&_h2]:tracking-[-0.03em]">
       <MentionsDemonstration
         site="pavillon-bis"
         entreprise="Pavillon Bis"
-        polices="Fraunces et Outfit"
+        polices="Sora et DM Serif Display"
         enPlus={
           <>
             <p>

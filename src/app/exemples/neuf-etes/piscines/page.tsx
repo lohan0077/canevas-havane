@@ -3,8 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../_kit/Apparition";
-import CarteLueur from "../../_kit/CarteLueur";
-import { AppelFinal, Bouton, EnTetePage, Surtitre, Titre } from "../_composants/Blocs";
+import { AppelFinal, Bouton, EnTetePage, Titre } from "../_composants/Blocs";
 import { DOSSIER, chantiers, gammes, options, photos } from "../_composants/donnees";
 
 export const metadata: Metadata = {
@@ -23,8 +22,7 @@ export default function Piscines() {
   return (
     <main>
       <EnTetePage
-        surtitre="Nos piscines"
-        titre="Une coque pour *chaque jardin.*"
+        titre="Une coque pour chaque jardin."
         photo={photos.jardinFamilial}
         actions={
           <>
@@ -49,7 +47,6 @@ export default function Piscines() {
                 </span>
               </Apparition>
               <div className="space-y-7">
-                <Apparition><Surtitre>Coque {String(i + 1).padStart(2, "0")} · {g.jardin}</Surtitre></Apparition>
                 <Titre texte={g.nom} taille="grand" />
                 <Apparition as="p" delai={150} className="text-xl leading-relaxed text-[var(--doux)]">{g.phrase}</Apparition>
                 <Apparition delai={250}>
@@ -69,7 +66,7 @@ export default function Piscines() {
                 </Apparition>
                 <Apparition delai={300} className="flex flex-wrap items-center gap-x-6 gap-y-4 rounded-[1.75rem] bg-[var(--sombre)] px-6 py-5 text-[var(--sur-sombre)]">
                   <span className="font-[family-name:var(--titres)] text-3xl font-normal text-[var(--accent)]">{g.prix}</span>
-                  <span className="text-[15px]">TTC, pose comprise · prix d&apos;exemple</span>
+                  <span className="text-[15px]">TTC, pose comprise. Prix d&apos;exemple.</span>
                 </Apparition>
                 <div className="flex flex-wrap gap-x-8 gap-y-3 font-[family-name:var(--titres)] font-normal">
                   <Link href={`${DOSSIER}/prix`} className="text-[var(--accent-texte)] underline underline-offset-4">Calculer pour mon jardin</Link>
@@ -88,20 +85,15 @@ export default function Piscines() {
       <section className="px-3 sm:px-5">
         <div className="rounded-[2.5rem] bg-[var(--sombre)] text-[var(--sur-sombre)]">
           <div className="mx-auto max-w-7xl space-y-14 px-5 py-24 sm:px-10 md:py-32">
-            <div className="space-y-6">
-              <Apparition><Surtitre clair>Les options</Surtitre></Apparition>
-              <Titre texte="Ce qu'on ajoute *le plus souvent.*" clair />
-            </div>
+            <Titre texte="Les options qu'on ajoute le plus souvent." />
             <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {options.map((o, i) => (
                 <Apparition as="li" key={o.nom} delai={i * 110} className="h-full">
-                  <CarteLueur className="h-full rounded-[2rem] border border-white/15 bg-[#0A2A39]">
-                    <div className="flex h-full flex-col gap-3 p-7">
-                      <h3 className="text-2xl font-bold">{o.nom}</h3>
-                      <p className="flex-1 leading-relaxed">{o.detail}</p>
-                      <p className="font-[family-name:var(--titres)] font-normal text-[var(--accent)]">{o.prix}</p>
-                    </div>
-                  </CarteLueur>
+                  <div className="flex h-full flex-col gap-3 rounded-[2rem] border border-white/15 bg-[#0A2A39] p-7">
+                    <h3 className="text-2xl font-bold">{o.nom}</h3>
+                    <p className="flex-1 leading-relaxed">{o.detail}</p>
+                    <p className="font-[family-name:var(--titres)] font-normal text-[var(--accent)]">{o.prix}</p>
+                  </div>
                 </Apparition>
               ))}
             </ul>
@@ -111,10 +103,7 @@ export default function Piscines() {
       </section>
 
       <section className="mx-auto max-w-7xl space-y-14 px-5 py-24 sm:px-8 md:py-32">
-        <div className="space-y-6">
-          <Apparition><Surtitre>Pourquoi une coque</Surtitre></Apparition>
-          <Titre texte="Le bon choix pour *un été qui arrive vite.*" />
-        </div>
+        <Titre texte={"Pourquoi une coque\u00a0? Pour un été qui arrive vite."} />
         <ul className="grid gap-5 md:grid-cols-3">
           {POURQUOI.map((p, i) => (
             <Apparition as="li" key={p.titre} delai={i * 120} className="rounded-[2rem] border border-[var(--trait)] bg-[var(--carte)] p-7">

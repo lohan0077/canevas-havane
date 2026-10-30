@@ -4,7 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../../_kit/Apparition";
-import { AppelFinal, CarteChantier, EnTetePage, Surtitre, Titre } from "../../_composants/Blocs";
+import { AppelFinal, CarteChantier, EnTetePage, Titre } from "../../_composants/Blocs";
 import { DOSSIER, chantiers, gammes, photosDeChantier } from "../../_composants/donnees";
 import FilmChantier from "../../_composants/FilmChantier";
 import VideoChantier from "../../_composants/VideoChantier";
@@ -44,12 +44,8 @@ export default async function PageChantier({ params }: Props) {
 
   return (
     <main>
-      <EnTetePage
-        surtitre={`Chantier n° ${chantier.numero} · ${chantier.lieu}`}
-        titre={`Piscine coque *${dimensions.replace(/ /g, " ")}*`}
-        photo={chantier.photo}
-      >
-        {chantier.resume}
+      <EnTetePage titre={`Piscine coque ${dimensions.replace(/ /g, " ")}`} photo={chantier.photo}>
+        Chantier n° {chantier.numero}, à {chantier.lieu}. {chantier.resume}
       </EnTetePage>
 
       {/* La fiche : ce que les gens cherchent, en gros. */}
@@ -57,16 +53,16 @@ export default async function PageChantier({ params }: Props) {
         <Apparition>
           <dl data-film="fiche" className="grid gap-4 md:grid-cols-[1.3fr_1fr_1fr]">
             <div className="rounded-[2rem] bg-[var(--accent)] p-7 text-[var(--sur-accent)] sm:p-9">
-              <dt className="font-[family-name:var(--titres)] text-sm font-normal uppercase tracking-[0.14em]">Prix payé</dt>
+              <dt className="font-[family-name:var(--titres)] text-lg font-normal">Prix payé</dt>
               <dd className="mt-2 font-[family-name:var(--titres)] text-[clamp(2.8rem,6vw,4.5rem)] font-normal leading-none tracking-[-0.03em] tabular-nums">{chantier.prix}</dd>
               <dd className="mt-3 text-[15px]">Exemple : l&apos;entreprise est fictive.</dd>
             </div>
             <div className="rounded-[2rem] bg-[var(--sombre)] p-7 text-[var(--sur-sombre)] sm:p-9">
-              <dt className="font-[family-name:var(--titres)] text-sm font-normal uppercase tracking-[0.14em] text-[var(--accent)]">Durée des travaux</dt>
+              <dt className="font-[family-name:var(--titres)] text-lg font-normal text-[var(--accent)]">Durée des travaux</dt>
               <dd className="mt-2 font-[family-name:var(--titres)] text-[clamp(2.4rem,5vw,3.75rem)] font-normal leading-none tracking-[-0.03em]">{chantier.duree}</dd>
             </div>
             <div className="rounded-[2rem] border border-[var(--trait)] bg-[var(--carte)] p-7 sm:p-9">
-              <dt className="font-[family-name:var(--titres)] text-sm font-normal uppercase tracking-[0.14em] text-[var(--doux)]">Coque</dt>
+              <dt className="font-[family-name:var(--titres)] text-lg font-normal text-[var(--doux)]">Coque</dt>
               <dd className="mt-2 font-[family-name:var(--titres)] text-[clamp(2.4rem,5vw,3.75rem)] font-normal leading-none tracking-[-0.03em]">{dimensions}{" "}m</dd>
               {gamme && (
                 <dd className="mt-3">
@@ -88,8 +84,7 @@ export default async function PageChantier({ params }: Props) {
       {/* Le film du chantier. */}
       <section className="mx-auto grid max-w-7xl gap-12 px-5 py-24 sm:px-8 md:py-32 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
         <div className="space-y-6">
-          <Apparition><Surtitre>Le film du chantier</Surtitre></Apparition>
-          <Titre texte="Filmé jour après jour, *avec l'accord de la famille.*" taille="moyen" />
+          <Titre texte="Le chantier, filmé jour après jour avec l'accord de la famille." taille="moyen" />
           <Apparition as="p" delai={200} className="text-xl leading-relaxed text-[var(--doux)]">
             Du premier coup de pelle au premier plongeon. La famille choisit ce qui est publié :
             le jardin et le bassin, jamais elle-même sans son accord écrit.
@@ -107,10 +102,7 @@ export default async function PageChantier({ params }: Props) {
       {/* Jour par jour. */}
       <section className="border-y border-[var(--trait)] bg-[var(--carte)] py-24 md:py-32">
         <div className="mx-auto max-w-7xl space-y-12 px-5 sm:px-8">
-          <div className="space-y-6">
-            <Apparition><Surtitre>Jour par jour</Surtitre></Apparition>
-            <Titre texte={`${chantier.duree}, *${chantier.jours.length} étapes.*`} />
-          </div>
+          <Titre texte={`Jour par jour\u00a0: ${chantier.duree}, ${chantier.jours.length} étapes.`} />
           <ol className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {chantier.jours.map((j, i) => (
               <Apparition as="li" key={j.jour} delai={(i % 3) * 120} className="overflow-hidden rounded-[2rem] border border-[var(--trait)] bg-[var(--fond)]">
@@ -129,8 +121,7 @@ export default async function PageChantier({ params }: Props) {
 
       <section className="mx-auto max-w-7xl space-y-12 px-5 py-24 sm:px-8 md:py-32">
         <div className="space-y-6">
-          <Apparition><Surtitre>En images</Surtitre></Apparition>
-          <Titre texte="Sur le terrain, *chaque soir.*" taille="moyen" />
+          <Titre texte="Sur le terrain, chaque soir." taille="moyen" />
           <p className="max-w-2xl text-lg leading-relaxed text-[var(--doux)]">
             Sur un vrai chantier, une image et trois lignes s&apos;ajoutent ici chaque soir.
             Photos d&apos;illustration : l&apos;entreprise est fictive.
@@ -146,7 +137,7 @@ export default async function PageChantier({ params }: Props) {
       </section>
 
       <section className="mx-auto max-w-7xl space-y-12 px-5 pb-24 sm:px-8 md:pb-32">
-        <Titre texte="D'autres jardins, *d'autres tailles.*" taille="moyen" />
+        <Titre texte="D'autres jardins, d'autres tailles." taille="moyen" />
         <ul className="grid gap-5 md:grid-cols-2">
           {autres.map((c) => (
             <li key={c.slug}>

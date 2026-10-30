@@ -2,9 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../_kit/Apparition";
-import CarteLueur from "../../_kit/CarteLueur";
-import TitreRevele from "../../_kit/TitreRevele";
-import { ACCENT_SOMBRE, AppelFinal, Bouton, EnTetePage, Monogramme, Surtitre, Titre } from "../_composants/Blocs";
+import { AppelFinal, Bouton, EnTetePage, Monogramme, Titre } from "../_composants/Blocs";
 import { DOSSIER, engagements, entreprise, equipe, garanties, photos } from "../_composants/donnees";
 
 export const metadata: Metadata = {
@@ -18,7 +16,7 @@ const COMMUNES = ["Valence", "Romans-sur-Isère", "Bourg-lès-Valence", "Guilher
 export default function Entreprise() {
   return (
     <main>
-      <EnTetePage surtitre="L'entreprise" titre="Pourquoi *Neuf Étés.*" photo={photos.faceAuxMontagnes}>
+      <EnTetePage titre="Pourquoi Neuf Étés." photo={photos.faceAuxMontagnes}>
         Un nom qu&apos;un enfant retient du premier coup. Et une idée : une piscine ne vend pas
         de l&apos;eau, elle vend les étés qu&apos;on passe autour.
       </EnTetePage>
@@ -26,8 +24,7 @@ export default function Entreprise() {
       {/* Le nom, et l'affiche. */}
       <section className="mx-auto grid max-w-7xl gap-14 px-5 py-24 sm:px-8 md:py-32 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
         <div className="space-y-7">
-          <Apparition><Surtitre>Le nom</Surtitre></Apparition>
-          <Titre texte={"Neuf étés\u00a0: *le temps qu'il reste* à un enfant de 9\u00a0ans."} />
+          <Titre texte={"Neuf étés\u00a0: le temps qu'il reste à un enfant de 9\u00a0ans."} />
           <Apparition as="p" delai={200} className="max-w-xl text-xl leading-relaxed text-[var(--doux)]">
             Un été par an, jusqu&apos;à ses 18 ans. Le calcul est fait pour un enfant de 9 ans ;
             le tien est sur l&apos;accueil. {entreprise.nom} construit des piscines familiales
@@ -59,24 +56,16 @@ export default function Entreprise() {
       <section className="px-3 sm:px-5">
         <div className="rounded-[2.5rem] bg-[var(--sombre)] text-[var(--sur-sombre)]">
           <div className="mx-auto max-w-7xl space-y-14 px-5 py-24 sm:px-10 md:py-32">
-            <div className="space-y-6">
-              <Apparition><Surtitre clair>Nos engagements</Surtitre></Apparition>
-              <TitreRevele
-                texte="Quatre promesses, *tenues par écrit.*"
-                className="text-[clamp(2.5rem,6vw,5.25rem)] font-bold leading-[1] tracking-[-0.03em]"
-                classeAccent={ACCENT_SOMBRE}
-              />
-            </div>
+            <h2 className="text-[clamp(2.5rem,6vw,5.25rem)] font-bold leading-[1] tracking-[-0.03em] text-balance">
+              Quatre promesses, tenues par écrit.
+            </h2>
             <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {engagements.map((e, i) => (
                 <Apparition as="li" key={e.titre} delai={i * 110} className="h-full">
-                  <CarteLueur className="h-full rounded-[2rem] border border-white/15 bg-[#0A2A39]">
-                    <div className="space-y-3 p-7">
-                      <span className="font-[family-name:var(--titres)] text-4xl font-normal text-[var(--accent)]">{String(i + 1).padStart(2, "0")}</span>
-                      <h3 className="text-2xl font-bold">{e.titre}</h3>
-                      <p className="leading-relaxed">{e.texte}</p>
-                    </div>
-                  </CarteLueur>
+                  <div className="h-full space-y-3 rounded-[2rem] border border-white/15 bg-[#0A2A39] p-7">
+                    <h3 className="text-2xl font-bold text-[var(--accent)]">{e.titre}</h3>
+                    <p className="leading-relaxed">{e.texte}</p>
+                  </div>
                 </Apparition>
               ))}
             </ul>
@@ -86,8 +75,7 @@ export default function Entreprise() {
 
       <section className="mx-auto grid max-w-7xl gap-12 px-5 py-24 sm:px-8 md:py-32 lg:grid-cols-[0.8fr_1.2fr]">
         <div className="space-y-6">
-          <Apparition><Surtitre>L&apos;équipe</Surtitre></Apparition>
-          <Titre texte="Trois noms, *un numéro.*" />
+          <Titre texte={"L'équipe\u00a0: trois noms, un numéro."} />
           <Apparition as="p" delai={200} className="text-xl leading-relaxed text-[var(--doux)]">
             Et deux poseurs qui travaillent avec nous depuis le début. Ton interlocuteur te donne
             son numéro direct dès la visite technique.
@@ -110,8 +98,7 @@ export default function Entreprise() {
       <section className="bg-[var(--accent)] text-[var(--sur-accent)]">
         <div className="mx-auto max-w-7xl space-y-12 px-5 py-24 sm:px-8 md:py-28">
           <div className="max-w-3xl space-y-5">
-            <p className="font-[family-name:var(--titres)] text-sm font-normal uppercase tracking-[0.16em]">Garanties</p>
-            <h2 className="text-[clamp(2.5rem,6vw,5rem)] font-bold leading-[1] tracking-[-0.03em]">Ce qui te protège après le chantier.</h2>
+            <h2 className="text-[clamp(2.5rem,6vw,5rem)] font-bold leading-[1] tracking-[-0.03em] text-balance">Les garanties qui te protègent après le chantier.</h2>
             <p className="text-xl leading-relaxed">
               Les garanties que la loi impose à tout constructeur, et l&apos;assurance qui va avec :
               l&apos;attestation est jointe à chaque devis.
@@ -130,8 +117,7 @@ export default function Entreprise() {
 
       <section className="mx-auto grid max-w-7xl gap-12 px-5 py-24 sm:px-8 md:py-32 lg:grid-cols-2 lg:items-center">
         <div className="space-y-7">
-          <Apparition><Surtitre>Où on intervient</Surtitre></Apparition>
-          <Titre texte={`${entreprise.zone.join(", ")}.`} taille="moyen" />
+          <Titre texte="On intervient en Drôme, en Ardèche et dans le Sud Isère." taille="moyen" />
           <Apparition as="p" delai={200} className="text-xl leading-relaxed text-[var(--doux)]">
             Dans un rayon de {entreprise.rayon} : assez près pour être là le premier et le dernier
             jour de chaque chantier.
@@ -141,7 +127,7 @@ export default function Entreprise() {
               <li key={c} className="rounded-full border border-[var(--trait)] bg-[var(--carte)] px-4 py-2 text-[15px] font-bold">{c}</li>
             ))}
           </ul>
-          <Bouton href={`${DOSSIER}/contact`} variante="sombre">Ta commune n&apos;y est pas&nbsp;? Demande-nous</Bouton>
+          <Bouton href={`${DOSSIER}/contact`} variante="sombre">Demander pour ma commune</Bouton>
         </div>
         <Apparition de="droite" className="relative aspect-[4/3] overflow-hidden rounded-[2.5rem]">
           <Image src={photos.vueDuCiel.src} alt={photos.vueDuCiel.alt} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../_kit/Apparition";
-import { EnTetePage, Section, Surtitre, Titre } from "../_composants/Blocs";
+import { EnTetePage, Section, Titre } from "../_composants/Blocs";
 import { photos } from "../_composants/donnees";
 
 // « Et sur Instagram, une rubrique : la vraie phrase du lundi. Une par événement. » La
@@ -31,21 +31,18 @@ const REGLES = [
 export default function LaPhraseDuLundi() {
   return (
     <main>
-      <EnTetePage surtitre="Une par événement" titre="la phrase *du lundi.*" photo={photos.cafe} origine="40% 30%">
+      <EnTetePage titre="la phrase du lundi, une par événement." photo={photos.cafe} origine="40% 30%">
         Après chaque événement, on passe à la machine à café, et on écoute. Une phrase revient toujours. C&apos;est elle qu&apos;on
         publie, chaque semaine, avec l&apos;accord de l&apos;entreprise et de la personne.
       </EnTetePage>
 
       <Section className="space-y-14">
-        <div className="space-y-5">
-          <Apparition><Surtitre>À quoi ça ressemble · exemples</Surtitre></Apparition>
-          <Titre texte="une phrase. *un lundi.*" />
-        </div>
+        <Titre texte="une phrase. un lundi." />
         <ul className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
           {EXEMPLES.map((x, i) => (
             <Apparition as="li" key={x.phrase} delai={i * 100} className="grid grid-cols-1 gap-2 py-7 md:grid-cols-[1fr_auto] md:items-baseline md:gap-10">
-              <p className="font-[family-name:var(--titres)] text-[clamp(1.6rem,3vw,2.4rem)] leading-[1.1] tracking-[-0.02em]">«&nbsp;{x.phrase}&nbsp;»</p>
-              <p className="text-[15px] text-[var(--doux)]">{x.contexte} · exemple</p>
+              <p className="font-[family-name:var(--titres)] font-semibold text-[clamp(1.6rem,3vw,2.4rem)] leading-[1.1] tracking-[-0.02em]">«&nbsp;{x.phrase}&nbsp;»</p>
+              <p className="text-[15px] text-[var(--doux)]">{x.contexte} (exemple)</p>
             </Apparition>
           ))}
         </ul>
@@ -53,19 +50,16 @@ export default function LaPhraseDuLundi() {
       </Section>
 
       <Section fond="bg-[var(--sombre)] text-[var(--sur-sombre)]" className="space-y-14">
-        <div className="space-y-5">
-          <Apparition><Surtitre clair>Les règles de la rubrique</Surtitre></Apparition>
-          <Titre texte="quatre règles, *sans exception.*" clair />
-        </div>
-        <ol className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-          {REGLES.map((r, i) => (
-            <Apparition as="li" key={r.titre} delai={i * 110} className="space-y-3 border-t border-white/20 pt-5">
-              <p className="text-[12px] font-medium uppercase tracking-[0.2em]">0{i + 1}</p>
-              <h2 className="font-[family-name:var(--titres)] text-[24px] font-normal lowercase">{r.titre}</h2>
+        <Titre texte="quatre règles, sans exception." clair />
+        {/* Quatre règles qui valent toutes en même temps : pas une suite, donc pas de numéros. */}
+        <ul className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+          {REGLES.map((r) => (
+            <li key={r.titre} className="space-y-3 border-t-2 border-[var(--accent)] pt-5">
+              <h2 className="font-[family-name:var(--titres)] text-[24px] font-semibold lowercase">{r.titre}</h2>
               <p className="leading-relaxed">{r.texte}</p>
-            </Apparition>
+            </li>
           ))}
-        </ol>
+        </ul>
       </Section>
     </main>
   );

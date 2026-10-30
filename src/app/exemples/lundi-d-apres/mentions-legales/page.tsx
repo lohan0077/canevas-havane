@@ -13,11 +13,11 @@ export const metadata: Metadata = {
 export default function MentionsLegales() {
   return (
     <main>
-      <EnTetePage surtitre="Mentions légales" titre="ce qui est inventé, *ce qui est vrai.*" niveau="p" />
+      <EnTetePage titre="ce qui est inventé, ce qui est vrai." niveau="p" />
       <MentionsDemonstration
         site="lundi-d-apres"
         entreprise="Lundi d'Après"
-        polices="DM Sans et Inter"
+        polices="Syne et Space Grotesk"
         enPlus={
           <>
             <p>
@@ -43,6 +43,13 @@ export default function MentionsLegales() {
               <strong>Les samedis.</strong> Les samedis « pris » sont un exemple ; aucune case ne bascule toute seule, il
               n&apos;y a ni « dernière date » ni compte à rebours (Code de la consommation, art. L. 121-4, 7°). La phrase écrite
               dans « Construire la soirée » et la chanson notée ne quittent pas le navigateur.
+            </p>
+            <p>
+              <strong>La soirée rembobinée.</strong> La salle, les invités et le bureau du premier écran sont une
+              maquette en 3D construite et peinte dans le navigateur : aucun modèle, aucune photo, aucun fichier
+              venu d&apos;ailleurs. Les images fixes qui la remplacent (avant son chargement, sans 3D ou avec des
+              animations réduites) sont des vues de cette même maquette. Les silhouettes n&apos;ont pas de visage :
+              elles ne représentent personne. Les verres sont remplis de sirop.
             </p>
             <p>
               Ce site réunit les deux vidéos de l&apos;événementiel : « Créer une marque » (le nom Lundi d&apos;Après, la question

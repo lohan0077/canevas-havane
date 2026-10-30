@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../_kit/Apparition";
-import { AppelFinal, EnTetePage, Section, Surtitre, Titre } from "../_composants/Blocs";
+import { AppelFinal, EnTetePage, Section, Titre } from "../_composants/Blocs";
 import Invites from "../_composants/Invites";
 import { ALLERGENES, COMPRIS, MENU_EXEMPLE, PALIERS, euros, photos } from "../_composants/donnees";
 
@@ -16,14 +16,14 @@ export const metadata: Metadata = {
 export default function Prix() {
   return (
     <main>
-      <EnTetePage surtitre="Le prix, sans détour" titre="Par personne, *tout compris.*" photo={photos.ragout} origine="50% 40%">
+      <EnTetePage titre="Le prix par personne, tout compris." photo={photos.ragout} origine="50% 40%">
         Glisse le nombre d&apos;invités : le prix par personne s&apos;affiche, toutes taxes comprises, pour un menu complet. Ce sont
         des prix d&apos;exemple.
       </EnTetePage>
 
       <Section className="grid gap-16 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
         <div className="space-y-6">
-          <Apparition><Surtitre>Trois paliers</Surtitre></Apparition>
+          <Titre texte="Trois paliers de prix." taille="moyen" />
           <ul className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
             {PALIERS.map((p, i) => (
               <Apparition as="li" key={p.jusqua} delai={i * 110} className="flex items-baseline justify-between gap-4 py-5">
@@ -42,7 +42,7 @@ export default function Prix() {
 
       <Section fond="bg-[var(--carte)] border-y border-[var(--trait)]" className="grid gap-16 md:grid-cols-2">
         <div className="space-y-6">
-          <Titre texte="Ce que comprend *le prix.*" />
+          <Titre texte="Ce que comprend le prix." />
           <ul className="divide-y divide-[var(--trait)] border-y border-[var(--trait)] text-lg">
             {COMPRIS.map((c) => (
               <li key={c} className="py-3">{c}</li>
@@ -51,7 +51,7 @@ export default function Prix() {
           <p className="text-[15px] leading-relaxed text-[var(--doux)]">Les boissons comprises sont sans alcool : eaux plates et gazeuses, citronnade maison, café.</p>
         </div>
         <div className="space-y-6">
-          <Titre texte="Les *allergènes.*" />
+          <Titre texte="Les allergènes." />
           <p className="text-lg leading-relaxed text-[var(--doux)]">
             Chaque plat dit ce qu&apos;il contient, parmi les quatorze allergènes que la réglementation européenne oblige à signaler.
             Avant la commande, on te demande les allergies et les régimes de tes invités, table par table.

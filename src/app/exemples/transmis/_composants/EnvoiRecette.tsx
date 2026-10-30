@@ -35,7 +35,7 @@ export default function EnvoiRecette() {
           // eslint-disable-next-line @next/next/no-img-element -- aperçu local (adresse blob:), next/image ne s'applique pas
           <img src={photo} alt="Ta page de cahier, en aperçu" className={`${s.tombe} absolute inset-4 h-[calc(100%-2rem)] w-[calc(100%-2rem)] object-contain`} />
         ) : exemple ? (
-          <div className={`${s.tombe} ${s.cahier} absolute inset-x-5 top-5 bottom-5 rounded-[4px] shadow-[0_18px_30px_-16px_rgba(31,59,45,.55)] pl-[52px] pr-5 pt-[6px]`}>
+          <div className={`${s.tombe} ${s.cahier} absolute inset-x-5 top-5 bottom-5 rounded-[4px] shadow-[0_18px_30px_-16px_rgba(31,16,25,.5)] pl-[52px] pr-5 pt-[6px]`}>
             <p className="font-[family-name:var(--f-caveat)] text-[27px] leading-[32px] text-[#1E3A6E] whitespace-nowrap">{PAGE_EXEMPLE.plat}</p>
             <ul className="font-[family-name:var(--f-caveat)] text-[23px] leading-[32px] text-[#1E3A6E]">
               {PAGE_EXEMPLE.lignes.map((l) => <li key={l}>{l}</li>)}

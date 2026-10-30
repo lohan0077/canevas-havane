@@ -3,8 +3,7 @@ import Image from "next/image";
 import { adressesDeLaPage } from "@/lib/seo";
 import Accordeon from "../../_kit/Accordeon";
 import Apparition from "../../_kit/Apparition";
-import TitreRevele from "../../_kit/TitreRevele";
-import { AppelFinal, Bouton, Surtitre, Titre } from "../_composants/Blocs";
+import { AppelFinal, Bouton, Titre } from "../_composants/Blocs";
 import { DOSSIER, deroule, photos, questions, seance, seanceAdulte, tarifs } from "../_composants/donnees";
 
 // La page que la vidéo « Remplir l'agenda » filme : le prix et la durée, en gros (h1),
@@ -24,10 +23,11 @@ export default function SeanceEtPrix() {
       <section className="relative flex min-h-[64svh] flex-col bg-[var(--sombre)] text-[var(--sur-sombre)]" data-film="prix">
         <div className="mx-auto grid w-full max-w-6xl flex-1 items-end gap-12 px-6 pb-16 pt-36 md:pb-24 lg:grid-cols-[1.25fr_0.75fr]">
           <div className="space-y-8">
-            <Apparition><Surtitre clair>Séance adulte · prix d&apos;exemple</Surtitre></Apparition>
-            <h1 className="font-normal leading-[0.9] tracking-[-0.03em] tabular-nums">
-              <TitreRevele as="p" auChargement texte={seanceAdulte.duree} className="text-[clamp(5rem,14vw,10.5rem)]" />
-              <TitreRevele as="p" auChargement delai={250} texte={seanceAdulte.prix} className="text-[clamp(5rem,14vw,10.5rem)] text-[#F0A07A]" />
+            {/* La phrase mène aux deux nombres : la durée, puis le prix, de la même couleur. */}
+            <p className="text-lg">Une séance adulte, prix d&apos;exemple :</p>
+            <h1 className="text-[clamp(5rem,14vw,10.5rem)] font-normal leading-[0.9] tracking-[-0.03em] tabular-nums">
+              <span className="block">{seanceAdulte.duree}</span>
+              <span className="block">{seanceAdulte.prix}</span>
             </h1>
             <Apparition delai={600}>
               <p id="facture" className="inline-flex h-12 items-center gap-3 rounded-full border border-white/30 px-6 text-[15px] font-medium">
@@ -49,8 +49,7 @@ export default function SeanceEtPrix() {
       <section id="tarifs" className="scroll-mt-24">
         <div className="mx-auto max-w-6xl space-y-14 px-6 py-28 md:py-40">
           <div className="space-y-5">
-            <Apparition><Surtitre>Les tarifs</Surtitre></Apparition>
-            <Titre texte="Quatre lignes, *pas une de plus.*" />
+            <Titre texte="Quatre lignes, pas une de plus." />
           </div>
           <ul className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
             {tarifs.map((t, i) => (
@@ -71,8 +70,7 @@ export default function SeanceEtPrix() {
       <section className="bg-[var(--carte)]">
         <div className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:py-40 lg:grid-cols-[0.8fr_1.2fr]">
           <div className="space-y-6 lg:sticky lg:top-28 lg:self-start">
-            <Apparition><Surtitre>Minute par minute</Surtitre></Apparition>
-            <Titre texte="Ce qui se passe *sur la table.*" />
+            <Titre texte="Ce qui se passe sur la table." />
             <Apparition as="p" className="max-w-[26rem] text-lg leading-relaxed text-[var(--doux)]">Rien ne commence sans votre accord. Rien ne se fait sans être expliqué.</Apparition>
             <Apparition><Bouton href={`${DOSSIER}/rendez-vous`}>Réserver un créneau</Bouton></Apparition>
           </div>
@@ -93,13 +91,12 @@ export default function SeanceEtPrix() {
       <section>
         <div className="mx-auto max-w-6xl space-y-14 px-6 py-28 md:py-40">
           <div className="space-y-5">
-            <Apparition><Surtitre>La séance</Surtitre></Apparition>
-            <Titre texte="Un *pourquoi* à chaque étape." />
+            <Titre texte="Un pourquoi à chaque étape." />
           </div>
           <ul className="grid gap-x-10 gap-y-12 md:grid-cols-2">
             {seance.map((s, i) => (
               <Apparition as="li" key={s.etape} delai={(i % 2) * 120} className="space-y-3 border-t border-[var(--encre)] pt-6">
-                <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">{s.moment}</p>
+                <p className="text-[15px] font-semibold text-[var(--accent-texte)]">{s.moment}</p>
                 <h3 className="font-[family-name:var(--titres)] text-2xl font-normal leading-snug">{s.etape}</h3>
                 <p className="text-lg leading-relaxed text-[var(--doux)]">
                   <span className="font-medium text-[var(--encre)]">Pourquoi ? </span>
@@ -114,8 +111,7 @@ export default function SeanceEtPrix() {
       <section id="questions" className="scroll-mt-24 bg-[var(--carte)]">
         <div className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:py-40 lg:grid-cols-[0.8fr_1.2fr]">
           <div className="space-y-6">
-            <Apparition><Surtitre>Vos questions</Surtitre></Apparition>
-            <Titre texte="Ce qu'on me demande, *en entier.*" />
+            <Titre texte="Ce qu'on me demande, en entier." />
           </div>
           <Apparition delai={150}>
             <Accordeon questions={questions.map((q) => ({ question: q.q, reponse: q.r }))} />

@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../_kit/Apparition";
-import { AppelFinal, EnTetePage, Surtitre, Titre } from "../_composants/Blocs";
+import { AppelFinal, EnTetePage, Titre } from "../_composants/Blocs";
 import ListeNon from "../_composants/ListeNon";
 import { DOSSIER, jeFais, photos } from "../_composants/donnees";
 
@@ -25,7 +25,7 @@ const TEXTES = [
 export default function CeQueJeNeFaisPas() {
   return (
     <main>
-      <EnTetePage surtitre="Comme tout ostéopathe — décret n° 2007-435" titre="Ce que je ne fais *pas.*">
+      <EnTetePage titre="Ce que je ne fais pas, comme tout ostéopathe.">
         Touchez une ligne : elle dit pourquoi, et quel texte le prévoit.
       </EnTetePage>
 
@@ -38,18 +38,18 @@ export default function CeQueJeNeFaisPas() {
       <section>
         <div className="mx-auto grid max-w-6xl gap-14 px-6 py-28 md:py-40 lg:grid-cols-2 lg:items-center">
           <div className="space-y-8">
-            <Apparition><Surtitre>Ce que je fais</Surtitre></Apparition>
-            <Titre texte="Une limite dite, *c'est une surprise de moins.*" />
+            <Titre texte="Une limite dite, c'est une surprise de moins." />
             <Apparition as="p" className="max-w-[26rem] text-lg leading-relaxed text-[var(--doux)]">
               Ces trois lignes valent pour tous les ostéopathes. Mais on les lit rarement avant la
               première séance. Les voici en premier, et ce que je fais à la place.
             </Apparition>
+            {/* L'ordre de la séance : écouter, expliquer, demander, facturer. Une vraie suite, numérotée. */}
             <ol className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
               {jeFais.map((j, i) => (
-                <Apparition as="li" key={j} delai={i * 90} className="flex gap-5 py-4 text-lg leading-relaxed">
-                  <span className="w-6 shrink-0 pt-1 text-[13px] font-medium tabular-nums text-[var(--doux)]">0{i + 1}</span>
+                <li key={j} className="flex gap-5 py-4 text-lg leading-relaxed">
+                  <span className="w-5 shrink-0 font-[family-name:var(--titres)] text-xl tabular-nums text-[var(--accent-texte)]">{i + 1}</span>
                   <span>{j}</span>
-                </Apparition>
+                </li>
               ))}
             </ol>
           </div>
@@ -62,13 +62,12 @@ export default function CeQueJeNeFaisPas() {
       <section className="bg-[var(--carte)]">
         <div className="mx-auto max-w-6xl space-y-14 px-6 py-28 md:py-40">
           <div className="space-y-5">
-            <Apparition><Surtitre>Les textes</Surtitre></Apparition>
-            <Titre texte="Trois lignes, *trois textes.*" />
+            <Titre texte="Trois lignes, trois textes." />
           </div>
           <ul className="grid gap-6 md:grid-cols-3">
             {TEXTES.map((s, i) => (
               <Apparition as="li" key={s.ref} delai={i * 120} className="space-y-3 border-t border-[var(--encre)] pt-6">
-                <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--accent-texte)]">{s.ref}</p>
+                <p className="text-[15px] font-semibold text-[var(--accent-texte)]">{s.ref}</p>
                 <h2 className="text-2xl font-normal">{s.titre}</h2>
                 <p className="leading-relaxed text-[var(--doux)]">{s.texte}</p>
               </Apparition>

@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default function Mariages() {
   return (
     <main>
-      <EnTetePage surtitre="Les mariages · exemples" titre="Une page *par mariage.*" photo={photos.artichaut}>
+      <EnTetePage titre="Une page par mariage." photo={photos.artichaut}>
         Le nombre d&apos;invités, le menu de la saison, le plat de la famille, le prix par personne. Des mariages d&apos;exemple : aucun
         nom, aucune photo d&apos;invités.
       </EnTetePage>
@@ -27,14 +27,14 @@ export default function Mariages() {
             <Apparition as="li" key={m.slug} delai={i * 110}>
               <Link href={`${DOSSIER}/mariages/${m.slug}`} className="group grid grid-cols-[96px_1fr] items-center gap-5 py-6 sm:grid-cols-[180px_1fr_auto] sm:gap-8">
                 <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-                  <Image src={m.photo.src} alt={m.photo.alt} fill sizes="180px" className="object-cover" />
+                  <Image src={m.photo.src} alt={m.photo.alt} fill sizes="180px" className="object-cover" style={{ objectPosition: m.photo.centre }} />
                 </div>
                 <div className="space-y-1.5">
-                  <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">Mariage n° {m.numero} · {m.menu.saison.toLowerCase()}</p>
-                  <h2 className="font-[family-name:var(--titres)] text-[clamp(1.6rem,3vw,2.4rem)] font-normal leading-[1.05]">{m.titre}</h2>
-                  <p className="text-[15px] tabular-nums text-[var(--doux)]">{m.menu.plat.nom} · {euros(prixParPersonne(m.invites))} TTC par personne · exemple</p>
+                  <p className="text-[15px] text-[var(--doux)]">Mariage n° {m.numero}</p>
+                  <h2 className="font-[family-name:var(--titres)] text-[clamp(1.6rem,3vw,2.4rem)] font-normal leading-[1.05] group-hover:underline group-hover:decoration-1 group-hover:underline-offset-4">{m.titre}</h2>
+                  <p className="text-[15px] tabular-nums text-[var(--doux)]">{m.menu.plat.nom}, {euros(prixParPersonne(m.invites))} TTC par personne (exemple).</p>
                 </div>
-                <span aria-hidden="true" className="hidden text-2xl text-[var(--accent-texte)] transition-transform group-hover:translate-x-1 sm:block">→</span>
+                <span className="hidden text-[15px] font-medium text-[var(--accent-texte)] underline underline-offset-4 sm:block">Voir ce mariage</span>
               </Link>
             </Apparition>
           ))}

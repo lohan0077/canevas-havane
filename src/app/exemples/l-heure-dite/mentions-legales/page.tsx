@@ -16,7 +16,7 @@ export default function MentionsLegales() {
       <MentionsDemonstration
         site="l-heure-dite"
         entreprise="L'Heure Dite"
-        polices="Bodoni Moda et Inter"
+        polices="Archivo et Work Sans"
         enPlus={
           <>
             <p>

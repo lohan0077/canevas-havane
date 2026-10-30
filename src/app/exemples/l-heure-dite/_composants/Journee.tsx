@@ -43,7 +43,7 @@ function Choix<T extends { id: string }>({
 }) {
   return (
     <fieldset className="space-y-2 min-w-0">
-      <legend className="text-xs font-medium uppercase tracking-[0.16em] text-[var(--doux)] mb-2">{legende}</legend>
+      <legend className="text-sm font-medium text-[var(--doux)] mb-2">{legende}</legend>
       <div className={`grid ${colonnes} gap-1.5 rounded-2xl bg-[var(--fond)] p-1.5`}>
         {options.map((o) => {
           const actif = o.id === valeur;
@@ -101,25 +101,8 @@ export default function Journee({ titre = true }: { titre?: boolean }) {
     return () => cancelAnimationFrame(id);
   }, [cible]);
 
-  // La courbe se dessine la première fois qu'elle entre à l'écran — sans animation si
-  // elle y est déjà à l'ouverture de la page.
-  const graphe = useRef<HTMLDivElement>(null);
-  const [dessinee, setDessinee] = useState(false);
-  const [sansAnimation, setSansAnimation] = useState(false);
-  useEffect(() => {
-    const el = graphe.current;
-    if (!el) return;
-    const ouverture = performance.now();
-    const obs = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) {
-        if (performance.now() - ouverture < 400) setSansAnimation(true);
-        setDessinee(true);
-        obs.disconnect();
-      }
-    }, { threshold: 0.35 });
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
+  // La courbe est là d'emblée : elle ne bouge que pour répondre à un réglage (30/10/2026,
+  // le seul moment animé du site est le premier écran).
 
   const { ligne, aire } = trace(vue);
   const n = niveau(vue, h);
@@ -131,7 +114,7 @@ export default function Journee({ titre = true }: { titre?: boolean }) {
     <div data-film="journee" className="space-y-6">
       {titre && (
         <div className="flex items-baseline justify-between gap-3">
-          <p className="font-[family-name:var(--titres)] text-xl">Ta journée</p>
+          <p className="font-[family-name:var(--titres)] text-xl font-bold tracking-[-0.02em]">Ta journée</p>
           <p className="text-sm text-[var(--doux)]">forme indicative</p>
         </div>
       )}
@@ -141,35 +124,26 @@ export default function Journee({ titre = true }: { titre?: boolean }) {
         <Choix legende="Ciel" options={CIELS} valeur={ciel} libelle={(x) => x.nom} surChoix={setCiel} prefixe="ciel" colonnes="grid-cols-2" />
       </div>
 
-      <div ref={graphe} id="courbe" className={`relative ${sansAnimation ? "[&_*]:!transition-none" : ""}`}>
+      <div id="courbe" className="relative">
         <svg viewBox={`0 0 ${L} ${H}`} className="w-full h-auto block" role="img" aria-label={`Courbe de production d'une journée, toit ${o.nom}, ${s.nom.toLowerCase()}, ciel ${c.nom.toLowerCase()} : pic vers ${heure(cible.pic)}.`}>
           <defs>
             <linearGradient id="mp-aire" x1="0" x2="0" y1="0" y2="1">
-              <stop offset="0" stopColor="var(--accent)" stopOpacity="0.95" />
-              <stop offset="1" stopColor="var(--accent)" stopOpacity="0.12" />
+              <stop offset="0" stopColor="var(--soleil)" stopOpacity="0.95" />
+              <stop offset="1" stopColor="var(--soleil)" stopOpacity="0.14" />
             </linearGradient>
           </defs>
           {ETIQUETTES.map((e) => (
             <line key={e} x1={X(e)} x2={X(e)} y1={HAUT - 6} y2={BAS} stroke="var(--trait)" strokeDasharray="2 4" />
           ))}
           <line x1={G} x2={D} y1={BAS} y2={BAS} stroke="var(--encre)" strokeWidth="1.5" />
-          <path d={aire} fill="url(#mp-aire)" style={{ opacity: dessinee ? 1 : 0, transition: "opacity 900ms ease 500ms" }} />
-          <path
-            d={ligne}
-            fill="none"
-            stroke="var(--encre)"
-            strokeWidth="2.5"
-            strokeLinejoin="round"
-            pathLength={1}
-            strokeDasharray="1"
-            style={{ strokeDashoffset: dessinee ? 0 : 1, transition: "stroke-dashoffset 1400ms cubic-bezier(.3,.7,.2,1)" }}
-          />
+          <path d={aire} fill="url(#mp-aire)" />
+          <path d={ligne} fill="none" stroke="var(--encre)" strokeWidth="2.5" strokeLinejoin="round" />
           {/* Le soleil, au-dessus du pic. */}
-          <g transform={`translate(${X(vue.pic)} ${Math.min(soleilY, BAS) - 16})`} style={{ opacity: dessinee ? 1 : 0, transition: "opacity 500ms ease 1100ms" }}>
+          <g transform={`translate(${X(vue.pic)} ${Math.min(soleilY, BAS) - 16})`}>
             {Array.from({ length: 8 }, (_, k) => (
-              <line key={k} x1="0" y1="-13" x2="0" y2="-17" stroke="var(--accent-texte)" strokeWidth="2" strokeLinecap="round" transform={`rotate(${k * 45})`} />
+              <line key={k} x1="0" y1="-13" x2="0" y2="-17" stroke="#D98A1A" strokeWidth="2" strokeLinecap="round" transform={`rotate(${k * 45})`} />
             ))}
-            <circle r="9" fill={gris ? "var(--doux)" : "var(--accent)"} stroke="var(--encre)" strokeWidth="1.5" />
+            <circle r="9" fill={gris ? "var(--doux)" : "var(--soleil)"} stroke="var(--encre)" strokeWidth="1.5" />
           </g>
           {/* L'heure que promène le curseur. */}
           <line x1={X(h)} x2={X(h)} y1={HAUT - 6} y2={BAS} stroke="var(--accent-texte)" strokeWidth="1.5" />
@@ -182,7 +156,7 @@ export default function Journee({ titre = true }: { titre?: boolean }) {
 
       <label className="block space-y-2.5">
         <span className="flex items-baseline justify-between gap-3">
-          <span className="text-xs font-medium uppercase tracking-[0.16em] text-[var(--doux)]">Glisse l'heure</span>
+          <span className="text-sm font-medium text-[var(--doux)]">Glisse l'heure</span>
           <span className="text-lg font-medium tabular-nums">{heure(h)}</span>
         </span>
         <input
@@ -201,16 +175,15 @@ export default function Journee({ titre = true }: { titre?: boolean }) {
       </label>
 
       <div id="conseil" role="status" className="rounded-2xl bg-[var(--sombre)] text-[var(--sur-sombre)] p-5 space-y-1.5">
-        <p className="text-xs font-medium uppercase tracking-[0.16em]">Le conseil du jour</p>
-        <p className="font-[family-name:var(--titres)] text-[28px] leading-tight">
-          Lance la machine vers <span className="text-[var(--accent)] whitespace-nowrap">{heure(conseil)}</span>
+        <p className="font-[family-name:var(--titres)] text-[28px] font-bold leading-tight tracking-[-0.03em]">
+          Lance la machine vers <span className="whitespace-nowrap">{heure(conseil)}</span>
         </p>
         <p className="text-sm">
           {gris
             ? `Par temps gris, ton toit donne beaucoup moins, sans s'arrêter : si tu peux, garde la machine pour un jour clair. Sinon, ${heure(conseil)} reste le meilleur moment.`
             : `Ton toit ${o.nom} donne le plus vers ${heure(cible.pic)} en ${s.nom.toLowerCase()}. Une machine de deux heures lancée à ${heure(conseil)} tourne pendant ton pic.`}
         </p>
-        <p className="text-xs pt-1">Exemple · selon ton toit · forme indicative, pas une mesure</p>
+        <p className="text-xs pt-1">Exemple, selon ton toit : une forme indicative, pas une mesure.</p>
       </div>
     </div>
   );

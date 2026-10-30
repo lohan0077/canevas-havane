@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../_kit/Apparition";
-import { EnTetePage, Surtitre, Titre } from "../_composants/Blocs";
+import { EnTetePage, Titre } from "../_composants/Blocs";
 import CompteARebours from "../_composants/CompteARebours";
 import Creneaux from "../_composants/Creneaux";
 import Formulaire from "../_composants/Formulaire";
@@ -22,7 +22,7 @@ const ENSUITE = [
 export default function MaDate() {
   return (
     <main>
-      <EnTetePage surtitre="Ma date" titre="Choisis ta semaine *de chantier.*" photo={photos.reflets} origine="50% 40%">
+      <EnTetePage titre="Choisis ta semaine de chantier." photo={photos.reflets} origine="50% 40%">
         Le planning de la saison, semaine par semaine. Tu bloques la tienne, on vient faire la
         visite technique, et elle est confirmée sur le devis.
       </EnTetePage>
@@ -30,10 +30,7 @@ export default function MaDate() {
       <section id="date" className="scroll-mt-20 px-3 pt-3 sm:px-5 sm:pt-5">
         <div className="rounded-[2.5rem] bg-[var(--sombre)] text-[var(--sur-sombre)]">
           <div className="mx-auto max-w-6xl space-y-12 px-5 py-20 sm:px-10 md:py-28">
-            <div className="space-y-6">
-              <Apparition><Surtitre clair>Saison 2027</Surtitre></Apparition>
-              <Titre texte="Les semaines, *une par une.*" clair taille="moyen" />
-            </div>
+            <Titre texte="Les semaines de 2027, une par une." taille="moyen" />
             <Creneaux />
             <div className="border-t border-white/15 pt-10">
               <CompteARebours />
@@ -43,14 +40,11 @@ export default function MaDate() {
       </section>
 
       <section className="mx-auto max-w-7xl space-y-12 px-5 py-24 sm:px-8 md:py-32">
-        <div className="space-y-6">
-          <Apparition><Surtitre>Ensuite</Surtitre></Apparition>
-          <Titre texte="Ce qui se passe *après.*" />
-        </div>
+        <Titre texte="Ce qui se passe ensuite." />
         <ol className="grid gap-5 md:grid-cols-3">
           {ENSUITE.map((e, i) => (
             <Apparition as="li" key={e.titre} delai={i * 120} className="rounded-[2rem] border border-[var(--trait)] bg-[var(--carte)] p-7">
-              <span className="font-[family-name:var(--titres)] text-5xl font-normal text-[var(--accent-texte)]">{String(i + 1).padStart(2, "0")}</span>
+              <span aria-hidden="true" className="font-[family-name:var(--titres)] text-5xl font-normal text-[var(--accent-texte)]">{i + 1}</span>
               <h2 className="mt-4 text-2xl font-bold">{e.titre}</h2>
               <p className="mt-3 leading-relaxed text-[var(--doux)]">{e.texte}</p>
             </Apparition>
@@ -61,8 +55,7 @@ export default function MaDate() {
       <section className="border-t border-[var(--trait)] bg-[var(--carte)]">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 py-24 sm:px-8 md:py-32 lg:grid-cols-[0.9fr_1.1fr]">
           <div className="space-y-6">
-            <Apparition><Surtitre>Visite technique</Surtitre></Apparition>
-            <Titre texte="Ou laisse-nous *te rappeler.*" taille="moyen" />
+            <Titre texte="Ou laisse-nous te rappeler pour la visite technique." taille="moyen" />
             <Apparition as="p" delai={200} className="text-xl leading-relaxed text-[var(--doux)]">
               Pas encore de semaine en tête ? Laisse ton numéro : on t&apos;appelle pour fixer la
               visite technique. Ou appelle-nous au <span className="font-bold tabular-nums">{entreprise.telephone}</span>.

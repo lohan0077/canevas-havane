@@ -1,13 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ETAPES } from "./donnees";
 
 const MOIS = ["janvier", "fevrier", "mars", "avril", "mai", "juin", "juillet", "aout", "septembre", "octobre", "novembre", "decembre"];
 const MOIS_COURTS = ["Janv.", "Févr.", "Mars", "Avr.", "Mai", "Juin", "Juil.", "Août", "Sept.", "Oct.", "Nov.", "Déc."];
 const JOURS = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
 
-/** « 11 septembre 2027 », « samedi 11 septembre 2027 » ou « 11/09/2027 » → une date, ou null. */
+/** Lit « 11 septembre 2027 », « samedi 11 septembre 2027 » ou « 11/09/2027 » : une date, ou null. */
 function lire(saisie: string): Date | null {
   const n = saisie.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/^(lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche)\s+/, "").trim();
   let j: number, m: number, a: number;
@@ -36,6 +36,36 @@ function samedisAvant(jourJ: Date, aujourdhui: Date) {
   return n;
 }
 
+/** Le nombre de samedis qui défile jusqu'à sa valeur ; tout de suite si on limite les animations. */
+function Compteur({ valeur }: { valeur: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      el.textContent = String(valeur);
+      return;
+    }
+    const debut = performance.now();
+    let image = 0;
+    const pas = (t: number) => {
+      const x = Math.min(1, (t - debut) / 900);
+      el.textContent = String(Math.round(valeur * (1 - (1 - x) ** 3)));
+      if (x < 1) image = requestAnimationFrame(pas);
+    };
+    image = requestAnimationFrame(pas);
+    return () => cancelAnimationFrame(image);
+  }, [valeur]);
+  return (
+    <>
+      <span ref={ref} aria-hidden="true" className="font-[family-name:var(--titres)] text-6xl leading-none tabular-nums text-[var(--accent)]">
+        {valeur}
+      </span>
+      <span className="sr-only">{valeur}</span>
+    </>
+  );
+}
+
 /**
  * Une seule question : tu te maries quand ? La date tapée, le site compte les samedis
  * qui restent et sort le rétroplanning, mois par mois. Tout se calcule ici, à partir
@@ -58,9 +88,9 @@ export default function Retroplanning() {
   }, [jourJ]);
 
   return (
-    <div data-film="retroplanning" className="rounded-2xl bg-[var(--carte)] border border-[var(--trait)] p-5 sm:p-8 space-y-5">
+    <div data-film="retroplanning" className="space-y-5 rounded-[1.75rem] border border-[var(--trait)] bg-[var(--carte)] p-5 shadow-[0_40px_80px_-50px_rgba(0,0,0,0.6)] sm:p-8">
       <label htmlFor="esp-date" className="block space-y-2">
-        <span className="block text-sm font-medium uppercase tracking-[0.16em] text-[var(--doux)]">Date du mariage</span>
+        <span className="block text-[15px] font-semibold text-[var(--doux)]">Date du mariage</span>
         <input
           id="esp-date"
           type="text"
@@ -69,7 +99,7 @@ export default function Retroplanning() {
           placeholder="ex. 11 septembre 2027"
           value={saisie}
           onChange={(e) => setSaisie(e.target.value)}
-          className="w-full rounded-2xl border-2 border-[var(--trait)] bg-[var(--fond)] px-4 py-3.5 font-[family-name:var(--titres)] text-[21px] sm:text-[26px] placeholder:text-[var(--doux)] focus:border-[var(--accent)] outline-none"
+          className="w-full rounded-2xl border-2 border-[var(--trait)] bg-[var(--fond)] px-4 py-3.5 font-[family-name:var(--titres)] text-[21px] outline-none transition-[border-color,box-shadow] duration-300 placeholder:text-[var(--doux)] focus:border-[var(--encre)] focus:shadow-[0_0_0_4px_color-mix(in_oklab,var(--accent)_55%,transparent)] sm:text-[26px]"
         />
       </label>
 
@@ -90,20 +120,21 @@ export default function Retroplanning() {
         </div>
       )}
 
-      {calcul?.passe && <p role="status" className="rounded-2xl bg-[#F1E4DA] px-4 py-3 font-medium">Cette date est déjà passée : on te souhaite que c'était beau.</p>}
+      {calcul?.passe && <p role="status" className="esp-ligne rounded-2xl bg-[#E2E0EE] px-4 py-3 font-medium">Cette date est déjà passée : on te souhaite que c'était beau.</p>}
 
       {calcul && !calcul.passe && (
         <div role="status" className="space-y-5">
-          <div id="esp-samedis" className="flex items-baseline gap-3 rounded-2xl bg-[var(--sombre)] text-[var(--sur-sombre)] px-5 py-4">
-            <span className="font-[family-name:var(--titres)] text-6xl leading-none tabular-nums text-[#F2C230]">{calcul.samedis}</span>
+          <div id="esp-samedis" className="esp-ligne flex items-baseline gap-3 rounded-2xl bg-[var(--sombre)] px-5 py-4 text-[var(--sur-sombre)]">
+            <Compteur valeur={calcul.samedis} />
             <span className="leading-snug">
               samedi{calcul.samedis > 1 ? "s" : ""} avant le jour J
-              <span className="block text-sm text-[#CDBDB5]">{calcul.jour === "samedi" ? "Un samedi : le plus demandé." : `C'est un ${calcul.jour} : très bien aussi.`}</span>
+              <span className="block text-sm text-[#C9C8D8]">{calcul.jour === "samedi" ? "Un samedi : le plus demandé." : `C'est un ${calcul.jour} : très bien aussi.`}</span>
             </span>
           </div>
-          <ol id="esp-etapes" className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
-            {calcul.etapes.map((e) => (
-              <li key={e.mois} className="flex items-baseline justify-between gap-4 py-2.5">
+          {/* La liste entre ligne après ligne ; une nouvelle date la rejoue. */}
+          <ol key={jourJ?.toDateString()} id="esp-etapes" className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
+            {calcul.etapes.map((e, i) => (
+              <li key={e.mois} className="esp-ligne flex items-baseline justify-between gap-4 py-2.5" style={{ "--i": i + 1 } as React.CSSProperties}>
                 <span className="font-[family-name:var(--titres)] text-[22px] leading-tight">{e.titre}</span>
                 <span className={`shrink-0 text-sm font-semibold tabular-nums ${e.enRetard ? "text-[var(--accent-texte)]" : "text-[var(--doux)]"}`}>{e.quand.replace(" ", " ")}</span>
               </li>

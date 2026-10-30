@@ -16,19 +16,19 @@ export const metadata: Metadata = {
 export default function SamedisLibresPage() {
   return (
     <main>
-      <EnTetePage surtitre="Mis à jour à chaque réservation" titre="les samedis *encore libres.*" photo={photos.bouleRose}>
-        Les vrais. Touchez un samedi libre, et bloquez votre date directement sur le site. L&apos;heure de fin, c&apos;est la salle qui
+      <EnTetePage titre="les samedis encore libres." photo={photos.bouleRose}>
+        Les vrais, mis à jour à chaque réservation. Touchez un samedi libre, et bloquez votre date directement sur le site. L&apos;heure de fin, c&apos;est la salle qui
         la fixe.
       </EnTetePage>
 
       <Section className="grid grid-cols-1 gap-16 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
         <div className="space-y-6 lg:sticky lg:top-28">
-          <Apparition><Surtitre>Juin et juillet 2027</Surtitre></Apparition>
-          <Titre texte="votre samedi, *bloqué.*" />
+          <Surtitre>Juin et juillet 2027</Surtitre>
+          <Titre texte="votre samedi, bloqué." />
           <Apparition as="ol" delai={150} className="divide-y divide-[var(--trait)] border-y border-[var(--trait)]">
             {SOIREE_MARIAGE.map((m) => (
               <li key={m.heure} className="flex gap-4 py-3">
-                <span className="w-14 shrink-0 font-[family-name:var(--titres)] text-2xl text-[var(--accent-texte)]">{m.heure}</span>
+                <span className="w-14 shrink-0 font-[family-name:var(--titres)] font-semibold text-2xl text-[var(--accent-texte)]">{m.heure}</span>
                 <span className="font-medium">{m.titre}</span>
               </li>
             ))}

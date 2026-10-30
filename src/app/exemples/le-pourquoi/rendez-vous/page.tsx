@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { adressesDeLaPage } from "@/lib/seo";
 import Apparition from "../../_kit/Apparition";
 import Agenda from "../_composants/Agenda";
-import { EnTetePage, Surtitre } from "../_composants/Blocs";
+import { EnTetePage } from "../_composants/Blocs";
 import { cabinet } from "../_composants/donnees";
 
 // La page que la vidéo « Remplir l'agenda » filme : l'agenda ([data-film=agenda]),
@@ -19,14 +19,13 @@ const A_SAVOIR = ["Créneaux dès 7 h, et jusqu'à 20 h 45", "Le même prix à t
 export default function RendezVous() {
   return (
     <main>
-      <EnTetePage surtitre="Agenda en ligne" titre="Votre créneau, *en trois gestes.*">
+      <EnTetePage titre="Votre créneau, en trois gestes.">
         Le jour, l&apos;heure, un nom et un téléphone. On ne vous demande pas pourquoi vous venez :
         vous le direz au cabinet.
       </EnTetePage>
       <section className="mx-auto grid max-w-6xl gap-14 px-6 py-20 md:py-28 lg:grid-cols-[0.75fr_1.25fr] lg:items-start">
-        <div className="space-y-6 lg:pt-6">
-          <Apparition><Surtitre>À savoir</Surtitre></Apparition>
-          <Apparition as="ul" delai={100} className="divide-y divide-[var(--trait)] border-y border-[var(--trait)] text-lg">
+        <div className="lg:pt-6">
+          <Apparition as="ul" className="divide-y divide-[var(--trait)] border-y border-[var(--trait)] text-lg">
             {A_SAVOIR.map((t) => (
               <li key={t} className="py-4">{t}</li>
             ))}

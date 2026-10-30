@@ -54,5 +54,54 @@
     "source": "Unsplash",
     "licence": "Licence Unsplash",
     "page": "https://unsplash.com/photos/cuisine-avec-table-a-manger-en-bois-5ROy4A69cmM"
+  },
+  {
+    "fichier": "diner-casserole.webp",
+    "auteur": "Wilson Rodriguez",
+    "source": "Pexels",
+    "licence": "Licence Pexels",
+    "page": "https://www.pexels.com/photo/woman-holding-a-wine-glass-while-cooking-5408431/"
+  },
+  {
+    "fichier": "diner-noire-mate.webp",
+    "auteur": "Gustavo Fring",
+    "source": "Pexels",
+    "licence": "Licence Pexels",
+    "page": "https://www.pexels.com/photo/romantic-couple-looking-at-each-other-4920545/"
+  },
+  {
+    "fichier": "diner-ouverte.webp",
+    "auteur": "Mikhail Nilov",
+    "source": "Pexels",
+    "licence": "Licence Pexels",
+    "page": "https://www.pexels.com/photo/a-woman-cooking-at-the-kitchen-6972747/"
+  },
+  {
+    "fichier": "diner-ilot.webp",
+    "auteur": "cottonbro studio",
+    "source": "Pexels",
+    "licence": "Licence Pexels",
+    "page": "https://www.pexels.com/photo/woman-in-brown-sleeveless-dress-standing-in-front-of-sink-6182891/"
+  },
+  {
+    "fichier": "diner-ville.webp",
+    "auteur": "Lisa Fotios",
+    "source": "Pexels",
+    "licence": "Licence Pexels",
+    "page": "https://www.pexels.com/photo/three-women-standing-inside-room-with-lights-turned-on-1599495/"
+  },
+  {
+    "fichier": "diner-grande-table.webp",
+    "auteur": "cottonbro studio",
+    "source": "Pexels",
+    "licence": "Licence Pexels",
+    "page": "https://www.pexels.com/photo/people-sitting-on-chairs-by-the-dining-table-3171207/"
+  },
+  {
+    "fichier": "diner-brique.webp",
+    "auteur": "Gary Barnes",
+    "source": "Pexels",
+    "licence": "Licence Pexels",
+    "page": "https://www.pexels.com/photo/couple-having-date-while-man-cooking-pasta-on-counter-6249020/"
   }
 ]

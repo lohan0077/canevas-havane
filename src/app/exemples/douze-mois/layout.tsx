@@ -5,27 +5,31 @@ import Pied from "./_composants/Pied";
 import { DOSSIER, NAVIGATION } from "./_composants/donnees";
 
 // Le gabarit de Douze Mois, la boutique de fleurs imaginaire des deux vidéos des
-// fleuristes. Polices : Bodoni Moda (la cousine libre du Didot de la marque, en graisse normale) pour les
-// titres et leur italique, Inter pour lire, Caveat pour la carte écrite à la main.
-// Couleurs de la marque : prune, mimosa, rose. Chaque page s'ouvre sur un écran sombre.
+// fleuristes. L'identité (30/10/2026) : le jardin à l'heure bleue. Une nuit d'iris
+// pour les écrans sombres, un papier glycine pour lire, le vert acide d'une tige pour
+// le seul bouton qui compte, et le rose pivoine pour les mots en relief. Polices :
+// Instrument Serif pour les titres et leur italique (une didone de mode, fine et
+// haute), Bricolage Grotesque pour lire, Caveat pour la carte écrite à la main.
+// Chaque page s'ouvre sur un écran sombre.
 export default function DouzeMoisLayout({ children }: { children: React.ReactNode }) {
   return (
     <Cadre
+      calme
       entreprise="Douze Mois"
-      titres="bodoni"
-      texte="inter"
+      titres="instrument"
+      texte="bricolage"
       autres={["caveat"]}
       couleurs={{
-        fond: "#FBF5EE",
-        encre: "#2A1520",
-        doux: "#6B4A55",
-        accent: "#F2C94C",
-        surAccent: "#2A1520",
-        accentTexte: "#9B2C4B",
-        carte: "#FFFFFF",
-        trait: "#E6D7CC",
-        sombre: "#2A1520",
-        surSombre: "#FBF5EE",
+        fond: "#EEEAF7",
+        encre: "#1D1533",
+        doux: "#564C70",
+        accent: "#D4F36B",
+        surAccent: "#1D1533",
+        accentTexte: "#A3175F",
+        carte: "#F8F6FC",
+        trait: "#D9D1EC",
+        sombre: "#191230",
+        surSombre: "#EEEAF7",
       }}
     >
       <NavVerre

@@ -41,8 +41,8 @@ export default function Agenda({ depart = "mardi" }: { depart?: string }) {
   return (
     <div className="rounded-2xl bg-[var(--carte)] border border-[var(--trait)] p-5 sm:p-8 space-y-6 text-[var(--encre)]" data-film="agenda">
       <div className="flex items-baseline justify-between gap-4">
-        <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--doux)]">Semaine d&apos;exemple</p>
-        <p className="text-[13px] text-[var(--doux)]">Séance adulte · {seanceAdulte.duree}</p>
+        <p className="font-[family-name:var(--titres)] text-xl">Semaine d&apos;exemple</p>
+        <p className="text-[13px] text-[var(--doux)]">Séance adulte de {seanceAdulte.duree}</p>
       </div>
 
       <div role="group" aria-label="Jour" className="grid grid-cols-6 gap-1.5">
@@ -54,7 +54,7 @@ export default function Agenda({ depart = "mardi" }: { depart?: string }) {
             aria-pressed={j.id === jourId}
             onClick={() => choisirJour(j.id)}
             className={`min-h-12 rounded-xl text-[15px] font-medium transition-all duration-300 ${
-              j.id === jourId ? "bg-[var(--encre)] text-[var(--fond)] scale-[1.04]" : "bg-[var(--fond)] text-[var(--encre)] hover:bg-[#E9DFCF]"
+              j.id === jourId ? "bg-[var(--encre)] text-[var(--fond)] scale-[1.04]" : "bg-[var(--fond)] text-[var(--encre)] hover:bg-[#E6E9F5]"
             }`}
           >
             {j.court}
@@ -80,7 +80,7 @@ export default function Agenda({ depart = "mardi" }: { depart?: string }) {
                 c.pris
                   ? "border-transparent bg-[var(--fond)] text-[var(--doux)] line-through decoration-1"
                   : actif
-                    ? "border-[var(--accent)] bg-[#FBE7DC] text-[var(--encre)] scale-[1.03]"
+                    ? "border-[var(--accent)] bg-[#E9ECFF] text-[var(--encre)] scale-[1.03]"
                     : "border-[var(--trait)] bg-[var(--carte)] text-[var(--encre)] hover:border-[var(--encre)]"
               }`}
             >
@@ -102,7 +102,7 @@ export default function Agenda({ depart = "mardi" }: { depart?: string }) {
             {jour.long.charAt(0).toUpperCase() + jour.long.slice(1)}, {heure}
           </p>
           <p className="text-[15px] text-[var(--doux)]">
-            Séance adulte · {seanceAdulte.duree} · {seanceAdulte.prix} (prix d&apos;exemple)
+            Séance adulte de {seanceAdulte.duree}, {seanceAdulte.prix} (prix d&apos;exemple)
           </p>
           <label className="block space-y-1.5">
             <span className="text-sm font-medium">Nom</span>

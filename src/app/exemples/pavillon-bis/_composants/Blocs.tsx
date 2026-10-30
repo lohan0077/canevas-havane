@@ -1,44 +1,43 @@
 import Image from "next/image";
 import Link from "next/link";
 import Apparition from "../../_kit/Apparition";
-import TitreRevele from "../../_kit/TitreRevele";
 import { DOSSIER, agence } from "./donnees";
 
-/** Les classes d'un mot en relief dans un titre : l'italique de Fraunces, en brique ou en ocre. */
-export const ACCENT_CLAIR = "italic font-normal text-[var(--accent-texte)]";
-export const ACCENT_SOMBRE = "italic font-normal text-[var(--accent)]";
+// Passe « frontend-design » (30/10/2026) : les titres se lisent d'un seul tenant, en Sora,
+// sans mot en italique ; plus de surtitres en capitales ni de flèches dans les boutons.
+// L'italique de DM Serif Display reste ce qu'il est dans le nom (« bis ») : la deuxième
+// version. Il ne nomme plus que l'après, en entier (`APRES`), jamais un bout de titre.
 
-/** Le monogramme : un « B » dans une arche ocre, et le nom en Outfit (la Futura de la marque). */
+/** Le mot « après » ou « deuxième version », dans l'italique du « bis ». */
+export const APRES = "font-[family-name:var(--serif)] italic font-normal tracking-normal";
+
+/**
+ * La marque : un pignon dessiné en deux moitiés — à gauche le trait de la maison d'hier,
+ * à droite l'aplat vermillon de sa deuxième version — et le nom, « bis » en italique.
+ */
 export function Marque() {
   return (
     <span className="flex items-center gap-2.5">
-      <span aria-hidden="true" className="grid h-9 w-8 place-items-center rounded-t-full rounded-b-md bg-[var(--accent)] pt-1 font-[family-name:var(--texte)] text-[18px] font-medium text-[var(--sur-accent)]">
-        B
+      <svg aria-hidden="true" viewBox="0 0 28 28" className="h-8 w-8 shrink-0">
+        <path d="M14 3 L3 12 V25 H14 Z" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+        <path d="M14 3 L25 12 V25 H14 Z" fill="var(--accent)" />
+        <path d="M14 3 V25" stroke="currentColor" strokeWidth="1.8" />
+      </svg>
+      <span className="whitespace-nowrap font-[family-name:var(--texte)] text-[19px] font-semibold tracking-[-0.03em]">
+        Pavillon <span className="font-[family-name:var(--serif)] text-[1.15em] font-normal italic tracking-normal">bis</span>
       </span>
-      <span className="whitespace-nowrap font-[family-name:var(--texte)] text-[19px] font-medium tracking-[-0.01em]">Pavillon Bis</span>
     </span>
   );
 }
 
-/** Le petit intitulé au-dessus d'un titre : une ligne discrète, en capitales espacées. */
-export function Surtitre({ children, clair = false }: { children: React.ReactNode; clair?: boolean }) {
-  return (
-    <p className={`font-[family-name:var(--texte)] text-[12px] font-medium uppercase tracking-[0.2em] ${clair ? "text-[var(--sur-sombre)]" : "text-[var(--doux)]"}`}>
-      {children}
-    </p>
-  );
-}
-
-/** Le titre d'un écran, révélé mot à mot, en Fraunces de graisse normale. */
+/** Le titre d'un écran : Sora serrée, d'un seul tenant. */
 export function Titre({
   texte,
-  clair = false,
   taille = "grand",
-  as = "h2",
+  as: Balise = "h2",
   className = "",
 }: {
   texte: string;
-  clair?: boolean;
   taille?: "geant" | "grand" | "moyen";
   as?: "h1" | "h2" | "h3" | "p";
   className?: string;
@@ -49,16 +48,13 @@ export function Titre({
     moyen: "text-[clamp(1.9rem,3.2vw,2.75rem)] leading-[1.1]",
   }[taille];
   return (
-    <TitreRevele
-      as={as}
-      texte={texte}
-      className={`font-[family-name:var(--titres)] font-normal tracking-[-0.02em] text-balance ${tailles} ${className}`}
-      classeAccent={clair ? ACCENT_SOMBRE : ACCENT_CLAIR}
-    />
+    <Balise className={`font-[family-name:var(--titres)] font-medium tracking-[-0.04em] text-balance ${tailles} ${className}`}>
+      {texte}
+    </Balise>
   );
 }
 
-/** Un bouton-lien en pilule ; la flèche avance au survol. Un plein (l'ocre), un en contour fin. */
+/** Un bouton-lien en pilule : un plein (le vermillon), un sombre, un en contour fin, un clair. */
 export function Bouton({
   href,
   children,
@@ -77,26 +73,24 @@ export function Bouton({
   return (
     <Link
       href={href}
-      className={`group inline-flex h-12 items-center gap-3 rounded-full px-6 font-[family-name:var(--texte)] text-[15px] font-medium transition-colors ${styles}`}
+      className={`inline-flex h-12 items-center rounded-full px-6 font-[family-name:var(--texte)] text-[15px] font-semibold transition-colors ${styles}`}
     >
       {children}
-      <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">→</span>
     </Link>
   );
 }
 
 /**
- * Le haut de chaque page intérieure : sapin, comme l'accueil (l'en-tête flottant
- * l'attend), une photo sous un voile si on en donne une, et un titre fin.
+ * Le haut de chaque page intérieure : anthracite, comme l'accueil (l'en-tête flottant
+ * l'attend), une photo sous un voile si on en donne une, et un titre serré. Pas
+ * d'intitulé au-dessus : le titre et sa phrase disent de quoi parle la page.
  */
 export function EnTetePage({
-  surtitre,
   titre,
   children,
   photo,
   apres,
 }: {
-  surtitre: React.ReactNode;
   titre: string;
   children?: React.ReactNode;
   photo?: { src: string; alt: string };
@@ -107,18 +101,13 @@ export function EnTetePage({
       {photo && (
         <>
           <Image src={photo.src} alt="" fill priority sizes="100vw" className="object-cover opacity-45" />
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(38,50,44,0.55)_0%,rgba(38,50,44,0.75)_55%,rgba(38,50,44,0.96)_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(21,24,28,0.6)_0%,rgba(21,24,28,0.78)_55%,rgba(21,24,28,0.96)_100%)]" />
         </>
       )}
       <div className="relative mx-auto flex w-full max-w-6xl flex-1 flex-col justify-end gap-7 px-6 pb-14 pt-36 md:pb-20">
-        <Apparition><Surtitre clair>{surtitre}</Surtitre></Apparition>
-        <TitreRevele
-          as="h1"
-          auChargement
-          texte={titre}
-          className="max-w-4xl font-[family-name:var(--titres)] text-[clamp(2.75rem,6vw,5.25rem)] font-normal leading-[1] tracking-[-0.02em] text-balance"
-          classeAccent={ACCENT_SOMBRE}
-        />
+        <h1 className="max-w-4xl font-[family-name:var(--titres)] text-[clamp(2.75rem,6vw,5.25rem)] font-medium leading-[0.98] tracking-[-0.045em] text-balance">
+          {titre}
+        </h1>
         {children && (
           <Apparition delai={400} className="max-w-xl text-lg leading-relaxed">
             {children}
@@ -135,11 +124,10 @@ export function AppelFinal() {
   return (
     <section className="border-t border-[var(--trait)]">
       <div className="mx-auto max-w-3xl space-y-8 px-6 py-28 text-center md:py-36">
-        <Apparition><Surtitre>Un samedi matin par mois</Surtitre></Apparition>
-        <Titre texte={"On passe voir *la tienne ?*"} />
+        <Titre texte={"On passe voir la tienne ?"} />
         <Apparition as="p" delai={150} className="mx-auto max-w-lg text-lg leading-relaxed text-[var(--doux)]">
-          Trente minutes, à l&apos;agence ou en visio : ta maison, ton terrain, ton budget. Tu repars en
-          sachant si ton projet tient — et s&apos;il a besoin d&apos;un architecte.
+          Un samedi matin par mois, trente minutes, à l&apos;agence ou en visio : ta maison, ton terrain,
+          ton budget. Tu repars en sachant si ton projet tient — et s&apos;il a besoin d&apos;un architecte.
         </Apparition>
         <Apparition delai={250} className="flex flex-col items-center gap-4">
           <Bouton href={`${DOSSIER}/rendez-vous`}>Réserver mes 30 minutes</Bouton>
